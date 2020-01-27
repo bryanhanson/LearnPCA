@@ -1,0 +1,26 @@
+Package: LearnPCA
+Type: Package
+Title: Functions, Data Sets and Vignettes to Aid in Learning Principal Components Analysis (PCA)
+Version: 0.1.10
+Date: 2020-01-27
+Authors@R: c(
+    person("Bryan A.", "Hanson",
+      role = c("aut", "cre"),
+      email = "hanson@depauw.edu",
+      comment = c(ORCID = "0000-0003-3536-8246")),
+    person("David T.", "Harvey",
+      role = c("aut"),
+      email = "harvey@depauw.edu"))
+Description: Need to write description.
+License: GPL-3
+URL: https://bryanhanson.github.io/LearnPCA/
+BugReports: https://github.com/bryanhanson/LearnPCA/issues
+ByteCompile: TRUE
+VignetteBuilder: knitr
+Suggests:
+    ChemoSpec,
+    chemometrics,
+    kableExtra,
+    knitr,
+    tinytest
+RoxygenNote: 7.0.2
