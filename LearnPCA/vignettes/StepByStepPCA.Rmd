@@ -1,0 +1,68 @@
+---
+title: Step-By-Step PCA
+
+# Force pkgdown to use the pdf vignette and not override format/output
+#pkgdown:
+#  as_is: true
+#  extension: pdf
+
+output:
+  tufte::tufte_handout: default
+
+author: Bryan A. Hanson & David T. Harvey
+
+# Required: Vignette metadata for inclusion in a package.
+vignette: >
+  %\VignetteIndexEntry{LearnPCA: Step-By-Step PCA}
+  %\VignetteKeywords{PCA}
+  %\VignettePackage{LearnPCA}
+  %\VignetteEngine{knitr::rmarkdown}
+
+header-includes:
+  - \usepackage[version = 4]{mhchem}
+---
+
+```{r SetUp, echo = FALSE, eval = TRUE, results = "hide"}
+# R options & configuration:
+set.seed(9)
+rm(list = ls())
+suppressPackageStartupMessages(library("knitr"))
+suppressPackageStartupMessages(library("kableExtra"))
+suppressPackageStartupMessages(library("chemometrics"))
+
+# Stuff specifically for knitr:
+opts_chunk$set(eval = TRUE, echo = FALSE, results = "hide")
+```
+
+In this vignette we'll walk through the steps needed to carry out PCA.  If you are not familiar with PCA from a conceptual point of view, we strongly recommend you read the Introduction to PCA vignette before proceeding.
+
+The steps to carry out PCA are:
+
+1. Center the data
+1. Optionally, scale the data
+1. Carry out data reduction (the details are the subject of another vignette)
+1. Optionally, undo any scaling
+1. Optionally, under the centering
+
+We'll discuss each of these steps in order.  For many or most types of analysis, one will just do the first three steps, which provides the scores and loadings that are usually the main focus.  In some cases, it is desirable to reconstruct the original data from the reduced data set.  For that task you needs steps four and five.
+
+To illustrate the process, we'll use a tiny portion of the `glass` data set, just two objects from each group, and two of the elements measured.  This eight sample, two variable data set will make it easier to visualize the steps as we go.  Table \ref{tab:tinyGlass} shows the values, and we'll refer to this as the `tiny_glass` data set.
+
+```{r, tinyGlass, results = "asis"}
+data(glass)
+data(glass.grp)
+DF <- as.data.frame(cbind(glass.grp, glass))
+names(DF)[1] <- "group"
+DF <- DF[c(1, 2, 23, 24, 67, 68, 57, 58), c("group", "Na2O", "CaO")]
+kable(DF, format = "latex", row.names = FALSE, caption = "The `tiny\\_glass` glass data set. Values are percentages.\\label{tab:tinyGlass}") %>% kable_styling(c("striped", "bordered"))
+```
+
+# Centering the data
+
+# Scaling the data
+
+# Data Reduction
+
+# Undoing the scaling
+
+# Undoing the centering
