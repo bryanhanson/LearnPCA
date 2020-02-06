@@ -1,6 +1,8 @@
 ---
 title: An Introduction to PCA
 
+
+
 # Force pkgdown to use the pdf vignette and not override format/output
 #pkgdown:
 #  as_is: true
