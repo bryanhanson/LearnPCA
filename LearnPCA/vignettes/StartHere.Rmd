@@ -1,0 +1,55 @@
+---
+title: Start Here -- A Guide to Learning PCA with LearnPCA
+
+# Force pkgdown to use the pdf vignette and not override format/output
+#pkgdown:
+#  as_is: true
+#  extension: pdf
+
+output:
+  tufte::tufte_handout: default
+
+author: Bryan A. Hanson & David T. Harvey
+
+# Required: Vignette metadata for inclusion in a package.
+vignette: >
+  %\VignetteIndexEntry{LearnPCA: Start Here -- A Guide to Learning PCA with LearnPCA}
+  %\VignetteKeywords{PCA}
+  %\VignettePackage{LearnPCA}
+  %\VignetteEngine{knitr::rmarkdown}
+---
+
+## Audience
+
+Simply put, the audience for this package is people who want to learn about Principal Components Analysis (PCA).  Let's acknowledge that we are not talking to mathematicians and statisticians.  We are talking to people in most any discipline that want to become practitioners of PCA.  PCA is used in many fields, so we have included examples (as Case Studies) from several different fields.  As PCA is the foundation of a number of related methods, people wanting to learn those variants will need a solid understanding of PCA before continuing.
+
+## Why a Package?
+
+In our careers as researchers, we have needed to use PCA, and hence, to understand PCA.  In our careers as professors of chemistry, we have taught this material to students.  We can confirm that trying to teach PCA, and eventually getting better at it, is one of the best ways to learn PCA.\sidenote{We don't really have any evidence that we are getting better at teaching PCA, but we sure hope so.}
+
+Even so, we do not pretend to be experts in PCA, though we are not novices either.  We have learned PCA like many of you, as a journey of gradually increasing understanding.  We feel like that gives us an advantage in explaining PCA to new learners, as we have been learners in the recent past.  In that sense PCA is like a lot of complex topics, it just cannot be fully understood in a single sitting, so plan to read, reflect and repeat.
+
+So why put this material in package?  In the course of our own learning and teaching, we have tried to identify the best ways of teaching and illustrating this material.  `LearnPCA` is our attempt to use those methods in an integrated, user-friendly way.  And we get a lot of questions from students.  We're still glad to answer those questions, but we hope that this package will be useful to a wider range of PCA learners.
+
+## Guide to the Vignettes
+
+The following vignettes are currently available.  Chose according to where you are in your journey in understanding PCA.
+
+* A Conceptual Introduction to PCA.  You will want to know this material before proceeding.  No math or computations are required or presented.
+* Step-By-Step PCA.  This vignette discusses the key steps in carrying out PCA and shows how to conduct PCA in the `R` environment.
+
+The following vignettes are planned.  We make no promises as to when these will be available, or even if they will ever be available.  They are simply ideas for now.
+
+* PCA illustrated.
+* The Math Under the Hood of `prcomp`.
+* Techniques related to PCA, in comparison to PCA.
+
+## About the Authors
+
+Bryan Hanson is a freelance `R` consultant and software developer.  In a previous life he taught organic chemistry and biochemistry at DePauw University for 32 years.  He blames co-author David Harvey for dragging him down the `R` rabbit hole.  You can learn all about him at his [web site](http://academic.depauw.edu/~hanson/index.html).
+
+David Harvey is...
+
+## Acknowledgements
+
+We have learned what we know from many articles, a few books, many blog posts and questions on StackExchange.  Where we rely heavily on particular sources, we will cite them in the appropriate place.  We will also point out additional useful resources for further study.
