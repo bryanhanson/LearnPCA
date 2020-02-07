@@ -2,16 +2,7 @@
 
 ## What is LearnPCA?
 
-`LearnPCA` is an `R` package in development by David T. Harvey and Bryan A. Hanson.  More details will be forthcoming.
-
-### To-Do List
-
-* Possible Vignettes/Chapters
-  + Conceptual Introduction to PCA (draft done)
-	+ How to do PCA in R, step-by-step
-	+ The math under the hood
-	+ Other techniques related to PCA
-* Data sets to include?
+`LearnPCA` is an `R` package in development by David T. Harvey and Bryan A. Hanson.  For a sense of the project, install the package and do `browseVignettes("LearnPCA")`.
 
 ### Installing LearnPCA from Github:
 
