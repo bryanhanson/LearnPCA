@@ -1,5 +1,5 @@
 ---
-title: Start Here -- A Guide to Learning PCA with LearnPCA
+title: Start Here -- A Guide to Using LearnPCA
 
 # Force pkgdown to use the pdf vignette and not override format/output
 #pkgdown:
@@ -21,15 +21,15 @@ vignette: >
 
 ## Audience
 
-Simply put, the audience for this package is people who want to learn about Principal Components Analysis (PCA).  Let's acknowledge that we are not talking to mathematicians and statisticians.  We are talking to people in most any discipline that want to become practitioners of PCA.  PCA is used in many fields, so we have included examples (as Case Studies) from several different fields.  As PCA is the foundation of a number of related methods, people wanting to learn those variants will need a solid understanding of PCA before continuing.
+Simply put, the audience for this package is people who want to learn about and more deeply understand Principal Components Analysis (PCA).  Let's acknowledge that we are not talking to mathematicians and statisticians.  We are talking to people in most any other disciplines that want to become practitioners of PCA.  PCA is used in many fields, so we have included examples (as Case Studies) from several different fields.  As PCA is the foundation of a number of related methods, people wanting to learn those variants will need a solid understanding of PCA before continuing.
 
 ## Why a Package?
 
-In our careers as researchers, we have needed to use PCA, and hence, to understand PCA.  In our careers as professors of chemistry, we have taught this material to students.  We can confirm that trying to teach PCA, and eventually getting better at it, is one of the best ways to learn PCA.\sidenote{We don't really have any evidence that we are getting better at teaching PCA, but we sure hope so.}
+In our careers as researchers, we have needed to use PCA, and hence, to understand PCA.  In our careers as professors of chemistry, we have taught PCA to students.  We can confirm that trying to teach PCA, and eventually getting better at it, is one of the best ways to learn PCA.\sidenote{We don't really have any evidence that we are getting better at teaching PCA, but we sure hope so.}
 
-Even so, we do not pretend to be experts in PCA, though we are not novices either.  We have learned PCA like many of you, as a journey of gradually increasing understanding.  We feel like that gives us an advantage in explaining PCA to new learners, as we have been learners in the recent past.  In that sense PCA is like a lot of complex topics, it just cannot be fully understood in a single sitting, so plan to read, reflect and repeat.
+Even so, we do not pretend to be experts in PCA, though we are not novices either.  We have learned PCA like many of you, as a journey of gradually increasing understanding.  We feel like that gives us an advantage in explaining PCA to new learners, as we have been learners in the recent past.  In that sense PCA is like a lot of complex topics, it just cannot be fully understood in a single sitting.   So plan to read, practice, reflect and repeat.
 
-So why put this material in package?  In the course of our own learning and teaching, we have tried to identify the best ways of teaching and illustrating this material.  `LearnPCA` is our attempt to use those methods in an integrated, user-friendly way.  And we get a lot of questions from students.  We're still glad to answer those questions, but we hope that this package will be useful to a wider range of PCA learners.
+So why put this material in package?  In the course of our own learning and teaching, we have tried to identify the best ways of teaching and illustrating this material.  `LearnPCA` is our attempt to use those methods in an integrated, user-friendly way.  And we get a lot of questions from students.  We're glad to answer those questions, but we hope that this package will be useful to a wider range of PCA learners.
 
 ## Guide to the Vignettes
 
