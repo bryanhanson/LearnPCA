@@ -1,61 +1,28 @@
 ---
-title: An Introduction to PCA
-
-
+title: "An Introduction to PCA"
+author: Bryan A. Hanson & David T. Harvey
+date: "`r Sys.Date()`"
+output:
+  tint::tintPdf:
+    includes:
+      in_header: "Abbrev2ndCitation.tex"
+bibliography: PCA.bib
+link-citations: yes
+header-includes:
+  - \usepackage{xtab}
+  - \usepackage[version = 4]{mhchem}
 
 # Force pkgdown to use the pdf vignette and not override format/output
 #pkgdown:
 #  as_is: true
 #  extension: pdf
 
-# Produce a pinp document
-output: pinp::pinp
-
-# Use letters for affiliations
-author:
-  - name: Bryan A. Hanson
-    affiliation: a
-
-address:
-  - code: a
-    address: Prof. Emeritus, Dept. of Chemistry \& Biochemistry, DePauw University; \url{hanson@depauw.edu}
-
-# Font size of the document, values of 9pt (default), 10pt, 11pt and 12pt
-fontsize: 10pt
-
-# Optional: Force one-column layout, default is two-column
-one_column: false
-
-# Optional: Enable one-sided layout, default is two-sided
-one_sided: false
-
-# Optional: Enable section numbering, default is unnumbered
-numbersections: false
-
-# Optional: Specify the depth of section number, default is 5
-secnumdepth: 5
-
-# Optional: Bibliography
-#bibliography: ChemoSpec2D
-
-# Optional: Enable a 'Draft' watermark on the document
-watermark: false
-
-# Customize footer, eg by referencing the vignette
-footer_contents: "Intro to PCA"
-
-# May improve floats at end of document if true
-skip_final_break: true
-
 # Required: Vignette metadata for inclusion in a package.
 vignette: >
-  %\VignetteIndexEntry{ChemoSpec: Introduction to PCA}
+  %\VignetteIndexEntry{LearnPCA: An Introduction to PCA}
   %\VignetteKeywords{PCA}
-  %\VignettePackage{ChemoSpec}
+  %\VignettePackage{LearnPCA}
   %\VignetteEngine{knitr::rmarkdown}
-
-header-includes:
-  - \usepackage[version = 4]{mhchem}
 ---
 
 ```{r SetUp, echo = FALSE, eval = TRUE, results = "hide"}
@@ -69,7 +36,7 @@ options(width =  50) # for pinp specifically (narrow cols)
 
 # Stuff specifically for knitr:
 opts_chunk$set(eval = TRUE, echo = FALSE, results = "hide",
-  fig.width = 3.5, fig.height = 3.5)
+  fig.width = 7, fig.height = 7)
 ```
 
 The audience for this document is chemists, spectroscopists and people in allied fields who are using spectroscopy to analyze their data.
@@ -105,7 +72,7 @@ These plots will be explained further in the next section.  Other things to know
 
 This section is designed to illustrate the concepts of PCA, and how to interpret the plots that arise from PCA.
 
-We'll use a data set which reports chemical analyses on archaeological glass artifacts that was designed to determine the origin of the artifacts.  Table \ref{tab:dataTaste} gives a little bit of the data set.\footnote{This is the \code{glass} data set in package \code{chemometrics}.}
+We'll use a data set which reports chemical analyses on archaeological glass artifacts that was designed to determine the origin of the artifacts.  Table \ref{tab:dataTaste} gives a little bit of the data set.\footnote{This is the \texttt{glass} data set in package \texttt{chemometrics}.}
 
 ```{r, dataTaste, results = "asis"}
 data(glass)
@@ -183,7 +150,7 @@ The archaeological data set has the advantage of only having a few variables, th
 
 However, the loading plot changes appearance dramatically.  This is because with hundreds to thousands of variables, one would not create a loading plot based on a bar chart (Figure \ref{fig:glassLoadings} is a bar chart).  Instead, the loading plot with many variables looks like a spectrum!  While the appearance is different, the interpretation is the same as for when there are only a few variables.
 
-Let's illustrate with an IR data set.  We'll use a data set included with the \code{ChemoSpec} package.  This is a set of IR spectra of plant oils which are mixtures of triglycerides (triacylglyerols, which are esters), and free fatty acids.  Figure \ref{fig:IRSpectrum} shows a typical spectrum from the data set.\footnote{Plots in this vignette are deliberately made rather plain to focus on the data and to be consistent for ease-of-comparison.  Package \code{ChemoSpec} makes much more polished plots.}
+Let's illustrate with an IR data set.  We'll use a data set included with the \texttt{ChemoSpec} package.  This is a set of IR spectra of plant oils which are mixtures of triglycerides (triacylglyerols, which are esters), and free fatty acids.  Figure \ref{fig:IRSpectrum} shows a typical spectrum from the data set.\footnote{Plots in this vignette are deliberately made rather plain to focus on the data and to be consistent for ease-of-comparison.  Package \texttt{ChemoSpec} makes much more polished plots.}
 
 ```{r loadIR}
 suppressPackageStartupMessages(library("ChemoSpec"))
