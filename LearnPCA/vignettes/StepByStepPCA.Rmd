@@ -1,27 +1,28 @@
 ---
-title: Step-By-Step PCA
+title: "Step-by-Step PCA"
+author: Bryan A. Hanson & David T. Harvey
+date: "`r Sys.Date()`"
+output:
+  tint::tintPdf:
+    includes:
+      in_header: "Abbrev2ndCitation.tex"
+bibliography: PCA.bib
+link-citations: yes
+header-includes:
+  - \usepackage{xtab}
+  - \usepackage[version = 4]{mhchem}
 
 # Force pkgdown to use the pdf vignette and not override format/output
 #pkgdown:
 #  as_is: true
 #  extension: pdf
 
-output:
-  tufte::tufte_handout: default
-
-author: Bryan A. Hanson & David T. Harvey
-
 # Required: Vignette metadata for inclusion in a package.
 vignette: >
-  %\VignetteIndexEntry{LearnPCA: Step-By-Step PCA}
+  %\VignetteIndexEntry{LearnPCA: Step-by-Step PCA}
   %\VignetteKeywords{PCA}
   %\VignettePackage{LearnPCA}
   %\VignetteEngine{knitr::rmarkdown}
-
-
-
-header-includes:
-  - \usepackage[version = 4]{mhchem}
 ---
 
 ```{r SetUp, echo = FALSE, eval = TRUE, results = "hide"}

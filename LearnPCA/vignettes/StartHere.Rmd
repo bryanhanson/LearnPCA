@@ -1,5 +1,5 @@
 ---
-title: "Start Here -- A Guide to LearnPCA"
+title: "A Guide to the LearnPCA Package"
 author: Bryan A. Hanson & David T. Harvey
 date: "`r Sys.Date()`"
 output:
@@ -18,7 +18,7 @@ header-includes:
 
 # Required: Vignette metadata for inclusion in a package.
 vignette: >
-  %\VignetteIndexEntry{LearnPCA: Start Here -- A Guide to Learning PCA with LearnPCA}
+  %\VignetteIndexEntry{LearnPCA: A Guide to Learning PCA with LearnPCA (Start Here)}
   %\VignetteKeywords{PCA}
   %\VignettePackage{LearnPCA}
   %\VignetteEngine{knitr::rmarkdown}
