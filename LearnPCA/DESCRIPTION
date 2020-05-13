@@ -1,8 +1,8 @@
 Package: LearnPCA
 Type: Package
 Title: Functions, Data Sets and Vignettes to Aid in Learning Principal Components Analysis (PCA)
-Version: 0.1.12
-Date: 2020-02-07
+Version: 0.1.18
+Date: 2020-05-13
 Authors@R: c(
     person("Bryan A.", "Hanson",
       role = c("aut", "cre"),
@@ -23,4 +23,4 @@ Suggests:
     kableExtra,
     knitr,
     tinytest
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.0
