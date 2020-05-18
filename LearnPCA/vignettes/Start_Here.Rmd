@@ -26,7 +26,7 @@ vignette: >
 
 ## Audience
 
-Simply put, the audience for this package is people who want to learn about and more deeply understand Principal Components Analysis (PCA).  Let's acknowledge that we are not talking to mathematicians and statisticians.  We are talking to people in most any other disciplines that want to become practitioners of PCA.  PCA is used in many fields, so we have included examples (as Case Studies) from several different fields.  As PCA is the foundation of a number of related methods, people wanting to learn those variants will need a solid understanding of PCA before continuing.
+Simply put, the audience for this package is people who want to learn about and more deeply understand Principal Components Analysis (PCA).  Let's acknowledge that we are not talking to mathematicians and statisticians.  We are talking to people in most any other discipline that want to become practitioners of PCA.  PCA is used in many fields, so we have included examples (as Case Studies) from several different fields.  As PCA is the foundation of a number of related methods, people wanting to learn those variants will need a solid understanding of PCA before continuing.
 
 ## Why a Package?
 
@@ -34,7 +34,7 @@ In our careers as researchers, we have needed to use PCA, and hence, to understa
 
 Even so, we do not pretend to be experts in PCA, though we are not novices either.  We have learned PCA like many of you, as a journey of gradually increasing understanding.  We feel like that gives us an advantage in explaining PCA to new learners, as we have been learners in the recent past.  In that sense PCA is like a lot of complex topics, it just cannot be fully understood in a single sitting.   So plan to read, practice, reflect and repeat.
 
-So why put this material in package?  In the course of our own learning and teaching, we have tried to identify the best ways of teaching and illustrating this material.  `LearnPCA` is our attempt to use those methods in an integrated, user-friendly way.  And we get a lot of questions from students.  We're glad to answer those questions, but we hope that this package will be useful to a wider range of PCA learners.
+So why put this material in package?  In the course of our own learning and teaching, we have tried to identify the best ways of teaching and illustrating this material.  `LearnPCA` is our attempt to gather those materials in an integrated, user-friendly way.  And we get a lot of questions from students.  We're glad to answer those questions, but we hope that this package will be useful to a wider range of PCA learners.
 
 ## Guide to the Vignettes
 
