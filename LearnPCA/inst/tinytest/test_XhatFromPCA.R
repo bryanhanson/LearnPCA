@@ -1,6 +1,5 @@
-
-### Unit tests for XhatFromPCA in LearnPCA
-
+# File created by roxut; edit the function definition file, not this file
+ 
 # Data from ?prcomp
 C <- chol(S <- toeplitz(.9 ^ (0:31)))
 set.seed(17)
