@@ -6,7 +6,7 @@ output:
   tint::tintHtml:
     includes:
       in_header: "Abbrev2ndCitation.tex"
-bibliography: PCA.bib
+#bibliography: PCA.bib
 link-citations: yes
 header-includes:
   - \usepackage{xtab}
