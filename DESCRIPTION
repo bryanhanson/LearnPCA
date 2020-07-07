@@ -24,6 +24,7 @@ Suggests:
     knitr,
     tinytest,
     tint,
-    roxut
+    roxut,
+    bookdown
 Roxygen: list(packages = "roxut", roclets = c("namespace", "rd", "roxut::tests_roclet"))
 RoxygenNote: 7.1.1
