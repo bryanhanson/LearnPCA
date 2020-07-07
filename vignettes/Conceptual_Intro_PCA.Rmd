@@ -3,7 +3,7 @@ title: "A Conceptual Introduction to PCA"
 author: Bryan A. Hanson & David T. Harvey
 date: "`r Sys.Date()`"
 output:
-  tint::tintPdf:
+  tint::tintHtml:
     includes:
       in_header: "Abbrev2ndCitation.tex"
 bibliography: PCA.bib
