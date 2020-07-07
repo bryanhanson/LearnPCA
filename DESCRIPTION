@@ -22,6 +22,7 @@ Suggests:
     chemometrics,
     kableExtra,
     knitr,
-    tinytest
+    tinytest,
+    tint
 Roxygen: list(packages = "roxut", roclets = c("namespace", "rd", "roxut::tests_roclet"))
 RoxygenNote: 7.1.0
