@@ -1,28 +1,33 @@
 ---
-title: "Step-by-Step PCA"
-author: Bryan A. Hanson & David T. Harvey
-date: "`r Sys.Date()`"
+title:  "Step-by-Step PCA"
+author:
+  - name: David T. Harvey^1^, Bryan A. Hanson^2^
+    email: harvey@depauw.edu, hanson@depauw.edu
+    affiliation: |
+        1. Professor of Chemistry & Biochemistry, DePauw University, Greencastle IN USA.
+        2. Professor Emeritus of Chemistry & Biochemistry, DePauw University, Greencastle IN USA.
+date:  "`r Sys.Date()`"
 output:
-  tint::tintHtml:
-    includes:
-      in_header: "Abbrev2ndCitation.tex"
-#bibliography: PCA.bib
-link-citations: yes
-header-includes:
-  - \usepackage{xtab}
-  - \usepackage[version = 4]{mhchem}
-
-# Force pkgdown to use the pdf vignette and not override format/output
-#pkgdown:
-#  as_is: true
-#  extension: pdf
-
-# Required: Vignette metadata for inclusion in a package.
+    bookdown::html_document2:
+      base_format: rmarkdown::html_vignette
+      toc: no
+      toc_depth: 2
+      fig_caption: yes
+      number_sections: false
+      css:
+        - vignette.css
 vignette: >
-  %\VignetteIndexEntry{LearnPCA 3: Step-by-Step PCA}
-  %\VignetteKeywords{PCA}
-  %\VignettePackage{LearnPCA}
-  %\VignetteEngine{knitr::rmarkdown}
+    %\VignetteIndexEntry{LearnPCA 3: Step-by-Step PCA}
+    %\VignetteKeywords{PCA}
+    %\VignettePackage{LearnPCA}
+    %\VignetteEngine{knitr::rmarkdown}
+    %\VignetteEncoding{UTF-8}
+#link-citations: yes
+#bibliography: PCA.bib
+#biblio-style: plain
+pkgdown:
+  as_is: true
+  set_null_theme: no
 ---
 
 ```{r SetUp, echo = FALSE, eval = TRUE, results = "hide"}
@@ -35,6 +40,7 @@ suppressPackageStartupMessages(library("chemometrics"))
 
 # Stuff specifically for knitr:
 opts_chunk$set(eval = TRUE, echo = FALSE, results = "hide")
+options(rmarkdown.html_vignette.check_title = FALSE)
 ```
 
 In this vignette we'll walk through the steps needed to carry out PCA.  If you are not familiar with PCA from a conceptual point of view, we strongly recommend you read "A Conceptual Introduction to PCA" vignette before proceeding.
@@ -49,23 +55,23 @@ The steps to carry out PCA are:
 
 We'll discuss each of these steps in order.  For many or most types of analysis, one will just do the first three steps, which provides the scores and loadings that are usually the main focus.  In some cases, it is desirable to reconstruct the original data from the reduced data set.  For that task you needs steps four and five.
 
-To illustrate the process, we'll use a tiny portion of the `glass` data set, just two objects from each group, and two of the elements measured.  This eight sample, two variable data set will make it easier to visualize the steps as we go.  Table \ref{tab:tinyGlass} shows the values, and we'll refer to this as the `tiny_glass` data set.
+To illustrate the process, we'll use a tiny portion of the `glass` data set, just two objects from each group, and two of the elements measured.  This eight sample, two variable data set will make it easier to visualize the steps as we go.  Table \@ref(tab:tinyGlass) shows the values, and we'll refer to this as the `tiny_glass` data set.
 
-```{r, tinyGlass, results = "asis"}
+```{r tinyGlass, results = "asis"}
 data(glass)
 data(glass.grp)
 DF <- as.data.frame(cbind(glass.grp, glass))
 names(DF)[1] <- "group"
 DF <- DF[c(1, 2, 23, 24, 67, 68, 57, 58), c("group", "Na2O", "CaO")]
-kable(DF, format = "latex", row.names = FALSE, caption = "The \textt{tiny\\_glass} glass data set. Values are percentages.\\label{tab:tinyGlass}") %>% kable_styling(c("striped", "bordered"))
+kable(DF, format = "html", row.names = FALSE, caption = "The tiny_glass data set. Values are percentages.") %>% kable_styling(c("striped", "bordered"))
 ```
 
-# Centering the data
+## Centering the data
 
-# Scaling the data
+## Scaling the data
 
-# Data Reduction
+## Data Reduction
 
-# Undoing the scaling
+## Undoing the scaling
 
-# Undoing the centering
+## Undoing the centering

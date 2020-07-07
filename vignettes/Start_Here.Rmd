@@ -1,28 +1,38 @@
 ---
-title: "A Guide to the LearnPCA Package"
-author: Bryan A. Hanson & David T. Harvey
-date: "`r Sys.Date()`"
+title:  "A Guide to the LearnPCA Package"
+author:
+  - name: David T. Harvey^1^, Bryan A. Hanson^2^
+    email: harvey@depauw.edu, hanson@depauw.edu
+    affiliation: |
+        1. Professor of Chemistry & Biochemistry, DePauw University, Greencastle IN USA.
+        2. Professor Emeritus of Chemistry & Biochemistry, DePauw University, Greencastle IN USA.
+date:  "`r Sys.Date()`"
 output:
-  tint::tintHtml:
-    includes:
-      in_header: "Abbrev2ndCitation.tex"
-#bibliography: PCA.bib
-link-citations: yes
-header-includes:
-  - \usepackage{xtab}
-
-# Force pkgdown to use the pdf vignette and not override format/output
-#pkgdown:
-#  as_is: true
-#  extension: pdf
-
-# Required: Vignette metadata for inclusion in a package.
+    bookdown::html_document2:
+      base_format: rmarkdown::html_vignette
+      toc: no
+      toc_depth: 2
+      fig_caption: yes
+      number_sections: false
+      css:
+        - vignette.css
 vignette: >
-  %\VignetteIndexEntry{LearnPCA 1: A Guide to Learning PCA with LearnPCA (Start Here)}
-  %\VignetteKeywords{PCA}
-  %\VignettePackage{LearnPCA}
-  %\VignetteEngine{knitr::rmarkdown}
+    %\VignetteIndexEntry{LearnPCA 1: A Guide to Learning PCA with LearnPCA (Start Here)}
+    %\VignetteKeywords{PCA}
+    %\VignettePackage{LearnPCA}
+    %\VignetteEngine{knitr::rmarkdown}
+    % \VignetteEncoding{UTF-8}
+#link-citations: yes
+#bibliography: PCA.bib
+#biblio-style: plain
+pkgdown:
+  as_is: true
+  set_null_theme: no
 ---
+
+```{r, echo = FALSE}
+options(rmarkdown.html_vignette.check_title = FALSE)
+```
 
 ## Audience
 
