@@ -17,13 +17,13 @@ URL: https://bryanhanson.github.io/LearnPCA/
 BugReports: https://github.com/bryanhanson/LearnPCA/issues
 ByteCompile: TRUE
 VignetteBuilder: knitr
+Encoding: UTF-8
 Suggests:
     ChemoSpec,
     chemometrics,
     kableExtra,
     knitr,
     tinytest,
-    tint,
     roxut,
     bookdown
 Roxygen: list(packages = "roxut", roclets = c("namespace", "rd", "roxut::tests_roclet"))
