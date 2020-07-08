@@ -40,6 +40,7 @@ jobs:
           roxygen2::roxygenize()
         shell: Rscript {0}
 
+
       - name: Install package
         run: R CMD INSTALL .
 
