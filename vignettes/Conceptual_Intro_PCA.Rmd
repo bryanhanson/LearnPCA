@@ -9,13 +9,10 @@ author:
 date:  "`r Sys.Date()`"
 output:
     bookdown::html_document2:
-      base_format: rmarkdown::html_vignette
-      toc: no
+      toc: yes
       toc_depth: 2
       fig_caption: yes
       number_sections: false
-      css:
-        - vignette.css
 vignette: >
     %\VignetteIndexEntry{LearnPCA 2: A Conceptual Introduction to PCA}
     %\VignetteKeywords{PCA}
@@ -27,7 +24,6 @@ vignette: >
 #biblio-style: plain
 pkgdown:
   as_is: true
-  set_null_theme: no
 ---
 
 ```{r SetUp, echo = FALSE, eval = TRUE, results = "hide"}
