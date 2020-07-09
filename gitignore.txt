@@ -3,4 +3,5 @@
 .Rapp.history
 .Rproj.user/
 *.tar.gz
-LearnPCA.Rcheck/
+*.Rcheck
+*.html
