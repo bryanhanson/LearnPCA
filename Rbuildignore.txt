@@ -1,9 +1,9 @@
 ^docs$
-^_pkgdown\.yml$
-README.md
-Rbuildignore.txt
-gitignore.txt
-.Rhistory
+^_pkgdown\\.yml$
+^README\\.md$
+^Rbuildignore\\.txt$
+^gitignore\\.txt$
+^\\.Rhistory$
 docs
-.github
-*.html
+^\\.github$
+\\.html$
