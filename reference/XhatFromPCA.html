@@ -12,7 +12,7 @@
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cerulean/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/united/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
@@ -144,7 +144,7 @@ Inspired by <a href='https://stats.stackexchange.com/q/229092/26909'>https://sta
 for this post by StackOverflow contributor Amoeba.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/LearnPCA/man/XhatFromPCA.html'>XhatFromPCA</a></span>(<span class='kw'>X</span>, ncomp = <span class='fl'>3</span>, scale.fun = <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>XhatFromPCA</span>(<span class='kw'>X</span>, ncomp = <span class='fl'>3</span>, scale.fun = <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -177,7 +177,7 @@ will be done.</p></td>
 <span class='kw'>X</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>32000</span>), <span class='fl'>1000</span>, <span class='fl'>32</span>)
 <span class='kw'>Z</span> <span class='op'>&lt;-</span> <span class='kw'>X</span> <span class='op'>%*%</span> <span class='kw'>C</span>
 
-<span class='kw'>tst</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/LearnPCA/man/XhatFromPCA.html'>XhatFromPCA</a></span>(<span class='kw'>Z</span>)
+<span class='kw'>tst</span> <span class='op'>&lt;-</span> <span class='fu'>XhatFromPCA</span>(<span class='kw'>Z</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='kw'>tst</span> <span class='op'>-</span> <span class='kw'>Z</span>)</div><div class='output co'>#&gt; [1] -3.981231e-18</div><div class='input'>
 <span class='co'># Plot to show the effect of increasing ncomp</span>
 
@@ -185,7 +185,7 @@ will be done.</p></td>
 <span class='kw'>val1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>NA_real_</span>, <span class='kw'>ntests</span>)
 <span class='kw'>val2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>NA_real_</span>, <span class='kw'>ntests</span>)
 <span class='co'>for</span> (<span class='kw'>i</span> <span class='co'>in</span> <span class='fl'>1</span><span class='op'>:</span><span class='kw'>ntests</span>) {
-	ans <- <span class='kw'>ans</span>t<span class='op'>&lt;-</span>o<span class='fu'><a href='https://rdrr.io/pkg/LearnPCA/man/XhatFromPCA.html'>XhatFromPCA</a></span>s<span class='kw'>X</span>)<span class='kw'>i</span><span class='kw'>sd</span>
+	ans <- <span class='kw'>ans</span>t<span class='op'>&lt;-</span>o<span class='fu'>XhatFromPCA</span>s<span class='kw'>X</span>)<span class='kw'>i</span><span class='kw'>sd</span>
 	del <- <span class='kw'>del</span> <span class='op'>&lt;-</span>X<span class='kw'>ans</span><span class='op'>-</span><span class='kw'>X</span>
 	val1[i]<span class='kw'>val1</span>s<span class='kw'>i</span>rt<span class='op'>&lt;-</span>u<span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span>l<span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>/<span class='kw'>del</span><span class='op'>^</span><span class='fl'>2</span>h<span class='op'>/</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>#<span class='kw'>del</span>SD<span class='co'># RMSD</span>
 	val2[i]<span class='kw'>val2</span>m<span class='kw'>i</span>an<span class='op'>&lt;-</span>e<span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='kw'>del</span>
