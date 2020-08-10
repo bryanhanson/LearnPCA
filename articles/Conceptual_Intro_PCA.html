@@ -99,7 +99,7 @@
 <br><a class="author_email" href="mailto:#"></a><a href="mailto:harvey@depauw.edu" class="email">harvey@depauw.edu</a>, <a href="mailto:hanson@depauw.edu" class="email">hanson@depauw.edu</a>
       </address>
                   
-            <h4 class="date">2020-08-08</h4>
+            <h4 class="date">2020-08-10</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/bryanhanson/LearnPCA/blob/master/vignettes/Conceptual_Intro_PCA.Rmd"><code>vignettes/Conceptual_Intro_PCA.Rmd</code></a></small>
       <div class="hidden name"><code>Conceptual_Intro_PCA.Rmd</code></div>
@@ -129,20 +129,20 @@
 <li>Scores, generally presented as one or more <em>score plots</em>.</li>
 <li>Loadings, generally presented as one or more <em>loading plots</em>.</li>
 </ul>
-<p>These plots will be explained further in the next section. Other things to know about PCA before going further:</p>
+<p>These plots will be explained further in the next section.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> Other things to know about PCA before going further:</p>
 <ul>
 <li>PCA is <em>principal</em> not <em>principle</em> components analysis!</li>
 <li>PCA is the “mother” of a number of other related techniques, so if you plan further study it is critical to understand PCA to the greatest degree possible.</li>
 <li>That said, it takes most mortals a long time to fully grasp what PCA does, especially from the mathematical perspective. Don’t expect to get all the nuances on the first pass!</li>
 <li>
-<em>And the problem</em> The results of PCA, scores and loadings, exist in a so-called abstract space. This space is only distantly and indirectly related to the space in which the original samples were measured. Therefore, the results of PCA are frequently difficult to interepret in concrete terms. See previous point. That doesn’t mean PCA is not useful, quite the contrary!</li>
+<em>And the problem</em> … The results of PCA, scores and loadings, exist in a so-called abstract space. This space is only distantly and indirectly related to the space in which the original samples were measured. Therefore, the results of PCA are frequently difficult to interepret in concrete terms. See previous point. That doesn’t mean PCA is not useful, quite the contrary!</li>
 </ul>
 </div>
 <div id="pca-results-illustrated-no-code-no-math" class="section level2">
 <h2 class="hasAnchor">
 <a href="#pca-results-illustrated-no-code-no-math" class="anchor"></a>PCA Results Illustrated, No Code, No Math</h2>
 <p>This section is designed to illustrate the concepts of PCA, and how to interpret the plots that arise from PCA.</p>
-<p>We’ll use a data set which reports chemical analyses on archaeological glass artifacts that was designed to determine the origin of the artifacts. Table <a href="#tab:dataTaste">1</a> gives a little bit of the data set.</p>
+<p>We’ll use a data set which reports chemical analyses on archaeological glass artifacts that was designed to determine the origin of the artifacts. Table <a href="#tab:dataTaste">1</a> gives a little bit of the data set.<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a></p>
 <table class="table table table-striped table-bordered">
 <caption>
 <span id="tab:dataTaste">Table 1: </span>A portion of the archaeological glass data set. Values are percentages.
@@ -306,7 +306,7 @@ K2O
 </tr>
 </tbody>
 </table>
-<p>There are 180 glass artifacts (the samples) in this data set (hence 180 rows), and the elements analyzed were Na<sub>2</sub>O, MgO, Al<sub>2</sub>O<sub>3</sub>, SiO<sub>2</sub>, P<sub>2</sub>O<sub>5</sub>, SO<sub>3</sub>, Cl, K<sub>2</sub>O, CaO, MnO, Fe<sub>2</sub>O<sub>3</sub>, BaO, and PbO .</p>
+<p>There are 180 glass artifacts (the samples) in this data set (hence 180 rows), and the elements analyzed were Na<sub>2</sub>O, MgO, Al<sub>2</sub>O<sub>3</sub>, SiO<sub>2</sub>, P<sub>2</sub>O<sub>5</sub>, SO<sub>3</sub>, Cl, K<sub>2</sub>O, CaO, MnO, Fe<sub>2</sub>O<sub>3</sub>, BaO, and PbO .<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a></p>
 <p>We’ll perform PCA on the glass data set, show the three plots and then discuss them in turn. Figure <a href="#fig:glassScree">1</a> shows the scree plot, Figure <a href="#fig:glassScores">2</a> shows the score plot and Figure <a href="#fig:glassLoadings">3</a> shows the first loadings.</p>
 <div class="figure">
 <span id="fig:glassScree"></span>
@@ -314,7 +314,7 @@ K2O
 Figure 1: Scree plot from PCA on the glass data set.
 </p>
 </div>
-<p>Figure <a href="#fig:glassScree">1</a>, the scree plot, shows the amount of variance in the data set explained by each principal component (PCs are along the x axis, from 1 to 10). For now, think of variance as the variation or variability in the data set, or better, think of it as the hidden signal in the data. To interpret this plot, we look for the point at which the height of the bars suddenly levels off. In this case, the first three PCs drop steadily downward, but from PC four and onward there is little additional variation (signal) that can be explained. We would say that three PCs are enough to explain this data set. In other words, the original 13 variables have been reduced to three, which is a great simplification.</p>
+<p>Figure <a href="#fig:glassScree">1</a>, the scree plot, shows the amount of variance in the data set explained by each principal component (PCs are along the x axis, from 1 to 10).<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a> For now, think of variance as the variation or variability in the data set, or better, think of it as the hidden signal in the data. To interpret this plot, we look for the point at which the height of the bars suddenly levels off. In this case, the first three PCs drop steadily downward, but from PC four and onward there is little additional variation (signal) that can be explained. We would say that three PCs are enough to explain this data set. In other words, the original 13 variables have been reduced to three, which is a great simplification.</p>
 <div class="figure">
 <span id="fig:glassScores"></span>
 <img src="Conceptual_Intro_PCA_files/figure-html/glassScores-1.png" alt="Score plot from PCA on the glass data set." width="480"><p class="caption">
@@ -329,7 +329,7 @@ Figure 2: Score plot from PCA on the glass data set.
 Figure 3: Loadings plot for PC 1 from PCA on the glass data set.
 </p>
 </div>
-<p>The loadings plot, Figure <a href="#fig:glassLoadings">3</a>, shows how much each measured variable contributes to the component and hence the separation of samples (in this case the loadings for PC 1). We see that three elements have large loadings, and the other elements contribute little to the separation. We would say separation along PC 1 is driven largely and <em>collectively</em> by the results for Na<sub>2</sub>O, SiO<sub>2</sub> and CaO. The first PC should be interpreted as a composite of these variables – these variables have been collapsed into one new variable, PC 1.</p>
+<p>The loadings plot, Figure <a href="#fig:glassLoadings">3</a>, shows how much each measured variable contributes to the component and hence the separation of samples (in this case the loadings for PC 1). We see that three elements have large loadings, and the other elements contribute little to the separation. We would say separation along PC 1 is driven largely and <em>collectively</em> by the results for Na<sub>2</sub>O, SiO<sub>2</sub> and CaO.<a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a> The first PC should be interpreted as a composite of these variables – these variables have been collapsed into one new variable, PC 1.</p>
 <div id="refinements-1" class="section level3">
 <h3 class="hasAnchor">
 <a href="#refinements-1" class="anchor"></a>Refinements 1</h3>
@@ -514,7 +514,7 @@ Figure 4: Score plot from PCA on the glass data set, with groups color-coded.
 <a href="#a-spectroscopic-data-set" class="anchor"></a>A Spectroscopic Data Set</h2>
 <p>The archaeological data set has the advantage of only having a few variables, the percentages of each element in the glass artifacts. If we move to a spectroscopic data set, the number of variables goes up dramatically. A UV-Vis data set typically would have a few hundred to a thousand wavelength variables, an IR data set perhaps a few thousand data points, and a 1D NMR data set would typically have 16K or more data points. As far as PCA is concerned, in these cases the scree plot and score plot do not change in appearance or interpretation.</p>
 <p>However, the loading plot changes appearance dramatically. This is because with hundreds to thousands of variables, one would not create a loading plot based on a bar chart (Figure <a href="#fig:glassLoadings">3</a> is a bar chart). Instead, the loading plot with many variables looks like a spectrum! While the appearance is different, the interpretation is the same as for when there are only a few variables.</p>
-<p>Let’s illustrate with an IR data set. We’ll use a data set included with the  package. This is a set of IR spectra of plant oils which are mixtures of triglycerides (also called triacylglyerols, which are esters of fatty acids), and free fatty acids. Figure <a href="#fig:IRSpectrum">5</a> shows a typical spectrum from the data set.</p>
+<p>Let’s illustrate with an IR data set. We’ll use a data set included with the <code>ChemoSpec</code> package. This is a set of IR spectra of plant oils which are mixtures of triglycerides (also called triacylglyerols, which are esters of fatty acids), and free fatty acids. Figure <a href="#fig:IRSpectrum">5</a> shows a typical spectrum from the data set.<a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a></p>
 <div class="figure">
 <span id="fig:IRSpectrum"></span>
 <img src="Conceptual_Intro_PCA_files/figure-html/IRSpectrum-1.png" alt="Spectrum 1 from the IR data set." width="672"><p class="caption">
@@ -554,6 +554,17 @@ Figure 9: Loadings plot for PC 1 from PCA on the IR data set, carbonyl region. R
 Figure 10: Loadings plot for PC 1 from PCA on the IR data set, carbonyl region, shown as a bar plot.
 </p>
 </div>
+</div>
+<div class="footnotes">
+<hr>
+<ol>
+<li id="fn1"><p>There is another plot, the “biplot”, which is sometimes encountered. This plot will be dealt with in a separate document.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p>This is the <code>glass</code> data set in package <code>chemometrics</code>.<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
+<li id="fn3"><p>The elements are reported as their oxides in the form of weight percent.<a href="#fnref3" class="footnote-back">↩︎</a></p></li>
+<li id="fn4"><p>Because there are 13 variables, the most PCs one could have is 13. In theory, keeping all 13 PCs perfectly reproduces the original data set.<a href="#fnref4" class="footnote-back">↩︎</a></p></li>
+<li id="fn5"><p>If you knew this would be the result ahead of time, you probably would not have taken the time and expense to analyze the uninformative elements. However, we haven’t looked at PC 2 or PC 3 so this conclusion is premature.<a href="#fnref5" class="footnote-back">↩︎</a></p></li>
+<li id="fn6"><p>Plots in this vignette are deliberately made rather plain to focus on the data and to be consistent for ease-of-comparison. Package <code>ChemoSpec</code> makes much more polished plots.<a href="#fnref6" class="footnote-back">↩︎</a></p></li>
+</ol>
 </div>
   </div>
 
