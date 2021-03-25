@@ -1,8 +1,9 @@
 #'
-#' Reconstruct Original Data from PCA Results
+#' Reduce a Matrix X via PCA and Reconstruct All or Part to Give Xhat
 #'
-#' This function allows one to reconstruct an approximation of a data set
-#' that has been reduced by PCA, by using a limited number of principal components.
+#' This function allows one to do "round trip" PCA by reducing a matrix \code{X}
+#' using PCA and then reconstruct an approximation (\code{Xhat}) using some or
+#' all of the principal components.
 #' Inspired by \url{https://stats.stackexchange.com/q/229092/26909}. We are grateful
 #' for this post by StackOverflow contributor Amoeba.
 #' 
