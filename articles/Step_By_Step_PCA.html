@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">LearnPCA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.59</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.66</span>
       </span>
     </div>
 
@@ -64,8 +66,8 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/bryanhanson/LearnPCA/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+  <a href="https://github.com/bryanhanson/LearnPCA/" class="external-link">
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -81,12 +83,21 @@
 
       </header><script src="Step_By_Step_PCA_files/jquery-1.11.3/jquery.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="Step_By_Step_PCA_files/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet">
-<script src="Step_By_Step_PCA_files/bootstrap-3.3.5/js/bootstrap.min.js"></script><script src="Step_By_Step_PCA_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script><script src="Step_By_Step_PCA_files/bootstrap-3.3.5/shim/respond.min.js"></script><script src="Step_By_Step_PCA_files/navigation-1.1/tabsets.js"></script><script src="Step_By_Step_PCA_files/accessible-code-block-0.0.1/empty-anchor.js"></script><script src="Step_By_Step_PCA_files/kePrint-0.0.1/kePrint.js"></script><link href="Step_By_Step_PCA_files/lightable-0.0.1/lightable.css" rel="stylesheet">
+<script src="Step_By_Step_PCA_files/bootstrap-3.3.5/js/bootstrap.min.js"></script><script src="Step_By_Step_PCA_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script><script src="Step_By_Step_PCA_files/bootstrap-3.3.5/shim/respond.min.js"></script><style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="Step_By_Step_PCA_files/navigation-1.1/tabsets.js"></script><script src="Step_By_Step_PCA_files/accessible-code-block-0.0.1/empty-anchor.js"></script><script src="Step_By_Step_PCA_files/kePrint-0.0.1/kePrint.js"></script><link href="Step_By_Step_PCA_files/lightable-0.0.1/lightable.css" rel="stylesheet">
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Step-by-Step PCA</h1>
-                        <h4 class="author">David T. Harvey<sup>1</sup>, Bryan A. Hanson<sup>2</sup>
+                        <h4 data-toc-skip class="author">David T. Harvey<sup>1</sup>, Bryan A. Hanson<sup>2</sup>
 </h4>
             <address class="author_afil">
       <ol style="list-style-type: decimal">
@@ -96,9 +107,9 @@
 <br><a class="author_email" href="mailto:#"></a><a href="mailto:harvey@depauw.edu" class="email">harvey@depauw.edu</a>, <a href="mailto:hanson@depauw.edu" class="email">hanson@depauw.edu</a>
       </address>
                   
-            <h4 class="date">2020-10-04</h4>
+            <h4 data-toc-skip class="date">2021-03-26</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/bryanhanson/LearnPCA/blob/master/vignettes/Step_By_Step_PCA.Rmd"><code>vignettes/Step_By_Step_PCA.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/bryanhanson/LearnPCA/blob/master/vignettes/Step_By_Step_PCA.Rmd" class="external-link"><code>vignettes/Step_By_Step_PCA.Rmd</code></a></small>
       <div class="hidden name"><code>Step_By_Step_PCA.Rmd</code></div>
 
     </div>
@@ -116,7 +127,7 @@
 </ol>
 <p>We’ll discuss each of these steps in order. For many or most types of analysis, one will just do the first three steps, which provides the scores and loadings that are usually the main focus. In some cases, it is desirable to reconstruct the original data from the reduced data set. For that task you needs steps four and five.</p>
 <p>To illustrate the process, we’ll use a tiny portion of the <code>glass</code> data set, just two objects from each group, and two of the elements measured. This eight sample, two variable data set will make it easier to visualize the steps as we go. Table <a href="#tab:tinyGlass">1</a> shows the values, and we’ll refer to this as the <code>tiny_glass</code> data set.</p>
-<table class="table table table-striped table-bordered">
+<table class="table table table-striped table-bordered" style="margin-left: auto; margin-right: auto;">
 <caption>
 <span id="tab:tinyGlass">Table 1: </span>The tiny_glass data set. Values are percentages.
 </caption>
@@ -255,11 +266,13 @@ CaO
 
 
       <footer><div class="copyright">
-  <p>Developed by Bryan A. Hanson, David T. Harvey.</p>
+  <p></p>
+<p>Developed by Bryan A. Hanson, David T. Harvey.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.6.1.9001.</p>
 </div>
 
       </footer>
@@ -267,6 +280,8 @@ CaO
 
   
 
+
+  
 
   </body>
 </html>
