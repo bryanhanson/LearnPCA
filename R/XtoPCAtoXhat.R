@@ -1,8 +1,9 @@
 #'
-#' Reconstruct Original Data from PCA Results
+#' Reduce a Matrix X via PCA and Reconstruct All or Part to Give Xhat
 #'
-#' This function allows one to reconstruct an approximation of a data set
-#' that has been reduced by PCA, by using a limited number of principal components.
+#' This function allows one to do "round trip" PCA by reducing a matrix \code{X}
+#' using PCA and then reconstruct an approximation (\code{Xhat}) using some or
+#' all of the principal components.
 #' Inspired by \url{https://stats.stackexchange.com/q/229092/26909}. We are grateful
 #' for this post by StackOverflow contributor Amoeba.
 #' 
@@ -29,27 +30,27 @@
 #' Z <- X %*% C
 #' 
 #' # Test that passing of quoted or not quoted scale.fun gives the same answer
-#' tst1 <- XhatFromPCA(Z, 5, "sd")
-#' tst2 <- XhatFromPCA(Z, 5, sd)
+#' tst1 <- XtoPCAtoXhat(Z, 5, "sd")
+#' tst2 <- XtoPCAtoXhat(Z, 5, sd)
 #' expect_true(all.equal(tst1, tst2))
 #' 
 #' # Test that scale.fun is parsed correctly when specified in various ways
 #' test_fun <- function(x) {mean(x)}
-#' tst3 <- XhatFromPCA(Z, 5, test_fun)
-#' tst4 <- XhatFromPCA(Z, 5, function(x) mean(x))
+#' tst3 <- XtoPCAtoXhat(Z, 5, test_fun)
+#' tst4 <- XtoPCAtoXhat(Z, 5, function(x) mean(x))
 #' expect_true(all.equal(tst4, tst4))
 #' 
 #' # Test that original data set is returned when ncomp = ncol(X) & no scaling
-#' tst5 <- XhatFromPCA(Z, ncol(Z))
+#' tst5 <- XtoPCAtoXhat(Z, ncol(Z))
 #' expect_true(all.equal(tst5, Z, check.attributes = FALSE))
 #' 
 #' # Test that original data set is returned when ncomp = ncol(X) & no scaling
-#' tst6 <- XhatFromPCA(Z, ncol(Z), sd)
+#' tst6 <- XtoPCAtoXhat(Z, ncol(Z), sd)
 #' expect_true(all.equal(tst6, Z, check.attributes = FALSE))
 #' 
 #' # Test for handling of bad arguments
-#' expect_error(XhatFromPCA(Z, 35))
-#' expect_error(XhatFromPCA(Z, 3, "nonsense"))
+#' expect_error(XtoPCAtoXhat(Z, 35))
+#' expect_error(XtoPCAtoXhat(Z, 3, "nonsense"))
 #' 
 #' @examples
 #' # Example data from ?prcomp (see discussion at Stats.StackExchange.com/q/397793)
@@ -58,7 +59,7 @@
 #' X <- matrix(rnorm(32000), 1000, 32)
 #' Z <- X %*% C
 #'
-#' tst <- XhatFromPCA(Z)
+#' tst <- XtoPCAtoXhat(Z)
 #' mean(tst - Z)
 #'
 #' # Plot to show the effect of increasing ncomp
@@ -67,7 +68,7 @@
 #' val1 <- rep(NA_real_, ntests)
 #' val2 <- rep(NA_real_, ntests)
 #' for (i in 1:ntests) {
-#' 	ans <- XhatFromPCA(X, i, sd)
+#' 	ans <- XtoPCAtoXhat(X, i, sd)
 #' 	del <- ans - X
 #' 	val1[i] <- sqrt(sum(del^2)/length(del)) # RMSD
 #' 	val2[i] <- mean(del)
@@ -81,7 +82,7 @@
 #' thres <- c(-me, 0.0, me)
 #' abline(h = thres, col = "pink") # all values below .Machine$double.eps
 #' 
-XhatFromPCA <- function(X, ncomp = 3, scale.fun = NULL) {
+XtoPCAtoXhat <- function(X, ncomp = 3, scale.fun = NULL) {
   # Check arguments
   if (ncomp > ncol(X)) stop("ncomp cannot be larger than ncol(X)")
   if (!is.matrix(X)) X <- as.matrix(X)
