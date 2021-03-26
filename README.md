@@ -24,6 +24,6 @@ browseVignettes("LearnPCA")
 
 ### License Information
 
-`LearnPCA` is distributed under the GPL-3 license, as stated in the DESCRIPTION file.  For more info, see the [GPL site.](https://gnu.org/licenses/gpl.html)
+`LearnPCA` is distributed under the GPL-3 license, as stated in the DESCRIPTION file.  For more info, see the [GPL site.](https://www.gnu.org/licenses/gpl.html)
 
 Questions?  hanson@depauw.edu or harvey@depauw.edu

@@ -40,7 +40,8 @@
 #' X <- matrix(rnorm(32000), 1000, 32)
 #' Z <- X %*% C
 #'
-#' tst <- PCAtoXhat(prcomp(Z))
+#' pcaz <- prcomp(Z)
+#' tst <- PCAtoXhat(pcaz)
 #' mean(tst - Z)
 #'
 #' # Plot to show the effect of increasing ncomp
@@ -49,7 +50,7 @@
 #' val1 <- rep(NA_real_, ntests)
 #' val2 <- rep(NA_real_, ntests)
 #' for (i in 1:ntests) {
-#' 	ans <- PCAtoXhat(prcomp(Z), i, sd)
+#' 	ans <- PCAtoXhat(pcaz, i)
 #' 	del <- ans - Z
 #' 	val1[i] <- sqrt(sum(del^2)/length(del)) # RMSD
 #' 	val2[i] <- mean(del)
@@ -65,10 +66,10 @@
 #' 
 PCAtoXhat <- function(pca, ncomp = NULL) {
   # Check arguments
-  if (ncomp > ncol(pca$x)) stop("ncomp cannot be larger than ncol(pca$x)")
+  if (!is.null(ncomp)) if (ncomp > ncol(pca$x)) stop("ncomp cannot be larger than ncol(pca$x)")
   if (class(pca) != "prcomp") stop("pca should be of class prcomp")
 
-  if (is.null(ncomp)) ncomp <- 1:ncol(pca$x)
+  if (is.null(ncomp)) ncomp <- ncol(pca$x)
 
   recon <- as.matrix(pca$x[, 1:ncomp]) %*% t(as.matrix(pca$rotation[, 1:ncomp]))
   if(pca$scale[1] != FALSE) recon <- scale(recon, center = FALSE, scale = 1/pca$scale)
