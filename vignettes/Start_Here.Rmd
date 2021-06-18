@@ -59,7 +59,7 @@ The following vignettes are planned.  We make no promises as to when these will 
 
 Bryan Hanson is a freelance `R` consultant and software developer.  In a previous life he taught organic chemistry and biochemistry at DePauw University for 32 years.  He blames co-author David Harvey for dragging him down the `R` rabbit hole.  You can learn all about him at his [web site](http://academic.depauw.edu/~hanson/index.html).
 
-David Harvey is...
+David Harvey is a faculty member in the Department of Chemistry & Biochemistry at DePauw University where he has worked since 1986. He claims no knowledge of rabbit holes and maintains his innocence in luring others into `R`. You can learn more about his interests at his [web site](http://dpuadweb.depauw.edu/harvey_web/index.html). 
 
 ## Acknowledgements
 
