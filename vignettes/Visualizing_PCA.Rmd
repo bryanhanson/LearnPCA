@@ -1,0 +1,206 @@
+---
+title:  "Visualizing PCA"
+author:
+  - name: David T. Harvey^1^, Bryan A. Hanson^2^
+    email: harvey@depauw.edu, hanson@depauw.edu
+    affiliation: |
+        1. Professor of Chemistry & Biochemistry, DePauw University, Greencastle IN USA.
+        2. Professor Emeritus of Chemistry & Biochemistry, DePauw University, Greencastle IN USA.
+date:  "`r Sys.Date()`"
+output:
+    bookdown::html_document2:
+      toc: yes
+      toc_depth: 2
+      fig_caption: yes
+      number_sections: false
+vignette: >
+    %\VignetteIndexEntry{LearnPCA 4: Visualizing PCA}
+    %\VignetteKeywords{PCA}
+    %\VignettePackage{LearnPCA}
+    %\VignetteEngine{knitr::rmarkdown}
+    %\VignetteEncoding{UTF-8}
+#link-citations: yes
+#bibliography: PCA.bib
+#biblio-style: plain
+pkgdown:
+  as_is: true
+---
+
+```{r SetUp, echo = FALSE, eval = TRUE, results = "hide"}
+# R options & configuration:
+set.seed(13)
+rm(list = ls())
+suppressPackageStartupMessages(library("knitr"))
+suppressPackageStartupMessages(library("plot3D"))
+
+# Stuff specifically for knitr:
+opts_chunk$set(eval = TRUE, echo = FALSE, results = "hide")
+options(rmarkdown.html_vignette.check_title = FALSE)
+```
+
+One simple explanation of a PCA analysis is that it is a reorientation of the set of axes we use to describe the location of data points in space. Suppose we have *n* measurements and 100 samples. First, we plot the data in *n*-dimensional space using *n* mutually perpendicular axes, one for each of the *n* measurements. Then, we rotate the set of *n* axes until one of them passes through the cloud of 100 data points in a way that explains as much of the variation in the data as possible; this becomes our first principal component axis. Once we find this axis, we project the cloud of 100 data points onto the $n - 1$ dimensional surface that is perpendicular to the first principal component and repeat the process: rotate the axes, find the next principal component, and project the data onto the next lower dimension.   
+
+This definition is simple to write but it is difficult to visualize because we are limited by our inability to see in more than three dimensions. A flock of birds that suddenly takes flight is an easy to understand description of a cloud of data in three dimensions. But what does a cloud of data look like in four (or more) dimensions? The goal of this vignette is to examine a PCA analysis visually by starting with a cloud of data in three dimensions, displaying the first principal component axis, reducing the data to the two-dimensional plane perpendicular to the first principal component axis, displaying the second principal component, and, finally reducing the data to the one-dimensional line perpendicular to the second principal component axis.
+
+```{r prepData}
+# set coordinates for center of ellipsoid
+x0 = 0
+y0 = 0
+z0 = 0
+
+# set dimensions of ellipsoid relative to center; values chosen to 
+# make x-axis more important than y-axis, which is more important
+# than the z-axis; thus pc1 is x-axis, pc2 is y-axis, pc3 = z-axis
+xa = 10
+yb = 7
+zc = 2
+
+# generate set of random points within the ellipsoid's boundaries
+# done by first generating random points within rectangular solid that
+# encompasses the ellipsoid
+set.seed(13)
+x = runif(250, min = -xa, max = xa)
+y = runif(250, min = -yb, max = yb)
+z = runif(250, min = -zc, max = zc)
+
+# determine which points have (x,y,z) values that are inside the
+# ellipsoid using equation for ellipsoid; a negative value for 
+# check means the point is inside of ellipsoid; flag as id
+check = (x - x0)^2/xa^2 + (y - y0)^2/yb^2 + (z - z0)^2/zc^2 - 1
+id = which(check < 0)
+
+# extract sets of (x,y,z) points inside of ellipsoid
+xe = x[id]
+ye = y[id]
+ze = z[id]
+
+# function to rotate data and axes; a, b, and g are angles for rotation
+# around the x, y, and z axes; see en.wikipedia.org/wiki/Rotation_matrix
+rot = function(a = 10, b = 10, g = 10, x = xe, y = ye, z = ze){
+  xrot = cos(a)*cos(b)*x + (cos(a)*sin(b)*sin(g) - sin(a)*cos(g))*y + (cos(a)*sin(b)*cos(g) + sin(a)*sin(g))*z
+  yrot = sin(a)*cos(b)*x + (sin(a)*sin(b)*sin(g) + cos(a)*cos(g))*y + (sin(a)*sin(b)*cos(g) - cos(a)*sin(g))*z
+  zrot = -sin(b)*x + cos(b)*sin(g)*y + cos(b)*cos(g)*z
+  out = list("xrot" = xrot,
+             "yrot" = yrot,
+             "zrot" = zrot)
+}
+
+# original pc axes (same as x,y,z axes)
+xpc1 = c(-xa,xa)
+ypc1 = c(0,0)
+zpc1 = c(0,0)
+xpc2 = c(0,0)
+ypc2 = c(-xa,xa)
+zpc2 = c(0,0)
+xpc3 = c(0,0)
+ypc3 = c(0,0)
+zpc3 = c(-xa,xa)
+
+# rotate the pc axes
+pc1 = rot(x = xpc1, y = ypc1, z = zpc1)
+pc2 = rot(x = xpc2, y = ypc2, z = zpc2)
+pc3 = rot(x = xpc3, y = ypc3, z = zpc3)
+
+# rotate the orginal data
+rotdata = rot()
+```
+
+
+## Visuallizing The Original Data Set
+
+The data for this vignette consists of 117 points drawn at random from within the boundaries of an ellipsoid (think football) that has a length of 20, a width of 14, and a height of 4. Figure 1 shows the three-dimensional cloud of data as blue points and the three axes (red lines) that define the data. These axes are not the principal component axes.
+
+```{r origData, fig.cap="Three-dimensional plot of data (blue points) showing the x, y, and z-axes (red lines) that represent the three measured variables."}
+# plot rotated data and original pc axes (original x,y,z)
+scatter3D(x = rotdata$xrot, y = rotdata$yrot, z = rotdata$zrot, 
+          pch = 19, col = "blue", bty = "b2", cex = 0.5,
+          xlim = c(-xa,xa), ylim = c(-xa,xa), zlim = c(-xa,xa), 
+          phi = 10, theta = 40, ticktype = "detailed")
+points3D(x = xpc1, y = ypc1, z = zpc1, type = "l", col = "red",
+         lwd = 2, lty = 1, add = TRUE)
+points3D(x = xpc2, y = ypc2, z = zpc2, type = "l", col = "red",
+         lwd = 2, lty = 1, add = TRUE)
+points3D(x = xpc3, y = ypc3, z = zpc3, type = "l", col = "red",
+         lwd = 2, lty = 1, add = TRUE)
+```
+
+## The First Principal Component
+
+Although we used the three axes in Figure 1 to define the location of the individual data point in space, any set of three mutually perpendicular axes will accomplish the same thing. Our goal is to find three particular axes such that the first axis explains the greatest percentage of the overall variation in the data, the second axis explains the greatest percentage of the remaining variation in the data, and the third, and final axis explains the smallest percentage of the overall variation in the data.
+
+To help us visualize where the first principal component axis lies, Figure 2 shows the same cloud of data (in blue) in three dimensions, and projections of the data (in red) onto the two-dimensional x,y-plane, the y,z-plane, and the x,z-plane. 
+
+```{r pc1a, fig.cap="The data from Figure 1 (in blue) and its projection onto the x,y-plane, the y,z-plane, and the x,z-plane (in red)."}
+scatter3D(x = rotdata$xrot, y = rotdata$yrot, z = rotdata$zrot, 
+          pch = 19, col = "blue", bty = "b2", cex = 0.6,
+          xlim = c(-xa,xa), ylim = c(-xa,xa), zlim = c(-xa,xa), 
+          phi = 10, theta = 40, ticktype = "detailed")
+scatter3D(x = rotdata$xrot, y = rotdata$yrot, z = rep(-10, length(id)), 
+          pch = 19, col = "red", cex = 0.3, add = TRUE)
+scatter3D(x = rep(-10, length(id)), y = rotdata$yrot, z = rotdata$zrot, 
+          pch = 19, col = "red", cex = 0.3, add = TRUE)
+scatter3D(x = rotdata$yrot, y = rep(10, length(id)), z = rotdata$zrot, 
+          pch = 19, col = "red", cex = 0.3, add = TRUE)
+```
+
+Here we see that the primary axis runs diagonally from the lower-left to the upper-right, from values of x, y, and z that are negative to values of x, y, and z that are positive. Figure 3 shows the first principal component axis relative to the three-dimensional cloud of data seen in Figure 1 and Figure 2..
+
+```{r pc1b, fig.cap="The data from Figure 1 (in blue) and the first principal component axis (red line)."}
+scatter3D(x = rotdata$xrot, y = rotdata$yrot, z = rotdata$zrot, 
+          pch = 19, col = "blue", bty = "b2", cex = 0.6,
+          xlim = c(-xa,xa), ylim = c(-xa,xa), zlim = c(-xa,xa), 
+          phi = 10, theta = 40, ticktype = "detailed")
+points3D(x = pc1$xrot, y = pc1$yrot, z = pc1$zrot, type = "l", col = "red",
+        lwd = 3, lty =1, add = TRUE)
+```
+
+## The Second Principal Component
+
+To visualize the second principal component axis, we first project the  data From Figure 1 onto the plane that is perpendicular to the first principal component from Figure 3. Figure 4 shows this where the red line is the first principal component, the green box highlights a portion of the plane perpendicular to the first principal component axis, and the points in green are the projections of the original data from Figure 1 and Figure 2 onto this plane.
+
+```{r pc2a, fig.cap="The first principal component (red line) and the projection of the original data (green points) onto the plane perpendicular to the first principal component (shown with a green boundary."}
+proj = rot(x = rep(0,length(id)), y = ye, z = ze)
+scatter3D(x = proj$xrot, y = proj$yrot, z = proj$zrot, 
+          pch =19, col = "green", cex = 0.3, ticktype = "detailed",
+          phi = 10, theta = 40, bty = "b2",
+          xlim = c(-10,10), ylim = c(-10,10), zlim = c(-10,10))
+polygon3D(x = c(pc3$xrot[2], pc2$xrot[2], pc3$xrot[1], pc2$xrot[1]),
+          y = c(pc3$yrot[2], pc2$yrot[2], pc3$yrot[1], pc2$yrot[1]),
+          z = c(pc3$zrot[2], pc2$zrot[2], pc3$zrot[1], pc2$zrot[1]),
+          col = adjustcolor("white", alpha.f = 0.1), border = "green", 
+          add = TRUE)
+points3D(x = pc1$xrot, y = pc1$yrot, z = pc1$zrot, type = "l", col = "red",
+         lwd = 3, lty =1, add = TRUE)
+```
+
+The cloud of data in the two-dimensional runs diagonally from the lower left of the plane to the upper right of the plane, as we see in Figure 5, where the dashed red line is the second principal component axis.
+
+```{r pc2b, fig.cap="The result of adding the second principal component axis to Figure 3. The first principal component axis is the solid red line and the second principal component axis is the dashed line."}
+scatter3D(x = proj$xrot, y = proj$yrot, z = proj$zrot, 
+          pch =19, col = "green", cex = 0.3, ticktype = "detailed",
+          phi = 10, theta = 40, bty = "b2",
+          xlim = c(-10,10), ylim = c(-10,10), zlim = c(-10,10))
+points3D(x = pc1$xrot, y = pc1$yrot, z = pc1$zrot, type = "l", col = "red",
+         lwd = 3, lty =1, add = TRUE)
+points3D(x = pc2$xrot, y = pc2$yrot, z = pc2$zrot, type = "l", col = "red",
+         lwd = 3, lty = 2, add = TRUE)
+```
+
+## The Third Principal Component
+
+With the first two principal components in place, the last principal component axis is the only line we can draw that is perpendicular to the two existing principal components. Figure 6 shows the original cloud of data and all three principal component axes.In this example, the first principal component is aligned with ellipsoid's length, the second principal component is aligned with its width, and the third principal component is aligned with its height.
+
+```{r pc3, fig.cap="The original data (blue points) and the three three principal component axes (red lines). The solid line is the first principal component, the dashed line is the second principal component, and the dotted line is the third principal component."}
+scatter3D(x = rotdata$xrot, y = rotdata$yrot, z = rotdata$zrot, 
+          pch = 19, col = "blue", bty = "b2", cex = 0.6,
+          xlim = c(-xa,xa), ylim = c(-xa,xa), zlim = c(-xa,xa), 
+          phi = 10, theta = 40, ticktype = "detailed")
+points3D(x = pc1$xrot, y = pc1$yrot, z = pc1$zrot, type = "l", col = "red",
+        lwd = 3, lty =1, add = TRUE)
+points3D(x = pc2$xrot, y = pc2$yrot, z = pc2$zrot, type = "l", col = "red",
+         lwd = 3, lty = 2, add = TRUE)
+points3D(x = pc3$xrot, y = pc3$yrot, z = pc3$zrot, type = "l", col = "red",
+         lwd = 3, lty = 3, add = TRUE)
+```
+
+
