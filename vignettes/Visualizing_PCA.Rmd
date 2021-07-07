@@ -203,6 +203,50 @@ points3D(x = pc3$xrot, y = pc3$yrot, z = pc3$zrot, type = "l", col = "red",
          lwd = 3, lty = 3, add = TRUE)
 ```
 
+## How PCA Changes the Data Cloud
+
+Although you can see this in the figures above, it merits additional emphasis here: the process of reducing the data to a lower dimension after we identify a principal component results in the data becoming more compact with less variation in values. This is what we mean when we say that each principal component accounts for the greatest variability in the data in its current form. The following figure shows how the variability of the data becomes smaller as we decrease the dimensions of the data from (a) three, to (b) two, and to (c) one; panel (d) provides a closer view of panel (c), making the individual points visible. The red lines in (a), (b), and (c) show the principal component axes at each step in the analysis.
+
+```{r dataClouds, fig.height=7, fig.cap="How the data changes during PCA: (a) the original data in three dimensions; (b) the data after reducing to two dimensions; (c) the data after reducing to one dimension; (d) close up of (c) making it easier to see the individual data points. The red lines are the principal component axes at each step in the PCA analysis."}
+old.par = par(mfrow = c(2,2))
+scatter3D(x = rotdata$xrot, y = rotdata$yrot, z = rotdata$zrot, 
+          pch = 19, col = "blue", bty = "b2", cex = 0.1,
+          xlim = c(-xa,xa), ylim = c(-xa,xa), zlim = c(-xa,xa), 
+          phi = 10, theta = 40, ticktype = "detailed", 
+          main = "(a) Original Data Cloud")
+points3D(x = pc1$xrot, y = pc1$yrot, z = pc1$zrot, type = "l", col = "red",
+         lwd = 0.5, lty =1, add = TRUE)
+scatter3D(x = proj$xrot, y = proj$yrot, z = proj$zrot, 
+          pch =19, col = "blue", cex = 0.1, ticktype = "detailed",
+          phi = 10, theta = 40, bty = "b2",
+          xlim = c(-10,10), ylim = c(-10,10), zlim = c(-10,10),
+          main = "(b) After Removing First PC")
+points3D(x = pc1$xrot, y = pc1$yrot, z = pc1$zrot, type = "l", col = "red",
+         lwd = 0.5, lty = 1, add = TRUE)
+points3D(x = pc2$xrot, y = pc2$yrot, z = pc2$zrot, type = "l", col = "red",
+         lwd = 0.5, lty = 1, add = TRUE)
+proj2 = rot(x = rep(0,length(id)), y = rep(0,length(id)), z = ze)
+scatter3D(x = proj2$xrot, y = proj2$yrot, z = proj2$zrot, 
+          pch =19, col = "blue", cex = 0.1, ticktype = "detailed",
+          phi = 10, theta = 40, bty = "b2",
+          xlim = c(-10,10), ylim = c(-10,10), zlim = c(-10,10),
+          main = "(c) After Removing Second PC")
+points3D(x = pc1$xrot, y = pc1$yrot, z = pc1$zrot, type = "l", col = "red",
+         lwd = 0.5, lty =1, add = TRUE)
+points3D(x = pc2$xrot, y = pc2$yrot, z = pc2$zrot, type = "l", col = "red",
+         lwd = 0.5, lty = 1, add = TRUE)
+points3D(x = pc3$xrot, y = pc3$yrot, z = pc3$zrot, type = "l", col = "red",
+         lwd = 0.5, lty = 1, add = TRUE)
+scatter3D(x = proj2$xrot, y = proj2$yrot, z = proj2$zrot, 
+          pch =19, col = "blue", cex = 0.1, ticktype = "detailed",
+          phi = 10, theta = 40, bty = "b2",
+          xlim = c(-2,2), ylim = c(-2,2), zlim = c(-2,2),
+          main = "(d) Close Up of (c)")
+par(old.par)
+```
+
+
+
 ## Final Thoughts
 
 The data sets in LearnPCA---and, more importantly, the data sets from your teaching and research projects---likely have significantly more than three variables. Although you cannot plot and examine your data set as we did here for a system with three variables, the process remains the same: rotate the coordinate system to find the principal component axis that best explains the data in *n* dimensions, project the data onto the $n - 1$ dimensional surface that is perpendicular to your principal component axis, and repeat until you have replaced the original set of *n* axes with a set of *n* principal component axes.
