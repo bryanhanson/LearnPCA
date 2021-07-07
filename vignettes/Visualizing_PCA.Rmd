@@ -143,7 +143,7 @@ scatter3D(x = rotdata$yrot, y = rep(10, length(id)), z = rotdata$zrot,
           pch = 19, col = "red", cex = 0.3, add = TRUE)
 ```
 
-Here we see that the primary axis runs diagonally from the lower-left to the upper-right, from values of x, y, and z that are negative to values of x, y, and z that are positive. Figure 3 shows the first principal component axis relative to the three-dimensional cloud of data seen in Figure 1 and Figure 2..
+Here we see that the primary axis runs diagonally from the lower-left to the upper-right, from values of x, y, and z that are negative to values of x, y, and z that are positive. Figure 3 shows the first principal component axis relative to the three-dimensional cloud of data seen in Figure 1 and Figure 2.
 
 ```{r pc1b, fig.cap="The data from Figure 1 (in blue) and the first principal component axis (red line)."}
 scatter3D(x = rotdata$xrot, y = rotdata$yrot, z = rotdata$zrot, 
@@ -173,12 +173,12 @@ points3D(x = pc1$xrot, y = pc1$yrot, z = pc1$zrot, type = "l", col = "red",
          lwd = 3, lty =1, add = TRUE)
 ```
 
-The cloud of data in the two-dimensional runs diagonally from the lower left of the plane to the upper right of the plane, as we see in Figure 5, where the dashed red line is the second principal component axis.
+The cloud of data in the two-dimensional plane runs diagonally from the lower left to the upper right, as we see in Figure 5, where the dashed red line is the second principal component axis.
 
 ```{r pc2b, fig.cap="The result of adding the second principal component axis to Figure 3. The first principal component axis is the solid red line and the second principal component axis is the dashed line."}
 scatter3D(x = proj$xrot, y = proj$yrot, z = proj$zrot, 
-          pch =19, col = "green", cex = 0.3, ticktype = "detailed",
-          phi = 10, theta = 40, bty = "b2",
+          pch =19, col = adjustcolor("green",alpha.f = 0.5), cex = 0.3, 
+          ticktype = "detailed",phi = 10, theta = 40, bty = "b2",
           xlim = c(-10,10), ylim = c(-10,10), zlim = c(-10,10))
 points3D(x = pc1$xrot, y = pc1$yrot, z = pc1$zrot, type = "l", col = "red",
          lwd = 3, lty =1, add = TRUE)
@@ -203,4 +203,6 @@ points3D(x = pc3$xrot, y = pc3$yrot, z = pc3$zrot, type = "l", col = "red",
          lwd = 3, lty = 3, add = TRUE)
 ```
 
+## Final Thoughts
 
+The data sets in LearnPCA---and, more importantly, the data sets from your teaching and research projects---likely have significantly more than three variables. Although you cannot plot and examine your data set as we did here for a system with three variables, the process remains the same: rotate the coordinate system to find the principal component axis that best explains the data in *n* dimensions, project the data onto the $n - 1$ dimensional surface that is perpendicular to your principal component axis, and repeat until you have replaced the original set of *n* axes with a set of *n* principal component axes.

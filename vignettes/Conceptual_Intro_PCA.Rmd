@@ -128,21 +128,9 @@ kable(DF, format = "html", digits = 0, caption = "Variance (signal) accounted fo
 The mathematics of PCA do not take into account anything about the samples other than the measured variables.  However, the researcher may well know something about the samples, for instance, they may fall into groups based on their origin.  If this is the case, the points on the score plot can be colored according to the group.  This may aid significantly in the interpretation.  Lucky for us, we can do this for the glass data set. The samples fell into four groups.  We'll re-do the score plot with colors corresponding to the known groups (Figure \@ref(fig:glassScores2)).
 
 ```{r glassScores2, fig.cap = "Score plot from PCA on the glass data set, with groups color-coded.", fig.width = 5, fig.height = 5}
-gr <- structure(c(1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L,
-1L, 1L, 1L, 1L, 1L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L,
-2L, 2L, 2L, 2L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L,
-1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 4L, 4L, 4L, 4L, 4L,
-4L, 4L, 3L, 3L, 3L, 3L, 3L, 3L, 3L, 3L, 3L, 3L, 4L, 4L, 4L, 1L,
-1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L,
-1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L,
-1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L,
-1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L,
-1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L,
-1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L,
-1L, 1L, 1L, 1L, 1L, 1L, 1L), .Label = c("Group.1", "Group.2",
-"Group.3", "Group.4"), class = "factor")
-plot(pca$x[,1], pca$x[,2], type = "p", col = gr, pch = 20,
-  xlab = "Principal Component 1", ylab = "Principal Component 2")
+data(glass.grp)
+plot(pca$x[,1], pca$x[,2], type = "p", col = glass.grp, pch = 20,
+     xlab = "Principal Component 1", ylab = "Principal Component 2")
 ```
 
 With this figure, we can see that the large group in the lower left corner (in black), which to the eye might have been two groups, is composed of related samples.
