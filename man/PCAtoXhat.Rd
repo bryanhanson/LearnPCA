@@ -14,7 +14,7 @@ the data set.  Must be no larger than the number of variables.}
 }
 \value{
 A matrix with the same dimensions as \code{pca$x} (the dimensions of the
-        original data set).
+original data set).
 }
 \description{
 This function allows one to reconstruct an approximation (\code{Xhat}) of the

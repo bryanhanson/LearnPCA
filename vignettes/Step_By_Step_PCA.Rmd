@@ -53,39 +53,58 @@ The steps to carry out PCA are:
 
 We'll discuss each of these steps in order.  For many or most types of analysis, one would just do the first three steps, which provides the scores and loadings that are usually the main result of interest.  In some cases, it is desirable to reconstruct the original data from the reduced data set.  For that task you needs steps four and five.
 
-To illustrate the process, we'll use a tiny portion of the `glass` data set, just two objects from each group, and three of the elements measured.  This eight sample, three variable data set will make it easier to visualize the steps as we go.  Table \@ref(tab:tinyGlass) shows the values, and we'll refer to this as the `tiny_glass` data set. It's important at this point to know that the samples are in rows, and the variables are in columns.
+To illustrate the process, we'll use a tiny portion of the `glass` data set, just two objects from each group, and three of the elements measured.  This eight sample, three variable data set will make it easier to visualize the steps as we go.  Table \@ref(tab:tiny_glass_raw_table) shows the values, and we'll refer to this as the `tg` data set for "tiny glass". It's important at this point to know that the samples are in rows, and the variables are in columns.  Figure \@ref(fig:plot-raw-data) is a plot of the values.
 
-```{r tinyGlass, results = "asis"}
+```{r prep-data, echo = TRUE}
+data(glass) # activate the glass data set from package chemometrics
+# select just a few samples (in rows) & variables (in columns):
+tg <- glass[c(1, 2, 23, 24, 67, 68, 57, 58), c("Na2O", "CaO", "SiO2")]
+str(tg)
+head(tg)
+```
+
+```{r  tiny-glass-raw-table, results = "asis"}
 data(glass)
 data(glass.grp)
 DF_raw <- as.data.frame(cbind(glass.grp, glass))
 names(DF_raw)[1] <- "group"
 DF_raw <- DF_raw[c(1, 2, 23, 24, 67, 68, 57, 58), c("group", "Na2O", "CaO", "SiO2")]
-kable(DF_raw, format = "html", row.names = FALSE, caption = "The tiny_glass data set. Values are percentages.") %>% kable_styling(c("striped", "bordered"))
+kable(DF_raw, format = "html", row.names = FALSE, caption = "The tg (tiny glass) data set. Values are percentages.") %>% kable_styling(c("striped", "bordered"))
+```
+
+```{r plot-raw-data, eval = TRUE, fig.cap = "A plot of the raw data values in `tg`."}
+Tib <- pivot_longer(as.data.frame(tg), everything())
+p <- ggplot(data = Tib, aes(x = name, y = value)) +
+  geom_point() +
+  labs(x = "", y = "percent")
+p
 ```
 
 ## Centering the data
 
-When we center the data, we take each column, corresponding to a particular variable, and subtract the mean of that column from each value in the column.  Thus, regardless of the original values in the column, the centered values are now expressed relative to the mean value.
+The first step is to center the data.
 
-```{r raw_data}
-Tib <- pivot_longer(DF_raw, !group)
-p <- ggplot(data = Tib, aes(x = name, y = value)) +
-  geom_point() +
-  labs(x = "", y = "percent")
+When we center the data, we take each column, corresponding to a particular variable, and subtract the mean of that column from each value in the column.  Thus, regardless of the original values in the column, the centered values are now expressed relative to the mean value.  The function `scale` can do this for us; `scale` actually can center and/or scale the data:
+
+```{r center-raw-data, echo = TRUE}
+tg_centered <- scale(tg, scale = FALSE) # see ?scale for defaults
 ```
 
-```{r centered_data}
-DF_cent <- as.data.frame(scale(DF, scale = FALSE))
-Tib <- pivot_longer(DF_cent, !group)
+Figure \@ref(fig:plot-centered-data) is a plot of the centered values.
+
+```{r plot-centered-data, eval = TRUE, fig.cap = "A plot of the centered data values in `tg`."}
+Tib <- pivot_longer(as.data.frame(tg_centered), everything())
 p <- ggplot(data = Tib, aes(x = name, y = value)) +
   geom_point() +
   labs(x = "", y = "centered percent")
+p
 ```
+
+Why do we center the data?  The easiest way to think about this is without centering there is an offset in the data, a bit like an intercept in a linear regression.  If we don't remove this offset, it adversely affects the results and their interpretation.  There is good discussion of this with illustrations at this [Cross Validated](https://stats.stackexchange.com/a/22331/26909) answer if you wish a bit more explanation.
 
 ## Scaling the data
 
-```{r scaled_data}
+```{r scaled-data, eval = FALSE}
 DF_scaled <- as.data.frame(scale(DF))
 Tib <- pivot_longer(DF_scaled, !group)
 p <- ggplot(data = Tib, aes(x = name, y = value)) +
