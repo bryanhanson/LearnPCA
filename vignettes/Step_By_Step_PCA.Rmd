@@ -33,13 +33,15 @@ rm(list = ls())
 suppressPackageStartupMessages(library("knitr"))
 suppressPackageStartupMessages(library("kableExtra"))
 suppressPackageStartupMessages(library("chemometrics"))
+suppressPackageStartupMessages(library("ggplot2"))
+suppressPackageStartupMessages(library("tidyr"))
 
 # Stuff specifically for knitr:
 opts_chunk$set(eval = TRUE, echo = FALSE, results = "hide")
 options(rmarkdown.html_vignette.check_title = FALSE)
 ```
 
-In this vignette we'll walk through the steps needed to carry out PCA.  If you are not familiar with PCA from a conceptual point of view, we strongly recommend you read "A Conceptual Introduction to PCA" vignette before proceeding.
+In this vignette we'll walk through the mathematical steps needed to carry out PCA.  If you are not familiar with PCA from a conceptual point of view, we strongly recommend you read the "Conceptual Introduction to PCA" vignette before proceeding.
 
 The steps to carry out PCA are:
 
@@ -47,24 +49,49 @@ The steps to carry out PCA are:
 1. Optionally, scale the data
 1. Carry out data reduction (the details are the subject of another vignette)
 1. Optionally, undo any scaling
-1. Optionally, under the centering
+1. Optionally, undo the centering
 
-We'll discuss each of these steps in order.  For many or most types of analysis, one will just do the first three steps, which provides the scores and loadings that are usually the main focus.  In some cases, it is desirable to reconstruct the original data from the reduced data set.  For that task you needs steps four and five.
+We'll discuss each of these steps in order.  For many or most types of analysis, one would just do the first three steps, which provides the scores and loadings that are usually the main result of interest.  In some cases, it is desirable to reconstruct the original data from the reduced data set.  For that task you needs steps four and five.
 
-To illustrate the process, we'll use a tiny portion of the `glass` data set, just two objects from each group, and two of the elements measured.  This eight sample, two variable data set will make it easier to visualize the steps as we go.  Table \@ref(tab:tinyGlass) shows the values, and we'll refer to this as the `tiny_glass` data set.
+To illustrate the process, we'll use a tiny portion of the `glass` data set, just two objects from each group, and three of the elements measured.  This eight sample, three variable data set will make it easier to visualize the steps as we go.  Table \@ref(tab:tinyGlass) shows the values, and we'll refer to this as the `tiny_glass` data set. It's important at this point to know that the samples are in rows, and the variables are in columns.
 
 ```{r tinyGlass, results = "asis"}
 data(glass)
 data(glass.grp)
-DF <- as.data.frame(cbind(glass.grp, glass))
-names(DF)[1] <- "group"
-DF <- DF[c(1, 2, 23, 24, 67, 68, 57, 58), c("group", "Na2O", "CaO")]
-kable(DF, format = "html", row.names = FALSE, caption = "The tiny_glass data set. Values are percentages.") %>% kable_styling(c("striped", "bordered"))
+DF_raw <- as.data.frame(cbind(glass.grp, glass))
+names(DF_raw)[1] <- "group"
+DF_raw <- DF_raw[c(1, 2, 23, 24, 67, 68, 57, 58), c("group", "Na2O", "CaO", "SiO2")]
+kable(DF_raw, format = "html", row.names = FALSE, caption = "The tiny_glass data set. Values are percentages.") %>% kable_styling(c("striped", "bordered"))
 ```
 
 ## Centering the data
 
+When we center the data, we take each column, corresponding to a particular variable, and subtract the mean of that column from each value in the column.  Thus, regardless of the original values in the column, the centered values are now expressed relative to the mean value.
+
+```{r raw_data}
+Tib <- pivot_longer(DF_raw, !group)
+p <- ggplot(data = Tib, aes(x = name, y = value)) +
+  geom_point() +
+  labs(x = "", y = "percent")
+```
+
+```{r centered_data}
+DF_cent <- as.data.frame(scale(DF, scale = FALSE))
+Tib <- pivot_longer(DF_cent, !group)
+p <- ggplot(data = Tib, aes(x = name, y = value)) +
+  geom_point() +
+  labs(x = "", y = "centered percent")
+```
+
 ## Scaling the data
+
+```{r scaled_data}
+DF_scaled <- as.data.frame(scale(DF))
+Tib <- pivot_longer(DF_scaled, !group)
+p <- ggplot(data = Tib, aes(x = name, y = value)) +
+  geom_point() +
+  labs(x = "", y = "centered percent")
+```
 
 ## Data Reduction
 
