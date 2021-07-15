@@ -53,14 +53,14 @@ The steps to carry out PCA are:
 
 We'll discuss each of these steps in order.  For many or most types of analysis, one would just do the first three steps, which provides the scores and loadings that are usually the main result of interest.  In some cases, it is desirable to reconstruct the original data from the reduced data set.  For that task you needs steps four and five.
 
-To illustrate the process, we'll use a tiny portion of the `glass` data set, just two objects from each group, and three of the elements measured.  This eight sample, three variable data set will make it easier to visualize the steps as we go.  Table \@ref(tab:tiny_glass_raw_table) shows the values, and we'll refer to this as the `tg` data set for "tiny glass". It's important at this point to know that the samples are in rows, and the variables are in columns.  Figure \@ref(fig:plot-raw-data) is a plot of the values.
+To illustrate the process, we'll use a tiny portion of the `glass` data set, just two objects from each group, and two of the elements measured.  This eight sample, two variable data set will make it easier to visualize the steps as we go.  Table \@ref(tab:tiny-glass-raw-table) shows the values, and we'll refer to this as the `tg` data set (for "tiny glass"). It's important at this point to know that the samples are in rows, and the variables are in columns.  Figure \@ref(fig:plot-raw-data) is a plot of the values; Figure \@ref(fig:plot-raw-data-2D) gives another view of the same data, in this case colored by the known group membership.
 
-```{r prep-data, echo = TRUE}
+```{r prep-data, echo = TRUE, results = "show"}
 data(glass) # activate the glass data set from package chemometrics
 # select just a few samples (in rows) & variables (in columns):
-tg <- glass[c(1, 2, 23, 24, 67, 68, 57, 58), c("Na2O", "CaO", "SiO2")]
+keep <- c(1, 2, 23, 24, 67, 68, 57, 58)
+tg <- glass[keep, c("Na2O", "SiO2")]
 str(tg)
-head(tg)
 ```
 
 ```{r  tiny-glass-raw-table, results = "asis"}
@@ -68,8 +68,8 @@ data(glass)
 data(glass.grp)
 DF_raw <- as.data.frame(cbind(glass.grp, glass))
 names(DF_raw)[1] <- "group"
-DF_raw <- DF_raw[c(1, 2, 23, 24, 67, 68, 57, 58), c("group", "Na2O", "CaO", "SiO2")]
-kable(DF_raw, format = "html", row.names = FALSE, caption = "The tg (tiny glass) data set. Values are percentages.") %>% kable_styling(c("striped", "bordered"))
+DF_raw <- DF_raw[c(1, 2, 23, 24, 67, 68, 57, 58), c("group", "Na2O", "SiO2")]
+kable(DF_raw, format = "html", row.names = FALSE, caption = "The tg (tiny glass) data set. Values are percentages.") %>% kable_styling(c("striped", "bordered"), full_width = FALSE)
 ```
 
 ```{r plot-raw-data, eval = TRUE, fig.cap = "A plot of the raw data values in `tg`."}
@@ -77,6 +77,14 @@ Tib <- pivot_longer(as.data.frame(tg), everything())
 p <- ggplot(data = Tib, aes(x = name, y = value)) +
   geom_point() +
   labs(x = "", y = "percent")
+p
+```
+
+```{r plot-raw-data-2D, eval = TRUE, fig.cap = "The raw data values of `tg` plotted against each other, showing the sample space."}
+tgg <- data.frame(tg, group = as.factor(glass.grp[keep]))
+p <- ggplot(data = tgg, aes(x = Na2O, y = SiO2, color = group)) +
+  geom_point() +
+  labs(x = "percent Na2O", y = "percent SiO2")
 p
 ```
 
@@ -90,7 +98,7 @@ When we center the data, we take each column, corresponding to a particular vari
 tg_centered <- scale(tg, scale = FALSE) # see ?scale for defaults
 ```
 
-Figure \@ref(fig:plot-centered-data) is a plot of the centered values.
+Figure \@ref(fig:plot-centered-data) is a plot of the centered values. Note how the values on the y-axis have changed compared to the raw data.
 
 ```{r plot-centered-data, eval = TRUE, fig.cap = "A plot of the centered data values in `tg`."}
 Tib <- pivot_longer(as.data.frame(tg_centered), everything())
@@ -104,16 +112,82 @@ Why do we center the data?  The easiest way to think about this is without cente
 
 ## Scaling the data
 
-```{r scaled-data, eval = FALSE}
-DF_scaled <- as.data.frame(scale(DF))
-Tib <- pivot_longer(DF_scaled, !group)
+Scaling the data is optional.  If the range of the variables (which remember are in the columns) are approximately the same, one generally does not scale the data.  However, if some variables have much larger ranges, they will dominate the PCA results.  You may want this to happen, or you may not.  Or, you might wish to try it both ways!
+
+To scale the data, we can use `scale` again:
+
+```{r scale-centered-data, echo = TRUE}
+tg_centered_scaled <- scale(tg_centered, center = FALSE, scale = TRUE) # see ?scale for defaults
+```
+
+The default scales the (already centered) columns by dividing them by their standard deviation. Figure \@ref(fig:plot-centered-scaled-data) shows the result. This has the effect of making the column standard deviations equal to one:
+
+```{r show-std-dev, echo = TRUE, results = "show"}
+apply(tg_centered_scaled, 2, sd)
+```
+
+Put another way, all variables are now on the same scale.  One downside of this scaling is that if you have variables that represent only noise, the contribution of these variables is the same as variables representing interesting features.
+
+```{r plot-centered-scaled-data, fig.cap = "Centered and scaled data."}
+Tib <- pivot_longer(as.data.frame(tg_centered_scaled), everything())
 p <- ggplot(data = Tib, aes(x = name, y = value)) +
   geom_point() +
-  labs(x = "", y = "centered percent")
+  labs(x = "", y = "centered & scaled percent")
+p
 ```
 
 ## Data Reduction
 
+Now we are ready for the actual data reduction process.  This is accomplished via the function `prcomp`.  `prcomp` can actually do the centering and scaling for you, should you prefer.  But in this case we have done those steps, so we can proceed directly.
+
+### Using `prcomp`
+
+```{r prcomp, echo = TRUE, results = "show"}
+pca <- prcomp(tg_centered_scaled)
+str(pca)
+```
+
+`str(pca)` shows the structure of `pca`, the object that holds the PCA results.  A key part is `pca$x`, which holds the scores.  Notice that it has eight rows and two columns, exactly like our original set of data.  Scores represent the original data but in a new "space".  Figure \@ref(fig:plot-scores) shows the scores.  Notice that there seems to be some grouping of the points.  Is this due to the groups?  PCA does not use any information about grouping, as after all, in many studies there may be no group information available. In fact, we might be hoping to discover hidden groups.  However, in this case we do know to which group each sample belongs, so we can use that information.  Figure \@ref(fig:plot-scores-groups) shows the plot.  One can see that the samples cluster according the the known groups.  But because there is so little data, we might feel like this is "wishful thinking".
+
+
+```{r plot-scores, fig.cap = "Scores."}
+p <- ggplot(data = as.data.frame(pca$x), aes(x = PC1, y = PC2)) +
+     geom_point()
+p
+```
+
+```{r plot-scores-groups, fig.cap = "Scores, colored by known group membership."}
+sg <- data.frame(pca$x, group = as.factor(glass.grp[keep]))
+p <- ggplot(data = sg, aes(x = PC1, y = PC2, color = group)) +
+     geom_point()
+p
+```
+
+### Using All the Data
+
+If you compare Figure \@ref(fig:plot-scores-groups) to Figure \@ref(fig:plot-raw-data-2D), it is broadly similar, though the points are positioned differently.  You might ask, what did we really accomplish here?  Well, because we are using just a tiny portion of the original data, the true power is obscured.  So, just to make the point, let's repeat everything we've done so far, except use all the data (180 samples and 13 variables). Figure \@ref(fig:plot-all-data) shows the first two principal component scores.  A similar plot of the raw data is not possible, because it is not 2D, there are 13 dimensions corresponding to the 13 variables.[^1]
+
+```{r process-all-data}
+pca_all <- prcomp(glass, scale. = TRUE)
+```
+
+```{r plot-all-data, fig.cap = "Score plot using all the data."}
+sg_all <- data.frame(pca_all$x, group = as.factor(glass.grp))
+p <- ggplot(data = sg_all, aes(x = PC1, y = PC2, color = group)) +
+     geom_point()
+p
+```
+
+### What Else is in the PCA Results?
+
+### Scree Plot
+
+### How is `princomp` Different?
+
+### How Does `prcomp` Actually Work?
+
 ## Undoing the scaling
 
 ## Undoing the centering
+
+[^1]: For the full data set, there are also 13 dimensions in the form of 13 principal components (`pca_all$x has dimensions` `r dim(pca_all$x)`).  But, each of the 13 principal components each has a bit of the original 13 raw variables in it, and showing only the first two principal components is meaningful.  How meaningful?  The scree plot will tell us.  Keep reading.
