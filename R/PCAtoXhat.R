@@ -53,7 +53,7 @@
 #' 	del<- ans - X
 #' 	rmsd[i] <- sqrt(sum(del^2)/length(del)) # RMSD
 #' }
-#' plot(rmsd, type = "b", ylim = c(0.0, max(val1)),
+#' plot(rmsd, type = "b",
 #'   main = "Root Mean Squared Deviation\nReconstructed - Original Data",
 #'   xlab = "No. of Components Retained", ylab = "RMSD")
 #' abline(h = 0.0, col = "pink")
