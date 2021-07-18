@@ -51,7 +51,7 @@
 #' for (i in 1:ntests) {
 #' 	ans <- XtoPCAtoXhat(X, i, sd)
 #' 	del<- ans - X
-#' 	rmds[i] <- sqrt(sum(del^2)/length(del)) # RMSD
+#' 	rmsd[i] <- sqrt(sum(del^2)/length(del)) # RMSD
 #' }
 #' plot(rmsd, type = "b", ylim = c(0.0, max(val1)),
 #'   main = "Root Mean Squared Deviation\nReconstructed - Original Data",
