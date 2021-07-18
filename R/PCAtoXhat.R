@@ -47,22 +47,16 @@
 #' # Plot to show the effect of increasing ncomp
 #' 
 #' ntests <- ncol(Z)
-#' val1 <- rep(NA_real_, ntests)
-#' val2 <- rep(NA_real_, ntests)
+#' rmsd <- rep(NA_real_, ntests)
 #' for (i in 1:ntests) {
-#' 	ans <- PCAtoXhat(pcaz, i)
-#' 	del <- ans - Z
-#' 	val1[i] <- sqrt(sum(del^2)/length(del)) # RMSD
-#' 	val2[i] <- mean(del)
+#' 	ans <- XtoPCAtoXhat(X, i, sd)
+#' 	del<- ans - X
+#' 	rmds[i] <- sqrt(sum(del^2)/length(del)) # RMSD
 #' }
-#' plot(val1, type = "b", ylim = c(0.0, max(val1)),
-#'   main = "Root Mean Squared Deviation", xlab = "No. of Components Retained", ylab = "RMSD")
+#' plot(rmsd, type = "b", ylim = c(0.0, max(val1)),
+#'   main = "Root Mean Squared Deviation\nReconstructed - Original Data",
+#'   xlab = "No. of Components Retained", ylab = "RMSD")
 #' abline(h = 0.0, col = "pink")
-#' me <- .Machine$double.eps
-#' plot(val2, type = "b", ylim = c(-me, me), main = "Residual Error",
-#'   xlab = "No. of Components Retained", ylab = "Mean Error")
-#' thres <- c(-me, 0.0, me)
-#' abline(h = thres, col = "pink") # all values below .Machine$double.eps
 #' 
 PCAtoXhat <- function(pca, ncomp = NULL) {
   # Check arguments
