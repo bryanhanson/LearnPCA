@@ -35,13 +35,14 @@ suppressPackageStartupMessages(library("kableExtra"))
 suppressPackageStartupMessages(library("chemometrics"))
 suppressPackageStartupMessages(library("ggplot2"))
 suppressPackageStartupMessages(library("tidyr"))
+suppressPackageStartupMessages(library("LearnPCA"))
 
 # Stuff specifically for knitr:
 opts_chunk$set(eval = TRUE, echo = FALSE, results = "hide")
 options(rmarkdown.html_vignette.check_title = FALSE)
 ```
 
-In this vignette we'll walk through the mathematical steps needed to carry out PCA.  If you are not familiar with PCA from a conceptual point of view, we strongly recommend you read the "Conceptual Introduction to PCA" vignette before proceeding.
+In this vignette we'll walk through the computational and mathematical steps needed to carry out PCA.  If you are not familiar with PCA from a conceptual point of view, we strongly recommend you read the "Conceptual Introduction to PCA" vignette before proceeding.
 
 The steps to carry out PCA are:
 
@@ -53,7 +54,7 @@ The steps to carry out PCA are:
 
 We'll discuss each of these steps in order.  For many or most types of analysis, one would just do the first three steps, which provides the scores and loadings that are usually the main result of interest.  In some cases, it is desirable to reconstruct the original data from the reduced data set.  For that task you needs steps four and five.
 
-To illustrate the process, we'll use a tiny portion of the `glass` data set, just two objects from each group, and two of the elements measured.  This eight sample, two variable data set will make it easier to visualize the steps as we go.  Table \@ref(tab:tiny-glass-raw-table) shows the values, and we'll refer to this as the `tg` data set (for "tiny glass"). It's important at this point to know that the samples are in rows, and the variables are in columns.  Figure \@ref(fig:plot-raw-data) is a plot of the values; Figure \@ref(fig:plot-raw-data-2D) gives another view of the same data, in this case colored by the known group membership.
+To illustrate the process, we'll use a tiny portion of the `glass` data set, just two objects from each group, and two of the elements measured.  This eight sample, two variable data set will make it easier to visualize the steps as we go.  Table \@ref(tab:tiny-glass-raw-table) shows the values, and we'll refer to this as the `tg` data set (for "tiny glass"). It's important at this point to state that the samples are in rows, and the variables are in columns.  Figure \@ref(fig:plot-raw-data) is a plot of the values; Figure \@ref(fig:plot-raw-data-2D) gives another view of the same data, in this case colored by the known group membership.
 
 ```{r prep-data, echo = TRUE, results = "show"}
 data(glass) # activate the glass data set from package chemometrics
@@ -88,7 +89,7 @@ p <- ggplot(data = tgg, aes(x = Na2O, y = SiO2, color = group)) +
 p
 ```
 
-## Centering the data
+## Step 1. Centering the Data
 
 The first step is to center the data.
 
@@ -110,9 +111,9 @@ p
 
 Why do we center the data?  The easiest way to think about this is without centering there is an offset in the data, a bit like an intercept in a linear regression.  If we don't remove this offset, it adversely affects the results and their interpretation.  There is good discussion of this with illustrations at this [Cross Validated](https://stats.stackexchange.com/a/22331/26909) answer if you wish a bit more explanation.
 
-## Scaling the data
+## Step 2. Scaling the Data
 
-Scaling the data is optional.  If the range of the variables (which remember are in the columns) are approximately the same, one generally does not scale the data.  However, if some variables have much larger ranges, they will dominate the PCA results.  You may want this to happen, or you may not.  Or, you might wish to try it both ways!
+Scaling the data is optional.  If the range of the variables (which, recall, are in the columns) are approximately the same, one generally does not scale the data.  However, if some variables have much larger ranges, they will dominate the PCA results.  You may want this to happen, or you may not.  Or, you might wish to try it both ways!
 
 To scale the data, we can use `scale` again:
 
@@ -120,7 +121,7 @@ To scale the data, we can use `scale` again:
 tg_centered_scaled <- scale(tg_centered, center = FALSE, scale = TRUE) # see ?scale for defaults
 ```
 
-The default scales the (already centered) columns by dividing them by their standard deviation. Figure \@ref(fig:plot-centered-scaled-data) shows the result. This has the effect of making the column standard deviations equal to one:
+The default `scale = TRUE` scales the (already centered) columns by dividing them by their standard deviation. Figure \@ref(fig:plot-centered-scaled-data) shows the result. This scaling has the effect of making the column standard deviations equal to one:
 
 ```{r show-std-dev, echo = TRUE, results = "show"}
 apply(tg_centered_scaled, 2, sd)
@@ -136,9 +137,9 @@ p <- ggplot(data = Tib, aes(x = name, y = value)) +
 p
 ```
 
-## Data Reduction
+## Step 3. Data Reduction
 
-Now we are ready for the actual data reduction process.  This is accomplished via the function `prcomp`.  `prcomp` can actually do the centering and scaling for you, should you prefer.  But in this case we have done those steps, so we can proceed directly.
+Now we are ready for the actual data reduction process.  This is accomplished via the function `prcomp`.  `prcomp` can actually do the centering and scaling for you, should you prefer.  But in this case we have already done those steps, so we choose the arguments to `prcomp` appropriately.[^2]
 
 ### Using `prcomp`
 
@@ -147,7 +148,9 @@ pca <- prcomp(tg_centered_scaled)
 str(pca)
 ```
 
-`str(pca)` shows the structure of `pca`, the object that holds the PCA results.  A key part is `pca$x`, which holds the scores.  Notice that it has eight rows and two columns, exactly like our original set of data.  Scores represent the original data but in a new "space".  Figure \@ref(fig:plot-scores) shows the scores.  Notice that there seems to be some grouping of the points.  Is this due to the groups?  PCA does not use any information about grouping, as after all, in many studies there may be no group information available. In fact, we might be hoping to discover hidden groups.  However, in this case we do know to which group each sample belongs, so we can use that information.  Figure \@ref(fig:plot-scores-groups) shows the plot.  One can see that the samples cluster according the the known groups.  But because there is so little data, we might feel like this is "wishful thinking".
+`str(pca)` shows the structure of `pca`, the object that holds the PCA results.  A key part is `pca$x`, which holds the scores.  Notice that it has eight rows and two columns, exactly like our original set of data. In general, `pca$x` is a matrix with dimensions `n` $\times$ `p` where `n` is the number of samples, and `p` is the number of variables.
+
+Scores represent the original data but in a new "space".  Figure \@ref(fig:plot-scores) shows the scores.  Notice that there seems to be some grouping of the points.  Is this due to the groups?  PCA does not use any information about grouping, after all, in many studies there may be no group information available. In fact, we might be hoping to discover hidden groups.  However, in this case we do know to which group each sample belongs, so we can use that information.  Figure \@ref(fig:plot-scores-groups) shows the plot.  One can see that the samples cluster according the the known groups.  But because there is so little data, we might feel like this is "wishful thinking".
 
 
 ```{r plot-scores, fig.cap = "Scores."}
@@ -165,7 +168,7 @@ p
 
 ### Using All the Data
 
-If you compare Figure \@ref(fig:plot-scores-groups) to Figure \@ref(fig:plot-raw-data-2D), it is broadly similar, though the points are positioned differently.  You might ask, what did we really accomplish here?  Well, because we are using just a tiny portion of the original data, the true power is obscured.  So, just to make the point, let's repeat everything we've done so far, except use all the data (180 samples and 13 variables). Figure \@ref(fig:plot-all-data) shows the first two principal component scores.  A similar plot of the raw data is not possible, because it is not 2D, there are 13 dimensions corresponding to the 13 variables.[^1]
+If you compare Figure \@ref(fig:plot-scores-groups) to Figure \@ref(fig:plot-raw-data-2D), it is broadly similar, though the points are positioned differently.  You might ask, what did we really accomplish here?  Well, because we are using just a tiny portion of the original data, the true power is obscured.  So, just to make the point, let's repeat everything we've done so far, except use all the data (180 samples and 13 variables). Figure \@ref(fig:plot-all-data) shows the first two principal component scores.  A similar plot of the raw data is not possible, because it is not two-dimensional, there are 13 dimensions corresponding to the 13 variables.[^1]
 
 ```{r process-all-data}
 pca_all <- prcomp(glass, scale. = TRUE)
@@ -180,14 +183,66 @@ p
 
 ### What Else is in the PCA Results?
 
+Earlier we did `str(pca)` to see what was stored in the results of our PCA.  We already considered `pca$x`.  The other elements are:
+
+* `pca$sdev` The standard deviations of the principal components.  These are used in the construction of a scree plot (coming up next).  The length of `pca$sdev` is equal to `p`, the number of variables in the data set.
+* `pca$rotation`  These are the loadings, stored in a square matrix with dimensions `p` $\times$ `p`
+* `pca$center` The values used for centering (either calculated by `prcomp` or passed as attributes from the results of `scale`).  There are `p` values.
+* `pca$scale` (either calculated by `prcomp` or passed as attributes from the results of `scale`).  There are `p` values.
+
+The returned information is sufficient to reconstruct the original data set (more on that later).
+
 ### Scree Plot
 
-### How is `princomp` Different?
+As mentioned in the *A Conceptual Introduction to PCA* vignette, a scree plot shows the amount of variance explained for each PC.  These values are simply the square of `pca$sdev` and can be plotted by calling `plot` on an object of class `prcomp`.  See Figure \@ref(fig:scree).  Remember, the more variance explained, the more information a PC carries.  From the plot, we can see the first PC explains three times the variance of the second PC.  Put another way, the first PC carries three times the information about the data set.
+
+```{r scree, echo = TRUE, fig.cap = "Scree plot."}
+plot(pca)
+```
 
 ### How Does `prcomp` Actually Work?
 
-## Undoing the scaling
+Please see the vignette *The Math Behind PCA* for full details.
 
-## Undoing the centering
+## Step 4. Undoing the Scaling
+
+Sometimes it is desirable to reconstruct the original data using a limited number of PCs.  If one reconstructs the original data using all the PCs, one gets the original data back.  However, for many data sets, the higher PCs don't represent useful information; effectively they are noise.  So using a limited number of PCs one can get back a reasonably faithful representation of the original data.  This is the basis for instance of some data compression strategies.
+
+To reconstruct all or part of the original data, one starts from the `prcomp` object.  If one wants to use the first `z` PCs to reconstruct the data, one takes the first `z` scores (in `pca$x`) and multiplies them by the tranpose of the first `z` columns of the rotation matrix (in `pca$rotation`).  In `R` this would be expressed as:
+
+```{r recon, eval = FALSE, echo = TRUE}
+Xhat <- pca$x[, 1:z] %*% t(pca$rotation[, 1:z])
+```
+
+where `Xhat` is the reconstructed original matrix.
+
+We are now ready to undo the scaling, which is accomplished by dividing the columns of `Xhat` by the scale factors previously employed.
+
+## Step 5. Undoing the Centering
+
+Finally, we take the unscaled `Xhat` and add back the values that we subtracted when centering.  If we use all the PCs, then the original data is reconstructed. If we use only a portion of the PCs, an approximation of the original data is returned.
+
+## Illustration
+
+Figure \@ref(fig:rmsd) shows how the approximation of the original data set (`glass`) improves as more and more PCs are included in the reconstruction.  The y-axis represents the error, as the root mean squared deviation of the original data minus the approximation.
+
+```{r reconstruction, results = "show"}
+ntests <- ncol(glass)
+rmsd <- rep(NA_real_, ntests)
+for (i in 1:ntests) {
+  ans <- XtoPCAtoXhat(glass, i, sd)
+  error <- ans - glass
+  rmsd[i] <- sqrt(sum(error^2)/length(error)) # RMSD
+}
+```
+
+```{r rmsd, fig.cap = "Reduction of error as the number of components included in the reconstruction increases."}
+plot(rmsd, type = "b", ylim = c(0.0, max(rmsd)),
+  xlab = "No. of Components Retained",
+  ylab = "Error")
+abline(h = 0.0, col = "pink")
+```
+
 
 [^1]: For the full data set, there are also 13 dimensions in the form of 13 principal components (`pca_all$x has dimensions` `r dim(pca_all$x)`).  But, each of the 13 principal components each has a bit of the original 13 raw variables in it, and showing only the first two principal components is meaningful.  How meaningful?  The scree plot will tell us.  Keep reading.
+[^2]: If one uses `scale` to center and/or scale your data, the results are tagged with attributes giving the values necessary to undo the calculation.  Take a look at `str(tg_centered_scale)` and you'll see these attributes.  Compare the values for `attributes(tg_centered_scaled)["scaled:center"]` to `colMeans(tg)`.  Importantly, if you use `scale` to do your centering and scaling, these attributes are understood by `prcomp` and are reflected in the returned data, even if `prcomp` didn't do the centering and scaling itself.  In other words, these two functions are designed to work together.
