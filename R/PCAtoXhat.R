@@ -65,8 +65,8 @@ PCAtoXhat <- function(pca, ncomp = NULL) {
 
   if (is.null(ncomp)) ncomp <- ncol(pca$x)
 
-  recon <- pca$x[, 1:ncomp]) %*% t(pca$rotation[, 1:ncomp])
-  if(pca$scale[1] != FALSE) recon <- scale(recon, center = FALSE, scale = 1/pca$scale)
-  if(pca$center[1] != FALSE) recon <- scale(recon, center = -pca$center, scale = FALSE)
-  recon
+  Xhat <- pca$x[, 1:ncomp] %*% t(pca$rotation[, 1:ncomp])
+  if(pca$scale[1] != FALSE) Xhat <- scale(Xhat, center = FALSE, scale = 1/pca$scale)
+  if(pca$center[1] != FALSE) Xhat <- scale(Xhat, center = -pca$center, scale = FALSE)
+  Xhat
 }
