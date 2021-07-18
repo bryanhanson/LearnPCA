@@ -6,3 +6,5 @@ gitignore.txt
 \\.Rhistory
 .github
 \\.DS_Store
+^.*\.Rproj$
+^\.Rproj\.user$

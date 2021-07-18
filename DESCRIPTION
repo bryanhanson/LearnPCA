@@ -1,8 +1,8 @@
 Package: LearnPCA
 Type: Package
 Title: Functions, Data Sets and Vignettes to Aid in Learning Principal Components Analysis (PCA)
-Version: 0.1.67
-Date: 2021-03-25
+Version: 0.1.69
+Date: 2021-07-08
 Authors@R: c(
     person("Bryan A.", "Hanson",
       role = c("aut", "cre"),
@@ -25,6 +25,8 @@ Suggests:
     knitr,
     tinytest,
     roxut,
-    bookdown
+    bookdown,
+    rmarkdown,
+    plot3D
 Roxygen: list(packages = "roxut", roclets = c("namespace", "rd", "roxut::tests_roclet"))
 RoxygenNote: 7.1.1
