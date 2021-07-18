@@ -64,7 +64,7 @@ jobs:
           done < <(Rscript -e 'writeLines(remotes::system_requirements("ubuntu", "18.04"))')
 
       - name: Install xquartz # needed for plot3D
-        if: runner.os == "macOS"
+        if: runner.os == 'macOS'
         run: |
           brew install --cask xquartz
 
