@@ -5,7 +5,7 @@
 #' original data
 #' using some or all of the principal components, starting from the results of PCA.
 #' Inspired by and follows \url{https://stackoverflow.com/a/23603958/633251} very closely.
-#' We are grateful for this post by StackOverflow contributor Marc in the box.
+#' We are grateful for this post by StackOverflow contributor "Marc in the box."
 #' 
 #' @param pca An object of class \code{prcomp}.  The results of data reduction by PCA.  
 #'
@@ -65,7 +65,7 @@ PCAtoXhat <- function(pca, ncomp = NULL) {
 
   if (is.null(ncomp)) ncomp <- ncol(pca$x)
 
-  recon <- as.matrix(pca$x[, 1:ncomp]) %*% t(as.matrix(pca$rotation[, 1:ncomp]))
+  recon <- pca$x[, 1:ncomp]) %*% t(pca$rotation[, 1:ncomp])
   if(pca$scale[1] != FALSE) recon <- scale(recon, center = FALSE, scale = 1/pca$scale)
   if(pca$center[1] != FALSE) recon <- scale(recon, center = -pca$center, scale = FALSE)
   recon
