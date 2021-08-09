@@ -5,7 +5,7 @@
 #' original data
 #' using some or all of the principal components, starting from the results of PCA.
 #' Inspired by and follows \url{https://stackoverflow.com/a/23603958/633251} very closely.
-#' We are grateful for this post by StackOverflow contributor Marc in the box.
+#' We are grateful for this post by StackOverflow contributor "Marc in the box."
 #' 
 #' @param pca An object of class \code{prcomp}.  The results of data reduction by PCA.  
 #'
@@ -47,22 +47,16 @@
 #' # Plot to show the effect of increasing ncomp
 #' 
 #' ntests <- ncol(Z)
-#' val1 <- rep(NA_real_, ntests)
-#' val2 <- rep(NA_real_, ntests)
+#' rmsd <- rep(NA_real_, ntests)
 #' for (i in 1:ntests) {
-#' 	ans <- PCAtoXhat(pcaz, i)
-#' 	del <- ans - Z
-#' 	val1[i] <- sqrt(sum(del^2)/length(del)) # RMSD
-#' 	val2[i] <- mean(del)
+#' 	ans <- XtoPCAtoXhat(X, i, sd)
+#' 	del<- ans - X
+#' 	rmsd[i] <- sqrt(sum(del^2)/length(del)) # RMSD
 #' }
-#' plot(val1, type = "b", ylim = c(0.0, max(val1)),
-#'   main = "Root Mean Squared Deviation", xlab = "No. of Components Retained", ylab = "RMSD")
+#' plot(rmsd, type = "b",
+#'   main = "Root Mean Squared Deviation\nReconstructed - Original Data",
+#'   xlab = "No. of Components Retained", ylab = "RMSD")
 #' abline(h = 0.0, col = "pink")
-#' me <- .Machine$double.eps
-#' plot(val2, type = "b", ylim = c(-me, me), main = "Residual Error",
-#'   xlab = "No. of Components Retained", ylab = "Mean Error")
-#' thres <- c(-me, 0.0, me)
-#' abline(h = thres, col = "pink") # all values below .Machine$double.eps
 #' 
 PCAtoXhat <- function(pca, ncomp = NULL) {
   # Check arguments
@@ -71,8 +65,8 @@ PCAtoXhat <- function(pca, ncomp = NULL) {
 
   if (is.null(ncomp)) ncomp <- ncol(pca$x)
 
-  recon <- as.matrix(pca$x[, 1:ncomp]) %*% t(as.matrix(pca$rotation[, 1:ncomp]))
-  if(pca$scale[1] != FALSE) recon <- scale(recon, center = FALSE, scale = 1/pca$scale)
-  if(pca$center[1] != FALSE) recon <- scale(recon, center = -pca$center, scale = FALSE)
-  recon
+  Xhat <- pca$x[, 1:ncomp] %*% t(pca$rotation[, 1:ncomp])
+  if(pca$scale[1] != FALSE) Xhat <- scale(Xhat, center = FALSE, scale = 1/pca$scale)
+  if(pca$center[1] != FALSE) Xhat <- scale(Xhat, center = -pca$center, scale = FALSE)
+  Xhat
 }
