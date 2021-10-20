@@ -1,0 +1,61 @@
+---
+title:  "The Math Behind PCA"
+author:
+  - name: David T. Harvey^1^, Bryan A. Hanson^2^
+    email: harvey@depauw.edu, hanson@depauw.edu
+    affiliation: |
+        1. Professor of Chemistry & Biochemistry, DePauw University, Greencastle IN USA.
+        2. Professor Emeritus of Chemistry & Biochemistry, DePauw University, Greencastle IN USA.
+date:  "`r Sys.Date()`"
+output:
+    bookdown::html_document2:
+      toc: yes
+      toc_depth: 2
+      fig_caption: yes
+      number_sections: false
+vignette: >
+    %\VignetteIndexEntry{LearnPCA 4: The Math Behind PCA}
+    %\VignetteKeywords{PCA}
+    %\VignettePackage{LearnPCA}
+    %\VignetteEngine{knitr::rmarkdown}
+    %\VignetteEncoding{UTF-8}
+#link-citations: yes
+#bibliography: PCA.bib
+#biblio-style: plain
+pkgdown:
+  as_is: true
+---
+
+```{r SetUp, echo = FALSE, eval = TRUE, results = "hide"}
+# R options & configuration:
+set.seed(9)
+rm(list = ls())
+suppressPackageStartupMessages(library("knitr"))
+suppressPackageStartupMessages(library("kableExtra"))
+suppressPackageStartupMessages(library("chemometrics"))
+
+# Stuff specifically for knitr:
+opts_chunk$set(eval = TRUE, echo = FALSE, results = "hide")
+options(rmarkdown.html_vignette.check_title = FALSE)
+```
+
+In this vignette we'll look closely at how the data reduction step in PCA is actually done.
+
+If you read the *Step By Step PCA* vignette, you know that the first steps in PCA are:
+
+1. Center the data by subtracting the column means from the columns.
+1. Optionally, scale the data column-wise.
+1. Carry out the reduction step, typically using `prcomp`.
+
+For a data matrix with $n$ rows of observations/samples and $p$ variables/features, the results are the
+
+* scores matrix with $n$ rows and $p$ columns, where each column corresponds to a principal component and the values are the scores, namely the positions of the samples in the new space.
+* loadings matrix with $p$ rows and $p$ columns, which represent the contributions of each variable to each principal component.
+
+In the *Step By Step PCA* vignette we also showed how to reconstruct or approximate the original data set by multiplying the scores by the loadings.
+
+
+```{r PCA-Matrices, results = "show"}
+knitr::include_graphics("Graphics/PCA_Matrices.png")
+```
+How do we do this in practice... numerical accuracy, edge cases, etc
