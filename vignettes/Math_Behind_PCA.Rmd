@@ -13,15 +13,16 @@ output:
       toc_depth: 2
       fig_caption: yes
       number_sections: false
+      mathjax: default
 vignette: >
     %\VignetteIndexEntry{LearnPCA 4: The Math Behind PCA}
     %\VignetteKeywords{PCA}
     %\VignettePackage{LearnPCA}
     %\VignetteEngine{knitr::rmarkdown}
     %\VignetteEncoding{UTF-8}
-#link-citations: yes
-#bibliography: PCA.bib
-#biblio-style: plain
+link-citations: yes
+bibliography: PCA.bib
+biblio-style: plain
 pkgdown:
   as_is: true
 ---
@@ -34,14 +35,20 @@ suppressPackageStartupMessages(library("knitr"))
 suppressPackageStartupMessages(library("kableExtra"))
 suppressPackageStartupMessages(library("chemometrics"))
 
+desc <- packageDescription("LearnPCA")
+
 # Stuff specifically for knitr:
-opts_chunk$set(eval = TRUE, echo = FALSE, results = "hide")
+opts_chunk$set(eval = TRUE, echo = TRUE)
 options(rmarkdown.html_vignette.check_title = FALSE)
 ```
 
+This vignette is based upon `LearnPCA` version `r desc$Version`.
+
 In this vignette we'll look closely at how the data reduction step in PCA is actually done.
 
-If you read the *Step By Step PCA* vignette, you know that the first steps in PCA are:
+## Introduction
+
+If you have read the *Step By Step PCA* vignette, you know that the first steps in PCA are:
 
 1. Center the data by subtracting the column means from the columns.
 1. Optionally, scale the data column-wise.
@@ -49,13 +56,205 @@ If you read the *Step By Step PCA* vignette, you know that the first steps in PC
 
 For a data matrix with $n$ rows of observations/samples and $p$ variables/features, the results are the
 
-* scores matrix with $n$ rows and $p$ columns, where each column corresponds to a principal component and the values are the scores, namely the positions of the samples in the new space.
+* scores matrix with $n$ rows and $p$ columns, where each column corresponds to a principal component and the values are the scores, namely the positions of the samples in the new abstract space.
 * loadings matrix with $p$ rows and $p$ columns, which represent the contributions of each variable to each principal component.
 
 In the *Step By Step PCA* vignette we also showed how to reconstruct or approximate the original data set by multiplying the scores by the loadings.
 
+In Figure \@ref(fig:PCA-Matrices) we show one way to represent the relationships between the original data matrix ($\mathbf{X}$), the loadings matrix ($\mathbf{L}$) and the scores matrix ($\mathbf{S}$).
 
-```{r PCA-Matrices, results = "show"}
+```{r PCA-Matrices, echo = FALSE, results = "show", fig.cap = "One way to look at the matrix algebra behind PCA.", out.width = "75%", fig.align = "center"}
+
 knitr::include_graphics("Graphics/PCA_Matrices.png")
 ```
-How do we do this in practice... numerical accuracy, edge cases, etc
+
+Figure \@ref(fig:PCA-Matrices) demonstrates that if we multiply the original data matrix ($\mathbf{X}$) by the loadings matrix ($\mathbf{L}$), we get the scores matrix ($\mathbf{S}$).  But, if all we have is the original data matrix, how do we get the other two matrices?  If we think of this as an algebra problem, we seem to be missing some variables and computing the loadings and scores matrices seems like it would be impossible, as there is not enough information.   However, this is not a algebra problem, it is a *linear* algebra problem (linear algebra being the study of matrices).  It is possible to determine the answer, even though we seem to be missing information, as we shall see shortly.  The key is in something called matrix decompositions.[^1]
+
+## Matrix Decompositions
+
+In a moment we are going to look at two matrix decompositions in detail, the singular value decomposition (SVD) and the eigenvalue decomposition. These decompositions are representative of roughly a dozen [matrix decompositions](https://en.wikipedia.org/wiki/Matrix_decomposition).  A matrix decomposition or factorization breaks a matrix into pieces in such a way as to extract information and solve problems.  The SVD however, is probably the most powerful decomposition there is -- we will make extensive use of  this insightful [Twitter thread](https://twitter.com/WomenInStat/status/1285610321747611653) by Dr. Daniela Witten of the University of Washington.
+
+A short note however, before we dig deeper.  Since we are using a computer to solve this problem, we need to keep in mind that working on a computer is not quite the same as solving a problem using pencil and paper. On the computer, we usually have choices of algorithms to solve problems.  Some algorithms are more robust than others.  Algorithms need to take into account edge cases where the computation can become unstable.  For instance, computers can only store numbers to a certain level of accuracy: when is "very small" actually zero in practice?  We need to know this so we don't try to divide by zero.  This is only one example of problems that can arise when using a computer to calculate values.
+
+Finally, the two decompositions we are going to look at have something in common.  Our approach will be to explain each without reference to the other, as this facilitates digestion and understanding of each (it doesn't seem fair to require you to understand the 2nd one you haven't read while trying to understand the first one).  Then, if you are still with us, we'll look at what they have in common.
+
+## The SVD Decomposition
+
+The SVD decomposition breaks the original data matrix $\mathbf{X}$ into three matrices (dimensions in parentheses):[^5]
+
+\begin{equation}
+(\#eq:svd1)
+\mathbf{X}_{(n \ \times \ p)} = \mathbf{U}_{(n \ \times \ p)}\mathbf{D}_{(p \ \times \ p)}\mathbf{V}_{(p \ \times \ p)}^T
+\end{equation}
+
+And here's the equation without matrix dimensions. Remember that $\mathbf{V}^T$ means "take the transpose" of $\mathbf{V}$, interchanging rows and columns.
+
+\begin{equation}
+(\#eq:svd2)
+\mathbf{X} = \mathbf{U}\mathbf{D}\mathbf{V}^T
+\end{equation}
+
+What are these matrices?
+
+* The columns of $\mathbf{U}$ will contain the PCA scores
+* $\mathbf{D}$ is a diagonal matrix, which means all non-diagonal elements are zero.  The diagonal contains positive values sorted from largest to smallest.  These are called the singular values.
+* The columns of $\mathbf{V}$ will contain the PCA loadings
+
+In addition, $\mathbf{U}$ and $\mathbf{V}$ are semi-orthogonal matrices,[^4] which means that when pre-multiplied by their transpose one gets the identity matrix:
+
+\begin{equation}
+(\#eq:svd3)
+\mathbf{U}^{T}\mathbf{U} = \mathbf{I}
+\end{equation}
+
+\begin{equation}
+(\#eq:svd4)
+\mathbf{V}^{T}\mathbf{V} = \mathbf{I}
+\end{equation}
+
+We'll use this fact to great advantage when we implement a simple version of SVD in a moment.
+
+Now that we know what these matrices are, we can look into how to compute them.  As mentioned earlier, the algorithm is everything here.  As a simple example, we'll look at an approach called "power iteration". This is by no means the best approach, but it is simple enough that we mere mortals can understand the idea.  First, let's generate some random data. In this simple example we are only going to compute the first principal component, so $V$ is a vector, not a matrix (one can still do matrix multiplication with a vector).  Note that the dimensions of the variables are chosen so that we can matrix multiply them (they are *conformable* matrices).
+
+```{r power1}
+set.seed(30)
+X <- matrix(rnorm(100*50), ncol = 50)
+V <- rnorm(50)
+```
+
+Next, we'll use the built-in function `svd` to compute the "official" answer for comparison to our results.
+
+```{r power2}
+X_svd <- svd(X)
+```
+
+And now we'll do a simple iterative calculation that computes the values of `U` and `V`.[^2]  The "for" loop runs for 50 iterations, and as it does the values of `U` and `V` are continuously updated (and get closer to the actual answer).
+
+```{r power3}
+for (iter in 1:50) {
+  U <- X %*% V # Step 1
+  U <- U/sqrt(sum(U^2)) # Step 2
+  V <- t(X) %*% U # Step 3
+  V <- V/sqrt(sum(V^2)) # Step 4
+ if ((iter %% 10) == 0L) { # report every 10 steps; print the correlation between
+   cat("\nIteration", iter, "\n") # the current U or V and the actual values from SVD
+   cat("\tcor for V:", sprintf("%f", cor(X_svd$v[,1], V)), "\n")
+   cat("\tcor for U:", sprintf("%f", cor(X_svd$u[,1], U)), "\n")
+   }
+}
+```
+
+Notice that there is no $\mathbf{D}$ matrix in this calculation.  This is because we are only calculating a single principal component, and therefore in this case $\mathbf{D} = \mathbf{I}$.  In other words $\mathbf{D}$ is a $1 \times 1$ identity matrix, and we can drop it from the calculation.  With that simplification, we can look at each step:
+
+### Step 1
+
+The first step is to multiply the data matrix `X` by the initial estimate for `V` (remember at each iteration the estimate gets better and better).  How does this relate to Equation \@ref(eq:svd2)? If we drop $\mathbf{D}$ from equation \@ref(eq:svd2) we have:
+
+\begin{equation}
+(\#eq:svd5)
+\mathbf{X} = \mathbf{U}\mathbf{V}^T
+\end{equation}
+
+If we right multiply both sides by $\mathbf{V}$ we have:
+
+\begin{equation}
+(\#eq:svd6a)
+\mathbf{X}\mathbf{V} = \mathbf{U}\mathbf{V}^T\mathbf{V}
+\end{equation}
+
+which evaluates to:
+
+\begin{equation}
+(\#eq:svd6b)
+\mathbf{X}\mathbf{V} = \mathbf{U}\mathbf{I} = \mathbf{U}
+\end{equation}
+
+because $V$ is a semi-orthogonal matrix. This is the line in the code.
+
+### Step 2
+
+In this step we normalize (regularize, or scale) the estimate of `U`, by dividing by the square root of the sum of the squared values in `U`.[^6] This has the practical effect of keeping the values in `U` from becoming incredibly large and possibly overflowing memory.[^7]
+
+### Step 3
+
+Here we update our estimate of `V`.  Similar to Step 1, we can rearrange Equation \@ref(eq:svd2), this time by dropping $\mathbf{D}$, pre-multiplying both sides by $\mathbf{U}^T$ to give an identity matrix which drops out, and then transposing both sides:
+
+\begin{equation}
+(\#eq:svd7)
+\mathbf{U}^T\mathbf{X} = \mathbf{U}^T\mathbf{U}\mathbf{V}^T
+\end{equation}
+
+\begin{equation}
+(\#eq:svd8)
+\mathbf{U}^T\mathbf{X} = \mathbf{I}\mathbf{V}^T
+\end{equation}
+
+\begin{equation}
+(\#eq:svd9)
+\mathbf{U}^T\mathbf{X} = \mathbf{V}^T
+\end{equation}
+
+\begin{equation}
+(\#eq:svd10)
+(\mathbf{U}^T\mathbf{X})^T = (\mathbf{V}^T)^T
+\end{equation}
+
+\begin{equation}
+(\#eq:svd11)
+\mathbf{X}^T\mathbf{U} = \mathbf{V}
+\end{equation}
+
+
+which is the operation we see in the code snippet.[^3]
+
+### Step 4
+
+Step 4 is the same operation as in Step 2, but on `V`.
+
+Essentially what this algorithm is doing is alterating between the two calculations (for `U`, steps 1 & 2, then for `V` steps 3 & 4), with `X` constant.  At each iteration these estimates improve, moving from the initial random value of `V` towards the best answer for both `V`and `U`.
+
+### Comparison to the Answer from `svd`
+
+You'll notice that the code snippet above has a few lines to report the progress of the calculation.  Every 10 steps the correlation between the current value of `V` with the official answer contained in `X_svd$v` is displayed (and the same for `U`).  As you can see from the output the correlation is not bad after 10 iterations and only improves with more iterations.
+
+Looking at it from a different point of view, let's compare the absolute values of the two different answers:
+
+```{r comp1}
+mean(abs(V) - abs(X_svd$v[,1]))
+```
+
+```{r comp2}
+mean(abs(U) - abs(X_svd$u[,1]))
+```
+
+As you can see, the values are essentially the same except for sign.  TODO: discuss why
+
+### Comparison to the Answer from `prcomp`
+
+We have seen that our estimate of `U` and `V` compared well to the results from the function `svd`.  In practice users would probably use `prcomp` for PCA.  So let's compare to the results from `prcomp`.
+
+```{r}
+PCA <- prcomp(X)
+mean(U - PCA$x[,1])
+mean(V- PCA$rotation[,1])
+```
+
+These mean differences are small but certainly not zero. This is because our values for `V` and `U` were obtained using a simplified algorithm that calculated only the first PC, so we don't expect a mean difference of zero since `prcomp` uses a more sophisticated algorithm. TODO: verify this argument is correct
+
+## The Eigen Decomposition
+
+Coming soon...
+
+## The Relationship Between SVD and Eigen Decomposition
+
+Coming soon...
+
+## References
+
+[^1]: If you need an introduction to linear algebra, there are many good books, but we particularly recommend @Singh2014 or @Savov2020.
+[^2]: When refering to the mathematical equations, we'll use $\mathbf{X}$, but for the values we compute, we'll use `X`.
+[^3]: The operation from equation \@ref(eq:svd10) to \@ref(eq:svd11) is based upon the following property in linear algebra: $(AB)^T$ = $B^TA^T$.
+[^4]: For semi-orthogonal matrices (or orthogonal matrices for that matter), $A^TA = AA^T = I$.  Semi-orthogonal matrices are rectangular.  If $n > p$, the dot product of any column with itself is 1, and the dot product of any column with a different column is zero.  If $n < p$, then it is the rows rather than the columns that are relevant.  See the [Wikipedia article](https://en.wikipedia.org/wiki/Semi-orthogonal_matrix).
+[^5]: This treatment is the "compact SVD" [case](https://en.wikipedia.org/wiki/Singular_value_decomposition).
+[^6]: This is the $L^2$ or Euclidean norm, generally interpreted as a length.
+[^7]: As the values grow larger and larger, first we lose precision and eventually the numbers become too big to store.
