@@ -33,41 +33,239 @@ rm(list = ls())
 suppressPackageStartupMessages(library("knitr"))
 suppressPackageStartupMessages(library("kableExtra"))
 suppressPackageStartupMessages(library("chemometrics"))
+suppressPackageStartupMessages(library("ggplot2"))
+suppressPackageStartupMessages(library("tidyr"))
+suppressPackageStartupMessages(library("LearnPCA"))
+suppressPackageStartupMessages(library("ade4"))
 
 # Stuff specifically for knitr:
 opts_chunk$set(eval = TRUE, echo = FALSE, results = "hide")
 options(rmarkdown.html_vignette.check_title = FALSE)
 ```
 
-In this vignette we'll walk through the steps needed to carry out PCA.  If you are not familiar with PCA from a conceptual point of view, we strongly recommend you read "A Conceptual Introduction to PCA" vignette before proceeding.
+In this vignette we'll walk through the computational and mathematical steps needed to carry out PCA.  If you are not familiar with PCA from a conceptual point of view, we strongly recommend you read the "Conceptual Introduction to PCA" vignette before proceeding.
 
 The steps to carry out PCA are:
 
 1. Center the data
 1. Optionally, scale the data
-1. Carry out data reduction (the details are the subject of another vignette)
-1. Optionally, undo any scaling
-1. Optionally, under the centering
+1. Carry out data reduction
+1. Optionally, undo any scaling, likely using a limited number of PCs
+1. Optionally, undo the centering, likely using a limited number of PCs
 
-We'll discuss each of these steps in order.  For many or most types of analysis, one will just do the first three steps, which provides the scores and loadings that are usually the main focus.  In some cases, it is desirable to reconstruct the original data from the reduced data set.  For that task you needs steps four and five.
+We'll discuss each of these steps in order.  For many or most types of analysis, one would just do the first three steps, which provides the scores and loadings that are usually the main result of interest.  In some cases, it is desirable to reconstruct the original data from the reduced data set.  For that task you needs steps four and five.
 
-To illustrate the process, we'll use a tiny portion of the `glass` data set, just two objects from each group, and two of the elements measured.  This eight sample, two variable data set will make it easier to visualize the steps as we go.  Table \@ref(tab:tinyGlass) shows the values, and we'll refer to this as the `tiny_glass` data set.
+To illustrate the process, we'll use a portion of a data set containing measurements of metals in the estuary shared by the Tinto and Odiel rivers in southwest Spain.  The full data set is found in the package `ade4`; we'll use data for just a couple of elements and a few samples.  This 16 sample, two variable data set will make it easier to visualize the steps as we go.  Table \@ref(tab:metals-raw-table) shows the values, and we'll refer to this as the `FeCu` data set (since we are using the data for iron and copper). It's important at this point to remember that the samples are in rows, and the variables are in columns.  Also, notice that the values for Fe2O3 are in percentages, but the values for Cu are in ppm (parts per million).
 
-```{r tinyGlass, results = "asis"}
-data(glass)
-data(glass.grp)
-DF <- as.data.frame(cbind(glass.grp, glass))
-names(DF)[1] <- "group"
-DF <- DF[c(1, 2, 23, 24, 67, 68, 57, 58), c("group", "Na2O", "CaO")]
-kable(DF, format = "html", row.names = FALSE, caption = "The tiny_glass data set. Values are percentages.") %>% kable_styling(c("striped", "bordered"))
+Figure \@ref(fig:plot-raw-dotplot) is a plot showing the range of the values; Figure \@ref(fig:plot-raw-data-2D) gives another view of the same data, plotting the concentrations of copper against iron.
+
+```{r prep-data, echo = TRUE, eval = TRUE, results = "show"}
+data(tintoodiel) # activate the data set from package ade4
+TO <- tintoodiel$tab # for convenience, rename the element with the data
+# select just a few samples (in rows) & variables (in columns)
+# from the tab element
+FeCu <- TO[28:43,c("Fe2O3", "Cu")]
+summary(FeCu)
 ```
 
-## Centering the data
+```{r  metals-raw-table, results = "asis"}
+kable(FeCu, format = "html", row.names = FALSE, caption = "The FeCu data set. Values for Fe2O3 are percentages, those for Cu are ppm.") %>% kable_styling(c("striped", "bordered"), full_width = FALSE)
+```
 
-## Scaling the data
+```{r plot-raw-dotplot, eval = TRUE, fig.cap = "The range of the raw data values in `FeCu`."}
+Tib <- pivot_longer(FeCu, everything())
+p <- ggplot(data = Tib, aes(x = name, y = value)) +
+  geom_point() +
+  labs(x = "", y = "Values (Fe2O3 in percent, Cu in ppm)")
+p
+```
 
-## Data Reduction
+```{r plot-raw-data-2D, eval = TRUE, fig.cap = "The relationship between the raw data values in `FeCu`."}
 
-## Undoing the scaling
+p <- ggplot(data = FeCu, aes(x = Fe2O3, y = Cu)) +
+  geom_point() +
+  labs(x = "Fe2O3 (percent)", y = "Cu (ppm)")
+p
+```
 
-## Undoing the centering
+## Step 1. Centering the Data
+
+The first step is to center the data.
+
+When we center the data, we take each column, corresponding to a particular variable, and subtract the mean of that column from each value in the column.  Thus, regardless of the original values in the column, the centered values are now expressed relative to the mean value for that column.  The function `scale` can do this for us; `scale` actually can center and/or scale the data:
+
+```{r center-raw-data, echo = TRUE}
+FeCu_centered <- scale(FeCu, scale = FALSE, center = TRUE) # see ?scale for defaults
+```
+
+Figure \@ref(fig:plot-centered-data) is a plot of the centered values. Note how the values on the y-axis have changed compared to the raw data.  It's apparent that the ranges of the chosen variables are quite different.  This is a classic case where scaling is desirable, otherwise the variable with higher absolute values will dominate the PCA results.
+
+```{r plot-centered-data, eval = TRUE, fig.cap = "Centered data values in `FeCu`."}
+Tib <- pivot_longer(as.data.frame(FeCu_centered), everything())
+p <- ggplot(data = Tib, aes(x = name, y = value)) +
+  geom_point() +
+  labs(x = "", y = "centered values")
+p
+```
+
+Why do we center the data?  The easiest way to think about this is without centering there is an offset in the data, a bit like an intercept in a linear regression.  If we don't remove this offset, it adversely affects the results and their interpretation.  There is good discussion of this with illustrations at this [Cross Validated](https://stats.stackexchange.com/a/22331/26909) answer if you wish a bit more explanation.
+
+## Step 2. Scaling the Data
+
+Scaling the data is optional.  If the range of the variables (which, recall, are in the columns) are approximately the same, one generally does not scale the data.  However, if some variables have much larger ranges, they will dominate the PCA results.  You may want this to happen, or you may not, and in many cases it is wise to try different scaling options.  As mentioned above, the `FeCu` data set should be scaled to avoid the Fe2O3 values dominating the analysis, which is primarily due to the different units/scales used to report the metal concentrations.
+
+To scale the data, we can use `scale` again:
+
+```{r scale-centered-data, echo = TRUE}
+FeCu_centered_scaled <- scale(FeCu_centered, center = FALSE, scale = TRUE) # see ?scale for defaults
+```
+
+The default `scale = TRUE` scales the (already centered) columns by dividing them by their standard deviation. Figure \@ref(fig:plot-centered-scaled-data) shows the result. This scaling has the effect of making the column standard deviations equal to one:
+
+```{r show-std-dev, echo = TRUE, results = "show"}
+apply(FeCu_centered_scaled, 2, sd)
+```
+
+Put another way, all variables are now on the same scale.  One downside of this scaling is that if you have variables that represent only noise, the contribution of these variables is the same as variables representing interesting features.
+
+```{r plot-centered-scaled-data, fig.cap = "Centered and scaled data."}
+Tib <- pivot_longer(as.data.frame(FeCu_centered_scaled), everything())
+p <- ggplot(data = Tib, aes(x = name, y = value)) +
+  geom_point() +
+  labs(x = "", y = "centered & scaled values")
+p
+```
+
+## Step 3. Data Reduction
+
+Now we are ready for the actual data reduction process.  This is accomplished via the function `prcomp`.  `prcomp` can actually do the centering and scaling for you, should you prefer.  But in this case we have already done those steps, so we choose the arguments to `prcomp` appropriately.[^2]
+
+### Using `prcomp`
+
+```{r prcomp, echo = TRUE, results = "show"}
+pca_FeCu <- prcomp(FeCu_centered_scaled)
+str(pca_FeCu)
+```
+
+`str(pca_FeCu)` shows the structure of `pca_FeCu`, the object that holds the PCA results.  A key part is `pca_FeCu$x`, which holds the scores.  Notice that it has 16 rows and two columns, exactly like our original set of data. In general, `pca$x` will be a matrix with dimensions `n` $\times$ `p` where `n` is the number of samples, and `p` is the number of variables.
+
+Scores represent the original data but in a new abstract space.  Figure \@ref(fig:plot-scores) shows the scores.
+
+
+```{r plot-scores, fig.cap = "Scores."}
+p <- ggplot(data = as.data.frame(pca_FeCu$x), aes(x = PC1, y = PC2)) +
+     geom_point()
+p
+```
+
+### Using All the Data
+
+If you compare Figure \@ref(fig:plot-scores) to Figure \@ref(fig:plot-raw-data-2D), it looks broadly similar, but the points are rotated and the scales are different.  You might ask, what did we really accomplish here?  Well, because we are using just a tiny portion of the original data, the multi-dimensional nature is obscured.  So, just to make the point, let's repeat everything we've done so far, except use all the data (52 samples and 16 variables). Figure \@ref(fig:plot-all-data) shows the first two principal component scores.  A similar plot of the raw data is not possible, because it is not two-dimensional: there are 16 dimensions corresponding to the 16 variables.[^1]
+
+```{r process-all-data, echo = TRUE}
+pca_TO <- prcomp(TO, scale. = TRUE)
+```
+
+```{r plot-all-data, fig.cap = "Score plot using all the data."}
+sg_all <- data.frame(pca_TO$x)
+p <- ggplot(data = sg_all, aes(x = PC1, y = PC2)) +
+     geom_point()
+p
+```
+
+### What Else is in the PCA Results?
+
+Earlier we did `str(pca)` to see what was stored in the results of our PCA.  We already considered `pca$x`.  The other elements are:
+
+* `pca$sdev` The standard deviations of the principal components.  These are used in the construction of a scree plot (coming up next).  The length of `pca$sdev` is equal to `p`, the number of variables in the data set.
+* `pca$rotation`  These are the loadings, stored in a square matrix with dimensions `p` $\times$ `p`
+* `pca$center` The values used for centering (either calculated by `prcomp` or passed as attributes from the results of `scale`).  There are `p` values.
+* `pca$scale` (either calculated by `prcomp` or passed as attributes from the results of `scale`).  There are `p` values.
+
+The returned information is sufficient to reconstruct the original data set (more on that later).
+
+### Scree Plot
+
+As mentioned in the *A Conceptual Introduction to PCA* vignette, a scree plot shows the amount of variance explained for each PC.  These values are simply the square of `pca$sdev` and can be plotted by calling `plot` on an object of class `prcomp`.  See Figure \@ref(fig:scree).  Remember, the more variance explained, the more information a PC carries.  From the plot, we can see that both variables contribute about equally to separation in the score plot.[^4]
+
+```{r scree, echo = TRUE, fig.cap = "Scree plot."}
+plot(pca_FeCu)
+```
+
+### How Does `prcomp` Actually Work?
+
+Please see the vignette *The Math Behind PCA* for full details.
+
+## Step 4. Undoing the Scaling
+
+Sometimes it is desirable to reconstruct the original data using a limited number of PCs.  If one reconstructs the original data using all the PCs, one gets the original data back.  However, for many data sets, the higher PCs don't represent useful information; effectively they are noise.  So using a limited number of PCs one can get back a reasonably faithful representation of the original data.  This is the basis for instance of some data compression strategies.
+
+To reconstruct all or part of the original data, one starts from the object returned by `prcomp`.  If one wants to use the first `z` PCs to reconstruct the data, one takes the first `z` scores (in `pca$x`) and multiplies them by the tranpose of the first `z` columns of the rotation matrix (in `pca$rotation`).  In `R` this would be expressed for the `pca_FeCu` data set as:
+
+```{r recon, eval = FALSE, echo = TRUE}
+Xhat <- pca_FeCu$x[, 1:z] %*% t(pca_FeCu$rotation[, 1:z])
+```
+
+where `Xhat` is the reconstructed[^5] original matrix.[^3]
+
+We are now ready to undo the scaling, which is accomplished by dividing the columns of `Xhat` by the scale factors previously employed.  Once again the `scale` function makes it easy to operate on the columns of the matrix.
+
+```{r unscale, eval = FALSE, echo = TRUE}
+Xhat <- scale(Xhat, center = FALSE, scale = 1/pca_FeCu$scale)
+```
+
+## Step 5. Undoing the Centering
+
+Finally, we take the unscaled `Xhat` and add back the values that we subtracted when centering, again using `scale`.
+
+```{r uncenter, eval = FALSE, echo = TRUE}
+Xhat <- scale(Xhat, center =  -pca_FeCu$center, scale = FALSE)
+```
+
+One might think that `scale` can handle both the unscaling and re-centering processes at the same time.  This is not the case, as `scale` does any (un)centering first, then scales.  We need to take care of scaling first, and then the centering second.  Thus in the forward direction, `scale` can handle both tasks simultaneously, but in the reconstruction direction, we need to take it step-wise.
+
+## Proof of Perfect Reconstruction
+
+If we use only a portion of the PCs, an approximation of the original data is returned. If we use all the PCs, then the original data is reconstructed. Let's make sure this is true for the full `tintoodiel` data set.
+
+```{r full-recon-2, echo = TRUE, results = "TRUE"}
+TOhat <- pca_TO$x %*% t(pca_TO$rotation)
+TOhat <- scale(TOhat, center = FALSE, scale = 1/pca_TO$scale)
+TOhat <- scale(TOhat, center = -pca_TO$center, scale = FALSE)
+```
+
+If this process worked correctly, there should be no difference between the reconstructed data and the original data.
+
+```{r mean-diff, echo = TRUE, results = "show"}
+mean(TOhat - as.matrix(TO))
+```
+
+Success!
+
+## The More Components Used, the Better the Reconstruction
+
+Figure \@ref(fig:rmsd) shows how the approximation of the original data set (`glass`) improves as more and more PCs are included in the reconstruction.  The y-axis represents the error, as the root mean squared deviation of the original data minus the approximation.
+
+```{r reconstruction, results = "show"}
+ntests <- ncol(TO)
+rmsd <- rep(NA_real_, ntests)
+for (i in 1:ntests) {
+  ans <- XtoPCAtoXhat(TO, i, sd)
+  error <- ans - TO
+  rmsd[i] <- sqrt(sum(error^2)/length(error)) # RMSD
+}
+```
+
+```{r rmsd, fig.cap = "Reduction of error as the number of components included in the reconstruction increases."}
+plot(rmsd, type = "b", ylim = c(0.0, max(rmsd)),
+  xlab = "No. of Components Retained",
+  ylab = "Error")
+abline(h = 0.0, col = "pink")
+```
+
+
+[^1]: For the full data set, there are also 16 dimensions in the form of 16 principal components.  But, each of the 16 principal components each has a bit of the original 16 raw variables in it, and showing only the first two principal components is meaningful.  How meaningful?  The scree plot will tell us.  Keep reading.
+[^2]: If one uses `scale` to center and/or scale your data, the results are tagged with attributes giving the values necessary to undo the calculation.  Take a look at `str(FeCu_centered_scale)` and you'll see these attributes.  Compare the values for `attributes(FeCu_centered_scaled)["scaled:center"]` to `colMeans(FeCu)`.  Importantly, if you use `scale` to do your centering and scaling, these attributes are understood by `prcomp` and are reflected in the returned data, even if `prcomp` didn't do the centering and scaling itself.  In other words, these two functions are designed to work together.
+[^3]: Since there are only two columns in `FeCu`, the largest value of `z` that one could us is two, which is not very interesting. Keep reading.
+[^4]: As an exercise, see what happens to the scree plot if you don't scale the values.
+[^5]: Why do we call it `Xhat`?  `X` represents the data matrix.  `hat` is a reference to the use of the symbol $\hat{}$ as in $\hat{X}$ which is often used to designate a reconstruction or estimation of a value in statistics.
