@@ -94,7 +94,7 @@ And here's the equation without matrix dimensions. Remember that $\mathbf{V}^T$ 
 \mathbf{X} = \mathbf{U}\mathbf{D}\mathbf{V}^T
 \end{equation}
 
-What are these matrices?
+The equation above is where we'd like to end up.  How can we get there?  Let's start with what are these matrices?
 
 * The columns of $\mathbf{U}$ will contain the PCA scores
 * $\mathbf{D}$ is a diagonal matrix, which means all non-diagonal elements are zero.  The diagonal contains positive values sorted from largest to smallest.  These are called the singular values.
@@ -240,6 +240,8 @@ mean(V- PCA$rotation[,1])
 ```
 
 These mean differences are small but certainly not zero. This is because our values for `V` and `U` were obtained using a simplified algorithm that calculated only the first PC, so we don't expect a mean difference of zero since `prcomp` uses a more sophisticated algorithm. TODO: verify this argument is correct
+
+Notice that we have worked through the SVD without mentioning eigen-anything.  That was one of our goals.  Now let's take a different point of view.
 
 ## The Eigen Decomposition
 
