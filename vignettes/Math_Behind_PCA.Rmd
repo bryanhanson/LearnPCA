@@ -42,6 +42,7 @@ opts_chunk$set(eval = TRUE, echo = TRUE)
 options(rmarkdown.html_vignette.check_title = FALSE)
 ```
 
+
 This vignette is based upon `LearnPCA` version `r desc$Version`.
 
 In this vignette we'll look closely at how the data reduction step in PCA is actually done.
@@ -266,11 +267,11 @@ The equation above is where we'd like to end up.  How can we get there?  Once ag
 * $\mathbf{Q}$ is square matrix that whose columns will contain the *eigenvectors*.  $\mathbf{Q}$ is also an orthonormal matrix (discussed earlier in the SVD section).  Notice that $\mathbf{Q}$ appears twice in \@ref(eq:ed2), the second time as its inverse: $\mathbf{Q}^{-1}$.
 * $\mathbf{\Lambda}$ (upper case Greek Lambda) is a diagonal matrix, very similar to $\mathbf{D}$ in SVD. All non-diagonal elements are zero.  The diagonal contains values sorted from largest to smallest.  These are called the *eigenvalues*.
 
-So what are eigenvectors and eigenvalues?  If you square the eigenvalues, you have the singular values from SVD. Here "diag" means take the diagonal elements of the matrix (which would a vector of values):[^10]
+So what are eigenvectors and eigenvalues?  If you square the eigenvalues, you have the singular values from SVD. Here "diagonal" means take the diagonal elements of the matrix (which would a vector of values):[^10]
 
 \begin{equation}
 (\#eq:ed3)
-\diag{\mathbf{D}} = (\diag{\mathbf{\Lambda}})^2
+diagonal(\mathbf{D}) = (diagonal(\mathbf{\Lambda}))^2
 \end{equation}
 
 The eigenvectors on the other hand are called the principal axes, if we multiply the original data by the eigenvectors in $Q$ we get the scores:
