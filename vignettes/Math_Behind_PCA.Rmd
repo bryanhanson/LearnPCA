@@ -94,10 +94,11 @@ And here's the equation without matrix dimensions. Remember that $\mathbf{V}^T$ 
 \mathbf{X} = \mathbf{U}\mathbf{D}\mathbf{V}^T
 \end{equation}
 
-The equation above is where we'd like to end up.  How can we get there?  Let's start with what are these matrices?
+The equation above is where we'd like to end up.  How can we get there?  Let's start with What are these matrices?
 
+* $\mathbf{X}$ contains the original data
 * The columns of $\mathbf{U}$ will contain the PCA scores
-* $\mathbf{D}$ is a diagonal matrix, which means all non-diagonal elements are zero.  The diagonal contains positive values sorted from largest to smallest.  These are called the singular values.
+* $\mathbf{D}$ is a diagonal matrix, which means all non-diagonal elements are zero.  The diagonal contains positive values sorted from largest to smallest.  These are called the singular values.[^9]
 * The columns of $\mathbf{V}$ will contain the PCA loadings
 
 In addition, $\mathbf{U}$ and $\mathbf{V}$ are semi-orthogonal matrices,[^4] which means that when pre-multiplied by their transpose one gets the identity matrix:
@@ -245,7 +246,40 @@ Notice that we have worked through the SVD without mentioning eigen-anything.  T
 
 ## The Eigen Decomposition
 
-Coming soon...
+The Eigen decomposition is another way to decompose a data matrix. This decomposition breaks the data matrix $\mathbf{X}$ into two matrices:[^8]
+
+\begin{equation}
+(\#eq:ed1)
+\mathbf{X}_{(n \ \times \ n)} = \mathbf{Q}_{(n \ \times \ n)}\mathbf{\Lambda}_{(n \ \times \ n)}\mathbf{Q}_{(n \ \times \ n)}^{-1}
+\end{equation}
+
+And here's the equation without matrix dimensions.
+
+\begin{equation}
+(\#eq:ed2)
+\mathbf{X} = \mathbf{Q}\mathbf{\Lambda}\mathbf{Q}^{-1}
+\end{equation}
+
+The equation above is where we'd like to end up.  How can we get there?  Once again, let's take inventory of the matrices in the equation.
+
+* $\mathbf{X}$ is the original data matrix.  Notice that unlike in SVD the dimensions are $n \times n$.  In other words, it is a square matrix.  Your data is not square you say?  Eigen decomposition requires an square matrix.  Fortunately, there's a simple fix for this.  We can work instead with the covariance matrix, which is square: $\mathbf{X}^T\mathbf{X}/(n - 1)$. This retains all the information needed for the computation.  In addition, we should center the data before proceeding.
+* $\mathbf{Q}$ is square matrix that whose columns will contain the *eigenvectors*.  $\mathbf{Q}$ is also an orthonormal matrix (discussed earlier in the SVD section).  Notice that $\mathbf{Q}$ appears twice in \@ref(eq:ed2), the second time as its inverse: $\mathbf{Q}^{-1}$.
+* $\mathbf{\Lambda}$ (upper case Greek Lambda) is a diagonal matrix, very similar to $\mathbf{D}$ in SVD. All non-diagonal elements are zero.  The diagonal contains values sorted from largest to smallest.  These are called the *eigenvalues*.
+
+So what are eigenvectors and eigenvalues?  If you square the eigenvalues, you have the singular values from SVD. Here "diag" means take the diagonal elements of the matrix (which would a vector of values):[^10]
+
+\begin{equation}
+(\#eq:ed3)
+\diag{\mathbf{D}} = (\diag{\mathbf{\Lambda}})^2
+\end{equation}
+
+The eigenvectors on the other hand are called the principal axes, if we multiply the original data by the eigenvectors in $Q$ we get the scores:
+
+\begin{equation}
+(\#eq:ed4)
+\mathbf{Q}\mathbf{X} = scores
+\end{equation}
+
 
 ## The Relationship Between SVD and Eigen Decomposition
 
@@ -260,3 +294,6 @@ Coming soon...
 [^5]: This treatment is the "compact SVD" [case](https://en.wikipedia.org/wiki/Singular_value_decomposition).
 [^6]: This is the $L^2$ or Euclidean norm, generally interpreted as a length.
 [^7]: As the values grow larger and larger, first we lose precision and eventually the numbers become too big to store.
+[^8]: TODO: relate to the simpler typical intro to E/E.
+[^9]: We talk about the singular values here for completeness, but we won't make any use of them, as it turns out.
+[^10]: As with SVD, there isn't any useful interpretation of $\mathbf{\Lambda}$ in terms of the data.
