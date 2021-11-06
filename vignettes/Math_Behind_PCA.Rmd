@@ -73,7 +73,7 @@ Figure \@ref(fig:PCA-Matrices) demonstrates that if we multiply the original dat
 
 ## Matrix Decompositions
 
-In a moment we are going to look at two matrix decompositions in detail, the singular value decomposition (SVD) and the eigenvalue decomposition. These decompositions are representative of roughly a dozen [matrix decompositions](https://en.wikipedia.org/wiki/Matrix_decomposition).  A matrix decomposition or factorization breaks a matrix into pieces in such a way as to extract information and solve problems.  The SVD however, is probably the most powerful decomposition there is -- we will make extensive use of  this insightful [Twitter thread](https://twitter.com/WomenInStat/status/1285610321747611653) by Dr. Daniela Witten of the University of Washington.
+In a moment we are going to look at two matrix decompositions in detail, the singular value decomposition (SVD) and the eigenvalue decomposition. These decompositions are representative of roughly a dozen [matrix decompositions](https://en.wikipedia.org/wiki/Matrix_decomposition).  A matrix decomposition or factorization breaks a matrix into pieces in such a way as to extract information and solve problems.  The SVD however, is probably the most powerful decomposition there is -- we will make extensive use of  this insightful [Twitter thread](https://twitter.com/WomenInStat/status/1285610321747611653) by Dr. Daniela Witten of the University of Washington. We also use this excellent [Cross Validated answer by amoeba](https://stats.stackexchange.com/a/134283/26909).
 
 A short note however, before we dig deeper.  Since we are using a computer to solve this problem, we need to keep in mind that working on a computer is not quite the same as solving a problem using pencil and paper. On the computer, we usually have choices of algorithms to solve problems.  Some algorithms are more robust than others.  Algorithms need to take into account edge cases where the computation can become unstable.  For instance, computers can only store numbers to a certain level of accuracy: when is "very small" actually zero in practice?  We need to know this so we don't try to divide by zero.  This is only one example of problems that can arise when using a computer to calculate values.
 
@@ -81,7 +81,7 @@ Finally, the two decompositions we are going to look at have something in common
 
 ## The SVD Decomposition
 
-The SVD decomposition breaks the original data matrix $\mathbf{X}$ into three matrices (dimensions in parentheses):[^5]
+We'll start from the original data matrix $\mathbf{X}$ which has samples in rows and measured variables in columns.  Let's assume that we have column-centered the matrix.  The SVD decomposition breaks this matrix $\mathbf{X}$ into three matrices (dimensions in parentheses):[^5]
 
 \begin{equation}
 (\#eq:svd1)
@@ -98,9 +98,10 @@ And here's the equation without matrix dimensions. Remember that $\mathbf{V}^T$ 
 The equation above is where we'd like to end up.  How can we get there?  Let's start with What are these matrices?
 
 * $\mathbf{X}$ contains the original data
-* The columns of $\mathbf{U}$ will contain the PCA scores
+* The columns of $\mathbf{U}$ are vectors giving the principal axes, a new set of axes in the abstract space
+* The scores can be obtained by $\mathbf{X}\mathbf{V}$; scores are the projections of the data on the principal axes.
 * $\mathbf{D}$ is a diagonal matrix, which means all non-diagonal elements are zero.  The diagonal contains positive values sorted from largest to smallest.  These are called the singular values.[^9]
-* The columns of $\mathbf{V}$ will contain the PCA loadings
+* The columns of $\mathbf{V} are the PCA loadings
 
 In addition, $\mathbf{U}$ and $\mathbf{V}$ are semi-orthogonal matrices,[^4] which means that when pre-multiplied by their transpose one gets the identity matrix:
 
@@ -130,7 +131,7 @@ Next, we'll use the built-in function `svd` to compute the "official" answer for
 X_svd <- svd(X)
 ```
 
-And now we'll do a simple iterative calculation that computes the values of `U` and `V`.[^2]  The "for" loop runs for 50 iterations, and as it does the values of `U` and `V` are continuously updated (and get closer to the actual answer).
+And now we'll do a simple iterative calculation that computes the values of `U` and `V`.[^2]  The loop runs for 50 iterations, and as it does the values of `U` and `V` are continuously updated (and get closer to the actual answer).
 
 ```{r power3}
 for (iter in 1:50) {
@@ -229,7 +230,7 @@ mean(abs(V) - abs(X_svd$v[,1]))
 mean(abs(U) - abs(X_svd$u[,1]))
 ```
 
-As you can see, the values are essentially the same except for sign.  TODO: discuss why
+As you can see, the values are essentially the same except for sign.  **TODO: discuss why**
 
 ### Comparison to the Answer from `prcomp`
 
@@ -241,50 +242,52 @@ mean(U - PCA$x[,1])
 mean(V- PCA$rotation[,1])
 ```
 
-These mean differences are small but certainly not zero. This is because our values for `V` and `U` were obtained using a simplified algorithm that calculated only the first PC, so we don't expect a mean difference of zero since `prcomp` uses a more sophisticated algorithm. TODO: verify this argument is correct
+These mean differences are small but certainly not zero. This is because our values for `V` and `U` were obtained using a simplified algorithm that calculated only the first PC, so we don't expect a mean difference of zero since `prcomp` uses a more sophisticated algorithm. **TODO: verify this argument is correct**
 
 Notice that we have worked through the SVD without mentioning eigen-anything.  That was one of our goals.  Now let's take a different point of view.
 
 ## The Eigen Decomposition
 
-The Eigen decomposition is another way to decompose a data matrix. This decomposition breaks the data matrix $\mathbf{X}$ into two matrices:[^8]
+The eigen decomposition is another way to decompose a data matrix. This decomposition breaks the data matrix $\mathbf{X}$ into two matrices.[^8] Again, let's assume $\mathbf{X}$ has been centered.
 
 \begin{equation}
 (\#eq:ed1)
-\mathbf{X}_{(n \ \times \ n)} = \mathbf{Q}_{(n \ \times \ n)}\mathbf{\Lambda}_{(n \ \times \ n)}\mathbf{Q}_{(n \ \times \ n)}^{-1}
+\mathbf{X}_{(n \ \times \ n)} = \mathbf{Q}_{(n \ \times \ n)}\mathbf{\Lambda}_{(n \ \times \ n)}\mathbf{Q}_{(n \ \times \ n)}^{T}
 \end{equation}
 
-And here's the equation without matrix dimensions.
+And here's the equation without matrix dimensions.[^11]
 
 \begin{equation}
 (\#eq:ed2)
-\mathbf{X} = \mathbf{Q}\mathbf{\Lambda}\mathbf{Q}^{-1}
+\mathbf{X} = \mathbf{Q}\mathbf{\Lambda}\mathbf{Q}^{T}
 \end{equation}
 
-The equation above is where we'd like to end up.  How can we get there?  Once again, let's take inventory of the matrices in the equation.
+The equation above is where we'd like to end up; it looks like a variation on the equation for SVD.  How can we get there?  Once again, let's take inventory of the matrices in the equation.
 
-* $\mathbf{X}$ is the original data matrix.  Notice that unlike in SVD the dimensions are $n \times n$.  In other words, it is a square matrix.  Your data is not square you say?  Eigen decomposition requires an square matrix.  Fortunately, there's a simple fix for this.  We can work instead with the covariance matrix, which is square: $\mathbf{X}^T\mathbf{X}/(n - 1)$. This retains all the information needed for the computation.  In addition, we should center the data before proceeding.
-* $\mathbf{Q}$ is square matrix that whose columns will contain the *eigenvectors*.  $\mathbf{Q}$ is also an orthonormal matrix (discussed earlier in the SVD section).  Notice that $\mathbf{Q}$ appears twice in \@ref(eq:ed2), the second time as its inverse: $\mathbf{Q}^{-1}$.
-* $\mathbf{\Lambda}$ (upper case Greek Lambda) is a diagonal matrix, very similar to $\mathbf{D}$ in SVD. All non-diagonal elements are zero.  The diagonal contains values sorted from largest to smallest.  These are called the *eigenvalues*.
+* $\mathbf{X}$ is the original data matrix.  Notice the dimensions are $n \times n$, unlike in SVD.  In other words, it is a square matrix.  Your data is not square you say?  Eigen decomposition requires an square matrix.  Fortunately, there's a simple fix for this.  We can work instead with the covariance matrix, which is square: $\mathbf{X}^T\mathbf{X}/(n - 1)$. This retains all the structure of the original data.
+* $\mathbf{Q}$ is square matrix that whose columns will contain the *eigenvectors*.  $\mathbf{Q}$ is also an orthogonal matrix (discussed earlier in the SVD section).  Notice that $\mathbf{Q}$ appears twice in \@ref(eq:ed2), the second time as its transpose.
+* $\mathbf{\Lambda}$ (upper case Greek letter Lambda) is a diagonal matrix, very similar in function to $\mathbf{D}$ in SVD. All non-diagonal elements are zero.  The diagonal contains values sorted from largest to smallest.  These are called the *eigenvalues*.
 
-So what are eigenvectors and eigenvalues?  If you square the eigenvalues, you have the singular values from SVD. Here "diagonal" means take the diagonal elements of the matrix (which would a vector of values):[^10]
-
-\begin{equation}
-(\#eq:ed3)
-diagonal(\mathbf{D}) = (diagonal(\mathbf{\Lambda}))^2
-\end{equation}
-
-The eigenvectors on the other hand are called the principal axes, if we multiply the original data by the eigenvectors in $Q$ we get the scores:
+So what are eigenvectors and eigenvalues?  The eigenvalues are related to the amount of variance explained for each principal component. The eigenvectors are called the principal axes, and describe a new coordinate system (basis) for looking at the data. **TODO: link to other vigs where we have a graphical view of this** If we post-multiply the original data by the eigenvectors in $Q$ we get the scores:
 
 \begin{equation}
 (\#eq:ed4)
-\mathbf{Q}\mathbf{X} = scores
+\mathbf{X}\mathbf{Q} = scores
 \end{equation}
 
 
 ## The Relationship Between SVD and Eigen Decomposition
 
 Coming soon...
+
+### Singular Values vs Eigenvalues
+
+If you square the sigular values from SVD and divide by $n -1$, you get the eigenvalues. Here "diagonal" means take the diagonal elements of the matrix (which would a vector of values):
+
+\begin{equation}
+(\#eq:r1)
+(diagonal(\mathbf{D}))^2/(n - 1) = diagonal(\mathbf{\Lambda})
+\end{equation}
 
 ## References
 
@@ -296,5 +299,5 @@ Coming soon...
 [^6]: This is the $L^2$ or Euclidean norm, generally interpreted as a length.
 [^7]: As the values grow larger and larger, first we lose precision and eventually the numbers become too big to store.
 [^8]: TODO: relate to the simpler typical intro to E/E.
-[^9]: We talk about the singular values here for completeness, but we won't make any use of them, as it turns out.
-[^10]: As with SVD, there isn't any useful interpretation of $\mathbf{\Lambda}$ in terms of the data.
+[^9]: The singular values are used to calculate the variance explained by each principal component. We'll have more to say about that later.
+[^11]: One also sees this written $\mathbf{X} = \mathbf{Q}\mathbf{\Lambda}\mathbf{Q}^{-1}$.  This is equivalent because for orthogonal matrices $\mathbf{A}^T = \mathbf{A}^{-1}$.
