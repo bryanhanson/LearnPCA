@@ -47,6 +47,8 @@ This vignette is based upon `LearnPCA` version `r desc$Version`.
 
 In this vignette we'll look closely at how the data reduction step in PCA is actually done.
 
+**TODO clearly state the audience**
+
 ## Introduction
 
 If you have read the *Step By Step PCA* vignette, you know that the first steps in PCA are:
@@ -60,7 +62,7 @@ For a data matrix with $n$ rows of observations/samples and $p$ variables/featur
 * scores matrix with $n$ rows and $p$ columns, where each column corresponds to a principal component and the values are the scores, namely the positions of the samples in the new abstract space.
 * loadings matrix with $p$ rows and $p$ columns, which represent the contributions of each variable to each principal component.
 
-In the *Step By Step PCA* vignette we also showed how to reconstruct or approximate the original data set by multiplying the scores by the loadings.
+In the *Step By Step PCA* vignette we also showed how to reconstruct or approximate the original data set by multiplying the scores by the transpose of the loadings.
 
 In Figure \@ref(fig:PCA-Matrices) we show one way to represent the relationships between the original data matrix ($\mathbf{X}$), the loadings matrix ($\mathbf{L}$) and the scores matrix ($\mathbf{S}$).
 
@@ -77,7 +79,7 @@ In a moment we are going to look at two matrix decompositions in detail, the sin
 
 A short note however, before we dig deeper.  Since we are using a computer to solve this problem, we need to keep in mind that working on a computer is not quite the same as solving a problem using pencil and paper. On the computer, we usually have choices of algorithms to solve problems.  Some algorithms are more robust than others.  Algorithms need to take into account edge cases where the computation can become unstable.  For instance, computers can only store numbers to a certain level of accuracy: when is "very small" actually zero in practice?  We need to know this so we don't try to divide by zero.  This is only one example of problems that can arise when using a computer to calculate values.
 
-Finally, the two decompositions we are going to look at have something in common.  Our approach will be to explain each without reference to the other, as this facilitates digestion and understanding of each (it doesn't seem fair to require you to understand the 2nd one you haven't read while trying to understand the first one).  Then, if you are still with us, we'll look at what they have in common.
+Finally, the two decompositions we are going to look at have something in common.  Our approach will be to explain each without reference to the other, as this facilitates digestion and understanding of each (it doesn't seem fair to require you to understand the 2nd one that you haven't read while trying to understand the first one).  Then, if you are still with us, we'll look at what they have in common.
 
 ## The SVD Decomposition
 
@@ -95,15 +97,16 @@ And here's the equation without matrix dimensions. Remember that $\mathbf{V}^T$ 
 \mathbf{X} = \mathbf{U}\mathbf{D}\mathbf{V}^T
 \end{equation}
 
-The equation above is where we'd like to end up.  How can we get there?  Let's start with What are these matrices?
+The equation above is where we'd like to end up.  How can we get there?  Let's start with *What are these matrices*?
 
 * $\mathbf{X}$ contains the original data
 * The columns of $\mathbf{U}$ are vectors giving the principal axes, a new set of axes in the abstract space
 * The scores can be obtained by $\mathbf{X}\mathbf{V}$; scores are the projections of the data on the principal axes.
 * $\mathbf{D}$ is a diagonal matrix, which means all non-diagonal elements are zero.  The diagonal contains positive values sorted from largest to smallest.  These are called the singular values.[^9]
+* **TODO should describe V here**
 * The columns of $\mathbf{V} are the PCA loadings
 
-In addition, $\mathbf{U}$ and $\mathbf{V}$ are semi-orthogonal matrices,[^4] which means that when pre-multiplied by their transpose one gets the identity matrix:
+In addition, $\mathbf{U}$ and $\mathbf{V}$ are semi-orthogonal matrices,[^4] which means that when pre-multiplied by their transpose one gets the identity matrix:[^12]
 
 \begin{equation}
 (\#eq:svd3)
@@ -117,7 +120,7 @@ In addition, $\mathbf{U}$ and $\mathbf{V}$ are semi-orthogonal matrices,[^4] whi
 
 We'll use this fact to great advantage when we implement a simple version of SVD in a moment.
 
-Now that we know what these matrices are, we can look into how to compute them.  As mentioned earlier, the algorithm is everything here.  As a simple example, we'll look at an approach called "power iteration". This is by no means the best approach, but it is simple enough that we mere mortals can understand the idea.  First, let's generate some random data. In this simple example we are only going to compute the first principal component, so $V$ is a vector, not a matrix (one can still do matrix multiplication with a vector).  Note that the dimensions of the variables are chosen so that we can matrix multiply them (they are *conformable* matrices).
+Now that we know what these matrices are, we can look into how to compute them.  As mentioned earlier, the algorithm is everything here.  As a simple example, we'll look at an approach called "power iteration." This is by no means the best approach, but it is simple enough that we mere mortals can understand the idea.  First, let's generate some random data. In this simple example we are only going to compute the first principal component, so `V` is a vector, not a matrix (one can still do matrix multiplication with a vector).[^2]  Note that the dimensions of the variables are chosen so that we can matrix multiply them (they are *conformable* matrices).
 
 ```{r power1}
 set.seed(30)
@@ -131,7 +134,7 @@ Next, we'll use the built-in function `svd` to compute the "official" answer for
 X_svd <- svd(X)
 ```
 
-And now we'll do a simple iterative calculation that computes the values of `U` and `V`.[^2]  The loop runs for 50 iterations, and as it does the values of `U` and `V` are continuously updated (and get closer to the actual answer).
+And now we'll do a simple iterative calculation that computes the values of `U` and `V`.  The loop runs for 50 iterations, and as it does the values of `U` and `V` are continuously updated (and get closer to the actual answer).
 
 ```{r power3}
 for (iter in 1:50) {
@@ -214,6 +217,8 @@ which is the operation we see in the code snippet.[^3]
 
 Step 4 is the same operation as in Step 2, but on `V`.
 
+### Overall
+
 Essentially what this algorithm is doing is alterating between the two calculations (for `U`, steps 1 & 2, then for `V` steps 3 & 4), with `X` constant.  At each iteration these estimates improve, moving from the initial random value of `V` towards the best answer for both `V`and `U`.
 
 ### Comparison to the Answer from `svd`
@@ -238,8 +243,8 @@ We have seen that our estimate of `U` and `V` compared well to the results from 
 
 ```{r}
 PCA <- prcomp(X)
-mean(U - PCA$x[,1])
-mean(V- PCA$rotation[,1])
+mean(U - PCA$x[,1]) # compare the scores
+mean(V- PCA$rotation[,1]) # compare the loadings
 ```
 
 These mean differences are small but certainly not zero. This is because our values for `V` and `U` were obtained using a simplified algorithm that calculated only the first PC, so we don't expect a mean difference of zero since `prcomp` uses a more sophisticated algorithm. **TODO: verify this argument is correct**
@@ -264,7 +269,7 @@ And here's the equation without matrix dimensions.[^11]
 
 The equation above is where we'd like to end up; it looks like a variation on the equation for SVD.  How can we get there?  Once again, let's take inventory of the matrices in the equation.
 
-* $\mathbf{X}$ is the original data matrix.  Notice the dimensions are $n \times n$, unlike in SVD.  In other words, it is a square matrix.  Your data is not square you say?  Eigen decomposition requires an square matrix.  Fortunately, there's a simple fix for this.  We can work instead with the covariance matrix, which is square: $\mathbf{X}^T\mathbf{X}/(n - 1)$. This retains all the structure of the original data.
+* $\mathbf{X}$ is the original data matrix.  Notice the dimensions are $n \times n$, unlike in SVD.  In other words, it is a square matrix.  Your data is not square you say?  Eigen decomposition requires an square matrix.  Fortunately, there's a simple fix for this.  We can work instead with the covariance matrix, which is square: $\mathbf{X}^T\mathbf{X}/(n - 1)$. This retains all the structure of the original data.[^13]
 * $\mathbf{Q}$ is square matrix that whose columns will contain the *eigenvectors*.  $\mathbf{Q}$ is also an orthogonal matrix (discussed earlier in the SVD section).  Notice that $\mathbf{Q}$ appears twice in \@ref(eq:ed2), the second time as its transpose.
 * $\mathbf{\Lambda}$ (upper case Greek letter Lambda) is a diagonal matrix, very similar in function to $\mathbf{D}$ in SVD. All non-diagonal elements are zero.  The diagonal contains values sorted from largest to smallest.  These are called the *eigenvalues*.
 
@@ -301,3 +306,5 @@ If you square the sigular values from SVD and divide by $n -1$, you get the eige
 [^8]: TODO: relate to the simpler typical intro to E/E.
 [^9]: The singular values are used to calculate the variance explained by each principal component. We'll have more to say about that later.
 [^11]: One also sees this written $\mathbf{X} = \mathbf{Q}\mathbf{\Lambda}\mathbf{Q}^{-1}$.  This is equivalent because for orthogonal matrices $\mathbf{A}^T = \mathbf{A}^{-1}$.
+[^12]: The identity matrix $\mathbf{I}$ is a square matrix with ones on the diagonal and zeros everywhere else.  The identity matrix can pre- or post-multiply any other matrix and not affect that matrix.
+[^13]: We can also use the correlation matrix, which is evaluated via the same formula.  For covariance, one centers the raw data columns.  For correlation, one centers the raw data and then scales them by their standard deviation.
