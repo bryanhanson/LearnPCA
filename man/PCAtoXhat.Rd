@@ -7,14 +7,16 @@
 PCAtoXhat(pca, ncomp = NULL)
 }
 \arguments{
-\item{pca}{An object of class \code{prcomp}.  The results of data reduction by PCA.}
+\item{pca}{An object of class \code{prcomp} or \code{princomp} (automatically detected).  #'        The results of data reduction by PCA.}
 
 \item{ncomp}{Integer.  The number of principal components to use in reconstructing
-the data set.  Must be no larger than the number of variables.}
+the data set.  Must be no larger than the number of variables.  If not
+specified, all the components are used and the original data set is
+reconstructed.}
 }
 \value{
 A matrix with the same dimensions as \code{pca$x} (the dimensions of the
-        original data set).
+original data set).
 }
 \description{
 This function allows one to reconstruct an approximation (\code{Xhat}) of the
@@ -32,7 +34,7 @@ Z <- X \%*\% C
 
 pcaz <- prcomp(Z)
 tst <- PCAtoXhat(pcaz)
-mean(tst - Z)
+all.equal(tst, Z, check.attributes = FALSE)
 
 # Plot to show the effect of increasing ncomp
 
