@@ -100,11 +100,10 @@ And here's the equation without matrix dimensions. Remember that $\mathbf{V}^T$ 
 The equation above is where we'd like to end up.  How can we get there?  Let's start with *What are these matrices*?
 
 * $\mathbf{X}$ contains the original data
-* The columns of $\mathbf{U}$ are vectors giving the principal axes, a new set of axes in the abstract space
+* The columns of $\mathbf{U}$ are vectors giving the principal axes. These define the new frame of reference
 * The scores can be obtained by $\mathbf{X}\mathbf{V}$; scores are the projections of the data on the principal axes.
 * $\mathbf{D}$ is a diagonal matrix, which means all non-diagonal elements are zero.  The diagonal contains positive values sorted from largest to smallest.  These are called the singular values.[^9]
-* **TODO should describe V here**
-* The columns of $\mathbf{V} are the PCA loadings
+* The columns of $\mathbf{V}$ are the PCA loadings
 
 In addition, $\mathbf{U}$ and $\mathbf{V}$ are semi-orthogonal matrices,[^4] which means that when pre-multiplied by their transpose one gets the identity matrix:[^12]
 
@@ -120,7 +119,9 @@ In addition, $\mathbf{U}$ and $\mathbf{V}$ are semi-orthogonal matrices,[^4] whi
 
 We'll use this fact to great advantage when we implement a simple version of SVD in a moment.
 
-Now that we know what these matrices are, we can look into how to compute them.  As mentioned earlier, the algorithm is everything here.  As a simple example, we'll look at an approach called "power iteration." This is by no means the best approach, but it is simple enough that we mere mortals can understand the idea.  First, let's generate some random data. In this simple example we are only going to compute the first principal component, so `V` is a vector, not a matrix (one can still do matrix multiplication with a vector).[^2]  Note that the dimensions of the variables are chosen so that we can matrix multiply them (they are *conformable* matrices).
+## A Simple Implementation of SVD
+
+Now that we know what these matrices are, we can look into how to compute them.  As mentioned earlier, the algorithm is everything here.  As a simple example, we'll look at an approach called "power iteration." This is by no means the best approach, but it is simple enough that we can understand the idea.  First, let's generate some random data. In this simple example we are only going to compute the first principal component, so `V` is a vector, not a matrix (one can still do matrix multiplication with a vector).[^2]  Note that the dimensions of the variables are chosen so that we can matrix multiply them (they are *conformable* matrices).
 
 ```{r power1}
 set.seed(30)
@@ -134,7 +135,7 @@ Next, we'll use the built-in function `svd` to compute the "official" answer for
 X_svd <- svd(X)
 ```
 
-And now we'll do a simple iterative calculation that computes the values of `U` and `V`.  The loop runs for 50 iterations, and as it does the values of `U` and `V` are continuously updated (and get closer to the actual answer).
+We'll do a simple iterative calculation that computes the values of `U` and `V`.  The loop runs for 50 iterations, and as it does the values of `U` and `V` are continuously updated (and get closer to the actual answer).
 
 ```{r power3}
 for (iter in 1:50) {
@@ -144,13 +145,13 @@ for (iter in 1:50) {
   V <- V/sqrt(sum(V^2)) # Step 4
  if ((iter %% 10) == 0L) { # report every 10 steps; print the correlation between
    cat("\nIteration", iter, "\n") # the current U or V and the actual values from SVD
-   cat("\tcor for V:", sprintf("%f", cor(X_svd$v[,1], V)), "\n")
-   cat("\tcor for U:", sprintf("%f", cor(X_svd$u[,1], U)), "\n")
+   cat("\tcor with V:", sprintf("%f", cor(X_svd$v[,1], V)), "\n")
+   cat("\tcor with U:", sprintf("%f", cor(X_svd$u[,1], U)), "\n")
    }
 }
 ```
 
-Notice that there is no $\mathbf{D}$ matrix in this calculation.  This is because we are only calculating a single principal component, and therefore in this case $\mathbf{D} = \mathbf{I}$.  In other words $\mathbf{D}$ is a $1 \times 1$ identity matrix, and we can drop it from the calculation.  With that simplification, we can look at each step:
+Notice that there is no $\mathbf{D}$ matrix in this calculation.  This is because we are only calculating a single principal component, and therefore in this case $\mathbf{D} = \mathbf{I}$.  In other words $\mathbf{D}$ is a $1 \times 1$ identity matrix, and we can drop it from the calculation.  With that simplification, we can look at each step.
 
 ### Step 1
 
@@ -221,9 +222,11 @@ Step 4 is the same operation as in Step 2, but on `V`.
 
 Essentially what this algorithm is doing is alterating between the two calculations (for `U`, steps 1 & 2, then for `V` steps 3 & 4), with `X` constant.  At each iteration these estimates improve, moving from the initial random value of `V` towards the best answer for both `V`and `U`.
 
-### Comparison to the Answer from `svd`
+### Reporting
 
-You'll notice that the code snippet above has a few lines to report the progress of the calculation.  Every 10 steps the correlation between the current value of `V` with the official answer contained in `X_svd$v` is displayed (and the same for `U`).  As you can see from the output the correlation is not bad after 10 iterations and only improves with more iterations.
+You'll notice that the code snippet above has a few lines to report the progress of the calculation.  Every 10 steps the correlation between the current value of `V` with the official answer contained in `X_svd$v` is displayed (and the same for `U`).  As you can see from the output the correlation is not bad after 10 iterations and only improves with more iterations. We report the correlation because the signs of the power iteration answers may vary from those computed by `svd`.[^14]
+
+### Comparison to the Answer from `svd`
 
 Looking at it from a different point of view, let's compare the absolute values of the two different answers:
 
@@ -235,7 +238,7 @@ mean(abs(V) - abs(X_svd$v[,1]))
 mean(abs(U) - abs(X_svd$u[,1]))
 ```
 
-As you can see, the values are essentially the same except for sign.  **TODO: discuss why**
+As you can see, the values are essentially the same except for sign.
 
 ### Comparison to the Answer from `prcomp`
 
@@ -273,26 +276,65 @@ The equation above is where we'd like to end up; it looks like a variation on th
 * $\mathbf{Q}$ is square matrix that whose columns will contain the *eigenvectors*.  $\mathbf{Q}$ is also an orthogonal matrix (discussed earlier in the SVD section).  Notice that $\mathbf{Q}$ appears twice in \@ref(eq:ed2), the second time as its transpose.
 * $\mathbf{\Lambda}$ (upper case Greek letter Lambda) is a diagonal matrix, very similar in function to $\mathbf{D}$ in SVD. All non-diagonal elements are zero.  The diagonal contains values sorted from largest to smallest.  These are called the *eigenvalues*.
 
-So what are eigenvectors and eigenvalues?  The eigenvalues are related to the amount of variance explained for each principal component. The eigenvectors are called the principal axes, and describe a new coordinate system (basis) for looking at the data. **TODO: link to other vigs where we have a graphical view of this** If we post-multiply the original data by the eigenvectors in $Q$ we get the scores:
+So what are eigenvectors and eigenvalues?  The eigenvalues are related to the amount of variance explained for each principal component. The eigenvectors are the principal axes, which as we have seen constitute a new frame of reference for looking at the data. **TODO: link to other vigs where we have a graphical view of this** If we post-multiply the original data by the eigenvectors in $\mathbf{Q}$ we get the scores:
 
 \begin{equation}
 (\#eq:ed4)
 \mathbf{X}\mathbf{Q} = scores
 \end{equation}
 
+And the loadings are simply the eigenvectors in $\mathbf{Q}$.
+
+## A Simple Implementation of the Eigen Decomposition
+
+As we did for `SVD`, we can use a power iteration to compute estimates for the first eigenvector.
+
+```{r eigen1}
+set.seed(30)
+X <- matrix(rnorm(100*50), ncol = 50)
+X <- cor(X)
+Q <- rnorm(50)
+```
+
+Next, we'll use the built-in function `eigen` to compute the "official" answer for comparison to our results.
+
+```{r eigen2}
+X_eig <- eigen(X)
+```
+
+A simple iterative process as we did for SVD will continuously update the value of `Q`.[^15]
+
+```{r eigen3}
+for (iter in 1:50) {
+  Q <- X %*% Q # Step 1
+  Q <- Q/sqrt(sum(Q^2)) # Step 2
+
+ if ((iter %% 5) == 0L) { # report every 5 steps; print the correlation between
+   cat("\nIteration", iter, "\n") # the current Q and the actual values from SVD
+   cat("\tcor with Q:", sprintf("%f", cor(X_eig$vectors[,1], Q)), "\n")
+   }
+}
+```
 
 ## The Relationship Between SVD and Eigen Decomposition
 
-Coming soon...
+It's apparent that SVD and the eigen decomposition have a lot in common.  The `R` function `prcomp` uses the `svd` function "under the hood", and the function `princomp` uses `eigen` under the hood. The vignette "**TODO: TITLE**" demonstrates the similarities and differences between the two decompositions as implemented in four functions.
 
 ### Singular Values vs Eigenvalues
 
-If you square the sigular values from SVD and divide by $n -1$, you get the eigenvalues. Here "diagonal" means take the diagonal elements of the matrix (which would a vector of values):
+We've talked about "values" in the context of each decomposition.  Is this terminology accidental, or is there a relationship?  If you square the singular values from SVD and divide by $n -1$, you get the eigenvalues. Here "diagonal" means take the diagonal elements of the matrix (which would be a vector of values):
 
 \begin{equation}
 (\#eq:r1)
 (diagonal(\mathbf{D}))^2/(n - 1) = diagonal(\mathbf{\Lambda})
 \end{equation}
+
+Either of these "values" can be used to compute the amount of variance explained by each principal component.  Details are in the "**TODO: TITLE**" vignette.
+
+### Pros and Cons
+
+* `svd` can handle rectangular matrices $n \times p$ where $n \ne p$.  Either $n > p$ or $n < p$ is acceptable.  On the other hand, `eigen` must have $n = p$. `prcomp` wraps `eigen` and helps the user convert their raw data matrix into a square matrix.
+* **TODO robustness etc**
 
 ## References
 
@@ -303,8 +345,10 @@ If you square the sigular values from SVD and divide by $n -1$, you get the eige
 [^5]: This treatment is the "compact SVD" [case](https://en.wikipedia.org/wiki/Singular_value_decomposition).
 [^6]: This is the $L^2$ or Euclidean norm, generally interpreted as a length.
 [^7]: As the values grow larger and larger, first we lose precision and eventually the numbers become too big to store.
-[^8]: TODO: relate to the simpler typical intro to E/E.
+[^8]: Eigenvalues and eigenvectors are extremely important in linear algebra.  The concept is usually introduced in the simpler form $Au = \lambda u$.
 [^9]: The singular values are used to calculate the variance explained by each principal component. We'll have more to say about that later.
 [^11]: One also sees this written $\mathbf{X} = \mathbf{Q}\mathbf{\Lambda}\mathbf{Q}^{-1}$.  This is equivalent because for orthogonal matrices $\mathbf{A}^T = \mathbf{A}^{-1}$.
 [^12]: The identity matrix $\mathbf{I}$ is a square matrix with ones on the diagonal and zeros everywhere else.  The identity matrix can pre- or post-multiply any other matrix and not affect that matrix.
 [^13]: We can also use the correlation matrix, which is evaluated via the same formula.  For covariance, one centers the raw data columns.  For correlation, one centers the raw data and then scales them by their standard deviation.
+[^14]: From `?prcomp` "The signs of the columns of the rotation matrix are arbitrary, and so may differ between different programs for PCA, and even between different builds of R."  From `?princomp` "The signs of the columns of the loadings and scores are arbitrary, and so may differ between different programs for PCA, and even between different builds of R: fix_sign = TRUE alleviates that."
+[^15]: **TODO need reference**
