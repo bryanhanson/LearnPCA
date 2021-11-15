@@ -47,11 +47,11 @@ There are four base functions in `R` that can carry out PCA analysis.[^1]  In th
 
 # `prcomp`
 
-`prcomp` is probably the function most people will use for PCA, as it will handle input data sets of arbitrary dimensions (meaning, the number of observations $n$ may be greater or less than the number of measured variables, $p$). `prcomp` can do centering or scaling for you, but it also recognizes when the data passed to it has been previously centered or scaled via the `scale` function.[^2] It turns out that `prcomp` is a wrapper for the `svd` function (which we'll discuss below).  This means that `prcomp` uses `svd` "under the hood" and repackages the results from `svd` in a more useful form.
+`prcomp` is probably the function most people will use for PCA, as it will handle input data sets of arbitrary dimensions (meaning, the number of observations $n$ may be greater or less than the number of measured variables, $p$). `prcomp` can do centering or scaling for you, but it also recognizes when the data passed to it has been previously centered or scaled via the `scale` function.[^2] Internally, `prcomp` is a wrapper for the `svd` function (which we'll discuss below).  This means that `prcomp` uses `svd` "under the hood" and repackages the results from `svd` in a more useful form.
 
 # `princomp`
 
-In contrast to `prcomp`, `princomp` cannot handle the situation where $p > n$, so it is not as flexible.  In addition, `princomp` uses function `eigen` under the hood, and `eigen` only accepts square matrices as input (where $n = p$).  `princomp` will accept a rectangular matrix with $n > p$ however because along the way, `princomp` will convert the input matrix to either the covariance or correlation matrix before passing the new matrix to `eigen` (the choice depends upon the arguments).  Both the covariance and correlation matrices are square matrices that `eigen` can process.
+In contrast to `prcomp`, `princomp` cannot handle the situation where $p > n$, so it is not as flexible. In addition, `princomp` uses function `eigen` under the hood, and `eigen` only accepts square matrices as input (where $n = p$).  However, `princomp` will accept a rectangular matrix with $n > p$ because along the way, `princomp` will convert the input matrix to either the covariance or correlation matrix before passing the new matrix to `eigen` (the choice depends upon the arguments).  Both the covariance and correlation matrices are square matrices that `eigen` can process.
 
 ### Covariance
 
@@ -62,7 +62,7 @@ A <- matrix(1:20, nrow = 4)
 dim(A)
 ```
 
-If you center the columns of $A$, then take $A^TA$ and divide by $n -1$ you get the **covariance** matrix. We can verify this via the built-in function `cov`. Covariance is unbounded.
+If you center the columns of $A$, take $A^TA$ and then divide by $n -1$ you get the **covariance** matrix. We can verify this via the built-in function `cov`. Covariance describes how the variables track each other. Covariance is unbounded, which means its values can range over $\pm \infty$.
 
 ```{r}
 Ac <- scale(A, center = TRUE, scale = FALSE)
@@ -74,7 +74,7 @@ identical(covA, cov(A))
 ### Correlation
 
 
-If instead you center the columns of $A$, autoscale[^5] the columns, and then take $A^TA$ and divide by $n -1$ you get the **correlation** matrix. Correlation is covariance normalized and is bounded on $[-1, 1]$.  Again we can verify this with the built-in function `cor`:
+If instead you center the columns of $A$, scale the columns by dividing by their standard deviations, take $A^TA$ and then divide by $n -1$ you get the **correlation** matrix. Like covariance, correlation describes how the variables track each other.  However, correlation is bounded on $[-1, 1]$.  In effect, correlation is covariance normalized to a constant scale.  Again we can verify this with the built-in function `cor`:
 
 ```{r}
 Acs <- scale(A, center = TRUE, scale = TRUE)
@@ -113,10 +113,10 @@ pca$x
 prin$scores
 ```
 
-Notice that the absolute values of the scores are similar, but not identical.  This is because different algorithms were used in each case.  Notice too that the pattern of positive and negative values is complex, it's not as if one is simply the negative of the other.  **TODO elaborate**
+Notice that the absolute values of the scores are similar, but not identical.  This is because different algorithms were used in each case.  Notice too that the pattern of positive and negative values is complex, it's not as if one is simply the negative of the other.  We'll say more about that when we talk about loadings.
 
 ```{r}
-all.equal(abs(prin$scores), abs(pca$x), check.attributes =FALSE)
+all.equal(abs(prin$scores), abs(pca$x), check.attributes = FALSE)
 ```
 
 ### Compare The Loadings
@@ -136,7 +136,7 @@ prin_loads
 all.equal(abs(pca$rotation), abs(prin_loads), check.attributes = FALSE)
 ```
 
-The absolute value of the loadings from each method are identical, while the actual pattern of positive and negative values again is complex.
+The absolute value of the loadings from each method are identical, while the actual pattern of positive and negative values is complex as we saw for the scores. Why is this?  Recall from the **TODO need vig title** vignette that the loadings are the cosines of the angles through which the original axes are rotated to get to the new reference frame.  As cosine is a periodic function, if one rotates the reference frame 30 degrees to line up with the data better, the same alignment can also be achieved by rotating 30 + 180 degrees or 30 - 180 degrees.  However, the latter two operations will give the opposite sign for the cosine value.  This is the origin of the pattern of signs in the  loadings; essentially there are positive and negative cosine values that both achieve the needed reorientation.  Once the sign of the first value is chosen, the signs of the other values are meaningful only in that context.
 
 ### Reconstruct the Original Data
 
