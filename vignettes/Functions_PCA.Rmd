@@ -136,7 +136,7 @@ prin_loads
 all.equal(abs(pca$rotation), abs(prin_loads), check.attributes = FALSE)
 ```
 
-The absolute value of the loadings from each method are identical, while the actual pattern of positive and negative values is complex as we saw for the scores. Why is this?  Recall from the **TODO need vig title** vignette that the loadings are the cosines of the angles through which the original axes are rotated to get to the new reference frame.  As cosine is a periodic function, if one rotates the reference frame 30 degrees to line up with the data better, the same alignment can also be achieved by rotating 30 + 180 degrees or 30 - 180 degrees.  However, the latter two operations will give the opposite sign for the cosine value.  This is the origin of the pattern of signs in the  loadings; essentially there are positive and negative cosine values that both achieve the needed reorientation.  Once the sign of the first value is chosen, the signs of the other values are meaningful only in that context.
+The absolute value of the loadings from each method are identical, while the actual pattern of positive and negative values is complex as we saw for the scores. Why is this?  Recall from the **TODO need vig title** vignette that the loadings are the cosines of the angles through which the original axes are rotated to get to the new reference frame.  As cosine is a periodic function, if one rotates the reference frame 30 degrees to line up with the data better, the same alignment can also be achieved by rotating 30 + 180 degrees or 30 - 180 degrees.  However, the latter two operations will give the opposite sign for the cosine value.  This is the origin of the pattern of signs in the  loadings; essentially there are positive and negative cosine values that both describe the needed reorientation.  Once the sign of the first value is chosen, the signs of the other values are meaningful only in that context.
 
 ### Reconstruct the Original Data
 
@@ -152,7 +152,7 @@ MTprin <- PCAtoXhat(prin)
 all.equal(MTprin, mt, check.attributes = FALSE)
 ```
 
-As you can see each function is reconstructing the data faithfully.  And in the process we have shown that one gets the same results starting from either the centered and scaled original matrix, or the matrix which has been centered, scaled and then converted to its correlation matrix.  Hence either approach extracts the same information.
+As you can see each function is reconstructing the data faithfully.  And in the process we have shown that one gets the same results starting from either the centered and scaled original matrix, or the matrix which has been centered, scaled and then converted to its correlation matrix.  Hence either approach extracts the same information, proving that the correlation matrix contains the same relationships that are present in the raw data.
 
 
 # `svd`
