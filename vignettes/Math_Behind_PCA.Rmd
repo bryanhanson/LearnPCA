@@ -45,9 +45,7 @@ options(rmarkdown.html_vignette.check_title = FALSE)
 
 This vignette is based upon `LearnPCA` version `r desc$Version`.
 
-In this vignette we'll look closely at how the data reduction step in PCA is actually done.
-
-**TODO clearly state the audience**
+In this vignette we'll look closely at how the data reduction step in PCA is actually done.  This vignette is intended for those who really want to dig deep.  It's helpful if you know something about matrix manipulations, but we work hard to keep the level of the material accessible to those just learning.
 
 ## Introduction
 
@@ -59,7 +57,7 @@ If you have read the *Step By Step PCA* vignette, you know that the first steps 
 
 For a data matrix with $n$ rows of observations/samples and $p$ variables/features, the results are the
 
-* scores matrix with $n$ rows and $p$ columns, where each column corresponds to a principal component and the values are the scores, namely the positions of the samples in the new abstract space.
+* scores matrix with $n$ rows and $p$ columns, where each column corresponds to a principal component and the values are the scores, namely the positions of the samples in the new reference frame.
 * loadings matrix with $p$ rows and $p$ columns, which represent the contributions of each variable to each principal component.
 
 In the *Step By Step PCA* vignette we also showed how to reconstruct or approximate the original data set by multiplying the scores by the transpose of the loadings.
@@ -75,9 +73,9 @@ Figure \@ref(fig:PCA-Matrices) demonstrates that if we multiply the original dat
 
 ## Matrix Decompositions
 
-In a moment we are going to look at two matrix decompositions in detail, the singular value decomposition (SVD) and the eigenvalue decomposition. These decompositions are representative of roughly a dozen [matrix decompositions](https://en.wikipedia.org/wiki/Matrix_decomposition).  A matrix decomposition or factorization breaks a matrix into pieces in such a way as to extract information and solve problems.  The SVD however, is probably the most powerful decomposition there is -- we will make extensive use of  this insightful [Twitter thread](https://twitter.com/WomenInStat/status/1285610321747611653) by Dr. Daniela Witten of the University of Washington. We also use this excellent [Cross Validated answer by amoeba](https://stats.stackexchange.com/a/134283/26909).
+In a moment we are going to look at two matrix decompositions in detail, the singular value decomposition (SVD) and the eigenvalue decomposition. These decompositions are representative of roughly a dozen [matrix decompositions](https://en.wikipedia.org/wiki/Matrix_decomposition).  A matrix decomposition or factorization breaks a matrix into pieces in such a way as to extract information and solve problems.  The SVD is probably the most powerful decomposition there is -- we will make extensive use of  this insightful [Twitter thread](https://twitter.com/WomenInStat/status/1285610321747611653) by Dr. Daniela Witten of the University of Washington. We also use this excellent [Cross Validated answer by amoeba](https://stats.stackexchange.com/a/134283/26909).
 
-A short note however, before we dig deeper.  Since we are using a computer to solve this problem, we need to keep in mind that working on a computer is not quite the same as solving a problem using pencil and paper. On the computer, we usually have choices of algorithms to solve problems.  Some algorithms are more robust than others.  Algorithms need to take into account edge cases where the computation can become unstable.  For instance, computers can only store numbers to a certain level of accuracy: when is "very small" actually zero in practice?  We need to know this so we don't try to divide by zero.  This is only one example of problems that can arise when using a computer to calculate values.
+A short note however, before we dig deeper.  Since we are using a computer to solve this problem, we need to keep in mind that using on a computer is not quite the same as solving a problem using pencil and paper. On the computer, we usually have choices of algorithms to solve problems.  Some algorithms are more robust than others.  Algorithms need to take into account edge cases where the computation can become unstable.  For instance, computers can only store numbers to a certain level of accuracy: when is "very small" actually zero in practice?  We need to know this so we don't try to divide by zero.  This is only one example of problems that can arise when using a computer to calculate values.
 
 Finally, the two decompositions we are going to look at have something in common.  Our approach will be to explain each without reference to the other, as this facilitates digestion and understanding of each (it doesn't seem fair to require you to understand the 2nd one that you haven't read while trying to understand the first one).  Then, if you are still with us, we'll look at what they have in common.
 
@@ -121,7 +119,7 @@ We'll use this fact to great advantage when we implement a simple version of SVD
 
 ## A Simple Implementation of SVD
 
-Now that we know what these matrices are, we can look into how to compute them.  As mentioned earlier, the algorithm is everything here.  As a simple example, we'll look at an approach called "power iteration." This is by no means the best approach, but it is simple enough that we can understand the idea.  First, let's generate some random data. In this simple example we are only going to compute the first principal component, so `V` is a vector, not a matrix (one can still do matrix multiplication with a vector).[^2]  Note that the dimensions of the variables are chosen so that we can matrix multiply them (they are *conformable* matrices).
+Now that we know what these matrices are, we can look into how to compute them.  As mentioned earlier, the algorithm is everything here.  As a simple example, we'll look at an approach called "power iteration." This is by no means the best approach, but it is simple enough that we can understand the idea.  First, let's generate some random data. In this simple example we are only going to compute the first principal component, so `V` is a vector, not a matrix (one can still do matrix multiplication with a vector, we just treat it as a "row vector" or a "column vector").[^2]  Note that the dimensions of the variables are chosen so that we can matrix multiply them (they are *conformable* matrices).
 
 ```{r power1}
 set.seed(30)
@@ -135,7 +133,7 @@ Next, we'll use the built-in function `svd` to compute the "official" answer for
 X_svd <- svd(X)
 ```
 
-We'll do a simple iterative calculation that computes the values of `U` and `V`.  The loop runs for 50 iterations, and as it does the values of `U` and `V` are continuously updated (and get closer to the actual answer).
+We'll do a simple iterative calculation that computes the values of `U` and `V`.  The loop runs for 50 iterations, and as it does the values of `U` and `V` are continuously updated and get closer to the actual answer.
 
 ```{r power3}
 for (iter in 1:50) {
@@ -151,7 +149,7 @@ for (iter in 1:50) {
 }
 ```
 
-Notice that there is no $\mathbf{D}$ matrix in this calculation.  This is because we are only calculating a single principal component, and therefore in this case $\mathbf{D} = \mathbf{I}$.  In other words $\mathbf{D}$ is a $1 \times 1$ identity matrix, and we can drop it from the calculation.  With that simplification, we can look at each step.
+Notice that there is no $\mathbf{D}$ matrix in this calculation.  This is because we are only calculating a single principal component, and therefore in this case $\mathbf{D}$ is a scalar constant.  We can drop it from the calculation.  With that simplification, we can look at each step.
 
 ### Step 1
 
@@ -228,13 +226,10 @@ You'll notice that the code snippet above has a few lines to report the progress
 
 ### Comparison to the Answer from `svd`
 
-Looking at it from a different point of view, let's compare the absolute values of the two different answers:
+Let's compare the absolute values of the two different answers:
 
 ```{r comp1}
 mean(abs(V) - abs(X_svd$v[,1]))
-```
-
-```{r comp2}
 mean(abs(U) - abs(X_svd$u[,1]))
 ```
 
@@ -246,11 +241,11 @@ We have seen that our estimate of `U` and `V` compared well to the results from 
 
 ```{r}
 PCA <- prcomp(X)
-mean(U - PCA$x[,1]) # compare the scores
-mean(V- PCA$rotation[,1]) # compare the loadings
+mean(abs(X %*% V) - abs(PCA$x[,1])) # compare the scores
+mean(abs(V)- abs(PCA$rotation[,1])) # compare the loadings
 ```
 
-These mean differences are small but certainly not zero. This is because our values for `V` and `U` were obtained using a simplified algorithm that calculated only the first PC, so we don't expect a mean difference of zero since `prcomp` uses a more sophisticated algorithm. **TODO: verify this argument is correct**
+These mean differences are very small but not quite as good as using `svd` directly.
 
 Notice that we have worked through the SVD without mentioning eigen-anything.  That was one of our goals.  Now let's take a different point of view.
 
@@ -316,9 +311,17 @@ for (iter in 1:50) {
 }
 ```
 
+How does the final estimate for `Q` compare to the official answer?  We can check our result as before:
+
+```{r}
+mean(abs(Q) - abs(X_eig$vectors[,1])) # check the loadings
+```
+
+Good work by the power iteration!
+
 ## The Relationship Between SVD and Eigen Decomposition
 
-It's apparent that SVD and the eigen decomposition have a lot in common.  The `R` function `prcomp` uses the `svd` function "under the hood", and the function `princomp` uses `eigen` under the hood. The vignette "**TODO: TITLE**" demonstrates the similarities and differences between the two decompositions as implemented in four functions.
+It's apparent that SVD and the eigen decomposition have a lot in common.  The `R` function `prcomp` uses the `svd` function "under the hood", and the function `princomp` uses `eigen` under the hood. The vignette "**TODO: TITLE**" goes into greater detail about the similarities and differences between these two decompositions as implemented in `R`.
 
 ### Singular Values vs Eigenvalues
 
@@ -350,5 +353,5 @@ Either of these "values" can be used to compute the amount of variance explained
 [^11]: One also sees this written $\mathbf{X} = \mathbf{Q}\mathbf{\Lambda}\mathbf{Q}^{-1}$.  This is equivalent because for orthogonal matrices $\mathbf{A}^T = \mathbf{A}^{-1}$.
 [^12]: The identity matrix $\mathbf{I}$ is a square matrix with ones on the diagonal and zeros everywhere else.  The identity matrix can pre- or post-multiply any other matrix and not affect that matrix.
 [^13]: We can also use the correlation matrix, which is evaluated via the same formula.  For covariance, one centers the raw data columns.  For correlation, one centers the raw data and then scales them by their standard deviation.
-[^14]: From `?prcomp` "The signs of the columns of the rotation matrix are arbitrary, and so may differ between different programs for PCA, and even between different builds of R."  From `?princomp` "The signs of the columns of the loadings and scores are arbitrary, and so may differ between different programs for PCA, and even between different builds of R: fix_sign = TRUE alleviates that."
+[^14]: From `?prcomp` "The signs of the columns of the rotation matrix are arbitrary, and so may differ between different programs for PCA, and even between different builds of R."  From `?princomp` "The signs of the columns of the loadings and scores are arbitrary, and so may differ between different programs for PCA, and even between different builds of R: fix_sign = TRUE alleviates that."  We discuss the origin of the different signs in more detail in **TODO vignette title**.
 [^15]: **TODO need reference**
