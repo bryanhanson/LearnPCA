@@ -52,7 +52,7 @@ In this vignette we'll look closely at how the data reduction step in PCA is act
 
 # Introduction
 
-If you have read the *Step By Step PCA* vignette, you know that the first steps in PCA are:
+If you have read the [Step By Step PCA](#top-matter) vignette, you know that the first steps in PCA are:
 
 1. Center the data by subtracting the column means from the columns.
 1. Optionally, scale the data column-wise.
