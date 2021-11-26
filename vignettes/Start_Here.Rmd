@@ -37,11 +37,11 @@ res <- knitr::knit_child("top_matter.md", quiet = TRUE)
 cat(res, sep = '\n')
 ```
 
-## Audience
+# Audience
 
 Simply put, the audience for this package is people who want to learn about and more deeply understand Principal Components Analysis (PCA).  Let's acknowledge that we are not talking to mathematicians and statisticians.  We are talking to people in most any other discipline that want to become practitioners of PCA.  PCA is used in many fields, so we have included examples (as Case Studies) from several different fields.  As PCA is the foundation of a number of related methods, people wanting to learn those variants will need a solid understanding of PCA before continuing.
 
-## Why a Package?
+# Why a Package?
 
 In our careers as researchers, we have needed to use PCA, and hence, to understand PCA.  In our careers as professors of chemistry, we have taught PCA to students.  We can confirm that trying to teach PCA, and eventually getting better at it, is one of the best ways to learn PCA.\sidenote{We don't really have any evidence that we are getting better at teaching PCA, but we sure hope so.}
 
@@ -49,7 +49,7 @@ Even so, we do not pretend to be experts in PCA, though we are not novices eithe
 
 So why put this material in package?  In the course of our own learning and teaching, we have tried to identify the best ways of teaching and illustrating this material.  `LearnPCA` is our attempt to gather those materials in an integrated, user-friendly way.  And we get a lot of questions from students.  We're glad to answer those questions, but we hope that this package will be useful to a wider range of PCA learners.
 
-## Guide to the Vignettes
+# Guide to the Vignettes
 
 The following vignettes are currently available.  Chose according to where you are in your journey in understanding PCA.
 
@@ -62,12 +62,12 @@ The following vignettes are planned.  We make no promises as to when these will 
 * The Math Under the Hood of `prcomp`.
 * Techniques related to PCA, in comparison to PCA.
 
-## About the Authors
+# About the Authors
 
 Bryan Hanson is a freelance `R` consultant and software developer.  In a previous life he taught organic chemistry and biochemistry at DePauw University for 32 years.  He blames co-author David Harvey for dragging him down the `R` rabbit hole.  You can learn all about him at his [web site](http://academic.depauw.edu/~hanson/index.html).
 
 David Harvey is a faculty member in the Department of Chemistry & Biochemistry at DePauw University where he has worked since 1986. He claims no knowledge of rabbit holes and maintains his innocence in luring others into `R`. You can learn more about his interests at his [web site](http://dpuadweb.depauw.edu/harvey_web/index.html).
 
-## Acknowledgements
+# Acknowledgements
 
 We have learned what we know from many articles, a few books, many blog posts and questions on StackExchange.  Where we rely heavily on particular sources, we will cite them in the appropriate place.  We will also point out additional useful resources for further study.

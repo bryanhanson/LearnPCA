@@ -128,7 +128,7 @@ rotdata = rot()
 pc_results = prcomp(data.frame(rotdata$xrot, rotdata$yrot, rotdata$zrot))
 ```
 
-## Visuallizing The Original Data Set
+# Visualizing The Original Data Set
 
 The data for this vignette consists of `r length(id)` points drawn at random from within the boundaries of an ellipsoid (think football) that has a length of `r 2*xa`, a width of `r 2*yb`, and a height of `r 2*zc`. Figure 1 shows the three-dimensional cloud of data as `r pcdata_colname` points and the three axes that define the data as `r xyzaxis_colname` lines. These axes are not the principal component axes, they are the usual x, y and z axes.
 
@@ -146,7 +146,7 @@ points3D(x = xpc3, y = ypc3, z = zpc3, type = "l", col = xyzaxis_col,
          lwd = 2, lty = 1, add = TRUE)
 ```
 
-## The First Principal Component
+# The First Principal Component
 
 Although the three axes in Figure 1 define the location of the individual data points in space, any set of three mutually perpendicular axes will accomplish the same thing. Our goal is to find three specific axes such that the first axis conveys the most information about the data and the third, and final axis explains conveys the least information about the data.
 
@@ -187,7 +187,7 @@ points3D(x = pc1$xrot, y = pc1$yrot, z = pc1$zrot, type = "l", col = pcaxis_col,
 #         lwd = 2, lty =3, add = TRUE)
 ```
 
-## The Second Principal Component
+# The Second Principal Component
 
 To visualize the second principal component axis, we first project the data From Figure 1 onto a plane perpendicular to the first principal component axis in Figure 3. Figure 4 shows this where the `r pcaxis_colname` line is the first principal component, the `r pcdata_colname` box highlights a portion of the plane perpendicular to the first principal component axis, and the points in `r pcdata_colname` are the projections of the original data from Figure 1 and Figure 2 onto this plane.
 
@@ -219,7 +219,7 @@ points3D(x = pc2$xrot, y = pc2$yrot, z = pc2$zrot, type = "l", col = pcaxis_col,
          lwd = 2, lty = 2, add = TRUE)
 ```
 
-## The Third Principal Component
+# The Third Principal Component
 
 With the first two principal components in place, the last principal component is the only axis we can draw that is perpendicular to the two existing principal components. Figure 6 shows the original cloud of data and all three principal component axes. In this example, the first principal component is aligned with ellipsoid's length, the second principal component is aligned with its width, and the third principal component is aligned with its height.
 
@@ -236,7 +236,7 @@ points3D(x = pc3$xrot, y = pc3$yrot, z = pc3$zrot, type = "l", col = pcaxis_col,
          lwd = 2, lty = 3, add = TRUE)
 ```
 
-## How PCA Changes the Data Cloud
+# How PCA Changes the Data Cloud
 
 Although you can see this in the figures above, it merits additional emphasis here: the process of reducing the data to a lower dimension after we identify a principal component axis results in the data becoming more compact with less variation in the range of individual values. This is what we mean when we say that each principal component axis explains the greatest variability in the data in its current form. The following figure shows how the data cloud becomes smaller in size as we decrease the dimensions of the data from (a) three, to (b) two, and to (c) one dimension; panel (d) provides a closer view of panel (c), making the individual points visible. The `r pcaxis_colname` lines in (a), (b), and (c) show the principal component axes at each step in the analysis.
 
@@ -280,7 +280,7 @@ par(old.par)
 
 
 
-## Final Thoughts
+# Final Thoughts
 
 The data sets in LearnPCA---and, more importantly, the data sets from your teaching and research projects---likely have significantly more than three variables. Although you cannot plot and examine your data set as we did here for a system with three variables, the process remains the same: rotate the coordinate system to find the principal component axis that best explains the data in *n* dimensions, project the data onto the $n - 1$ dimensional surface that is perpendicular to your principal component axis, and repeat until original set of *n* axes is replaced with a set of *n* principal component axes.
 

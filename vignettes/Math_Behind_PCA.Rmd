@@ -50,7 +50,7 @@ cat(res, sep = '\n')
 
 In this vignette we'll look closely at how the data reduction step in PCA is actually done.  This vignette is intended for those who really want to dig deep.  It's helpful if you know something about matrix manipulations, but we work hard to keep the level of the material accessible to those just learning.
 
-## Introduction
+# Introduction
 
 If you have read the *Step By Step PCA* vignette, you know that the first steps in PCA are:
 
@@ -74,7 +74,7 @@ knitr::include_graphics("Graphics/PCA_Matrices.png")
 
 Figure \@ref(fig:PCA-Matrices) demonstrates that if we multiply the scores matrix ($\mathbf{S}$) by the transpose of the loadings matrix ($\mathbf{L^T}$), we get back the original data matrix ($\mathbf{X}$).  When we start however, all we have is the original data matrix, how do we get the other two matrices?  If we think of this as an algebra problem, we seem to be missing some variables and computing the loadings and scores matrices seems like it would be impossible, as there is not enough information.   However, this is not a algebra problem, it is a *linear* algebra problem (linear algebra being the study of matrices).  It is possible to determine the answer, even though we seem to be missing information, as we shall see shortly.  The key is in something called matrix decompositions.[^1]
 
-## Matrix Decompositions
+# Matrix Decompositions
 
 In a moment we are going to look at two matrix decompositions in detail, the singular value decomposition (SVD) and the eigenvalue decomposition. These decompositions are representative of roughly a dozen [matrix decompositions](https://en.wikipedia.org/wiki/Matrix_decomposition).  A matrix decomposition or factorization breaks a matrix into pieces in such a way as to extract information and solve problems.  The SVD is probably the most powerful decomposition there is -- we will make extensive use of  this insightful [Twitter thread](https://twitter.com/WomenInStat/status/1285610321747611653) by Dr. Daniela Witten of the University of Washington. We also use this excellent [Cross Validated answer by amoeba](https://stats.stackexchange.com/a/134283/26909).
 
@@ -82,7 +82,7 @@ A short note however, before we dig deeper.  Since we are using a computer to so
 
 Finally, the two decompositions we are going to look at have something in common.  Our approach will be to explain each without reference to the other, as this facilitates digestion and understanding of each (it doesn't seem fair to require you to understand the 2nd one that you haven't read while trying to understand the first one).  Then, if you are still with us, we'll look at what they have in common.
 
-## The SVD Decomposition
+# The SVD Decomposition
 
 We'll start from the original data matrix $\mathbf{X}$ which has samples in rows and measured variables in columns.  Let's assume that we have column-centered the matrix.  The SVD decomposition breaks this matrix $\mathbf{X}$ into three matrices (dimensions in parentheses):[^5]
 
@@ -120,7 +120,7 @@ In addition, $\mathbf{U}$ and $\mathbf{V}$ are semi-orthogonal matrices,[^4] whi
 
 We'll use this fact to great advantage when we implement a simple version of SVD in a moment.
 
-## A Simple Implementation of SVD
+# A Simple Implementation of SVD
 
 Now that we know what these matrices are, we can look into how to compute them.  As mentioned earlier, the algorithm is everything here.  As a simple example, we'll look at an approach called "power iteration." This is by no means the best approach, but it is simple enough that we can understand the idea.  First, let's generate some random data. In this simple example we are only going to compute the first principal component, so `V` is a vector, not a matrix (one can still do matrix multiplication with a vector, we just treat it as a "row vector" or a "column vector").[^2]  Note that the dimensions of the variables are chosen so that we can matrix multiply them (they are *conformable* matrices).
 
@@ -154,7 +154,7 @@ for (iter in 1:50) {
 
 Notice that there is no $\mathbf{D}$ matrix in this calculation.  This is because we are only calculating a single principal component, and therefore in this case $\mathbf{D}$ is a scalar constant.  We can drop it from the calculation.  With that simplification, we can look at each step.
 
-### Step 1
+## Step 1
 
 The first step is to multiply the data matrix `X` by the initial estimate for `V` (remember at each iteration the estimate gets better and better).  How does this relate to Equation \@ref(eq:svd2)? If we drop $\mathbf{D}$ from equation \@ref(eq:svd2) we have:
 
@@ -179,11 +179,11 @@ which evaluates to:
 
 because $V$ is a semi-orthogonal matrix. This is the line in the code.
 
-### Step 2
+## Step 2
 
 In this step we normalize (regularize, or scale) the estimate of `U`, by dividing by the square root of the sum of the squared values in `U`.[^6] This has the practical effect of keeping the values in `U` from becoming incredibly large and possibly overflowing memory.[^7]
 
-### Step 3
+## Step 3
 
 Here we update our estimate of `V`.  Similar to Step 1, we can rearrange Equation \@ref(eq:svd2), this time by dropping $\mathbf{D}$, pre-multiplying both sides by $\mathbf{U}^T$ to give an identity matrix which drops out, and then transposing both sides:
 
@@ -215,19 +215,19 @@ Here we update our estimate of `V`.  Similar to Step 1, we can rearrange Equatio
 
 which is the operation we see in the code snippet.[^3]
 
-### Step 4
+## Step 4
 
 Step 4 is the same operation as in Step 2, but on `V`.
 
-### Overall
+## Overall
 
 Essentially what this algorithm is doing is alterating between the two calculations (for `U`, steps 1 & 2, then for `V` steps 3 & 4), with `X` constant.  At each iteration these estimates improve, moving from the initial random value of `V` towards the best answer for both `V`and `U`.
 
-### Reporting
+## Reporting
 
 You'll notice that the code snippet above has a few lines to report the progress of the calculation.  Every 10 steps the correlation between the current value of `V` with the official answer contained in `X_svd$v` is displayed (and the same for `U`).  As you can see from the output the correlation is not bad after 10 iterations and only improves with more iterations. We report the correlation because the signs of the power iteration answers may vary from those computed by `svd`.[^14]
 
-### Comparison to the Answer from `svd`
+## Comparison to the Answer from `svd`
 
 Let's compare the absolute values of the two different answers:
 
@@ -238,7 +238,7 @@ mean(abs(U) - abs(X_svd$u[,1]))
 
 As you can see, the values are essentially the same except for sign.
 
-### Comparison to the Answer from `prcomp`
+## Comparison to the Answer from `prcomp`
 
 We have seen that our estimate of `U` and `V` compared well to the results from the function `svd`.  In practice users would probably use `prcomp` for PCA.  So let's compare to the results from `prcomp`.
 
@@ -252,7 +252,7 @@ These mean differences are very small but not quite as good as using `svd` direc
 
 Notice that we have worked through the SVD without mentioning eigen-anything.  That was one of our goals.  Now let's take a different point of view.
 
-## The Eigen Decomposition
+# The Eigen Decomposition
 
 The eigen decomposition is another way to decompose a data matrix. This decomposition breaks the data matrix $\mathbf{X}$ into two matrices.[^8] Again, let's assume $\mathbf{X}$ has been centered.
 
@@ -322,11 +322,11 @@ mean(abs(Q) - abs(X_eig$vectors[,1])) # check the loadings
 
 Good work by the power iteration!
 
-## The Relationship Between SVD and Eigen Decomposition
+# The Relationship Between SVD and Eigen Decomposition
 
 It's apparent that SVD and the eigen decomposition have a lot in common.  The `R` function `prcomp` uses the `svd` function "under the hood", and the function `princomp` uses `eigen` under the hood. The vignette [PCA Functions](http://bryanhanson.github.io/LearnPCA/articles/Functions_PCA.html) goes into greater detail about the similarities and differences between these two decompositions as implemented in `R`.
 
-### Singular Values vs Eigenvalues
+## Singular Values vs Eigenvalues
 
 We've talked about "values" in the context of each decomposition.  Is this terminology accidental, or is there a relationship?  If you square the singular values from SVD and divide by $n -1$, you get the eigenvalues. Here "diagonal" means take the diagonal elements of the matrix (which would be a vector of values):
 
@@ -337,12 +337,12 @@ We've talked about "values" in the context of each decomposition.  Is this termi
 
 Either of these "values" can be used to compute the amount of variance explained by each principal component.  Details are in the [PCA Functions](http://bryanhanson.github.io/LearnPCA/articles/Functions_PCA.html) vignette.
 
-### Pros and Cons
+## Pros and Cons
 
 * `svd` can handle rectangular matrices $n \times p$ where $n \ne p$.  Either $n > p$ or $n < p$ is acceptable.  On the other hand, `eigen` must have $n = p$. `prcomp` wraps `eigen` and helps the user convert their raw data matrix into a square matrix.
 * **TODO robustness etc**
 
-## References
+# References
 
 [^1]: If you need an introduction to linear algebra, there are many good books, but we particularly recommend @Singh2014 or @Savov2020.
 [^2]: When refering to the mathematical equations, we'll use $\mathbf{X}$, but for the values we compute, we'll use `X`.

@@ -52,7 +52,7 @@ The audience for this document is chemists, spectroscopists, and people in allie
 
 We will use two data sets here: one is a set of elemental analyses of glass artifacts; we use this relatively small, non-spectroscopic data set to help understand PCA fundamentals.  The second data set is a collection of IR spectra of plant oils.
 
-## Conceptual Introduction to PCA
+# Conceptual Introduction to PCA
 
 PCA is conducted on data sets composed of:
 
@@ -78,7 +78,7 @@ These plots will be explained further in the next section.[^1] Other things to k
 
 * *And the problem* ... The results of PCA, scores and loadings, exist in a so-called abstract space.  This space is only distantly and indirectly related to the space in which the original samples were measured (and it may have more than three dimensions, making the results challenging to visualize).  Therefore, the results of PCA are frequently difficult to interpret in concrete terms.  See previous point.  That doesn't mean PCA is not useful, quite the contrary!
 
-## PCA Results Illustrated, No Code, No Math
+# PCA Results Illustrated, No Code, No Math
 
 This section is designed to illustrate the concepts of PCA, and how to interpret the plots that arise from PCA.
 
@@ -117,7 +117,7 @@ barplot(pca$rotation[,1], cex.names = 0.7, ylab = "Contribution")
 
 A loadings plot, Figure \@ref(fig:glassLoadings), shows how much each measured variable contributes to one of the principal components and hence the separation of samples (in this case we show the loadings for PC 1).  We see that three elements have large loadings, and the other elements contribute little to the separation.  We would say separation along PC 1 is driven largely and *collectively* by the results for Na~2~O, SiO~2~ and CaO, which are the most abundant elements in most glasses.[^4]  The first PC should be interpreted as a composite of these variables -- these variables have been collapsed into one new variable, PC 1.
 
-### Refinements 1
+## Refinements 1
 
 Rather than relying on a scree plot to determine the number of PCs that are important, we can present the same information in a table, see Table \@ref(tab:screeTable).  A general rule of thumb says to keep enough PCs to account for 95% of the variation (signal). The table tells us the same as the scree plot: keep three PCs.
 
@@ -130,7 +130,7 @@ DF <- data.frame(component = labs, variance = variance, cumulative = cumvariance
 kable(DF, format = "html", digits = 0, caption = "Variance (signal) accounted for by PCs. Values in percent.") %>% kable_styling(c("striped", "bordered"))
 ```
 
-### Refinements 2
+## Refinements 2
 
 The mathematics of PCA do not take into account anything about the samples other than the measured variables.  However, the researcher may well know something about the samples, for instance, they may fall into groups based on their origin.  If this is the case, the points on the score plot can be colored according to the group.  This may aid significantly in the interpretation.  Lucky for us, we can do this for the glass data set. The samples fell into four groups.  We'll re-do the score plot with colors corresponding to the known groups (Figure \@ref(fig:glassScores2)).
 
@@ -142,7 +142,7 @@ plot(pca$x[,1], pca$x[,2], type = "p", col = glass.grp, pch = 20,
 
 With this figure, we can see that the large group in the lower left corner (in black), which to the eye might have been two groups, is composed of related samples.
 
-## A Spectroscopic Data Set
+# A Spectroscopic Data Set
 
 The archaeological data set has the advantage of only having a few variables, the percentages of the 13 elements in the glass artifacts.  If we move to a spectroscopic data set, the number of variables goes up dramatically.  A UV-Vis data set typically would have a few hundred to a thousand wavelength variables, an IR data set perhaps a few thousand data points, and a 1D NMR data set would typically have 16K or more data points.  As far as PCA is concerned, in these cases the scree plot and score plot do not change in appearance or interpretation.
 

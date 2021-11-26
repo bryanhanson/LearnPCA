@@ -58,7 +58,7 @@ There are four base functions in `R` that can carry out PCA analysis.[^1]  In th
 
 In contrast to `prcomp`, `princomp` cannot handle the situation where $p > n$, so it is not as flexible. In addition, `princomp` uses function `eigen` under the hood, and `eigen` only accepts square matrices as input (where $n = p$).  However, `princomp` will accept a rectangular matrix with $n > p$ because along the way, `princomp` will convert the input matrix to either the covariance or correlation matrix before passing the new matrix to `eigen` (the choice depends upon the arguments).  Both the covariance and correlation matrices are square matrices that `eigen` can process.
 
-### Covariance
+## Covariance
 
 Let's take quick look at covariance and correlation.  First, we'll create some data to play with:
 
@@ -76,7 +76,7 @@ dim(covA) # it's square
 identical(covA, cov(A))
 ```
 
-### Correlation
+## Correlation
 
 
 If instead you center the columns of $A$, scale the columns by dividing by their standard deviations, take $A^TA$ and then divide by $n -1$ you get the **correlation** matrix. Like covariance, correlation describes how the variables track each other.  However, correlation is bounded on $[-1, 1]$.  In effect, correlation is covariance normalized to a constant scale.  Again we can verify this with the built-in function `cor`:
@@ -106,7 +106,7 @@ pca <- prcomp(mt, center = TRUE, scale. = TRUE)
 prin <- princomp(mt, cor = TRUE)
 ```
 
-### Compare the Scores
+## Compare the Scores
 
 We can directly examine the results for the scores:
 
@@ -124,7 +124,7 @@ Notice that the absolute values of the scores are similar, but not identical.  T
 all.equal(abs(prin$scores), abs(pca$x), check.attributes = FALSE)
 ```
 
-### Compare The Loadings
+## Compare The Loadings
 
 Let's do the same for the loadings.  For the `princomp` results we have to extract the loadings because they are stored in an usual form by today's practices.
 
@@ -143,7 +143,7 @@ all.equal(abs(pca$rotation), abs(prin_loads), check.attributes = FALSE)
 
 The absolute value of the loadings from each method are identical, while the actual pattern of positive and negative values is complex as we saw for the scores. Why is this?  Recall from the **TODO need vig title** vignette that the loadings are the cosines of the angles through which the original axes are rotated to get to the new reference frame.  As cosine is a periodic function, if one rotates the reference frame 30 degrees to line up with the data better, the same alignment can also be achieved by rotating 30 + 180 degrees or 30 - 180 degrees.  However, the latter two operations will give the opposite sign for the cosine value.  This is the origin of the pattern of signs in the  loadings; essentially there are positive and negative cosine values that both describe the needed reorientation.  Once the sign of the first value is chosen, the signs of the other values are meaningful only in that context.
 
-### Reconstruct the Original Data
+## Reconstruct the Original Data
 
 While the pattern of positive and negative scores and loadings differs between algorithms, in any particular case the signs of the loadings and scores work together properly. We can use the function `PCAtoXhat` from this package to reconstruct the original data, and compare it to the known original data.  This function recognizes the results from either `prcomp` or `princomp` and reconstructs the original data, accounting for any scaling and centering.
 
@@ -176,7 +176,7 @@ Then conduct `svd`:
 sing <- svd(mt_cen_scl)
 ```
 
-### Compare to the Scores from `prcomp`
+## Compare to the Scores from `prcomp`
 
 The math behind extracting the scores and loadings is discussed more fully in the Math Behind PCA vignette.  Here we use the results shown there to compare scores and loadings.
 
@@ -185,7 +185,7 @@ svd_scores <- mt_cen_scl %*% sing$v
 all.equal(svd_scores, pca$x, check.attributes = FALSE)
 ```
 
-### Compare to the Loadings from `prcomp`
+## Compare to the Loadings from `prcomp`
 
 ```{r}
 all.equal(sing$v, pca$rotation, check.attributes = FALSE)
@@ -200,7 +200,7 @@ mt_cen_scl_cor <- cor(mt_cen_scl)
 eig <- eigen(mt_cen_scl_cor)
 ```
 
-### Compare to the Scores from `princomp`
+## Compare to the Scores from `princomp`
 
 As we discovered earlier, we need to take the absolute value prior to comparison.
 
@@ -209,7 +209,7 @@ eig_scores <- mt_cen_scl %*% eig$vectors
 all.equal(abs(eig_scores), abs(prin$scores), check.attributes = FALSE)
 ```
 
-### Compare to the Loadings from `princomp`
+## Compare to the Loadings from `princomp`
 
 ```{r}
 all.equal(abs(eig$vectors), abs(prin_loads), check.attributes = FALSE)
