@@ -30,6 +30,13 @@ pkgdown:
 options(rmarkdown.html_vignette.check_title = FALSE)
 ```
 
+<!-- This chunk inserts common info about all the vignettes -->
+
+```{r, echo = FALSE, results = "asis"}
+res <- knitr::knit_child("top_matter.md", quiet = TRUE)
+cat(res, sep = '\n')
+```
+
 ## Audience
 
 Simply put, the audience for this package is people who want to learn about and more deeply understand Principal Components Analysis (PCA).  Let's acknowledge that we are not talking to mathematicians and statisticians.  We are talking to people in most any other discipline that want to become practitioners of PCA.  PCA is used in many fields, so we have included examples (as Case Studies) from several different fields.  As PCA is the foundation of a number of related methods, people wanting to learn those variants will need a solid understanding of PCA before continuing.

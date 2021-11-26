@@ -14,6 +14,7 @@ output:
       fig_caption: yes
       number_sections: false
       mathjax: default
+      css: vignette.css
 vignette: >
     %\VignetteIndexEntry{LearnPCA 4: The Math Behind PCA}
     %\VignetteKeywords{PCA}
@@ -35,15 +36,17 @@ suppressPackageStartupMessages(library("knitr"))
 suppressPackageStartupMessages(library("kableExtra"))
 suppressPackageStartupMessages(library("chemometrics"))
 
-desc <- packageDescription("LearnPCA")
-
 # Stuff specifically for knitr:
 opts_chunk$set(eval = TRUE, echo = TRUE)
 options(rmarkdown.html_vignette.check_title = FALSE)
 ```
 
+<!-- This chunk inserts common info about all the vignettes -->
 
-This vignette is based upon `LearnPCA` version `r desc$Version`.
+```{r, echo = FALSE, results = "asis"}
+res <- knitr::knit_child("top_matter.md", quiet = TRUE)
+cat(res, sep = '\n')
+```
 
 In this vignette we'll look closely at how the data reduction step in PCA is actually done.  This vignette is intended for those who really want to dig deep.  It's helpful if you know something about matrix manipulations, but we work hard to keep the level of the material accessible to those just learning.
 
@@ -64,12 +67,12 @@ In the *Step By Step PCA* vignette we also showed how to reconstruct or approxim
 
 In Figure \@ref(fig:PCA-Matrices) we show one way to represent the relationships between the original data matrix ($\mathbf{X}$), the loadings matrix ($\mathbf{L}$) and the scores matrix ($\mathbf{S}$).
 
-```{r PCA-Matrices, echo = FALSE, results = "show", fig.cap = "One way to look at the matrix algebra behind PCA.", out.width = "75%", fig.align = "center"}
+```{r PCA-Matrices, echo = FALSE, results = "show", fig.cap = "One way to look at the matrix algebra behind PCA. Reconstruction of the data matrix $\\mathbf{X}$ is achieved by multiplying the score matrix ($\\mathbf{S}$) by the transpose of the loadings matrix ($\\mathbf{L}$).  The method of matrix multiplication is symbolized in the red-dotted outlines: Each element of row $i$ of the scores matrix is multiplied by the corresponding element of column $j$ of the transposed loadings.  These results are summed to give a single entry in the original data matrix $\\mathbf{X}_{ij}$.", out.width = "75%", fig.align = "center"}
 
 knitr::include_graphics("Graphics/PCA_Matrices.png")
 ```
 
-Figure \@ref(fig:PCA-Matrices) demonstrates that if we multiply the original data matrix ($\mathbf{X}$) by the loadings matrix ($\mathbf{L}$), we get the scores matrix ($\mathbf{S}$).  But, if all we have is the original data matrix, how do we get the other two matrices?  If we think of this as an algebra problem, we seem to be missing some variables and computing the loadings and scores matrices seems like it would be impossible, as there is not enough information.   However, this is not a algebra problem, it is a *linear* algebra problem (linear algebra being the study of matrices).  It is possible to determine the answer, even though we seem to be missing information, as we shall see shortly.  The key is in something called matrix decompositions.[^1]
+Figure \@ref(fig:PCA-Matrices) demonstrates that if we multiply the scores matrix ($\mathbf{S}$) by the transpose of the loadings matrix ($\mathbf{L^T}$), we get back the original data matrix ($\mathbf{X}$).  When we start however, all we have is the original data matrix, how do we get the other two matrices?  If we think of this as an algebra problem, we seem to be missing some variables and computing the loadings and scores matrices seems like it would be impossible, as there is not enough information.   However, this is not a algebra problem, it is a *linear* algebra problem (linear algebra being the study of matrices).  It is possible to determine the answer, even though we seem to be missing information, as we shall see shortly.  The key is in something called matrix decompositions.[^1]
 
 ## Matrix Decompositions
 

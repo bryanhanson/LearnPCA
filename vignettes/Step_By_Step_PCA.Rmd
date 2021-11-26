@@ -43,6 +43,13 @@ opts_chunk$set(eval = TRUE, echo = FALSE, results = "hide")
 options(rmarkdown.html_vignette.check_title = FALSE)
 ```
 
+<!-- This chunk inserts common info about all the vignettes -->
+
+```{r, echo = FALSE, results = "asis"}
+res <- knitr::knit_child("top_matter.md", quiet = TRUE)
+cat(res, sep = '\n')
+```
+
 In this vignette we'll walk through the computational and mathematical steps needed to carry out PCA.  If you are not familiar with PCA from a conceptual point of view, we strongly recommend you read the "Conceptual Introduction to PCA" vignette before proceeding.
 
 The steps to carry out PCA are:

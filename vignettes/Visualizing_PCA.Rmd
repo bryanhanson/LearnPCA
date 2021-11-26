@@ -49,6 +49,13 @@ opts_knit$set(eval.after = "fig.cap")
 options(rmarkdown.html_vignette.check_title = FALSE)
 ```
 
+<!-- This chunk inserts common info about all the vignettes -->
+
+```{r, echo = FALSE, results = "asis"}
+res <- knitr::knit_child("top_matter.md", quiet = TRUE)
+cat(res, sep = '\n')
+```
+
 One simple explanation of a PCA analysis is that it is a reorientation of the set of axes we use to describe the location of data points in space. Suppose we have *n* measurements and 100 samples. First, we plot the data in *n*-dimensional space using *n* mutually perpendicular axes, one for each of the *n* measurements. Then, we rotate the set of *n* axes until one of them passes through the cloud of 100 data points in a way that explains as much of the variation in the data as possible; this becomes our first principal component axis. Once we find this axis, we project the cloud of 100 data points onto the $n - 1$ dimensional surface that is perpendicular to the first principal component and repeat the process: rotate the axes, find the next principal component, and project the data onto the next lower dimension.
 
 *DTH: In the conceptual introduction to PCA, I encouraged the reader to think of variation as the signal, so when we say "explains as much of the variation as possible" it should be read as "explains as much of the signal as possible". Not sure if you like this phrasing; but if you do, it would be good to continue to use it here.* **I'll have to chew on this a bit. To an analytical chemist, a signal is something you measure that conveys information. In that sense a PCA is not really explaining as much of the signal in the data as possible, but redefining the original signals in a way that provides more useful information. Thus, for the glass data, the individual measurements, each a signal, convey less useful information about the origin of the samples than the first two PCs, which are more useful signals for classify the samples. Still, I do see that one might see more variation as more noise, which might be a point of confusion.**
@@ -123,7 +130,7 @@ pc_results = prcomp(data.frame(rotdata$xrot, rotdata$yrot, rotdata$zrot))
 
 ## Visuallizing The Original Data Set
 
-The data for this vignette consists of `r length(id)` points drawn at random from within the boundaries of an ellipsoid (think football) that has a length of `r 2*xa`, a width of `r 2*yb`, and a height of `r 2*zc`. Figure 1 shows the three-dimensional cloud of data as `r pcdata_colname` points and the three axes that define the data as `r xyzaxis_colname` lines. These axes are not the principal component axes, they are the usual x, y and z axes. 
+The data for this vignette consists of `r length(id)` points drawn at random from within the boundaries of an ellipsoid (think football) that has a length of `r 2*xa`, a width of `r 2*yb`, and a height of `r 2*zc`. Figure 1 shows the three-dimensional cloud of data as `r pcdata_colname` points and the three axes that define the data as `r xyzaxis_colname` lines. These axes are not the principal component axes, they are the usual x, y and z axes.
 
 ```{r origData, fig.cap=paste("Three-dimensional plot of data (", pcdata_colname, "points) showing the x, y, and z-axes (",xyzaxis_colname, "lines) that represent the three measured variables.")}
 # plot rotated data and original pc axes (original x,y,z)
@@ -182,7 +189,7 @@ points3D(x = pc1$xrot, y = pc1$yrot, z = pc1$zrot, type = "l", col = pcaxis_col,
 
 ## The Second Principal Component
 
-To visualize the second principal component axis, we first project the data From Figure 1 onto a plane perpendicular to the first principal component axis in Figure 3. Figure 4 shows this where the `r pcaxis_colname` line is the first principal component, the `r pcdata_colname` box highlights a portion of the plane perpendicular to the first principal component axis, and the points in `r pcdata_colname` are the projections of the original data from Figure 1 and Figure 2 onto this plane. 
+To visualize the second principal component axis, we first project the data From Figure 1 onto a plane perpendicular to the first principal component axis in Figure 3. Figure 4 shows this where the `r pcaxis_colname` line is the first principal component, the `r pcdata_colname` box highlights a portion of the plane perpendicular to the first principal component axis, and the points in `r pcdata_colname` are the projections of the original data from Figure 1 and Figure 2 onto this plane.
 
 ```{r pc2a, fig.cap=paste("The first principal component (",pcaxis_colname, "line) and the projection of the original data (",pcdata_colname,"points) onto the plane perpendicular to the first principal component (shown with a", pcdata_colname, "boundary).")}
 proj = rot(x = rep(0,length(id)), y = ye, z = ze)
@@ -235,14 +242,14 @@ Although you can see this in the figures above, it merits additional emphasis he
 
 ```{r dataClouds, fig.height=8, fig.cap=paste("How the data (in", pcdata_colname, ") changes during PCA: (a) the original data in three dimensions; (b) the data after reducing to two dimensions; (c) the data after reducing to one dimension; (d) close up of (c) making it easier to see the individual data points. The", pcaxis_colname, "lines are the principal component axes at each step in the PCA analysis.")}
 old.par = par(mfrow = c(2,2))
-scatter3D(x = rotdata$xrot, y = rotdata$yrot, z = rotdata$zrot, 
+scatter3D(x = rotdata$xrot, y = rotdata$yrot, z = rotdata$zrot,
           pch = 19, col = pcdata_col, bty = "b2", cex = 0.2,
-          xlim = c(-xa,xa), ylim = c(-xa,xa), zlim = c(-xa,xa), 
-          phi = 10, theta = 50, ticktype = "detailed", 
+          xlim = c(-xa,xa), ylim = c(-xa,xa), zlim = c(-xa,xa),
+          phi = 10, theta = 50, ticktype = "detailed",
           main = "(a) Original Data Cloud")
 points3D(x = pc1$xrot, y = pc1$yrot, z = pc1$zrot, type = "l", col = "red",
          lwd = 0.5, lty = 1, add = TRUE)
-scatter3D(x = proj$xrot, y = proj$yrot, z = proj$zrot, 
+scatter3D(x = proj$xrot, y = proj$yrot, z = proj$zrot,
           pch =19, col = pcdata_col, cex = 0.2, ticktype = "detailed",
           phi = 10, theta = 50, bty = "b2",
           xlim = c(-xa,xa), ylim = c(-xa,xa), zlim = c(-xa,xa),
@@ -252,7 +259,7 @@ points3D(x = pc1$xrot, y = pc1$yrot, z = pc1$zrot, type = "l", col = "red",
 points3D(x = pc2$xrot, y = pc2$yrot, z = pc2$zrot, type = "l", col = "red",
          lwd = 0.5, lty = 1, add = TRUE)
 proj2 = rot(x = rep(0,length(id)), y = rep(0,length(id)), z = ze)
-scatter3D(x = proj2$xrot, y = proj2$yrot, z = proj2$zrot, 
+scatter3D(x = proj2$xrot, y = proj2$yrot, z = proj2$zrot,
           pch =19, col = pcdata_col, cex = 0.2, ticktype = "detailed",
           phi = 10, theta = 50, bty = "b2",
           xlim = c(-xa,xa), ylim = c(-xa,xa), zlim = c(-xa,xa),
@@ -263,7 +270,7 @@ points3D(x = pc2$xrot, y = pc2$yrot, z = pc2$zrot, type = "l", col = "red",
          lwd = 0.5, lty = 1, add = TRUE)
 points3D(x = pc3$xrot, y = pc3$yrot, z = pc3$zrot, type = "l", col = "red",
          lwd = 0.5, lty = 1, add = TRUE)
-scatter3D(x = proj2$xrot, y = proj2$yrot, z = proj2$zrot, 
+scatter3D(x = proj2$xrot, y = proj2$yrot, z = proj2$zrot,
           pch =19, col = pcdata_col, cex = 0.2, ticktype = "detailed",
           phi = 10, theta = 50, bty = "b2",
           xlim = c(-2,2), ylim = c(-2,2), zlim = c(-2,2),

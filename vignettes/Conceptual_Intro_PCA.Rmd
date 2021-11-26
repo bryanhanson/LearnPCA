@@ -41,6 +41,13 @@ opts_chunk$set(eval = TRUE, echo = FALSE, results = "hide",
 options(rmarkdown.html_vignette.check_title = FALSE)
 ```
 
+<!-- This chunk inserts common info about all the vignettes -->
+
+```{r, echo = FALSE, results = "asis"}
+res <- knitr::knit_child("top_matter.md", quiet = TRUE)
+cat(res, sep = '\n')
+```
+
 The audience for this document is chemists, spectroscopists, and people in allied fields who are using spectroscopy to analyze their data.
 
 We will use two data sets here: one is a set of elemental analyses of glass artifacts; we use this relatively small, non-spectroscopic data set to help understand PCA fundamentals.  The second data set is a collection of IR spectra of plant oils.
