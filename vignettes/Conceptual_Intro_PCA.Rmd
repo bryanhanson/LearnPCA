@@ -13,6 +13,7 @@ output:
       toc_depth: 2
       fig_caption: yes
       number_sections: false
+      css: vignette.css
 vignette: >
     %\VignetteIndexEntry{LearnPCA 2: A Conceptual Introduction to PCA}
     %\VignetteKeywords{PCA}

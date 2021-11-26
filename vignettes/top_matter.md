@@ -12,7 +12,7 @@ desc <- packageDescription("LearnPCA")
 
 * [Start Here](http://bryanhanson.github.io/LearnPCA/articles/Start_Here.html)
 * [A Conceptual Introduction to PCA](http://bryanhanson.github.io/LearnPCA/articles/Conceptual_Intro_PCA.html)
-* [Visualizing PCA](http://bryanhanson.github.io/LearnPCA/articles/Visualizing_PCA.html)
+* [Visualizing PCA in 3D](http://bryanhanson.github.io/LearnPCA/articles/Visualizing_PCA.html)
 * [Step By Step PCA](http://bryanhanson.github.io/LearnPCA/articles/Step_By_Step_PCA.html)
 * [The Math Behind PCA](http://bryanhanson.github.io/LearnPCA/articles/Math_Behind_PCA.html)
 * [PCA Functions](http://bryanhanson.github.io/LearnPCA/articles/Functions_PCA.html)
