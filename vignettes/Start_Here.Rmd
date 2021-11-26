@@ -39,7 +39,7 @@ cat(res, sep = '\n')
 
 # Audience
 
-Simply put, the audience for this package is people who want to learn about and more deeply understand Principal Components Analysis (PCA).  Let's acknowledge that we are not talking to mathematicians and statisticians.  We are talking to people in most any other discipline that want to become practitioners of PCA.  PCA is used in many fields, so we have included examples (as Case Studies) from several different fields.  As PCA is the foundation of a number of related methods, people wanting to learn those variants will need a solid understanding of PCA before continuing.
+Simply put, the audience for this package is people who want to learn about and more deeply understand Principal Components Analysis (PCA).  Let's acknowledge that we are not talking to mathematicians and statisticians.  We are talking to people in most any other discipline that want to become practitioners of PCA.  PCA is used in many fields, so we have included examples (as Case Studies) from several different fields.  As PCA is the foundation of a number of related methods, people wanting to learn those variants will need a solid understanding of PCA before continuing. **TODO: we defined the audience in Conceptual Intro differently; make consistent**
 
 # Why a Package?
 
@@ -49,24 +49,11 @@ Even so, we do not pretend to be experts in PCA, though we are not novices eithe
 
 So why put this material in package?  In the course of our own learning and teaching, we have tried to identify the best ways of teaching and illustrating this material.  `LearnPCA` is our attempt to gather those materials in an integrated, user-friendly way.  And we get a lot of questions from students.  We're glad to answer those questions, but we hope that this package will be useful to a wider range of PCA learners.
 
-# Guide to the Vignettes
-
-The following vignettes are currently available.  Chose according to where you are in your journey in understanding PCA.
-
-* A Conceptual Introduction to PCA.  You will want to know this material before proceeding.  No math or computations are required or presented.
-* Step-By-Step PCA.  This vignette discusses the key steps in carrying out PCA and shows how to conduct PCA in the `R` environment.
-
-The following vignettes are planned.  We make no promises as to when these will be available, or even if they will ever be available.  They are simply ideas for now.
-
-* PCA illustrated.
-* The Math Under the Hood of `prcomp`.
-* Techniques related to PCA, in comparison to PCA.
-
 # About the Authors
 
-Bryan Hanson is a freelance `R` consultant and software developer.  In a previous life he taught organic chemistry and biochemistry at DePauw University for 32 years.  He blames co-author David Harvey for dragging him down the `R` rabbit hole.  You can learn all about him at his [web site](http://academic.depauw.edu/~hanson/index.html).
+Bryan Hanson is a freelance `R` consultant and software developer.  In a previous life he taught organic chemistry and biochemistry at DePauw University for 32 years.  He blames co-author David Harvey for dragging him down the `R` rabbit hole.  You can learn all about him at his [web site](http://ChemoSpec.org).
 
-David Harvey is a faculty member in the Department of Chemistry & Biochemistry at DePauw University where he has worked since 1986. He claims no knowledge of rabbit holes and maintains his innocence in luring others into `R`. You can learn more about his interests at his [web site](http://dpuadweb.depauw.edu/harvey_web/index.html).
+David Harvey is a faculty member in the Department of Chemistry & Biochemistry at DePauw University where he has worked since 1986. He claims no knowledge of rabbit holes and maintains his innocence in luring others into `R`. You can learn more about his interests at his [web site](http://dpuadweb.depauw.edu/harvey_web/index.html). **TODO: DTH website will be moving; update when new info is ready**
 
 # Acknowledgements
 
