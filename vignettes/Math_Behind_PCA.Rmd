@@ -274,7 +274,7 @@ The equation above is where we'd like to end up; it looks like a variation on th
 * $\mathbf{Q}$ is square matrix that whose columns will contain the *eigenvectors*.  $\mathbf{Q}$ is also an orthogonal matrix (discussed earlier in the SVD section).  Notice that $\mathbf{Q}$ appears twice in \@ref(eq:ed2), the second time as its transpose.
 * $\mathbf{\Lambda}$ (upper case Greek letter Lambda) is a diagonal matrix, very similar in function to $\mathbf{D}$ in SVD. All non-diagonal elements are zero.  The diagonal contains values sorted from largest to smallest.  These are called the *eigenvalues*.
 
-So what are eigenvectors and eigenvalues?  The eigenvalues are related to the amount of variance explained for each principal component. The eigenvectors are the principal axes, which as we have seen constitute a new frame of reference for looking at the data. **TODO: link to other vigs where we have a graphical view of this** If we post-multiply the original data by the eigenvectors in $\mathbf{Q}$ we get the scores:
+So what are eigenvectors and eigenvalues?  The eigenvalues are related to the amount of variance explained for each principal component. The eigenvectors are the principal axes, which as we have seen constitute a new frame of reference for looking at the data (see the [Visualizing PCA](#top-matter) vignette for details). If we post-multiply the original data by the eigenvectors in $\mathbf{Q}$ we get the scores:
 
 \begin{equation}
 (\#eq:ed4)
@@ -324,7 +324,7 @@ Good work by the power iteration!
 
 # The Relationship Between SVD and Eigen Decomposition
 
-It's apparent that SVD and the eigen decomposition have a lot in common.  The `R` function `prcomp` uses the `svd` function "under the hood", and the function `princomp` uses `eigen` under the hood. The vignette [PCA Functions](http://bryanhanson.github.io/LearnPCA/articles/Functions_PCA.html) goes into greater detail about the similarities and differences between these two decompositions as implemented in `R`.
+It's apparent that SVD and the eigen decomposition have a lot in common.  The `R` function `prcomp` uses the `svd` function "under the hood", and the function `princomp` uses `eigen` under the hood. The vignette [PCA Functions](#top-matter) goes into greater detail about the similarities and differences between these two decompositions as implemented in `R`.
 
 ## Singular Values vs Eigenvalues
 
@@ -335,7 +335,7 @@ We've talked about "values" in the context of each decomposition.  Is this termi
 (diagonal(\mathbf{D}))^2/(n - 1) = diagonal(\mathbf{\Lambda})
 \end{equation}
 
-Either of these "values" can be used to compute the amount of variance explained by each principal component.  Details are in the [PCA Functions](http://bryanhanson.github.io/LearnPCA/articles/Functions_PCA.html) vignette.
+Either of these "values" can be used to compute the amount of variance explained by each principal component.  Details are in the [PCA Functions](#top-matter) vignette.
 
 ## Pros and Cons
 
@@ -356,5 +356,5 @@ Either of these "values" can be used to compute the amount of variance explained
 [^11]: One also sees this written $\mathbf{X} = \mathbf{Q}\mathbf{\Lambda}\mathbf{Q}^{-1}$.  This is equivalent because for orthogonal matrices $\mathbf{A}^T = \mathbf{A}^{-1}$.
 [^12]: The identity matrix $\mathbf{I}$ is a square matrix with ones on the diagonal and zeros everywhere else.  The identity matrix can pre- or post-multiply any other matrix and not affect that matrix.
 [^13]: We can also use the correlation matrix, which is evaluated via the same formula.  For covariance, one centers the raw data columns.  For correlation, one centers the raw data and then scales them by their standard deviation.
-[^14]: From `?prcomp` "The signs of the columns of the rotation matrix are arbitrary, and so may differ between different programs for PCA, and even between different builds of R."  From `?princomp` "The signs of the columns of the loadings and scores are arbitrary, and so may differ between different programs for PCA, and even between different builds of R: fix_sign = TRUE alleviates that."  We discuss the origin of the different signs in more detail in [PCA Functions vignette](http://bryanhanson.github.io/LearnPCA/articles/Functions_PCA.html).
+[^14]: From `?prcomp` "The signs of the columns of the rotation matrix are arbitrary, and so may differ between different programs for PCA, and even between different builds of R."  From `?princomp` "The signs of the columns of the loadings and scores are arbitrary, and so may differ between different programs for PCA, and even between different builds of R: fix_sign = TRUE alleviates that."  We discuss the origin of the different signs in more detail in [PCA Functions vignette](#top-matter).
 [^15]: **TODO need reference**
