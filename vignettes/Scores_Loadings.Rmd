@@ -53,6 +53,13 @@ opts_knit$set(eval.after = "fig.cap")
 options(rmarkdown.html_vignette.check_title = FALSE)
 ```
 
+<!-- This chunk inserts common info about all the vignettes -->
+
+```{r, echo = FALSE, results = "asis"}
+res <- knitr::knit_child("top_matter.md", quiet = TRUE)
+cat(res, sep = '\n')
+```
+
 ```{r prepData}
 # create data sets for use in vignette
 
