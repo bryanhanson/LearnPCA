@@ -110,7 +110,7 @@ percent_var1 = 100*var1/total_variance
 
 A cursory examination of Figure \@ref(fig:fig-origData) shows us that there is a positive correlation between the two variables; that is, a general increase in the value for one variable results in a general increase in the value for the other variable. As you might expect from other vignettes, this correlation between the two variables suggests that a single principal component is likely sufficient to explain the data.
 
-Another way to examine our data is to consider the relative dispersion in the values for each variable. A cursory examination of the data in Table \@ref(tab:table-origData) shows that variable 2 spans a greater range of values (from `r round(min(variable2), digits = 2)` to `r round(max(variable2), digits = 2)`) than do the values for variable 1 (from `r round(min(variable1), digits = 2)` to `r round(max(variable1), digits = 2)`). We can treat this quantitatively by reporting the variance for each variable and the total variance, which is the sum of the variances for the two variables:
+Another way to examine our data is to consider the relative dispersion in the values for each variable. A cursory examination of the data in Table \@ref(tab:table-origData) shows that variable 2 spans a greater range of values (from `r round(min(variable2), digits = 2)` to `r round(max(variable2), digits = 2)`) than do the values for variable 1 (from `r round(min(variable1), digits = 2)` to `r round(max(variable1), digits = 2)`). We can treat this quantitatively by reporting the variance[^1] for each variable and the total variance, which is the sum of the variances for the two variables:
 
 - variable 1's variance: `r round(var1, digits = 2)`
 
@@ -177,3 +177,5 @@ plot_rot_axes(rotate60, show_loadings = TRUE, show_simple_legend = FALSE,
 ```
 
 Since individual loadings are defined by a cosine function, they are limited to the range --1 (an angle of rotation of 180°) to +1 (an angle of rotation of 0°). The sign of the loading indicates how a variable contributes to the principal component.  A positive loading indicates that a variable contributes to some degree to the principal component, and a negative loading indicates that its absence contributes to some degree to the principal component. The larger a loading's relative magnitude, the more important is its presence or absence to the principal component.
+
+[^1]: Variance is defined as $$\frac{\sum({x_i - \bar{x}})^2}{n - 1}$$ for a set of $n$ values of $x$.
