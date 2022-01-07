@@ -147,12 +147,23 @@ In Figure \@ref(fig:fig-origData), each or our eight samples appears as a point 
 ```{r table-scores, results = "asis"}
 variable2 = data_set_1$xrot
 variable1 = data_set_1$yrot
-samples = seq(1,8)
+samples = c(1:8, "% variance")
 pc1 = sqrt(rotate60$axis1_x^2 + rotate60$axis1_y^2) * sign(rotate60$axis1_x)
 pc2 = sqrt(rotate60$axis2_x^2 + rotate60$axis2_y^2) * sign(rotate60$axis2_x)
+# compute variances for a summary row
+v1 <- var(variable1)
+v2 <- var(variable2)
+vpc1 <- var(pc1)
+vpc2 <- var(pc2)
+# add variances to data
+variable1 <- c(variable1, 100*v1/(v1 + v2))
+variable2 <- c(variable2, 100*v2/(v2 + v2))
+pc1<- c(pc1, 100*vpc1/(vpc1 + vpc2))
+pc2<- c(pc2, 100*vpc2/(vpc1 + vpc2))
+# put it all together
 df = data.frame(samples,variable1,variable2,pc1, pc2)
 colnames(df) = c("sample", "variable 1", "variable 2", "PC 1", "PC 2")
-kable(df, format = "html", caption = "Individual results for each of the eight samples.") %>% kable_styling(c("striped", "bordered"), full_width = FALSE)
+kable(df, format = "html", caption = "Coordinates for each of the eight samples, in the original axis system and in the principal component axis system.") %>% kable_styling(c("striped", "bordered"), full_width = FALSE)
 ```
 
 ## Loadings
