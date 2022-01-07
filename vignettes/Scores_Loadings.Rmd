@@ -163,7 +163,7 @@ pc2<- c(pc2, 100*vpc2/(vpc1 + vpc2))
 # put it all together
 df = data.frame(samples,variable1,variable2,pc1, pc2)
 colnames(df) = c("sample", "variable 1", "variable 2", "PC 1", "PC 2")
-kable(df, format = "html", caption = "Coordinates for each of the eight samples, in the original axis system and in the principal component axis system.") %>% kable_styling(c("striped", "bordered"), full_width = FALSE)
+kable(df, format = "html", caption = "Coordinates for each of the eight samples, in the original axis system and in the principal component axis system.", digits = 2) %>% kable_styling(c("striped", "bordered"), full_width = FALSE)
 ```
 
 ## Loadings
