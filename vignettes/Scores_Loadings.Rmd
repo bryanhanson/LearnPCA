@@ -157,7 +157,7 @@ vpc1 <- var(pc1)
 vpc2 <- var(pc2)
 # add variances to data
 variable1 <- c(variable1, 100*v1/(v1 + v2))
-variable2 <- c(variable2, 100*v2/(v2 + v2))
+variable2 <- c(variable2, 100*v2/(v1 + v2))
 pc1<- c(pc1, 100*vpc1/(vpc1 + vpc2))
 pc2<- c(pc2, 100*vpc2/(vpc1 + vpc2))
 # put it all together
