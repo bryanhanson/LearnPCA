@@ -100,7 +100,7 @@ variable1 = data_set_1$yrot
 samples = seq(1,8)
 df = data.frame(samples,variable1,variable2)
 colnames(df) = c("sample", "variable 1", "variable 2")
-kable(df, format = "html", caption = "Individual values for the variables and samples.") %>% kable_styling(c("striped", "bordered"), full_width = FALSE)
+kable(df, format = "html", caption = "Individual values for the variables and samples.", digits = 2) %>% kable_styling(c("striped", "bordered"), full_width = FALSE)
 var2 = var(variable2)
 var1 = var(variable1)
 total_variance = var1 + var2
