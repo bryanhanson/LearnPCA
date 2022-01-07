@@ -247,16 +247,27 @@ plot_rot_axes = function(file, show_rotated = TRUE,
   }
   
   # show scores for one extreme point
+  # if(show_scores == TRUE){
+  # min_id = which.min(file$y_original)
+  # lines(x = c(file$x_original[min_id], file$axis1_x[min_id]),
+        # y = c(file$y_original[min_id], file$axis1_y[min_id]),
+        # lty = 3, lwd = 2, col = axis1_col)
+  # lines(x = c(file$x_original[min_id], file$axis2_x[min_id]),
+        # y = c(file$y_original[min_id], file$axis2_y[min_id]),
+        # lty = 3,lwd = 2, col = axis2_col)
+  # }
+  
+  # show scores for one extreme point BAH grey lines version
   if(show_scores == TRUE){
   min_id = which.min(file$y_original)
   lines(x = c(file$x_original[min_id], file$axis1_x[min_id]),
         y = c(file$y_original[min_id], file$axis1_y[min_id]),
-        lty = 3, lwd = 2, col = axis1_col)
+        lty = 3, lwd = 2, col = "gray50")
   lines(x = c(file$x_original[min_id], file$axis2_x[min_id]),
         y = c(file$y_original[min_id], file$axis2_y[min_id]),
-        lty = 3,lwd = 2, col = axis2_col)
+        lty = 3,lwd = 2, col = "gray50")
   }
-  
+
   # show loadings for first axis
   if(show_loadings == TRUE){
   library(plotrix)
