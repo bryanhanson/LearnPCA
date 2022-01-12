@@ -15,7 +15,7 @@ output:
       number_sections: false
       css: vignette.css
 vignette: >
-    %\VignetteIndexEntry{LearnPCA 1: A Guide to Learning PCA with LearnPCA (Start Here)}
+    %\VignetteIndexEntry{LearnPCA 01: A Guide to Learning PCA with LearnPCA (Start Here)}
     %\VignetteKeywords{PCA}
     %\VignettePackage{LearnPCA}
     %\VignetteEngine{knitr::rmarkdown}
@@ -40,7 +40,7 @@ cat(res, sep = '\n')
 
 # Audience
 
-Simply put, the audience for this package is people who want to learn about and more deeply understand Principal Components Analysis (PCA).  Let's acknowledge that we are not talking to mathematicians and statisticians.  We are talking to people in most any other discipline that want to become practitioners of PCA.  PCA is used in many fields, so we have included examples (as Case Studies) from several different fields.  As PCA is the foundation of a number of related methods, people wanting to learn those variants will need a solid understanding of PCA before continuing. **TODO: we defined the audience in Conceptual Intro differently; make consistent**
+Simply put, the audience for this package is people who want to learn about and more deeply understand Principal Components Analysis (PCA).  Let's acknowledge that we are not talking to mathematicians and statisticians.  We are talking to people in most any other discipline that want to improve their understanding of PCA.  PCA is used in many fields, so we have included examples from several different fields.  As PCA is the foundation of a number of related methods, people wanting to learn those variants will need a solid understanding of PCA before continuing.
 
 # Why a Package?
 
@@ -48,13 +48,13 @@ In our careers as researchers, we have needed to use PCA, and hence, to understa
 
 Even so, we do not pretend to be experts in PCA, though we are not novices either.  We have learned PCA like many of you, as a journey of gradually increasing understanding.  We feel like that gives us an advantage in explaining PCA to new learners, as we have been learners in the recent past.  In that sense PCA is like a lot of complex topics, it just cannot be fully understood in a single sitting.   So plan to read, practice, reflect and repeat.
 
-So why put this material in package?  In the course of our own learning and teaching, we have tried to identify the best ways of teaching and illustrating this material.  `LearnPCA` is our attempt to gather those materials in an integrated, user-friendly way.  And we get a lot of questions from students.  We're glad to answer those questions, but we hope that this package will be useful to a wider range of PCA learners.
+So why put this material in package?  In the course of our own learning and teaching, we have tried to identify the best ways of teaching and illustrating this material.  `LearnPCA` is our attempt to gather those materials in an integrated, user-friendly way.  And we get a lot of questions from students.  We are glad to answer those questions, but we hope that this package will be useful to a wider range of PCA learners.
 
 # About the Authors
 
 Bryan Hanson is a freelance `R` consultant and software developer.  In a previous life he taught organic chemistry and biochemistry at DePauw University for 32 years.  He blames co-author David Harvey for dragging him down the `R` rabbit hole.  You can learn all about him at his [web site](http://ChemoSpec.org).
 
-David Harvey is a faculty member in the Department of Chemistry & Biochemistry at DePauw University where he has worked since 1986. He claims no knowledge of rabbit holes and maintains his innocence in luring others into `R`. You can learn more about his interests at his [web site](http://dpuadweb.depauw.edu/harvey_web/index.html). **TODO: DTH website will be moving; update when new info is ready**
+David Harvey is a faculty member in the Department of Chemistry & Biochemistry at DePauw University where he has worked since 1986. He claims no knowledge of rabbit holes and maintains his innocence in luring others into `R`. You can learn more about his interests at his [web site](http://dpuadweb.depauw.edu/harvey_web/index.html).
 
 # Acknowledgements
 
