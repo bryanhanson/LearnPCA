@@ -4,6 +4,7 @@
 desc <- packageDescription("LearnPCA")
 ```
 
+
 *This vignette is based upon `LearnPCA` version `r desc$Version`.*
 
 ```{block, type = "top-matter", echo = TRUE}
