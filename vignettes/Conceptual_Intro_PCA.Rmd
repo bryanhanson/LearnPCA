@@ -52,6 +52,7 @@ cat(res, sep = '\n')
 We will work with three data sets here:
 
 * A set of elemental analyses of glass artifacts; we use this relatively small data set to help understand PCA fundamentals.
+* Data about the 50 US states from 1977.
 * A collection of IR (infrared) spectra of plant oils.  Spectroscopic data sets typically have a lot of data points and the appearance of some plots is a bit different.
 
 # Conceptual Introduction to PCA
