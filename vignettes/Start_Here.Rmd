@@ -54,7 +54,7 @@ So why put this material in package?  In the course of our own learning and teac
 
 Bryan Hanson is a freelance `R` consultant and software developer.  In a previous life he taught organic chemistry and biochemistry at DePauw University for 32 years.  He blames co-author David Harvey for dragging him down the `R` rabbit hole.  You can learn all about him at his [web site](http://ChemoSpec.org).
 
-David Harvey is a faculty member in the Department of Chemistry & Biochemistry at DePauw University where he has worked since 1986. He claims no knowledge of rabbit holes and maintains his innocence in luring others into `R`. You can learn more about his interests at his [web site](http://dpuadweb.depauw.edu/harvey_web/index.html).
+David Harvey is a faculty member in the Department of Chemistry & Biochemistry at DePauw University where he has worked since 1986. He claims no knowledge of rabbit holes and maintains his innocence in luring others into `R`. You can learn more about his interests at his [web site](https://sites.google.com/depauw.edu/dth/home).
 
 # Acknowledgements
 
