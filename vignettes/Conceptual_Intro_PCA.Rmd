@@ -150,7 +150,7 @@ x77 <- as.data.frame(apply(state.x77, 2, range))
 kable(x77, format = "html", caption = "The ranges of variables in `state.x77`") %>% kable_styling(c("striped", "bordered"))
 ```
 
-Let's conduct PCA on this data set (with scaling, because the ranges of the variables differ quite a bit; don't sweat it right now but see [Step By Step PCA](#top-matter) for more details). Figure \@ref(fig:stateScreePlot) shows the scree plot.  Clearly one PC is really important, but perhaps four PCs should be kept.  If we look at the actual numbers suggest five or six PCs would be better, using the 95% rule (Table \@ref(tab:stateScreeTable)).
+Let's conduct PCA on this data set (with scaling, because the ranges of the variables differ quite a bit; don't sweat it right now but see [Step By Step PCA](#top-matter) for more details). Figure \@ref(fig:stateScreePlot) shows the scree plot.  Clearly one PC is really important, but perhaps four PCs should be kept.  If we look at the actual numbers they suggest five or six PCs would be better, using the 95% rule (Table \@ref(tab:stateScreeTable)).
 
 ```{r statePCA}
 x77 <- prcomp(state.x77, scale = TRUE)
@@ -169,23 +169,19 @@ DF <- data.frame(component = labs, variance = variance, cumulative = cumvariance
 kable(DF, format = "html", digits = 0, caption = "Variance accounted for by PCs. Values in percent.") %>% kable_styling(c("striped", "bordered"), full_width = FALSE)
 ```
 
-The score plot for this data set is shown in Figure \@ref(fig:stateScores).
+The score plot for this data set is shown in Figure \@ref(fig:stateScores). For fun, we have colored the states by their blue (democrat)/red (repubican) classification based on data at [Wikipedia](https://en.wikipedia.org/wiki/Red_states_and_blue_states) (this classification is from presidential elections in 2008-2020 which doesn't match the data from 1977, but we're just having fun here trying to get the basic idea).  There are no obvious clusters in this plot.
 
-```{r stateScores, fig.cap = "Score plot from PCA on the `states.x77` data set.", fig.width = 5, fig.height = 5}
-state.col <- c("red", "red", "red", "red", "blue", "blue", "blue", "blue",
-"purple", "red", "blue", "red", "blue", "red", "purple", "red",
-"red", "red", "blue", "blue", "blue", "blue", "blue", "red",
-"red", "red", "red", "blue", "blue", "blue", "blue", "blue",
-"red", "red", "purple", "red", "blue", "blue", "blue", "red",
-"red", "red", "red", "red", "blue", "blue", "blue", "red", "blue",
-"red")
+We can see a great deal of separation occurs along the PC1 dimension, consistent with this component explaining 45% of the variance.  PC2 on the other hand has a similar overall span, but most of the scores are concentrated in the lower part of the plot.  We can see there are a couple of states with high scores on PC2.  This is an illustration of another use of PCA which we have not discussed yet, namely the identification of potentially anomolous data, or outliers.  Such points are worthy of further investigation; they might be interesting clues or they might arise from data entry problems.
+
+```{r stateScores, fig.cap = "Score plot from PCA on the `states.x77` data set, colored by political leanings (blue = democrat, red = republican, purple = mixed).", fig.width = 5, fig.height = 5}
+state.col <- c("red", "red", "red", "red", "blue", "blue", "blue", "blue", "purple", "red", "blue", "red", "blue", "red", "purple", "red", "red", "red", "blue", "blue", "blue", "blue", "blue", "red", "red", "red", "red", "blue", "blue", "blue", "blue", "blue", "red", "red", "purple", "red", "blue", "blue", "blue", "red", "red", "red", "red", "red", "blue", "blue", "blue", "red", "blue", "red")
 plot(x77$x[,1], x77$x[,2], type = "p", pch = 20,
   xlab = "Principal Component 1", ylab = "Principal Component 2", col = state.col)
 ```
 
-Finally, the first loadings are shown in Figure \@ref(fig:stateLoadings).
+Finally, the loadings for PC1 are shown in Figure \@ref(fig:stateLoadings).  The contribution of variables here is complicated, but it looks like area is not very helpful.
 
-```{r stateLoadings, fig.cap = "Loadings plot for PC 1 from PCA on the state data set."}
+```{r stateLoadings, fig.cap = "Loadings plot for PC 1 from PCA on the `state.x77` data set."}
 barplot(x77$rotation[,1], cex.names = 0.7, ylab = "Contribution")
 ```
 
@@ -216,7 +212,7 @@ plot(pca, main = "")
 ```
 
 ```{r IRScores, fig.cap = "Score plot from PCA on the IR data set.", fig.width = 5, fig.height = 5}
-plot(pca$x[,1], pca$x[,2], type = "p",
+plot(pca$x[,1], pca$x[,2], type = "p", pch = 20,
   xlab = "Principal Component 1", ylab = "Principal Component 2")
 ```
 
