@@ -19,7 +19,7 @@ vignette: >
     %\VignetteKeywords{PCA}
     %\VignettePackage{LearnPCA}
     %\VignetteEngine{knitr::rmarkdown}
-    % \VignetteEncoding{UTF-8}
+    % \VignetteEncoding{UTF-20}
 #link-citations: yes
 #bibliography: PCA.bib
 #biblio-style: plain
