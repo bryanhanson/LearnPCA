@@ -31,6 +31,8 @@ pkgdown:
 options(rmarkdown.html_vignette.check_title = FALSE)
 ```
 
+
+
 <!-- This chunk inserts common info about all the vignettes -->
 
 ```{r, echo = FALSE, results = "asis"}
