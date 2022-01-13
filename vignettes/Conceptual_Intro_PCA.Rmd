@@ -15,7 +15,7 @@ output:
       number_sections: false
       css: vignette.css
 vignette: >
-    %\VignetteIndexEntry{LearnPCA 2: A Conceptual Introduction to PCA}
+    %\VignetteIndexEntry{LearnPCA 02: A Conceptual Introduction to PCA}
     %\VignetteKeywords{PCA}
     %\VignettePackage{LearnPCA}
     %\VignetteEngine{knitr::rmarkdown}
@@ -49,9 +49,10 @@ res <- knitr::knit_child("top_matter.md", quiet = TRUE)
 cat(res, sep = '\n')
 ```
 
-The audience for this document is chemists, spectroscopists, and people in allied fields who are using spectroscopy to analyze their data. **TODO: should we expand our audience to include for instance social scientists and related fields?**
+We will work with three data sets here:
 
-We will use two data sets here: one is a set of elemental analyses of glass artifacts; we use this relatively small, non-spectroscopic data set to help understand PCA fundamentals.  The second data set is a collection of IR spectra of plant oils.
+* A set of elemental analyses of glass artifacts; we use this relatively small data set to help understand PCA fundamentals.
+* A collection of IR (infrared) spectra of plant oils.  Spectroscopic data sets typically have a lot of data points and the appearance of some plots is a bit different.
 
 # Conceptual Introduction to PCA
 
@@ -60,38 +61,35 @@ PCA is conducted on data sets composed of:
 * Samples, typically organized in rows.
 * Variables, typically organized in columns, which are measured for each sample.
 
-The purpose of PCA is *data reduction*, which we hope may lead to better insights into the data and to simpler models of that data.  This term refers to the goal of:
+The purpose of PCA is *data reduction*, which we hope may lead to better insights into the data and to simpler models of that data.  Data reduction refers to the goal of:
 
-* Reducing the size of the data set by identifying variables that are not informative.  Such variables are also described as "noisy", in that they don't add anything to our understanding of the system being studied.  Such variables arise naturally in many situations.  Example: a survey about food preferences may include questions about political party.  The answers about political party may not be informative.
-* Collapsing correlating variables.  Several of the variables measured in a study may actually be measures of the same underlying reality.  This is not to say they are noisy, but rather they may be redundant.  Example: a survey asks participants if they eat kale, and separately, if they eat quinoa.  Individuals may answer yes to both questions or no to both questions.  The answers may reflect the individuals preference for a healthy diet.  Either question alone may be sufficient.  PCA will collapse these correlating variables into one variable.
+* Reducing the size of the data set by identifying variables that are not informative.  Such variables are also described as "noisy", in that they don't add anything to our understanding of the system being studied.  Such variables arise naturally in many situations.  For example, a survey about food preferences could include questions about political party.  The answers about political party may not be informative, and could potentially be ignored in any analysis.
+* Collapsing correlating variables.  Several of the variables measured in a study may actually be measures of the same underlying reality.  This is not to say they are noisy, but rather they may be redundant.  For example, a survey asks participants if they eat kale, and separately, if they eat quinoa.  Individuals may answer yes to both questions or no to both questions.  The answers may reflect the individual's preference for a healthy diet.  Either question alone may be sufficient.  PCA will collapse these correlating variables into one new variable.
 
 What does one get from PCA?
 
-* An indication of how many principal components (PC) are needed to describe the data, generally presented as a *scree plot*.
-* Scores, generally presented as one or more *score plots*.
-* Loadings, generally presented as one or more *loading plots*.
+* An indication of how many principal components (PC) are needed to describe the data, generally presented as a *scree plot*.  Generally, the number of PCs needed will be less than the number of variables measured.
+* Scores, generally presented as one or more *score plots*. These show the relationships between the samples.
+* Loadings, generally presented as one or more *loading plots*. These show the contributions of the different variables.
 
 These plots will be explained further in the next section.[^1] Other things to know about PCA before going further:
 
 * PCA is *principal* not *principle* components analysis!
-* PCA is the "mother" of a number of other related techniques, so if you plan further study it is critical to understand PCA to the greatest degree possible.
-* That said, it takes most mortals a long time to fully grasp what PCA does, especially from the mathematical perspective.  Don't expect to get all the nuances on the first pass!
-
-* *And the problem* ... The results of PCA, scores and loadings, exist in a so-called "abstract" space.  We prefer to call this space a new "reference frame" (see the [**TODO: need vignette title**](#top-matter) for why we think this is a better description). This reference frame is a transformation of the coordinate system in which the original samples were measured.  The new reference frame has axes that are all perpendicular to each other.  In two dimensions it is not hard to visualize, but in higher dimensions visualization is impossible.  Because of the nature of this new reference frame, the units truly are "abstract" and therefore difficult to interpret in concrete terms.  See previous point.  That doesn't mean PCA is not useful, quite the contrary!
+* PCA is the foundation of a number of other related techniques, so if you plan further study it is critical to understand PCA to the greatest degree possible.
+* It takes most of us a long time to fully grasp what PCA does, especially from the mathematical perspective.  Don't expect to get all the nuances on the first pass!
+* *And the problem* ... The results of PCA, scores and loadings, exist in a so-called "abstract" space.  We prefer to call this space a new "coordinate system" (see the [Understanding Scores & Loadings](#top-matter) vignette for why we think this is a better description). This coordinate system is a transformation of the coordinate system in which the original samples were measured.  The new coordinate system has axes that are all perpendicular to each other.  In two or three dimensions it is not hard to visualize, but in higher dimensions visualization is impossible.  Because of the nature of this new coordinate system, the units truly are "abstract" and therefore difficult to interpret in terms of the units of the original measured variables.  See previous point.  That doesn't mean PCA is not useful, quite the contrary!
 
 # PCA Results Illustrated, No Code, No Math
 
 This section is intended to illustrate the concepts of PCA, and how to interpret the plots that arise from PCA.
 
-We'll use a data set which reports chemical analyses for 13 elements on 180 archaeological glass artifacts from a study that was hoping to determine the origin of the artifacts. The full data set consists of 180 rows and 13 columns;   Table \@ref(tab:dataTaste) gives a little bit of the data set.[^2]
+We'll use a data set which reports chemical analyses for 13 elements on 180 archaeological glass artifacts from a study that hoped to determine the origin of the artifacts. The full data set consists of 180 rows and 13 columns;   Table \@ref(tab:dataTaste) gives a little bit of the data set.[^2]
 
 ```{r dataTaste, results = "asis"}
 data(glass)
 DF <- as.data.frame(glass[1:5, 1:8])
 kable(DF, format = "html", caption = "A portion of the archaeological glass data set. Values are percentages.") %>% kable_styling(c("striped", "bordered"))
 ```
-
-\vspace{5 mm}
 
 We'll perform PCA on the glass data set, show the three plots and then discuss them in turn.  Figure \@ref(fig:glassScree) shows the scree plot, Figure \@ref(fig:glassScores) shows the score plot and Figure \@ref(fig:glassLoadings) shows the first loadings.
 
@@ -101,7 +99,7 @@ pca <- prcomp(glass)
 plot(pca, main = "")
 ```
 
-Figure \@ref(fig:glassScree), the scree plot, shows the amount of variance in the data set explained by each principal component (PCs are along the x axis, from 1 to 10).[^3]  For now, think of variance as the variation or variability in the data set, or better, think of it as the hidden signal in the data.  To interpret this plot, we look for the point at which the height of the bars suddenly levels off.  In this case, the first three PCs drop steadily downward, but from PC four and onward there is little additional variation (signal) that can be explained.  We would say that three PCs are enough to explain this data set.  In other words, the original 13 variables have been reduced to three, which is a great simplification.
+Figure \@ref(fig:glassScree), the scree plot, shows the amount of variance in the data set explained by each principal component (PCs are along the x axis, from 1 to 10).[^3]  Variance is a measure of the spread of points around the origin of whatever coordinate system is in use.  Think of it as a measure of the scattering of the samples.  To interpret this plot, we look for the point at which the height of the bars suddenly levels off.  In this case, the first three PCs drop steadily downward, but from PC four and onward there is little additional variance that can be explained.  We would say that three PCs are enough to explain this data set.  In other words, the original 13 variables have been reduced to three, which is a great simplification.
 
 ```{r glassScores, fig.cap = "Score plot from PCA on the glass data set.", fig.width = 5, fig.height = 5}
 plot(pca$x[,1], pca$x[,2], type = "p",
@@ -110,7 +108,7 @@ plot(pca$x[,1], pca$x[,2], type = "p",
 
 In Figure \@ref(fig:glassScores) one sees the scores for PC 1 plotted against the scores for PC 2.  There are 180 points in this plot because there is one point per sample (put another way, every sample has a score value for PC 1 and for PC 2).  This plot is interpreted by looking for clustering of samples, as well as for samples that are outliers, off by themselves.  To the eye, there are 3 to 5 clusters here; none of the samples is an obvious outlier.  Later we'll discuss how we can explore this further.
 
-We could also plot PC 1 against PC 3, or PC 2 against PC 3.  These might show different clustering and separation of samples, but are not shown here.  There wouldn't be much point in plotting PC 4 or higher, as these are mostly noise, not signal, as established by the scree plot (Figure \@ref(fig:glassScree)).
+We could also plot PC 1 against PC 3, or PC 2 against PC 3.  These might show different clustering and separation of samples, but are not shown here.  There wouldn't be much point in plotting PC 4 or higher, as these are mostly noise, as established by the scree plot (Figure \@ref(fig:glassScree)).
 
 ```{r glassLoadings, fig.cap = "Loadings plot for PC 1 from PCA on the glass data set."}
 barplot(pca$rotation[,1], cex.names = 0.7, ylab = "Contribution")
@@ -120,7 +118,7 @@ A loadings plot, Figure \@ref(fig:glassLoadings), shows how much each measured v
 
 ## Refinements 1
 
-Rather than relying on a scree plot to determine the number of PCs that are important, we can present the same information in a table, see Table \@ref(tab:screeTable).  A general rule of thumb says to keep enough PCs to account for 95% of the variation (signal). The table tells us the same as the scree plot: keep three PCs.
+Rather than relying on a scree plot to determine the number of PCs that are important, we can present the same information in a table, see Table \@ref(tab:screeTable).  A general rule of thumb says to keep enough PCs to account for 95% of the variance. The table leads us to the same as the scree plot: keep three PCs.
 
 ```{r screeTable, results = "asis"}
 eigensum <- sum(pca$sdev*pca$sdev)
@@ -143,9 +141,57 @@ plot(pca$x[,1], pca$x[,2], type = "p", col = glass.grp, pch = 20,
 
 With this figure, we can see that the large group in the lower left corner (in black), which to the eye might have been two groups, is composed of related samples.
 
+# A Social Science Data Set
+
+Because it is often easiest to learn from examples close to one's field of interest, we'll do the same kind of analysis as above using the `state` data set which is supplied with `R`.  More precisely, we'll use the data in the `state.x77` field which gives some data about each state from the year 1977.  Table \@ref(tab:sumState) summarizes the raw data. See `?state` for more information about this data set.
+
+```{r sumState, results = "asis"}
+x77 <- as.data.frame(apply(state.x77, 2, range))
+kable(x77, format = "html", caption = "The ranges of variables in `state.x77`") %>% kable_styling(c("striped", "bordered"))
+```
+
+Let's conduct PCA on this data set (with scaling, because the ranges of the variables differ quite a bit; don't sweat it right now but see [Step By Step PCA](#top-matter) for more details). Figure \@ref(fig:stateScreePlot) shows the scree plot.  Clearly one PC is really important, but perhaps four PCs should be kept.  If we look at the actual numbers suggest five or six PCs would be better, using the 95% rule (Table \@ref(tab:stateScreeTable)).
+
+```{r statePCA}
+x77 <- prcomp(state.x77, scale = TRUE)
+```
+
+```{r stateScreePlot, fig.cap = "Scree plot for the `state.x77` data after scaling."}
+plot(x77, main = "")
+```
+
+```{r stateScreeTable, results = "asis"}
+eigensum <- sum(x77$sdev*x77$sdev)
+variance <- 100*(x77$sdev*x77$sdev/eigensum)
+cumvariance <- cumsum(variance)
+labs <- paste("PC", 1:8, sep = " ")
+DF <- data.frame(component = labs, variance = variance, cumulative = cumvariance)
+kable(DF, format = "html", digits = 0, caption = "Variance accounted for by PCs. Values in percent.") %>% kable_styling(c("striped", "bordered"), full_width = FALSE)
+```
+
+The score plot for this data set is shown in Figure \@ref(fig:stateScores).
+
+```{r stateScores, fig.cap = "Score plot from PCA on the `states.x77` data set.", fig.width = 5, fig.height = 5}
+state.col <- c("red", "red", "red", "red", "blue", "blue", "blue", "blue",
+"purple", "red", "blue", "red", "blue", "red", "purple", "red",
+"red", "red", "blue", "blue", "blue", "blue", "blue", "red",
+"red", "red", "red", "blue", "blue", "blue", "blue", "blue",
+"red", "red", "purple", "red", "blue", "blue", "blue", "red",
+"red", "red", "red", "red", "blue", "blue", "blue", "red", "blue",
+"red")
+plot(x77$x[,1], x77$x[,2], type = "p", pch = 20,
+  xlab = "Principal Component 1", ylab = "Principal Component 2", col = state.col)
+```
+
+Finally, the first loadings are shown in Figure \@ref(fig:stateLoadings).
+
+```{r stateLoadings, fig.cap = "Loadings plot for PC 1 from PCA on the state data set."}
+barplot(x77$rotation[,1], cex.names = 0.7, ylab = "Contribution")
+```
+
 # A Spectroscopic Data Set
 
-The archaeological data set has the advantage of only having a few variables, the percentages of the 13 elements in the glass artifacts.  If we move to a spectroscopic data set, the number of variables goes up dramatically.  A UV-Vis data set typically would have a few hundred to a thousand wavelength variables, an IR data set perhaps a few thousand data points, and a 1D NMR data set would typically have 16K or more data points.  As far as PCA is concerned, in these cases the scree plot and score plot do not change in appearance or interpretation.
+The archaeological glass data set has the advantage of only having a few variables, the percentages of the 13 elements in the glass artifacts.  If we move to a spectroscopic data set, the number of variables goes up dramatically.  A UV-Vis data set typically would have a few hundred to a thousand wavelength variables, an IR data set perhaps a few thousand data points, and a 1D NMR data set would typically have 16K or more data points.  As far as PCA is concerned, in these cases the scree plot and score plot do not change in appearance or interpretation.
 
 However, the loading plot changes appearance dramatically.  This is because with hundreds to thousands of variables, one would not create a loading plot based on a bar chart (Figure \@ref(fig:glassLoadings) is a bar chart).  Instead, the loading plot with many variables looks like a spectrum!  While the appearance is different, the interpretation is the same as for when there are only a few variables.
 
@@ -181,7 +227,7 @@ plot(SrE.IR$freq, pca$rotation[,1], type = "l", xlim = xl,
 
 Let's look at the carbonyl region of the loadings plot in detail.  Figure \@ref(fig:IRLoadings2) shows the original spectrum in red, for reference, and the loadings in black.  One can see that the ester carbonyl contributes positively to the first loading, while the carboxylic acid carbonyl contributes negatively.
 
-Finally, to make the point that the loading plot for many variables is essentially the same as the loading plot for just a few variables, Figure \@ref(fig:IRLoadings3) shows the carbonyl region as a kind of bar plot.  If one connects the tips of the bars together, one gets the previous plot.
+Finally, to make the point that the loading plot for many variables is essentially the same as the loading plot for just a few variables, Figure \@ref(fig:IRLoadings3) shows the carbonyl region as a bar plot with super narrow bars.  If one connects the tips of the bars together, one gets the previous plot.
 
 ```{r IRLoadings2, fig.cap = "Loadings plot for PC 1 from PCA on the IR data set, carbonyl region. Reference spectrum shown in red."}
 plot(SrE.IR$freq, pca$rotation[,1], type = "l", xlim = c(1800, 1650),
@@ -199,4 +245,4 @@ plot(SrE.IR$freq, pca$rotation[,1], type = "h", xlim = c(1800, 1650),
 [^2]: This is the `glass` data set in package `chemometrics`. The elements analyzed were Na~2~O, MgO, Al~2~O~3~, SiO~2~, P~2~O~5~, SO~3~, Cl, K~2~O, CaO, MnO, Fe~2~O~3~, BaO, and PbO. With the exception of chlorine, the elements are reported as their oxides; all values are weight percents.
 [^3]: Because there are 13 variables, the most PCs one could have is 13.  In theory, keeping all 13 PCs perfectly reproduces the original data set.
 [^4]: If you knew this would be the result ahead of time, you probably would not have taken the time and expense to analyze the uninformative elements.  However, we haven't looked at PC 2 or PC 3 so this conclusion is premature.
-[^5]: Plots in this vignette are deliberately made rather plain to focus on the data and to be consistent for ease-of-comparison.  Package `ChemoSpec` makes much more polished plots.
+[^5]: Plots in this vignette are deliberately made rather plain to focus on the data and to be consistent for ease-of-comparison.  If spectroscopy is your thing, package `ChemoSpec` makes much more polished plots.
