@@ -27,6 +27,8 @@ pkgdown:
   as_is: true
 ---
 
+
+
 ```{r SetUp, echo = FALSE, eval = TRUE, results = "hide"}
 # R options & configuration:
 set.seed(13)
