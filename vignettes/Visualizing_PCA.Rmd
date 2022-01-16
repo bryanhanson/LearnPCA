@@ -1,5 +1,5 @@
 ---
-title:  "Visualizing in 3D PCA"
+title:  "Visualizing PCA in 3D"
 author:
   - name: David T. Harvey^1^, Bryan A. Hanson^2^
     email: harvey@depauw.edu, hanson@depauw.edu
