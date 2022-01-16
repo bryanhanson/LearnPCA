@@ -35,6 +35,7 @@ set.seed(13)
 rm(list = ls())
 suppressPackageStartupMessages(library("knitr"))
 suppressPackageStartupMessages(library("plot3D"))
+suppressPackageStartupMessages(library("plotly"))
 
 # colors and color names
 pcdata_col = "#3db7ed"
@@ -147,6 +148,28 @@ points3D(x = xpc2, y = ypc2, z = zpc2, type = "l", col = xyzaxis_col,
          lwd = 2, lty = 1, add = TRUE)
 points3D(x = xpc3, y = ypc3, z = zpc3, type = "l", col = xyzaxis_col,
          lwd = 2, lty = 1, add = TRUE)
+```
+
+Figure \@ref(fig:origDataPlotly) shows the same data in an interactive form.
+
+```{r origDataPlotly, fig.cap=paste("PLOTLY VERSION Three-dimensional plot of data (", pcdata_colname, "points) showing the x, y, and z-axes (",xyzaxis_colname, "lines) that represent the three measured variables."), results = "show"}
+# Leaving legend for now, as one can click on the entries to hide them;
+# not sure we need to keep it in the long run
+axis_width <- 8L
+rdata <- as.data.frame(rotdata)
+x_axis <- data.frame(xpc1, ypc1, zpc1)
+y_axis <- data.frame(xpc2, ypc2, zpc2)
+z_axis <- data.frame(xpc3, ypc3, zpc3)
+fig <- plot_ly(name = "data", rdata, x = ~xrot, y = ~yrot, z = ~zrot,
+  marker = list(size = 2.0, color = pcdata_col)) %>%
+  add_markers() %>%
+  add_trace(name = "x axis", data = x_axis, x = ~xpc1, y = ~ypc1, z = ~zpc1, mode = "lines", type = "scatter3d", inherit = FALSE, line = list(width = axis_width, color = xyzaxis_col)) %>%
+  add_trace(name = "y axis", data = y_axis, x = ~xpc2, y = ~ypc2, z = ~zpc2, mode = "lines", type = "scatter3d", inherit = FALSE, line = list(width = axis_width, color = xyzaxis_col)) %>%
+  add_trace(name = "z axis", data = z_axis, x = ~xpc3, y = ~ypc3, z = ~zpc3, mode = "lines", type = "scatter3d", inherit = FALSE, line = list(width = axis_width, color = xyzaxis_col)) %>%
+  layout(scene = list(xaxis = list(title = "x"),
+                      yaxis = list(title = "y"),
+                      zaxis = list(title = "z")))
+fig
 ```
 
 # The First Principal Component
