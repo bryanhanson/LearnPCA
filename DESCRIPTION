@@ -31,6 +31,7 @@ Suggests:
     ggplot2,
     tidyr,
     ade4,
-    plotrix
+    plotrix,
+    latex2exp
 Roxygen: list(packages = "roxut", roclets = c("namespace", "rd", "roxut::tests_roclet"), markdown = TRUE)
 RoxygenNote: 7.1.2
