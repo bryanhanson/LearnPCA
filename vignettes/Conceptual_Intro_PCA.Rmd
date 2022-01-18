@@ -65,7 +65,7 @@ PCA is conducted on data sets composed of:
 The purpose of PCA is *data reduction*, which we hope may lead to better insights into the data and to simpler models of that data.  Data reduction refers to the goal of:
 
 * Reducing the size of the data set by identifying variables that are not informative.  Such variables are also described as "noisy", in that they don't add anything to our understanding of the system being studied.  Such variables arise naturally in many situations.  For example, a survey about food preferences could include questions about political party.  The answers about political party may not be informative, and could potentially be ignored in any analysis.
-* Collapsing correlating variables.  Several of the variables measured in a study may actually be measures of the same underlying reality.  This is not to say they are noisy, but rather they may be redundant.  For example, a survey asks participants if they eat kale, and separately, if they eat quinoa.  Individuals may answer yes to both questions or no to both questions.  The answers may reflect the individual's preference for a healthy diet.  Either question alone may be sufficient.  PCA will collapse these correlating variables into one new variable.
+* Collapsing correlating variables.  Several of the variables measured in a study may actually be measures of the same underlying reality.  This is not to say they are noisy, but rather they may be redundant.  For example, a survey asks participants if they eat kale, and separately, if they eat quinoa.  Some individuals may answer yes to both questions or no to both questions, which may reflect the individual's preference for a healthy diet.  Either question alone may be sufficient.  PCA will collapse these correlating variables into one new variable.
 
 What does one get from PCA?
 
@@ -92,7 +92,7 @@ DF <- as.data.frame(glass[1:5, 1:8])
 kable(DF, format = "html", caption = "A portion of the archaeological glass data set. Values are percentages.") %>% kable_styling(c("striped", "bordered"))
 ```
 
-We'll perform PCA on the glass data set, show the three plots and then discuss them in turn.  Figure \@ref(fig:glassScree) shows the scree plot, Figure \@ref(fig:glassScores) shows the score plot and Figure \@ref(fig:glassLoadings) shows the first loadings.
+We'll perform PCA on the glass data set, show the three plots and then discuss them in turn.  Figure \@ref(fig:glassScree) shows the scree plot, Figure \@ref(fig:glassScores) shows the scores plot and Figure \@ref(fig:glassLoadings) shows the first loadings.
 
 
 ```{r glassScree, fig.cap = "Scree plot from PCA on the glass data set."}
@@ -107,7 +107,7 @@ plot(pca$x[,1], pca$x[,2], type = "p",
   xlab = "Principal Component 1", ylab = "Principal Component 2")
 ```
 
-In Figure \@ref(fig:glassScores) one sees the scores for PC 1 plotted against the scores for PC 2.  There are 180 points in this plot because there is one point per sample (put another way, every sample has a score value for PC 1 and for PC 2).  This plot is interpreted by looking for clustering of samples, as well as for samples that are outliers, off by themselves.  To the eye, there are 3 to 5 clusters here; none of the samples is an obvious outlier.  Later we'll discuss how we can explore this further.
+In Figure \@ref(fig:glassScores) one sees the scores for PC 1 plotted against the scores for PC 2.  There are 180 points in this plot because there is one point per sample (put another way, every sample has a score value for PC 1 and for PC 2).  This plot is interpreted by looking for clustering of samples, as well as for samples that are outliers, off by themselves.  To our eyes there are 3 to 5 clusters here; none of the samples is an obvious outlier.  Later we'll discuss how we can explore this further.
 
 We could also plot PC 1 against PC 3, or PC 2 against PC 3.  These might show different clustering and separation of samples, but are not shown here.  There wouldn't be much point in plotting PC 4 or higher, as these are mostly noise, as established by the scree plot (Figure \@ref(fig:glassScree)).
 
@@ -132,7 +132,7 @@ kable(DF, format = "html", digits = 0, caption = "Variance (signal) accounted fo
 
 ## Refinements 2
 
-The mathematics of PCA do not take into account anything about the samples other than the measured variables.  However, the researcher may well know something about the samples, for instance, they may fall into groups based on their origin.  If this is the case, the points on the score plot can be colored according to the group.  This may aid significantly in the interpretation.  Lucky for us, we can do this for the glass data set. The samples fell into four groups.  We'll re-do the score plot with colors corresponding to the known groups (Figure \@ref(fig:glassScores2)).
+The mathematics of PCA do not take into account anything about the samples other than the measured variables.  However, the researcher may well know something about the samples, for instance, they may fall into groups based on their origin.  If this is the case, the points on the score plot can be colored according to the group.  This may aid significantly in the interpretation.  Lucky for us, we can do this for the glass data set. The samples are known to come from four separate sites.  We'll re-do the score plot with colors corresponding to the known groups (Figure \@ref(fig:glassScores2)).
 
 ```{r glassScores2, fig.cap = "Score plot from PCA on the glass data set, with groups color-coded.", fig.width = 5, fig.height = 5}
 data(glass.grp)
@@ -140,11 +140,11 @@ plot(pca$x[,1], pca$x[,2], type = "p", col = glass.grp, pch = 20,
      xlab = "Principal Component 1", ylab = "Principal Component 2")
 ```
 
-With this figure, we can see that the large group in the lower left corner (in black), which to the eye might have been two groups, is composed of related samples.
+With this figure, we can see that the large group in the lower left corner (in black), which to our eyes might have been two groups, is composed of related samples.
 
 # A Social Science Data Set
 
-Because it is often easiest to learn from examples close to one's field of interest, we'll do the same kind of analysis as above using the `state` data set which is supplied with `R`.  More precisely, we'll use the data in the `state.x77` field which gives some data about each state from the year 1977.  Table \@ref(tab:sumState) summarizes the raw data. See `?state` for more information about this data set.
+Because it is often easiest to learn from examples close to one's field of interest, we'll do the same kind of analysis as above using the `state` data set which is supplied with `R`.  More precisely, we'll use the data in the `state.x77` field which gives some data about each state from the year 1977.  Table \@ref(tab:sumState) summarizes the raw data by reporting the smallest and largest result for each variable. See `?state` for more information about this data set.
 
 ```{r sumState, results = "asis"}
 x77 <- as.data.frame(apply(state.x77, 2, range))
