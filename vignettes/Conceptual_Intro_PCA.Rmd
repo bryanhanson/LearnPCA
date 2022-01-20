@@ -117,6 +117,14 @@ barplot(pca$rotation[,1], cex.names = 0.7, ylab = "Contribution")
 
 A loadings plot, Figure \@ref(fig:glassLoadings), shows how much each measured variable contributes to one of the principal components and hence the separation of samples (in this case we show the loadings for PC 1).  We see that three elements have large loadings, and the other elements contribute little to the separation.  We would say separation along PC 1 is driven largely and *collectively* by the results for Na~2~O, SiO~2~ and CaO, which are the most abundant elements in most glasses.[^4]  The first PC should be interpreted as a composite of these variables -- these variables have been collapsed into one new variable, PC 1.
 
+This ability to collapse correlated variables is a key part of PCA.  Table \@ref(tab:elementCor) shows the correlations between these elements in the raw `glass` data set. We can see that the correlation between Na~2~O and SiO~2~ is positive, but the correlation between *either* of these elements and CaO is negative.  The loading plot, Figure \@ref(fig:glassLoadings) reflects this: Na~2~O and SiO~2~ contribute in the opposite direction to CaO.[^6]
+
+```{r elementCor, results = "asis"}
+tab <- cor(glass[,c(1, 4, 9)])
+
+DF <- as.data.frame(tab)
+kable(DF, format = "html", digits = 2, caption = "Correlations among selected element concentrations in `glass` data set.") %>% kable_styling(c("striped", "bordered"), full_width = FALSE)
+```
 ## Refinements 1
 
 Rather than relying on a scree plot to determine the number of PCs that are important, we can present the same information in a table, see Table \@ref(tab:screeTable).  A general rule of thumb says to keep enough PCs to account for 95% of the variance. The table leads us to the same as the scree plot: keep three PCs.
@@ -205,7 +213,9 @@ xl <- rev(range(SrE.IR$freq))
 plot(SrE.IR$freq, SrE.IR$data[1,], type = "l", xlim = xl,
   xlab = "wavenumbers", ylab = "absorbance")
 ```
-Next, we'll carry out PCA as before, and show the scree plot (Figure \@ref(fig:IRScree)) and the score plot (Figure \@ref(fig:IRScores)).  Note that these appear much like the corresponding plots for the glass data set, and are interpreted in the same manner. However, the loadings plot, Figure \@ref(fig:IRLoadings), looks a lot like a spectrum, because it has `r length(SrE.IR$freq)` data points with a meaningful order---an organized set of wavenumbers---and is plotted as a connected scatter plot and not as a bar chart (which would be difficult to read).
+Next, we'll carry out PCA as before, and show the scree plot (Figure \@ref(fig:IRScree)) and the score plot (Figure \@ref(fig:IRScores)).  These appear much like the corresponding plots for the glass data set, and are interpreted in the same manner.  In this case however, PC1 is pretty much all that is needed to understand the data set, a fact reflected in the scree plot and the comparatively small range of the scores along PC2 in the score plot.
+
+However, the loadings plot, Figure \@ref(fig:IRLoadings), looks a lot like a spectrum, because it has `r length(SrE.IR$freq)` data points with a meaningful order---an organized set of wavenumbers---and is plotted as a connected scatter plot and not as a bar chart (which would be very difficult to read).
 
 ```{r IRScree, fig.cap = "Scree plot from PCA on the IR data set."}
 pca <- prcomp(SrE.IR$data)
@@ -222,9 +232,9 @@ plot(SrE.IR$freq, pca$rotation[,1], type = "l", xlim = xl,
      xlab = "Wavenumber", ylab = "Contribution")
 ```
 
-Let's look at the carbonyl region of the loadings plot in detail.  Figure \@ref(fig:IRLoadings2) shows the original spectrum in red, for reference, and the loadings in black.  One can see that the ester carbonyl contributes positively to the first loading, while the carboxylic acid carbonyl contributes negatively.
+Let's zoom in on the carbonyl region of the loadings plot in detail. This region shows the contributions of various C=O (carbonyl) bonds in the structure. Figure \@ref(fig:IRLoadings2) shows the original spectrum in red, for reference, and the loadings in black.  One can see that the ester carbonyl peak around 1745 contributes positively to the first loading, while the carboxylic acid carbonyl peak at about 1705 contributes negatively.
 
-Finally, to make the point that the loading plot for many variables is essentially the same as the loading plot for just a few variables, Figure \@ref(fig:IRLoadings3) shows the carbonyl region as a bar plot with super narrow bars.  If one connects the tips of the bars together, one gets the previous plot.
+Finally, to make the point that the loading plot for many variables is really the same as the loading plot for just a few variables, Figure \@ref(fig:IRLoadings3) shows the carbonyl loadings as a bar plot with super narrow bars.  If one connects the tips of the bars together, one gets the previous plot.[^7]
 
 ```{r IRLoadings2, fig.cap = "Loadings plot for PC 1 from PCA on the IR data set, carbonyl region. Reference spectrum shown in red."}
 plot(SrE.IR$freq, pca$rotation[,1], type = "l", xlim = c(1800, 1650),
@@ -243,3 +253,5 @@ plot(SrE.IR$freq, pca$rotation[,1], type = "h", xlim = c(1800, 1650),
 [^3]: Because there are 13 variables, the most PCs one could have is 13.  In theory, keeping all 13 PCs perfectly reproduces the original data set.
 [^4]: If you knew this would be the result ahead of time, you probably would not have taken the time and expense to analyze the uninformative elements.  However, we haven't looked at PC 2 or PC 3 so this conclusion is premature.
 [^5]: Plots in this vignette are deliberately made rather plain to focus on the data and to be consistent for ease-of-comparison.  If spectroscopy is your thing, package `ChemoSpec` makes much more polished plots.
+[^6]: If one were to look at the correlations between all the elements in the `glass` data set, one would find that other elements correlate positively with Na~2~O, not just SiO~2~.  However, what PCA has done here is found the unique pattern of these three elements tracking each other in the new coordinate system, as seen in the loading plot.
+[^7]: One can also see here that the individual frequencies making up a peak are highly correlated, as they rise and fall together.
