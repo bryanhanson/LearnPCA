@@ -16,7 +16,7 @@ output:
       mathjax: default
       css: vignette.css
 vignette: >
-    %\VignetteIndexEntry{LearnPCA 5: Understanding Scores and Loadings}
+    %\VignetteIndexEntry{LearnPCA 04: Understanding Scores and Loadings}
     %\VignetteKeywords{PCA}
     %\VignettePackage{LearnPCA}
     %\VignetteEngine{knitr::rmarkdown}
@@ -118,7 +118,7 @@ Another way to examine our data is to consider the relative dispersion in the va
 
 - total variance: `r round(total_variance, digits = 2)`
 
-Variable 2 accounts for `r round(percent_var2, digits = 1)`% of the total variance and variable 1 accounts for the remaining `r round(percent_var1, digits = 1)`% of the total variance. It is important to note that these values refer to variance measured on the scale of the original axis system.  If we change the axis system (as we will do momentarily), *the variance assigned to each axis will be different because the scale is different.*
+Variable 2 accounts for `r round(percent_var2, digits = 1)`% of the total variance and variable 1 accounts for the remaining `r round(percent_var1, digits = 1)`% of the total variance. It is important to note that these values refer to variance measured relative to the original axis system.  If we change the axis system (as we will do momentarily), *the variance relative to each new axis will be different because the position of the points relative to the axes are different.*
 
 ## Rotating the Axes
 
@@ -168,7 +168,7 @@ kable(df, format = "html", caption = "Coordinates for each of the eight samples,
 
 ## Loadings
 
-Although the scores define the location of our samples in the coordinates of the newly discovered principal component axes, they do not tell us where these new axes are located. If we want to reconstruct the original data from the results of a PCA analysis (a process described in more detail in the vignette [Step-by-Step PCA](#top-matter)), we must know both where the samples lie relative to the principal component axes **and** the location of the principal component axes relative to the original axes. As shown in Figure \@ref(fig:rotate60-loadings), each principal component axis is defined by the cosine of its angle of rotation relative to each of the original axes. For example, the angle of rotation of PC 1 to the axis for variable 1, identified here as $\Theta$, is --60°, which gives its loading as $\cos(-60) = 0.500$.[^2] The angle of rotation of PC 1 to the axis for variable 2, or $\Phi$, returns a loading of $\cos(30) = 0.866$.
+Although the scores define the location of our samples in the coordinates of the newly discovered principal component axes, they do not tell us where these new axes are located. If we want to reconstruct the original data from the results of a PCA analysis (a process described in more detail in the vignette [Step-by-Step PCA](#top-matter)), we must know both where the samples lie relative to the principal component axes **and** the location of the principal component axes relative to the original axes. As shown in Figure \@ref(fig:rotate60-loadings), each principal component axis is defined by the cosine of its angle of rotation relative to each of the original axes. For example, the angle of rotation of PC 1 to the axis for variable 1, identified here as $\Theta$, is --60°, which gives its loading as $\cos(-60) = 0.500$.[^2] The angle of rotation of PC 1 to the axis for variable 2, or $\Phi$, returns a loading of $\cos(30) = 0.866$.[^4]
 
 ```{r rotate60-loadings, fig.align="center", fig.cap="Illustration showing the loadings for the first principal component axis."}
 plot_rot_axes(rotate60, show_loadings = TRUE, show_simple_legend = FALSE,
@@ -176,7 +176,9 @@ plot_rot_axes(rotate60, show_loadings = TRUE, show_simple_legend = FALSE,
               show_scores = TRUE, show_projections = TRUE)
 ```
 
-Since individual loadings are defined by a cosine function, they are limited to the range --1 (an angle of rotation of 180°) to +1 (an angle of rotation of 0°). The sign of the loading indicates how a variable contributes to the principal component.  A positive loading indicates that a variable contributes to some degree to the principal component, and a negative loading indicates that its absence contributes to some degree to the principal component. The larger a loading's relative magnitude, the more important is its presence or absence to the principal component.
+Since individual loadings are defined by a cosine function, they are limited to the range --1 (an angle of rotation of 180°) to +1 (an angle of rotation of 0°).[^3] The sign of the loading indicates how a variable contributes to the principal component.  A positive loading indicates that a variable contributes to some degree to the principal component, and a negative loading indicates that its absence contributes to some degree to the principal component. The larger a loading's relative magnitude, the more important is its presence or absence to the principal component.
 
 [^1]: Variance is defined as $$\frac{\sum({x_i - \bar{x}})^2}{n - 1}$$ for a set of $n$ values of $x$.
 [^2]: The optimal angle for this data set is actually 62$^\circ$, but we'll use the rounded value for discussion.
+[^3]: And it follows if the principal component axis aligns with an original axis, the loading will be $\cos(0) = 1.00$, and if it is perpendicular, the loading will be $\cos(90) = 0.00$.
+[^4]: At this point one should ask which of these two options is the correct one?  Should we take our loading to be relative to the variable 1 axis, or the variable 2 axis?  It doesn't really matter, as long as once we make the choice the rest of the computations are relative to the same choice.  This is related to the fact that the signs of the loadings can change between programs and builds, discussed further in the [PCA Functions](#top-matter) vignette.
