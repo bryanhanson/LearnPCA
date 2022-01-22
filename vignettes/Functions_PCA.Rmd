@@ -57,7 +57,7 @@ There are four base functions in `R` that can carry out PCA analysis.[^1]  In th
 
 # `princomp`
 
-In contrast to `prcomp`, `princomp` cannot handle the situation where $p > n$, so it is not as flexible. In addition, `princomp` uses function `eigen` under the hood, and `eigen` only accepts square matrices as input (where $n = p$).  However, `princomp` will accept a rectangular matrix with $n > p$ because along the way, `princomp` will convert the input matrix to either the covariance or correlation matrix before passing the new matrix to `eigen` (the choice depends upon the arguments).  Both the covariance and correlation matrices are square matrices that `eigen` can process.
+In contrast to `prcomp`, `princomp` cannot directly handle the situation where $p > n$, so it is not as flexible. In addition, `princomp` uses function `eigen` under the hood, and `eigen` only accepts square matrices as input (where $n = p$).  However, `princomp` will accept a rectangular matrix with $n > p$ because along the way, `princomp` will convert the input matrix to either the covariance or correlation matrix before passing the new matrix to `eigen` (the choice depends upon the arguments).  Both the covariance and correlation matrices are square matrices that `eigen` can process.
 
 ## Covariance
 
@@ -142,7 +142,7 @@ prin_loads
 all.equal(abs(pca$rotation), abs(prin_loads), check.attributes = FALSE)
 ```
 
-The absolute value of the loadings from each method are identical, while the actual pattern of positive and negative values is complex as we saw for the scores. Why is this?  Recall from the **TODO need vig title** vignette that the loadings are the cosines of the angles through which the original axes are rotated to get to the new reference frame.  As cosine is a periodic function, if one rotates the reference frame 30 degrees to line up with the data better, the same alignment can also be achieved by rotating 30 + 180 degrees or 30 - 180 degrees.  However, the latter two operations will give the opposite sign for the cosine value.  This is the origin of the pattern of signs in the  loadings; essentially there are positive and negative cosine values that both describe the needed reorientation.  Once the sign of the first value is chosen, the signs of the other values are meaningful only in that context.
+The absolute value of the loadings from each method are identical, while the actual pattern of positive and negative values is complex as we saw for the scores. Why is this?  Recall from the [Understanding Scores and Loadings](#top-matter) vignette that the loadings are the cosines of the angles through which the original axes are rotated to get to the new coordinate system.  As cosine is a periodic function, if one rotates the reference frame 30 degrees to line up with the data better, the same alignment can also be achieved by rotating 30 + 180 degrees or 30 - 180 degrees.  However, the latter two operations will give the opposite sign for the cosine value.  This is the origin of the pattern of signs in the  loadings; essentially there are positive and negative cosine values that both describe the needed reorientation.  Once the sign of the first value is chosen, the signs of the other values are meaningful only in that context.
 
 ## Reconstruct the Original Data
 
@@ -158,7 +158,7 @@ MTprin <- PCAtoXhat(prin)
 all.equal(MTprin, mt, check.attributes = FALSE)
 ```
 
-As you can see each function is reconstructing the data faithfully.  And in the process we have shown that one gets the same results starting from either the centered and scaled original matrix, or the matrix which has been centered, scaled and then converted to its correlation matrix.  Hence either approach extracts the same information, proving that the correlation matrix contains the same relationships that are present in the raw data.
+As you can see each function is reconstructing the data faithfully.  And in the process we have shown that one gets the same results starting from either the centered and scaled original matrix, or the matrix which has been centered, scaled and then converted to its correlation matrix.  Hence either approach extracts the same information, proving that the correlation matrix contains the same relationships that are present in the raw data.[^6]
 
 
 # `svd`
@@ -179,7 +179,7 @@ sing <- svd(mt_cen_scl)
 
 ## Compare to the Scores from `prcomp`
 
-The math behind extracting the scores and loadings is discussed more fully in the Math Behind PCA vignette.  Here we use the results shown there to compare scores and loadings.
+The math behind extracting the scores and loadings is discussed more fully in the [Math Behind PCA](#top-matter) vignette.  Here we use the results shown there to compare scores and loadings.
 
 ```{r}
 svd_scores <- mt_cen_scl %*% sing$v
@@ -194,7 +194,7 @@ all.equal(sing$v, pca$rotation, check.attributes = FALSE)
 
 # `eigen`
 
-`princomp` uses `eigen` under the hood, and so we should be able to show that these functions give the same results. Like `svd`, `eigen` is "bare bones" so we'll start from the centered and scaled data set.  In this case however, we also need to compute the correlation matrix, something that `princomp` did for us but `eigen` expects you to provide a square matrix (either raw data that happens to be square, but more likely the covariance or correlation matrix).
+`princomp` uses `eigen` under the hood, and so we should be able to show that these functions give the same results. Like `svd`, `eigen` is "bare bones" so we'll start from the centered and scaled data set.  In this case however, we also need to compute the correlation matrix, something that `princomp` did for us, but `eigen` expects you to provide a square matrix (either raw data that happens to be square, but more likely the covariance or correlation matrix).
 
 ```{r}
 mt_cen_scl_cor <- cor(mt_cen_scl)
@@ -243,3 +243,4 @@ kable(DF, format = "html", row.names = FALSE, caption = "A comparison of R funct
 [^3]: In `princomp` there is no argument regarding centering. The documentation is silent on this.  However, if you look at the source code (via `stats:::princomp.default`) you discover that it calls `cov.wt` which indeed centers, and gives the covariance matrix unless you set the argument `cor = TRUE` in which case you get the correlation matrix.
 [^4]: Obviously one should either center and scale ahead of time, or allow `prcomp` to do it, not both.
 [^5]: Autoscaling means to divide each column by its standard deviation.
+[^6]: Proof that the covariance matrix gives the same results is left as an exercise!
