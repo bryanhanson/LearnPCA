@@ -214,7 +214,7 @@ At this point we have looked at each element of a `prcomp` object and seen what 
 
 ## How Does `prcomp` Actually Work?
 
-Please both the [The Math Behind PCA](#top-matter) and [Understanding Scores & Loadings](#top-matter) vignettes for a full discussion of the details of the calculation.
+Please see both the [The Math Behind PCA](#top-matter) and [Understanding Scores & Loadings](#top-matter) vignettes for a full discussion of the details of the calculation.
 
 # Step 4. Undoing the Scaling
 
