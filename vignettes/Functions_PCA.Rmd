@@ -97,7 +97,7 @@ Let's compare the results from each function.  Let's use a portion of the `mtcar
 
 ```{r}
 data(mtcars)
-mt <- as.matrix(mtcars[1:10, 1:5])
+mt <- as.matrix(mtcars[seq(1, 20, 2), 1:5]) # select every other row to get 10 samples
 ```
 
 Next we'll calculate PCA using both functions.  Note that the arguments for `prcomp` will center and autoscale the data before doing the key computation.  For `princomp`, the data will be centered and the correlation matrix computed and analyzed.[^3]
@@ -119,10 +119,20 @@ pca$x
 prin$scores
 ```
 
-Notice that the absolute values of the scores are similar, but not identical.  This is because different algorithms were used in each case.  Notice too that the pattern of positive and negative values is complex, it's not as if one is simply the negative of the other.  We'll say more about that when we talk about loadings.
+Notice that the absolute values of the scores are similar, but not identical.  This is because different algorithms were used in each case.  Notice too that the pattern of positive and negative values is complex, it's not as if one is simply the negative of the other.  We'll have more to say about this momentarily.
 
 ```{r}
 all.equal(abs(prin$scores), abs(pca$x), check.attributes = FALSE)
+```
+
+Another way to compare these results is to overlay a plot of the scores from each method.  Figure \@ref(fig:overlayScores) shows the results.  The pattern of positive and negative scores becomes much clearer in this plot.
+
+```{r overlayScores, fig.width = 5, fig.height = 5, fig.cap = "Comparison of scores computed by `prcomp` (black points) and `princomp` (red points). Note that they are related by a 180 degreee rotation about an axis out of paper at the origin.", echo = FALSE}
+plot(pca$x[,1], pca$x[,2], type = "p", pch = 20, col = "gray50",
+  xlim = c(-3, 3), ylim = c(-3, 3),
+  xlab = "PC1", ylab = "PC2")
+points(prin$scores[,1], prin$scores[,2], pch = 20, col = "red")
+abline(v = 0, h = 0, lty = 2)
 ```
 
 ## Compare The Loadings
@@ -143,6 +153,22 @@ all.equal(abs(pca$rotation), abs(prin_loads), check.attributes = FALSE)
 ```
 
 The absolute value of the loadings from each method are identical, while the actual pattern of positive and negative values is complex as we saw for the scores. Why is this?  Recall from the [Understanding Scores and Loadings](#top-matter) vignette that the loadings are the cosines of the angles through which the original axes are rotated to get to the new coordinate system.  As cosine is a periodic function, if one rotates the reference frame 30 degrees to line up with the data better, the same alignment can also be achieved by rotating 30 + 180 degrees or 30 - 180 degrees.  However, the latter two operations will give the opposite sign for the cosine value.  This is the origin of the pattern of signs in the  loadings; essentially there are positive and negative cosine values that both describe the needed reorientation.  Once the sign of the first value is chosen, the signs of the other values are meaningful only in that context.
+
+As for the scores, a visual comparison of the results from each method will help us understand the relationship.  In this case, we'll just look at the signs of the loadings, and we'll display all the loadings for PC1 followed by the loadings for PC2 etc.  Figure \@ref(fig:compareLoads) makes clear that the two methods return loadings which sometimes have the same sign, and sometimes the opposite sign.
+
+```{r compareLoads, fig.cap = "A comparison of the signs of the first loadings from `prcomp` (black circles) and `princomp` (red circles). Where the circles coincide, the value of the loading from each method is the same. ", echo = FALSE, fig.height = 3, fig.width = 5}
+plot(x = 1:25, type = "n", axes = FALSE,
+  xlab = "loadings", ylab = "sign", ylim = c(-1.1, 1.1))
+points(sign(c(pca$rotation)))
+points(sign(c(prin_loads)), col = "red", cex = 1.5)
+line.pos <- c(5.5, 10.5, 15.5, 20.5)
+abline(v = line.pos, col = "gray")
+axis(side = 2, labels = c("-1", "1"), at = c(-1, 1), lwd = 0, lwd.ticks = 0)
+lab.pos <- c(line.pos, 25.5)
+axis(side = 1, labels = c("PC1", "PC2", "PC3", "PC4", "PC5"), at = lab.pos - 2.5, lwd = 0, lwd.ticks = 0)
+```
+
+The key takeaway here is that regardless of the signs of the scores and the loadings, they work together.
 
 ## Reconstruct the Original Data
 
@@ -242,8 +268,6 @@ kable(DF, format = "html", row.names = FALSE, caption = "A comparison of R funct
 res <- knitr::knit_child("refer_to_works_consulted.md", quiet = TRUE)
 cat(res, sep = '\n')
 ```
-
-# References
 
 [^1]: And there are numerous functions in user-contributed packages that "wrap" or implement these base functions in particular contexts.
 [^2]: This works because the `scale` function adds attributes to its results, and `prcomp` checks for these attributes and uses them if present.
