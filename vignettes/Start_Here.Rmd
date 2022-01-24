@@ -61,3 +61,10 @@ David Harvey is a faculty member in the Department of Chemistry & Biochemistry a
 # Acknowledgements
 
 We have learned what we know from many articles, a few books, many blog posts and questions on StackExchange.  Where we rely heavily on particular sources, we will cite them in the appropriate place.  We will also point out additional useful resources for further study.
+
+<!-- Insert works consulted document -->
+
+```{r, echo = FALSE, results = "asis"}
+res <- knitr::knit_child("works_consulted.md", quiet = TRUE)
+cat(res, sep = '\n')
+```

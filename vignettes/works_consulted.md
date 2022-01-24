@@ -5,7 +5,7 @@ There are a great many tutorials, case studies and questions about PCA available
 Many of these are questions asked at [Cross Validated](https://stats.stackexchange.com), which form a tremendous corpus for learning.  When studying these, be sure to look at the original question, the answers, and the comments.  Some answers are more helpful than others, and the dialog can be enlightening as well.
 
 * [Making sense of principal component analysis, eigenvectors & eigenvalues](https://stats.stackexchange.com/q/2691/26909)
-* [What exactly is called "principal component" in PCA?](https://stats.stackexchange.com/q/88118/26909\)
+* [What exactly is called principal component in PCA?](https://stats.stackexchange.com/q/88118/26909)
 * [An intuitive guide to PCA: Ideas behind Principal Component Analysis](https://towardsdatascience.com/an-intuitive-guide-to-pca-1174055fc800) Note: behind paywall.  Good discussion of frame of reference concepts.
 * [Principal component analysis (PCA) in R: which function to use?](https://stackoverflow.com/q/14249156/633251)
 * [PCA and proportion of variance explained](https://stats.stackexchange.com/q/22569/26909)
