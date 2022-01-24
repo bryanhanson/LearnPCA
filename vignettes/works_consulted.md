@@ -1,4 +1,4 @@
-# Works Consulted
+# Works Consulted <a name = "works-consulted"></a>
 
 There are a great many tutorials, case studies and questions about PCA available for study.  We have looked at many of them!  In the course of preparing this package, we have found the following resources, given in no particular order, especially useful.
 
