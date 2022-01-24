@@ -122,7 +122,7 @@ Why do we center the data?  The easiest way to think about this is that without 
 
 # Step 2. Scaling the Data
 
-Scaling the data is optional.  If the range of the variables (which, recall, are in the columns) are approximately the same, one generally does not scale the data.  However, if some variables have much larger ranges, they will dominate the PCA results.  You may want this to happen, or you may not, and in many cases it is wise to try different scaling options.  As mentioned above, the `FeCu` data set should be scaled to avoid the Fe~2~O~3~ values dominating the analysis, since these values are larger.[^6]
+Scaling the data is optional.  If the range of the variables (which, recall, are in the columns) are approximately the same, one generally does not scale the data.  However, if some variables have much larger ranges, they will dominate the PCA results.  You may want this to happen, or you may not, and in many cases it is wise to try different scaling options.  As mentioned above, the `FeCu` data set should be scaled to avoid the Cu values dominating the analysis, since these values are larger.[^6]
 
 To scale the data, we can use `scale` again:
 
@@ -296,6 +296,6 @@ cat(res, sep = '\n')
 [^3]: Since there are only two columns in `FeCu`, the largest value of `z` that one could us is two, which is not very interesting. Keep reading.
 [^4]: As an exercise, see what happens to the scree plot if you don't scale the values.
 [^5]: Why do we call it `Xhat`?  `X` represents the data matrix.  `hat` is a reference to the use of the symbol $\hat{}$ as in $\hat{X}$ which is often used to designate a reconstruction or estimation of a value in statistics.
-[^6]: The actual numbers are what matter as far as the mathematics of scaling goes.  However, in practice, one should pay attention to the units as well.  For those that are not chemists, a "ppm" is a much smaller unit than a percentage.  If we were to report both metal concentrations in percentages, the difference in range would be even greater.
+[^6]: The actual numbers are what matter as far as the mathematics of scaling goes.  However, in practice, one should pay attention to the units as well.  For those that are not chemists, a "ppm" is a much smaller unit than a percentage.  If we were to report both metal concentrations in percentages, it would make the Cu values much smaller and it is the Fe~2~O~3~ values that would dominate.
 [^7]: This is an important observation that we discuss in the [Understanding Scores & Loadings](#top-matter) vignette.
 [^8]: There are other functions in `R` for carrying out PCA.  See the [PCA Functions](#top-matter) vignette for the details.
