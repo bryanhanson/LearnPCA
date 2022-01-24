@@ -13,3 +13,4 @@ Many of these are questions asked at [Cross Validated](https://stats.stackexchan
 * [Simple SVD algorithms: Naive ways to calculate SVD](https://towardsdatascience.com/simple-svd-algorithms-13291ad2eef2) Note: behind paywall.
 * [Relationship between SVD and PCA. How to use SVD to perform PCA?](https://stats.stackexchange.com/q/134282/26909)
 * [How to reverse PCA and reconstruct original variables from several principal components?](https://stats.stackexchange.com/q/229092/26909)
+* *Chemometrics: A Practical Guide* by Kenneth R. Beebe, Randy J. Pell and Mary Beth Seasholtz.  Wiley, New York, 1998. ISBN 0-471-12451-6
