@@ -248,6 +248,13 @@ plot(SrE.IR$freq, pca$rotation[,1], type = "h", xlim = c(1800, 1650),
      xlab = "Wavelength", ylab = "Contribution")
 ```
 
+<!-- Insert refer_to_works_consulted document -->
+
+```{r, echo = FALSE, results = "asis"}
+res <- knitr::knit_child("refer_to_works_consulted.md", quiet = TRUE)
+cat(res, sep = '\n')
+```
+
 [^1]: There is another plot, the "biplot", which is sometimes encountered.  This plot will be dealt with in a separate document.
 [^2]: This is the `glass` data set in package `chemometrics`. The elements analyzed were Na~2~O, MgO, Al~2~O~3~, SiO~2~, P~2~O~5~, SO~3~, Cl, K~2~O, CaO, MnO, Fe~2~O~3~, BaO, and PbO. With the exception of chlorine, the elements are reported as their oxides; all values are weight percents.
 [^3]: Because there are 13 variables, the most PCs one could have is 13.  In theory, keeping all 13 PCs perfectly reproduces the original data set.

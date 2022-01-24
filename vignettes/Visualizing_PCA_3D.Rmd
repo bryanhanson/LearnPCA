@@ -303,3 +303,10 @@ par(old.par)
 # Final Thoughts
 
 The data sets in LearnPCA---and, more importantly, the data sets from your teaching and research projects---likely have significantly more than three variables. Although you cannot plot and examine your data set as we did here for a system with three variables, the process remains the same: rotate the coordinate system to find the principal component axis that best explains the data in *n* dimensions, project the data onto the $n - 1$ dimensional surface that is perpendicular to your first principal component axis, and repeat until original set of *n* original axes is replaced with a set of *n* principal component axes.
+
+<!-- Insert refer_to_works_consulted document -->
+
+```{r, echo = FALSE, results = "asis"}
+res <- knitr::knit_child("refer_to_works_consulted.md", quiet = TRUE)
+cat(res, sep = '\n')
+```

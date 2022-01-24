@@ -283,6 +283,13 @@ plot(rmsd, type = "b", ylim = c(0.0, max(rmsd)),
 abline(h = 0.0, col = "pink")
 ```
 
+<!-- Insert refer_to_works_consulted document -->
+
+```{r, echo = FALSE, results = "asis"}
+res <- knitr::knit_child("refer_to_works_consulted.md", quiet = TRUE)
+cat(res, sep = '\n')
+```
+
 
 [^1]: For the full data set, there are also 16 dimensions in the form of 16 principal components.  But, each of the 16 principal components each has a bit of the original 16 raw variables in it, and showing only the first two principal components is meaningful.  How meaningful?  The scree plot will tell us.  Keep reading.
 [^2]: If one uses `scale` to center and/or scale your data, the results are tagged with attributes giving the values necessary to undo the calculation.  Take a look at `str(FeCu_centered_scale)` and you'll see these attributes.  Compare the values for `attributes(FeCu_centered_scaled)["scaled:center"]` to `colMeans(FeCu)`.  Importantly, if you use `scale` to do your centering and scaling, these attributes are understood by `prcomp` and are reflected in the returned data, even if `prcomp` didn't do the centering and scaling itself.  In other words, these two functions are designed to work together.

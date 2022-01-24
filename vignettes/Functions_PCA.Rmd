@@ -236,6 +236,13 @@ colnames(DF) <- c("", "prcomp", "svd", "princomp", "eigen")
 kable(DF, format = "html", row.names = FALSE, caption = "A comparison of R functions for PCA.  Input data must be centered in all cases.  Scaling is optional.") %>% kable_styling(c("striped", "bordered"), full_width = FALSE)
 ```
 
+<!-- Insert refer_to_works_consulted document -->
+
+```{r, echo = FALSE, results = "asis"}
+res <- knitr::knit_child("refer_to_works_consulted.md", quiet = TRUE)
+cat(res, sep = '\n')
+```
+
 # References
 
 [^1]: And there are numerous functions in user-contributed packages that "wrap" or implement these base functions in particular contexts.

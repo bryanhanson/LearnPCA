@@ -178,6 +178,13 @@ plot_rot_axes(rotate60, show_loadings = TRUE, show_simple_legend = FALSE,
 
 Since individual loadings are defined by a cosine function, they are limited to the range --1 (an angle of rotation of 180°) to +1 (an angle of rotation of 0°).[^3] The sign of the loading indicates how a variable contributes to the principal component.  A positive loading indicates that a variable contributes to some degree to the principal component, and a negative loading indicates that its absence contributes to some degree to the principal component. The larger a loading's relative magnitude, the more important is its presence or absence to the principal component.
 
+<!-- Insert refer_to_works_consulted document -->
+
+```{r, echo = FALSE, results = "asis"}
+res <- knitr::knit_child("refer_to_works_consulted.md", quiet = TRUE)
+cat(res, sep = '\n')
+```
+
 [^1]: Variance is defined as $$\frac{\sum({x_i - \bar{x}})^2}{n - 1}$$ for a set of $n$ values of $x$.
 [^2]: The optimal angle for this data set is actually 62$^\circ$, but we'll use the rounded value for discussion.
 [^3]: And it follows if the principal component axis aligns with an original axis, the loading will be $\cos(0) = 1.00$, and if it is perpendicular, the loading will be $\cos(90) = 0.00$.
