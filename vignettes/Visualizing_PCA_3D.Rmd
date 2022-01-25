@@ -207,6 +207,20 @@ points3D(x = pc1$xrot, y = pc1$yrot, z = pc1$zrot, type = "l", col = pcaxis_col,
 #         lwd = 2, lty =3, add = TRUE)
 ```
 
+```{r pc1bPlotly, fig.cap=paste("The original data (as", pcdata_colname, "points) and the first principal component axis (as a", pcaxis_colname, "line)."), results = "show"}
+# Leaving legend for now, as one can click on the entries to hide them;
+# not sure we need to keep it in the long run
+rdata <- as.data.frame(rotdata)
+fig <- plot_ly(name = "data", rdata, x = ~xrot, y = ~yrot, z = ~zrot,
+  marker = list(size = 2.0, color = pcdata_col)) %>%
+  add_markers() %>%
+  add_trace(name = "PC1", data = pc1, x = ~xrot, y = ~yrot, z = ~zrot, mode = "lines", type = "scatter3d", inherit = FALSE, line = list(color = pcaxis_col, width = axis_width)) %>%
+  layout(scene = list(xaxis = list(title = "x"),
+                      yaxis = list(title = "y"),
+                      zaxis = list(title = "z")))
+fig
+```
+
 # The Second Principal Component
 
 To visualize the second principal component axis, we first project the data From Figure \@ref(fig:origData) onto a plane perpendicular to the first principal component axis shown in Figure \@ref(fig:pc1a). Figure \@ref(fig:pc2a) shows this where the `r pcaxis_colname` line is the first principal component, the `r pcdata_colname` box highlights a portion of the plane perpendicular to the first principal component axis, and the points in `r pcdata_colname` are the projections of the original data from Figure \@ref(fig:origData) onto this plane.
@@ -228,6 +242,41 @@ points3D(x = pc1$xrot, y = pc1$yrot, z = pc1$zrot, type = "l", col = pcaxis_col,
          lwd = 2, lty = 1, add = TRUE)
 ```
 
+```{r pc2aPlotly, fig.cap=paste("The first principal component (",pcaxis_colname, "line) and the projection of the original data (",pcdata_colname,"points) onto the plane perpendicular to the first principal component (shown with a", pcdata_colname, "boundary)."), results = "show"}
+proj = as.data.frame(rot(x = rep(0,length(id)), y = ye, z = ze))
+
+# DFs to define 4 lines to draw "surface"
+P1P2 <- data.frame(x = c(pc3$xrot[2], pc2$xrot[2]),
+                   y = c(pc3$yrot[2], pc2$yrot[2]),
+                   z = c(pc3$zrot[2], pc2$zrot[2]))
+
+P2P3 <- data.frame(x = c(pc2$xrot[2], pc3$xrot[1]),
+                   y = c(pc2$yrot[2], pc3$yrot[1]),
+                   z = c(pc2$zrot[2], pc3$zrot[1]))
+
+P3P4 <- data.frame(x = c(pc3$xrot[1], pc2$xrot[1]),
+                   y = c(pc3$yrot[1], pc2$yrot[1]),
+                   z = c(pc3$zrot[1], pc2$zrot[1]))
+
+P4P1 <- data.frame(x = c(pc3$xrot[2], pc2$xrot[1]),
+                   y = c(pc3$yrot[2], pc2$yrot[1]),
+                   z = c(pc3$zrot[2], pc2$zrot[1]))
+
+fig <- plot_ly(name = "data", proj, x = ~xrot, y = ~yrot, z = ~zrot,
+  marker = list(size = 2.0, color = pcdata_col)) %>%
+  add_markers() %>%
+  add_trace(name = "PC1", data = pc1, x = ~xrot, y = ~yrot, z = ~zrot, mode = "lines", type = "scatter3d", inherit = FALSE, line = list(color = pcaxis_col, width = axis_width)) %>%
+  # Add PC2 project plane rectangle as 4 lines; no 3d polygon appears to exist in plotly.  Need 4 DFs to do this!
+  add_trace(name = "line1", data = P1P2, x = ~x, y = ~y, z = ~z, mode = "lines", type = "scatter3d", inherit = FALSE, showlegend = FALSE, line = list(color = pcdata_col, width = axis_width/2)) %>%
+  add_trace(name = "line2", data = P2P3, x = ~x, y = ~y, z = ~z, mode = "lines", type = "scatter3d", inherit = FALSE, showlegend = FALSE, line = list(color = pcdata_col, width = axis_width/2)) %>%
+  add_trace(name = "line3", data = P3P4, x = ~x, y = ~y, z = ~z, mode = "lines", type = "scatter3d", inherit = FALSE, showlegend = FALSE, line = list(color = pcdata_col, width = axis_width/2)) %>%
+  add_trace(name = "line4", data = P4P1, x = ~x, y = ~y, z = ~z, mode = "lines", type = "scatter3d", inherit = FALSE, showlegend = FALSE, line = list(color = pcdata_col, width = axis_width/2)) %>%
+  layout(scene = list(xaxis = list(title = "x"),
+                      yaxis = list(title = "y"),
+                      zaxis = list(title = "z")))
+fig
+```
+
 The cloud of data in the two-dimensional plane runs diagonally from the lower left to the upper right, as we see in Figure \@ref(fig:pc2b), where the dashed `r pcaxis_colname` line is the second principal component axis. The second principal component accounts for `r round(100 * summary(pc_results)$importance[2,2], digits = 1)`% of the variation in the data; together, the first two principal components account for `r round(100 * summary(pc_results)$importance[3,2], digits = 1)`% of the variation in the data.
 
 ```{r pc2b, fig.cap=paste("The result of adding the second principal component axis to the previous figure. The first principal component axis is the solid", pcaxis_colname, "line and the second principal component axis is the dashed", pcaxis_colname, "line.")}
@@ -239,6 +288,21 @@ points3D(x = pc1$xrot, y = pc1$yrot, z = pc1$zrot, type = "l", col = pcaxis_col,
          lwd = 2, lty = 1, add = TRUE)
 points3D(x = pc2$xrot, y = pc2$yrot, z = pc2$zrot, type = "l", col = pcaxis_col,
          lwd = 2, lty = 2, add = TRUE)
+```
+
+```{r pc2bPlotly, fig.cap=paste("The result of adding the second principal component axis to the previous figure. The first principal component axis is the solid", pcaxis_colname, "line and the second principal component axis is the dashed", pcaxis_colname, "line."), results = "show"}
+
+fig <- plot_ly(name = "data", proj, x = ~xrot, y = ~yrot, z = ~zrot,
+  marker = list(size = 2.0, color = pcdata_col)) %>%
+  add_markers() %>%
+  add_trace(name = "PC1", data = pc1, x = ~xrot, y = ~yrot, z = ~zrot, mode = "lines", type = "scatter3d", inherit = FALSE, line = list(color = pcaxis_col, width = axis_width)) %>%
+  add_trace(name = "PC2", data = pc2, x = ~xrot, y = ~yrot, z = ~zrot, mode = "lines", type = "scatter3d", inherit = FALSE, line = list(color = pcaxis_col, width = axis_width, dash = "dash")) %>%
+
+  layout(scene = list(xaxis = list(title = "x"),
+                      yaxis = list(title = "y"),
+                      zaxis = list(title = "z")))
+fig
+
 ```
 
 # The Third Principal Component
@@ -256,6 +320,21 @@ points3D(x = pc2$xrot, y = pc2$yrot, z = pc2$zrot, type = "l", col = pcaxis_col,
          lwd = 2, lty = 2, add = TRUE)
 points3D(x = pc3$xrot, y = pc3$yrot, z = pc3$zrot, type = "l", col = pcaxis_col,
          lwd = 2, lty = 3, add = TRUE)
+```
+
+```{r pc3Plotly, fig.cap=paste("The original data (", pcdata_colname, "points) and the three three principal component axes (", pcaxis_colname, "lines). The solid line is the first principal component, the dashed line is the second principal component, and the dotted line is the third principal component."), results = "show"}
+
+fig <- plot_ly(name = "data", proj, x = ~xrot, y = ~yrot, z = ~zrot,
+  marker = list(size = 2.0, color = pcdata_col)) %>%
+  add_markers() %>%
+  add_trace(name = "PC1", data = pc1, x = ~xrot, y = ~yrot, z = ~zrot, mode = "lines", type = "scatter3d", inherit = FALSE, line = list(color = pcaxis_col, width = axis_width)) %>%
+  add_trace(name = "PC2", data = pc2, x = ~xrot, y = ~yrot, z = ~zrot, mode = "lines", type = "scatter3d", inherit = FALSE, line = list(color = pcaxis_col, width = axis_width, dash = "dash")) %>%
+  add_trace(name = "PC3", data = pc3, x = ~xrot, y = ~yrot, z = ~zrot, mode = "lines", type = "scatter3d", inherit = FALSE, line = list(color = pcaxis_col, width = axis_width, dash = "dot")) %>%
+  layout(scene = list(xaxis = list(title = "x"),
+                      yaxis = list(title = "y"),
+                      zaxis = list(title = "z")))
+fig
+
 ```
 
 # How PCA Changes the Data Cloud
