@@ -324,7 +324,7 @@ points3D(x = pc3$xrot, y = pc3$yrot, z = pc3$zrot, type = "l", col = pcaxis_col,
 
 ```{r pc3Plotly, fig.cap=paste("The original data (", pcdata_colname, "points) and the three three principal component axes (", pcaxis_colname, "lines). The solid line is the first principal component, the dashed line is the second principal component, and the dotted line is the third principal component."), results = "show"}
 
-fig <- plot_ly(name = "data", proj, x = ~xrot, y = ~yrot, z = ~zrot,
+fig <- plot_ly(name = "data", rdata, x = ~xrot, y = ~yrot, z = ~zrot,
   marker = list(size = 2.0, color = pcdata_col)) %>%
   add_markers() %>%
   add_trace(name = "PC1", data = pc1, x = ~xrot, y = ~yrot, z = ~zrot, mode = "lines", type = "scatter3d", inherit = FALSE, line = list(color = pcaxis_col, width = axis_width)) %>%
