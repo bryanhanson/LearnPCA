@@ -55,7 +55,7 @@ options(rmarkdown.html_vignette.check_title = FALSE)
 
 <!-- This chunk inserts common info about all the vignettes -->
 
-```{r, echo = FALSE, results = "asis"}
+```{r top-matter, echo = FALSE, results = "asis"}
 res <- knitr::knit_child("top_matter.md", quiet = TRUE)
 cat(res, sep = '\n')
 ```
@@ -130,9 +130,11 @@ pc_results = prcomp(data.frame(rotdata$xrot, rotdata$yrot, rotdata$zrot))
 
 # Visualizing The Original Data Set
 
-The data for this vignette consists of `r length(id)` points drawn at random from within the boundaries of an ellipsoid that has a length of `r 2*xa`, a width of `r 2*yb`, and a height of `r 2*zc` -- think of a flattened football. Figure \@ref(fig:origData) shows the three-dimensional cloud of data as `r pcdata_colname` points and the three axes that define the data as `r xyzaxis_colname` lines. These axes are not the principal component axes, they are the usual x, y and z axes.
+The data for this vignette consists of `r length(id)` points drawn at random from within the boundaries of an ellipsoid that has a length of `r 2*xa`, a width of `r 2*yb`, and a height of `r 2*zc` -- think of a flattened football. Figure \@ref(fig:origDataPlotly) shows the three-dimensional cloud of data as `r pcdata_colname` points and the three axes that define the data as `r xyzaxis_colname` lines. These axes are not the principal component axes, they are the usual x, y and z axes.
 
-```{r origData, fig.cap=paste("Three-dimensional plot of data (", pcdata_colname, "points) showing the x, y, and z-axes (",xyzaxis_colname, "lines) that represent the three measured variables.")}
+
+
+```{r origData, eval = FALSE, fig.cap=paste("Three-dimensional plot of data (", pcdata_colname, "points) showing the x, y, and z-axes (",xyzaxis_colname, "lines) that represent the three measured variables.")}
 # plot rotated data and original pc axes (original x,y,z)
 scatter3D(x = rotdata$xrot, y = rotdata$yrot, z = rotdata$zrot,
           pch = 19, col = pcdata_col, bty = "b2", cex = 0.3,
@@ -146,11 +148,7 @@ points3D(x = xpc3, y = ypc3, z = zpc3, type = "l", col = xyzaxis_col,
          lwd = 2, lty = 1, add = TRUE)
 ```
 
-Figure \@ref(fig:origDataPlotly) shows the same data in an interactive form.
-
-```{r origDataPlotly, fig.cap=paste("PLOTLY VERSION Three-dimensional plot of data (", pcdata_colname, "points) showing the x, y, and z-axes (",xyzaxis_colname, "lines) that represent the three measured variables."), results = "show"}
-# Leaving legend for now, as one can click on the entries to hide them;
-# not sure we need to keep it in the long run
+```{r origDataPlotly, fig.cap=paste("Three-dimensional plot of data (", pcdata_colname, "points) showing the x, y, and z-axes (",xyzaxis_colname, "lines) that represent the three measured variables."), results = "show"}
 axis_width <- 8L
 rdata <- as.data.frame(rotdata)
 x_axis <- data.frame(xpc1, ypc1, zpc1)
@@ -170,11 +168,16 @@ fig
 
 # The First Principal Component
 
-Although the three axes in Figure 1 define the location of the individual data points in space, *any other set of three mutually perpendicular axes will accomplish the same thing*. Our goal is to find three specific axes such that the first axis conveys the most information about the data and the third, and final axis explains conveys the least information about the data.
+Although the three axes in Figure \@ref(fig:origDataPlotly) define the location of the individual data points in space, *any other set of three mutually perpendicular axes will accomplish the same thing*. Our goal is to find three specific axes such that the first axis conveys the most information about the data and the third, and final axis explains any remaining information about the data.
 
-To help us visualize where the first principal component axis lies, Figure \@ref(fig:pc1a) shows the same cloud of data as `r pcdata_colname` points in three dimensions, and projections of the data, as `r pcproj_colname` points, onto the two-dimensional x,y-plane, the y,z-plane, and the x,z-plane (in other words, the data is projected onto the "walls" of the figure). The three projections are consistent with an ellipsoid whose length is greater than its width (see the x,y-plane), and whose width is greater than its height (see y,z-plane).
+<!-- To help us visualize where the first principal component axis lies, Figure \@ref(fig:pc1aPlotly) shows the same cloud of data as `r pcdata_colname` points in three dimensions, and projections of the data, as `r pcproj_colname` points, onto the two-dimensional x,y-plane, the y,z-plane, and the x,z-plane (in other words, the data is projected onto the "walls" of the figure). The three projections are consistent with an ellipsoid whose length is greater than its width (see the x,y-plane), and whose width is greater than its height (see y,z-plane). -->
 
-```{r pc1a, fig.cap=paste("The original data (as", pcdata_colname, "points) and their projection onto the x,y-plane, the y,z-plane, and the x,z-plane (as", pcproj_colname," points).")}
+
+You might be able to guess where the first principal component axis lies
+if you rotate Figure \@ref(fig:origDataPlotly) and look at the two-dimensional x,y-plane, the y,z-plane, and the x,z-plane. The three projections are consistent with an ellipsoid whose length is greater than its width (see the x,y-plane), and whose width is greater than its height (see y,z-plane).
+
+
+```{r pc1a, eval = FALSE, fig.cap=paste("The original data (as", pcdata_colname, "points) and their projection onto the x,y-plane, the y,z-plane, and the x,z-plane (as", pcproj_colname," points).")}
 scatter3D(x = rotdata$xrot, y = rotdata$yrot, z = rotdata$zrot,
           pch = 19, col = pcdata_col, bty = "b2", cex = 0.3,
           xlim = c(-xa,xa), ylim = c(-xa,xa), zlim = c(-xa,xa),
@@ -187,11 +190,11 @@ scatter3D(x = rotdata$yrot, y = rep(xa, length(id)), z = rotdata$zrot,
           pch = 19, col = pcproj_col, cex = 0.2, add = TRUE)
 ```
 
-As suggested by Figure \@ref(fig:pc1a), if we run the PCA and display the first principal component axis, we see that it runs diagonally from the lower-left to the upper-right, from values of x, y, and z that are negative to values of x, y, and z that are positive. Figure \@ref(fig:pc1b) shows the first principal component axis relative to the three-dimensional cloud of data seen in Figure \@ref(fig:origData) and Figure \@ref(fig:pc1a). The first principal component accounts for `r round(100 * summary(pc_results)$importance[2,1], digits = 1)`% of the variation in the data.
+Let's see how your guess about the first principal component worked out.  If we run the PCA and display the first principal component axis, we see that it runs along the long axis of the data cloud. Figure \@ref(fig:pc1bPlotly) shows the first principal component axis relative to the three-dimensional cloud of data seen in Figure \@ref(fig:origDataPlotly). The first principal component accounts for `r round(100 * summary(pc_results)$importance[2,1], digits = 1)`% of the variation in the data.
 
 <!-- **There is an interesting philosophical question here. Although I added a prcomp analysis into the prepData code block so that it is available---and used it to report variances explained by the PCs---I do not use it to define the PC axes. I'm "cheating" a bit here. The original data is defined as an ellipsoid with values along the x-axis having a greater range than the values along the y-axis, which have a greater range than the values along the z-axis. The theoretical PC axes are, then, the x-axis, the y-axis, and the z-axis, respectively. Including lots of data points means that the theoretical and calculated PCs should align closely. I then used a rotation function to rotate the data and the theoretical PC axes in space so that there is no obvious alignment of the PCs with the x, y, and z-axes. My goal is visual, so rotating the theoretical PCs seems okay. Doing things this way made it much easier to do the plotting. ** -->
 
-```{r pc1b, fig.cap=paste("The original data (as", pcdata_colname, "points) and the first principal component axis (as a", pcaxis_colname, "line).")}
+<!-- ```{r pc1b, fig.cap=paste("The original data (as", pcdata_colname, "points) and the first principal component axis (as a", pcaxis_colname, "line).")}
 scatter3D(x = rotdata$xrot, y = rotdata$yrot, z = rotdata$zrot,
           pch = 19, col = pcdata_col, bty = "b2", cex = 0.3,
           xlim = c(-xa,xa), ylim = c(-xa,xa), zlim = c(-xa,xa),
@@ -205,12 +208,9 @@ points3D(x = pc1$xrot, y = pc1$yrot, z = pc1$zrot, type = "l", col = pcaxis_col,
 #         lwd = 2, lty =3, add = TRUE)
 # points3D(x = c(-xa,-xa), y = pc1$yrot, z = pc1$zrot, type = "l", col = pcaxis_col,
 #         lwd = 2, lty =3, add = TRUE)
-```
+``` -->
 
 ```{r pc1bPlotly, fig.cap=paste("The original data (as", pcdata_colname, "points) and the first principal component axis (as a", pcaxis_colname, "line)."), results = "show"}
-# Leaving legend for now, as one can click on the entries to hide them;
-# not sure we need to keep it in the long run
-rdata <- as.data.frame(rotdata)
 fig <- plot_ly(name = "data", rdata, x = ~xrot, y = ~yrot, z = ~zrot,
   marker = list(size = 2.0, color = pcdata_col)) %>%
   add_markers() %>%
@@ -223,11 +223,11 @@ fig
 
 # The Second Principal Component
 
-To visualize the second principal component axis, we first project the data From Figure \@ref(fig:origData) onto a plane perpendicular to the first principal component axis shown in Figure \@ref(fig:pc1a). Figure \@ref(fig:pc2a) shows this where the `r pcaxis_colname` line is the first principal component, the `r pcdata_colname` box highlights a portion of the plane perpendicular to the first principal component axis, and the points in `r pcdata_colname` are the projections of the original data from Figure \@ref(fig:origData) onto this plane.
+To visualize the second principal component axis, we first project the data From Figure \@ref(fig:origDataPlotly) onto a plane perpendicular to the first principal component axis shown in Figure \@ref(fig:pc1bPlotly). Figure \@ref(fig:pc2aPlotly) shows this where the `r pcaxis_colname` line is the first principal component, the `r pcdata_colname` box highlights a portion of the plane perpendicular to the first principal component axis, and the points in `r pcdata_colname` are the projections of the original data from Figure \@ref(fig:origDataPlotly) onto this plane.  With this view we get a solid idea of where the second principal component axis will be.
 
 <!-- **TODO: we have the original data in light blue; should the projection of that data onto a plane or anywhere else for that matter be a different color?** -->
 
-```{r pc2a, fig.cap=paste("The first principal component (",pcaxis_colname, "line) and the projection of the original data (",pcdata_colname,"points) onto the plane perpendicular to the first principal component (shown with a", pcdata_colname, "boundary).")}
+<!-- ```{r pc2a, fig.cap=paste("The first principal component (",pcaxis_colname, "line) and the projection of the original data (",pcdata_colname,"points) onto the plane perpendicular to the first principal component (shown with a", pcdata_colname, "boundary).")}
 proj = rot(x = rep(0,length(id)), y = ye, z = ze)
 scatter3D(x = proj$xrot, y = proj$yrot, z = proj$zrot,
           pch =19, col = pcdata_col, cex = 0.2, ticktype = "detailed",
@@ -240,7 +240,7 @@ polygon3D(x = c(pc3$xrot[2], pc2$xrot[2], pc3$xrot[1], pc2$xrot[1]),
           add = TRUE)
 points3D(x = pc1$xrot, y = pc1$yrot, z = pc1$zrot, type = "l", col = pcaxis_col,
          lwd = 2, lty = 1, add = TRUE)
-```
+``` -->
 
 ```{r pc2aPlotly, fig.cap=paste("The first principal component (",pcaxis_colname, "line) and the projection of the original data (",pcdata_colname,"points) onto the plane perpendicular to the first principal component (shown with a", pcdata_colname, "boundary)."), results = "show"}
 proj = as.data.frame(rot(x = rep(0,length(id)), y = ye, z = ze))
@@ -266,7 +266,7 @@ fig <- plot_ly(name = "data", proj, x = ~xrot, y = ~yrot, z = ~zrot,
   marker = list(size = 2.0, color = pcdata_col)) %>%
   add_markers() %>%
   add_trace(name = "PC1", data = pc1, x = ~xrot, y = ~yrot, z = ~zrot, mode = "lines", type = "scatter3d", inherit = FALSE, line = list(color = pcaxis_col, width = axis_width)) %>%
-  # Add PC2 project plane rectangle as 4 lines; no 3d polygon appears to exist in plotly.  Need 4 DFs to do this!
+  # Add PC2 projectoin plane rectangle as 4 lines; no 3d polygon appears to exist in plotly.  Need 4 DFs to do this!
   add_trace(name = "line1", data = P1P2, x = ~x, y = ~y, z = ~z, mode = "lines", type = "scatter3d", inherit = FALSE, showlegend = FALSE, line = list(color = pcdata_col, width = axis_width/2)) %>%
   add_trace(name = "line2", data = P2P3, x = ~x, y = ~y, z = ~z, mode = "lines", type = "scatter3d", inherit = FALSE, showlegend = FALSE, line = list(color = pcdata_col, width = axis_width/2)) %>%
   add_trace(name = "line3", data = P3P4, x = ~x, y = ~y, z = ~z, mode = "lines", type = "scatter3d", inherit = FALSE, showlegend = FALSE, line = list(color = pcdata_col, width = axis_width/2)) %>%
@@ -277,9 +277,9 @@ fig <- plot_ly(name = "data", proj, x = ~xrot, y = ~yrot, z = ~zrot,
 fig
 ```
 
-The cloud of data in the two-dimensional plane runs diagonally from the lower left to the upper right, as we see in Figure \@ref(fig:pc2b), where the dashed `r pcaxis_colname` line is the second principal component axis. The second principal component accounts for `r round(100 * summary(pc_results)$importance[2,2], digits = 1)`% of the variation in the data; together, the first two principal components account for `r round(100 * summary(pc_results)$importance[3,2], digits = 1)`% of the variation in the data.
+Of course we don't need to guess! Figure \@ref(fig:pc2bPlotly), shows the second principal component axis as a  dashed `r pcaxis_colname` line. The second principal component accounts for `r round(100 * summary(pc_results)$importance[2,2], digits = 1)`% of the variation in the data; together, the first two principal components account for `r round(100 * summary(pc_results)$importance[3,2], digits = 1)`% of the variation in the data.
 
-```{r pc2b, fig.cap=paste("The result of adding the second principal component axis to the previous figure. The first principal component axis is the solid", pcaxis_colname, "line and the second principal component axis is the dashed", pcaxis_colname, "line.")}
+```{r pc2b, eval = FALSE, fig.cap=paste("The result of adding the second principal component axis to the previous figure. The first principal component axis is the solid", pcaxis_colname, "line and the second principal component axis is the dashed", pcaxis_colname, "line.")}
 scatter3D(x = proj$xrot, y = proj$yrot, z = proj$zrot,
           pch =19, col = adjustcolor(pcdata_col,alpha.f = 0.5), cex = 0.2,
           ticktype = "detailed",phi = 10, theta = 50, bty = "b2",
@@ -307,9 +307,9 @@ fig
 
 # The Third Principal Component
 
-With the first two principal components in place, the last principal component is the only axis we can draw that is perpendicular to the two existing principal components. Figure \@ref(fig:pc3) shows the original cloud of data and all three principal component axes. In this example, the first principal component is aligned with ellipsoid's length, the second principal component is aligned with its width, and the third principal component is aligned with its height.
+With the first two principal components in place, the last principal component is the only axis we can draw that is perpendicular to the two existing principal components. Figure \@ref(fig:pc3Plotly) shows the original cloud of data and all three principal component axes. In this example, the first principal component is aligned with ellipsoid's length, the second principal component is aligned with its width, and the third principal component is aligned with its height.
 
-```{r pc3, fig.cap=paste("The original data (", pcdata_colname, "points) and the three three principal component axes (", pcaxis_colname, "lines). The solid line is the first principal component, the dashed line is the second principal component, and the dotted line is the third principal component.")}
+<!-- ```{r pc3, fig.cap=paste("The original data (", pcdata_colname, "points) and the three three principal component axes (", pcaxis_colname, "lines). The solid line is the first principal component, the dashed line is the second principal component, and the dotted line is the third principal component.")}
 scatter3D(x = rotdata$xrot, y = rotdata$yrot, z = rotdata$zrot,
           pch = 19, col = pcdata_col, bty = "b2", cex = 0.3,
           xlim = c(-xa,xa), ylim = c(-xa,xa), zlim = c(-xa,xa),
@@ -320,7 +320,7 @@ points3D(x = pc2$xrot, y = pc2$yrot, z = pc2$zrot, type = "l", col = pcaxis_col,
          lwd = 2, lty = 2, add = TRUE)
 points3D(x = pc3$xrot, y = pc3$yrot, z = pc3$zrot, type = "l", col = pcaxis_col,
          lwd = 2, lty = 3, add = TRUE)
-```
+``` -->
 
 ```{r pc3Plotly, fig.cap=paste("The original data (", pcdata_colname, "points) and the three three principal component axes (", pcaxis_colname, "lines). The solid line is the first principal component, the dashed line is the second principal component, and the dotted line is the third principal component."), results = "show"}
 
@@ -385,7 +385,7 @@ The data sets in LearnPCA---and, more importantly, the data sets from your teach
 
 <!-- Insert refer_to_works_consulted document -->
 
-```{r, echo = FALSE, results = "asis"}
+```{r refer-works-consulted, echo = FALSE, results = "asis"}
 res <- knitr::knit_child("refer_to_works_consulted.md", quiet = TRUE)
 cat(res, sep = '\n')
 ```
