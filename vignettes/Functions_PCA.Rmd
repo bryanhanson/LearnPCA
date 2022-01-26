@@ -57,9 +57,9 @@ There are four base functions in `R` that can carry out PCA analysis.[^1]  In th
 
 # `princomp`
 
-In contrast to `prcomp`, `princomp` cannot directly handle the situation where $p > n$, so it is not as flexible. In addition, `princomp` uses function `eigen` under the hood, and `eigen` only accepts square matrices as input (where $n = p$).  However, `princomp` will accept a rectangular matrix with $n > p$ because along the way, `princomp` will convert the input matrix to either the covariance or correlation matrix before passing the new matrix to `eigen` (the choice depends upon the arguments).  Both the covariance and correlation matrices are square matrices that `eigen` can process.
+In contrast to `prcomp`, `princomp` cannot directly handle the situation where $p > n$, so it is not as flexible. In addition, `princomp` uses function `eigen` under the hood, and `eigen` only accepts square matrices as input (where $n = p$).  However, `princomp` will accept a rectangular matrix with $n > p$ because internally `princomp` will convert the input matrix to either the covariance or correlation matrix before passing the new matrix to `eigen` (the choice depends upon the arguments).  Both the covariance and correlation matrices are square matrices that `eigen` can process.  As we shall see below, they give the same scores as the raw data (as long as the scaling is consistent).
 
-## Covariance
+# Covariance
 
 Let's take quick look at covariance and correlation.  First, we'll create some data to play with:
 
@@ -77,10 +77,10 @@ dim(covA) # it's square
 identical(covA, cov(A))
 ```
 
-## Correlation
+# Correlation
 
 
-If instead you center the columns of $A$, scale the columns by dividing by their standard deviations, take $A^TA$ and then divide by $n -1$ you get the **correlation** matrix. Like covariance, correlation describes how the variables track each other.  However, correlation is bounded on $[-1, 1]$.  In effect, correlation is covariance normalized to a constant scale.  Again we can verify this with the built-in function `cor`:
+If instead you center the columns of $A$, i.e. scale the columns by dividing by their standard deviations, take $A^TA$ and then divide by $n -1$ you get the **correlation** matrix. Like covariance, correlation describes how the variables track each other.  However, correlation is bounded on $[-1, 1]$.  In effect, correlation is covariance normalized to a constant scale.  Again we can verify this with the built-in function `cor`:
 
 ```{r}
 Acs <- scale(A, center = TRUE, scale = TRUE)
@@ -127,7 +127,7 @@ all.equal(abs(prin$scores), abs(pca$x), check.attributes = FALSE)
 
 Another way to compare these results is to overlay a plot of the scores from each method.  Figure \@ref(fig:overlayScores) shows the results.  The pattern of positive and negative scores becomes much clearer in this plot.
 
-```{r overlayScores, fig.width = 5, fig.height = 5, fig.cap = "Comparison of scores computed by `prcomp` (black points) and `princomp` (red points). Note that they are related by a 180 degreee rotation about an axis out of paper at the origin.", echo = FALSE}
+```{r overlayScores, fig.width = 5, fig.height = 5, fig.cap = "Comparison of scores computed by `prcomp` (black points) and `princomp` (red points). Note that they are related by a 180 degreee rotation about an axis out of paper at the origin (plus a little wiggle due to algorithm differences).", echo = FALSE}
 plot(pca$x[,1], pca$x[,2], type = "p", pch = 20, col = "gray50",
   xlim = c(-3, 3), ylim = c(-3, 3),
   xlab = "PC1", ylab = "PC2")
@@ -152,9 +152,9 @@ prin_loads
 all.equal(abs(pca$rotation), abs(prin_loads), check.attributes = FALSE)
 ```
 
-The absolute value of the loadings from each method are identical, while the actual pattern of positive and negative values is complex as we saw for the scores. Why is this?  Recall from the [Understanding Scores and Loadings](#top-matter) vignette that the loadings are the cosines of the angles through which the original axes are rotated to get to the new coordinate system.  As cosine is a periodic function, if one rotates the reference frame 30 degrees to line up with the data better, the same alignment can also be achieved by rotating 30 + 180 degrees or 30 - 180 degrees.  However, the latter two operations will give the opposite sign for the cosine value.  This is the origin of the pattern of signs in the  loadings; essentially there are positive and negative cosine values that both describe the needed reorientation.  Once the sign of the first value is chosen, the signs of the other values are meaningful only in that context.
+The absolute value of the loadings from each method are identical, while the actual pattern of positive and negative values is complex as we saw for the scores. Why is this?  Recall from the [Understanding Scores and Loadings](#top-matter) vignette that the loadings are the cosines of the angles through which the original axes are rotated to get to the new coordinate system.  As cosine is a periodic function, if one rotates the reference frame 30 degrees to line up with the data better, the same alignment can also be achieved by rotating 30 + 180 degrees or 30 - 180 degrees.  However, the latter two operations will give the opposite sign for the cosine value.  This is the origin of the pattern of signs in the  loadings; essentially there are positive and negative cosine values that both describe the needed reorientation equally well.  Once the sign of the first value is chosen, the signs of the other values are meaningful only in that context.
 
-As for the scores, a visual comparison of the results from each method will help us understand the relationship.  In this case, we'll just look at the signs of the loadings, and we'll display all the loadings for PC1 followed by the loadings for PC2 etc.  Figure \@ref(fig:compareLoads) makes clear that the two methods return loadings which sometimes have the same sign, and sometimes the opposite sign.
+As for the scores, a visual comparison of the results from each method will help us understand the relationship.  In this case, we'll just look at the signs of the loadings, and we'll display the loadings for PC1 followed by the loadings for PC2 etc.  Figure \@ref(fig:compareLoads) makes clear that the two methods return loadings which sometimes have the same sign, and sometimes the opposite sign.
 
 ```{r compareLoads, fig.cap = "A comparison of the signs of the first loadings from `prcomp` (black circles) and `princomp` (red circles). Where the circles coincide, the value of the loading from each method is the same. ", echo = FALSE, fig.height = 3, fig.width = 5}
 plot(x = 1:25, type = "n", axes = FALSE,
@@ -168,14 +168,25 @@ lab.pos <- c(line.pos, 25.5)
 axis(side = 1, labels = c("PC1", "PC2", "PC3", "PC4", "PC5"), at = lab.pos - 2.5, lwd = 0, lwd.ticks = 0)
 ```
 
-The key takeaway here is that regardless of the signs of the scores and the loadings, they work together.
+The key takeaway here is that regardless of the signs of the scores and the loadings, the results from a particular function are internally consistent.
+
+## Compare the Variance Explained
+
+For completeness, let's make sure that each method returns the same variance explained values.
+
+```{r varExp}
+summary(pca)
+summary(prin)
+```
+
+Clearly the numerical results are the same.  You can see that the labeling of the results is different between the two functions. These labels are internally stored attributes.  In the several places below we'll ignore those labels and just check that the numerical output is the same.
 
 ## Reconstruct the Original Data
 
 While the pattern of positive and negative scores and loadings differs between algorithms, in any particular case the signs of the loadings and scores work together properly. We can use the function `PCAtoXhat` from this package to reconstruct the original data, and compare it to the known original data.  This function recognizes the results from either `prcomp` or `princomp` and reconstructs the original data, accounting for any scaling and centering.
 
 ```{r}
-MTpca <- PCAtoXhat(pca)
+MTpca <- PCAtoXhat(pca) # not checking attributes as the internal labeling varies between functions
 all.equal(MTpca, mt, check.attributes = FALSE)
 ```
 
