@@ -1,7 +1,7 @@
 Package: LearnPCA
 Type: Package
 Title: Functions, Data Sets and Vignettes to Aid in Learning Principal Components Analysis (PCA)
-Version: 0.1.82
+Version: 0.1.83
 Date: 2022-01-27
 Authors@R: c(
     person("Bryan A.", "Hanson",

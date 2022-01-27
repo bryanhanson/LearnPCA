@@ -127,7 +127,7 @@ all.equal(abs(prin$scores), abs(pca$x), check.attributes = FALSE)
 
 Another way to compare these results is to overlay a plot of the scores from each method.  Figure \@ref(fig:overlayScores) shows the results.  The pattern of positive and negative scores becomes much clearer in this plot.
 
-```{r overlayScores, fig.width = 5, fig.height = 5, fig.cap = "Comparison of scores computed by `prcomp` (black points) and `princomp` (red points). Note that they are related by a 180 degreee rotation about an axis out of paper at the origin (plus a little wiggle due to algorithm differences).", echo = FALSE}
+```{r overlayScores, fig.asp = 1, fig.cap = "Comparison of scores computed by `prcomp` (black points) and `princomp` (red points). Note that they are related by a 180 degreee rotation about an axis out of paper at the origin (plus a little wiggle due to algorithm differences).", echo = FALSE}
 plot(pca$x[,1], pca$x[,2], type = "p", pch = 20, col = "gray50",
   xlim = c(-3, 3), ylim = c(-3, 3),
   xlab = "PC1", ylab = "PC2")
