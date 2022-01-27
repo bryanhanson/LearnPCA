@@ -83,19 +83,15 @@ kable(FeCu2, format = "html", row.names = FALSE, caption = "The FeCu data set. V
 ```
 
 ```{r plot-raw-dotplot, eval = TRUE, fig.cap = "The range of the raw data values in `FeCu`."}
-Tib <- pivot_longer(FeCu, everything())
-p <- ggplot(data = Tib, aes(x = name, y = value)) +
-  geom_point() +
-  labs(x = "", y = TeX(r"(Values ($Fe_{2}O_{3}$ in percent, Cu in ppm))"))
-p
+stripchart(FeCu, vertical = TRUE, pch = 20, xlim = c(0.5, 2.5),
+  ylab = TeX(r"(Values ($Fe_{2}O_{3}$ in percent, Cu in ppm))"),
+  xlab = "")
 ```
 
-```{r plot-raw-data-2D, eval = TRUE, fig.cap = "The relationship between the raw data values in `FeCu`."}
-
-p <- ggplot(data = FeCu, aes(x = Fe2O3, y = Cu)) +
-  geom_point() +
-  labs(x = TeX(r"($Fe_{2}O_{3}$ (percent))"), y = "Cu (ppm)")
-p
+```{r plot-raw-data-2D, eval = TRUE, fig.cap = "The relationship between the raw data values in `FeCu`.", fig.asp = 1}
+plot(x = FeCu$Fe2O3, y = FeCu$Cu, pch = 20,
+  xlab = TeX(r"($Fe_{2}O_{3}$ (percent))"),
+  ylab = "Cu (ppm)")
 ```
 
 # Step 1. Centering the Data
@@ -111,11 +107,7 @@ FeCu_centered <- scale(FeCu, scale = FALSE, center = TRUE) # see ?scale for defa
 Figure \@ref(fig:plot-centered-data) is a plot of the centered values. Note how the values on the y-axis have changed compared to the raw data.  It's apparent that the ranges of the chosen variables are quite different.  This is a classic case where scaling is desirable, otherwise the variable with larger values will dominate the PCA results.
 
 ```{r plot-centered-data, eval = TRUE, fig.cap = "Centered data values in `FeCu`."}
-Tib <- pivot_longer(as.data.frame(FeCu_centered), everything())
-p <- ggplot(data = Tib, aes(x = name, y = value)) +
-  geom_point() +
-  labs(x = "", y = "centered values")
-p
+stripchart(as.data.frame(FeCu_centered), vertical = TRUE, pch = 20, xlim = c(0.5, 2.5), ylab = "centered values", xlab = "")
 ```
 
 Why do we center the data?  The easiest way to think about this is that without centering there is an offset in the data, a bit like an intercept in a linear regression.  If we don't remove this offset, it adversely affects the results and their interpretation.  There is good discussion of this with illustrations at this [Cross Validated](https://stats.stackexchange.com/a/22331/26909) answer if you wish a bit more explanation.
@@ -139,11 +131,7 @@ apply(FeCu_centered_scaled, 2, sd)
 Put another way, all variables are now on the same scale, which is really obvious from Figure \@ref(fig:plot-centered-scaled-data).  One downside of this scaling is that if you have variables that may only be noise, the contribution of these variables is the same as variables representing interesting features.
 
 ```{r plot-centered-scaled-data, fig.cap = "Centered and scaled data."}
-Tib <- pivot_longer(as.data.frame(FeCu_centered_scaled), everything())
-p <- ggplot(data = Tib, aes(x = name, y = value)) +
-  geom_point() +
-  labs(x = "", y = "centered & scaled values")
-p
+stripchart(as.data.frame(FeCu_centered_scaled), vertical = TRUE, pch = 20, xlim = c(0.5, 2.5), ylab = "centered & scaled values", xlab = "")
 ```
 
 # Step 3. Data Reduction
@@ -162,10 +150,8 @@ str(pca_FeCu)
 Scores represent the original data but in a new coordinate system.  Figure \@ref(fig:plot-scores) shows the scores.
 
 
-```{r plot-scores, fig.cap = "Scores."}
-p <- ggplot(data = as.data.frame(pca_FeCu$x), aes(x = PC1, y = PC2)) +
-     geom_point()
-p
+```{r plot-scores, fig.cap = "Scores.", fig.asp = 1}
+plot(pca_FeCu$x, pch = 20, xlab = "PC1", ylab = "PC2")
 ```
 
 ## Using All the Data
@@ -176,11 +162,8 @@ If you compare Figure \@ref(fig:plot-scores) to Figure \@ref(fig:plot-raw-data-2
 pca_TO <- prcomp(TO, scale. = TRUE)
 ```
 
-```{r plot-all-data, fig.cap = "Score plot using all the data."}
-sg_all <- data.frame(pca_TO$x)
-p <- ggplot(data = sg_all, aes(x = PC1, y = PC2)) +
-     geom_point()
-p
+```{r plot-all-data, fig.cap = "Score plot using all the data.", fig.asp = 1}
+plot(pca_TO$x, pch = 20, xlab = "PC1", ylab = "PC2")
 ```
 
 ## What Else is in the PCA Results?

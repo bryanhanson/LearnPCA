@@ -1,8 +1,8 @@
 Package: LearnPCA
 Type: Package
 Title: Functions, Data Sets and Vignettes to Aid in Learning Principal Components Analysis (PCA)
-Version: 0.1.81
-Date: 2022-01-24
+Version: 0.1.82
+Date: 2022-01-27
 Authors@R: c(
     person("Bryan A.", "Hanson",
       role = c("aut", "cre"),
@@ -28,8 +28,6 @@ Suggests:
     bookdown,
     rmarkdown,
     plot3D,
-    ggplot2,
-    tidyr,
     ade4,
     plotrix,
     latex2exp,
