@@ -34,6 +34,7 @@ rm(list = ls())
 suppressPackageStartupMessages(library("knitr"))
 suppressPackageStartupMessages(library("kableExtra"))
 suppressPackageStartupMessages(library("chemometrics"))
+suppressPackageStartupMessages(library("ChemoSpec"))
 options(width =  50) # for pinp specifically (narrow cols)
 
 # Stuff specifically for knitr:
@@ -102,7 +103,7 @@ plot(pca, main = "")
 Figure \@ref(fig:glassScree), the scree plot, shows the amount of variance in the data set explained by, in this case, each of the first 10 principal components (PCs are along the x axis, from 1 to 10).[^3]  Variance is a measure of the spread of points around the origin of whatever coordinate system is in use.  Think of it as a measure of the scattering of the samples.[^8]  To interpret this plot, we look for the point at which the height of the bars suddenly levels off.  In this case, the first three PCs drop steadily downward, but from PC four and onward there is little additional variance that can be explained.  We would say that three PCs are enough to explain this data set.  In other words, the original 13 variables have been reduced to three, which is a great simplification.
 
 ```{r glassScores, fig.cap = "Score plot from PCA on the glass data set.", fig.asp = 1}
-plot(pca$x[,1], pca$x[,2], type = "p",
+plot(pca$x[,1], pca$x[,2], type = "p", pch = 20,
   xlab = "Principal Component 1", ylab = "Principal Component 2")
 ```
 
@@ -143,7 +144,13 @@ The mathematics of PCA do not take into account anything about the samples other
 
 ```{r glassScores2, fig.cap = "Score plot from PCA on the glass data set, with groups color-coded.", fig.asp = 1}
 data(glass.grp)
-plot(pca$x[,1], pca$x[,2], type = "p", col = glass.grp, pch = 20,
+data(Col7) # 7 colorblind-friendly colors from ChemoSpec
+glass.col <- rep(NA_character_, length(glass.grp))
+glass.col <- ifelse(glass.grp == 1L, Col7[1], glass.col)
+glass.col <- ifelse(glass.grp == 2L, Col7[3], glass.col)
+glass.col <- ifelse(glass.grp == 3L, Col7[4], glass.col)
+glass.col <- ifelse(glass.grp == 4L, Col7[6], glass.col)
+plot(pca$x[,1], pca$x[,2], type = "p", col = glass.col, pch = 20,
      xlab = "Principal Component 1", ylab = "Principal Component 2")
 ```
 
@@ -181,8 +188,8 @@ The score plot for this data set is shown in Figure \@ref(fig:stateScores). For 
 
 We can see a great deal of separation occurs along the PC1 dimension, consistent with this component explaining 45% of the variance.  PC2 on the other hand has a similar overall span, but most of the scores are concentrated in the lower part of the plot.  We can see there are a couple of states with high scores on PC2.  This is an illustration of another use of PCA which we have not discussed yet, namely the identification of potentially anomolous data, or outliers.  Such points are worthy of further investigation; they might be interesting clues or they might arise from data entry problems.
 
-```{r stateScores, fig.cap = "Score plot from PCA on the `states.x77` data set, colored by political leanings (blue = democrat, red = republican, purple = mixed).", fig.asp = 1}
-state.col <- c("red", "red", "red", "red", "blue", "blue", "blue", "blue", "purple", "red", "blue", "red", "blue", "red", "purple", "red", "red", "red", "blue", "blue", "blue", "blue", "blue", "red", "red", "red", "red", "blue", "blue", "blue", "blue", "blue", "red", "red", "purple", "red", "blue", "blue", "blue", "red", "red", "red", "red", "red", "blue", "blue", "blue", "red", "blue", "red")
+```{r stateScores, fig.cap = "Score plot from PCA on the `states.x77` data set, colored by political leanings (ligth blue = democrat, pink = republican, purple = mixed).", fig.asp = 1}
+state.col <- c(Col7[4], Col7[4], Col7[4], Col7[4], Col7[3], Col7[3], Col7[3], Col7[3], "purple", Col7[4], Col7[3], Col7[4], Col7[3], Col7[4], "purple", Col7[4], Col7[4], Col7[4], Col7[3], Col7[3], Col7[3], Col7[3], Col7[3], Col7[4], Col7[4], Col7[4], Col7[4], Col7[3], Col7[3], Col7[3], Col7[3], Col7[3], Col7[4], Col7[4], "purple", Col7[4], Col7[3], Col7[3], Col7[3], Col7[4], Col7[4], Col7[4], Col7[4], Col7[4], Col7[3], Col7[3], Col7[3], Col7[4], Col7[3], Col7[4])
 plot(x77$x[,1], x77$x[,2], type = "p", pch = 20,
   xlab = "Principal Component 1", ylab = "Principal Component 2", col = state.col)
 ```
@@ -202,7 +209,6 @@ However, the loading plot changes appearance dramatically.  This is because with
 Let's illustrate with an IR data set.  We'll use a data set included with the `ChemoSpec` package.  This is a set of IR spectra of plant oils which are mixtures of triglycerides (also called triacylglyerols, which are esters of fatty acids), and free fatty acids.  Figure \@ref(fig:IRSpectrum) shows a typical spectrum from the data set.[^5]
 
 ```{r loadIR}
-suppressPackageStartupMessages(library("ChemoSpec"))
 data(SrE.IR)
 ```
 
@@ -238,7 +244,7 @@ Finally, to make the point that the loading plot for many variables is really th
 ```{r IRLoadings2, fig.cap = "Loadings plot for PC 1 from PCA on the IR data set, carbonyl region. Reference spectrum shown in red."}
 plot(SrE.IR$freq, pca$rotation[,1], type = "l", xlim = c(1800, 1650),
      xlab = "Wavenumber", ylab = "Contribution", ylim = c(-0.3, 0.3))
-lines(SrE.IR$freq, SrE.IR$data[1,], col = "red")
+lines(SrE.IR$freq, SrE.IR$data[1,], col = Col7[4])
 abline(v = c(1743, 1708), lty = 2, col = "gray50")
 ```
 
