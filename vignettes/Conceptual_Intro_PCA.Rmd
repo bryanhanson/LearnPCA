@@ -100,7 +100,7 @@ pca <- prcomp(glass)
 plot(pca, main = "")
 ```
 
-Figure \@ref(fig:glassScree), the scree plot, shows the amount of variance in the data set explained by, in this case, each of the first 10 principal components (PCs are along the x axis, from 1 to 10).[^3]  Variance is a measure of the spread of points around the origin of whatever coordinate system is in use.  Think of it as a measure of the scattering of the samples.  To interpret this plot, we look for the point at which the height of the bars suddenly levels off.  In this case, the first three PCs drop steadily downward, but from PC four and onward there is little additional variance that can be explained.  We would say that three PCs are enough to explain this data set.  In other words, the original 13 variables have been reduced to three, which is a great simplification.
+Figure \@ref(fig:glassScree), the scree plot, shows the amount of variance in the data set explained by, in this case, each of the first 10 principal components (PCs are along the x axis, from 1 to 10).[^3]  Variance is a measure of the spread of points around the origin of whatever coordinate system is in use.  Think of it as a measure of the scattering of the samples.[^8]  To interpret this plot, we look for the point at which the height of the bars suddenly levels off.  In this case, the first three PCs drop steadily downward, but from PC four and onward there is little additional variance that can be explained.  We would say that three PCs are enough to explain this data set.  In other words, the original 13 variables have been reduced to three, which is a great simplification.
 
 ```{r glassScores, fig.cap = "Score plot from PCA on the glass data set.", fig.width = 5, fig.height = 5}
 plot(pca$x[,1], pca$x[,2], type = "p",
@@ -262,3 +262,4 @@ cat(res, sep = '\n')
 [^5]: Plots in this vignette are deliberately made rather plain to focus on the data and to be consistent for ease-of-comparison.  If spectroscopy is your thing, package `ChemoSpec` makes much more polished plots.
 [^6]: If one were to look at the correlations between all the elements in the `glass` data set, one would find that other elements correlate positively with Na~2~O, not just SiO~2~.  However, what PCA has done here is found the unique pattern of these three elements tracking each other in the new coordinate system, as seen in the loading plot.
 [^7]: One can also see here that the individual frequencies making up a peak are highly correlated, as they rise and fall together.
+[^8]: If the coordinate system is well-chosen, then the spead of points along an axis represents signal rather than noise.
