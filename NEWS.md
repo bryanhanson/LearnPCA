@@ -1,2 +1,2 @@
-# LearnPCA 0.1.0 2020-01-23
-* And so it begins ...
+# LearnPCA 0.1.0 2020-01-28
+* First release to CRAN.
