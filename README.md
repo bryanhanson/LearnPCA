@@ -1,9 +1,10 @@
-[![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
-![R-CMD-build-check](https://github.com/bryanhanson/LearnPCA/workflows/R-CMD-build-check/badge.svg)
+[![Project Status: Active - The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)]() [![Build & Check](https://github.com/bryanhanson/LearnPCA/workflows/Build-Check/badge.svg)]() [![Docs Current](https://github.com/bryanhanson/LearnPCA/workflows/Update-Docs/badge.svg)]()
+
+[![CRAN status](https://www.r-pkg.org/badges/version-last-release/LearnPCA)]() [![metacran downloads](https://cranlogs.r-pkg.org/badges/grand-total/LearnPCA)]() [![Downloads](https://cranlogs.r-pkg.org/badges/LearnPCA)]() [![status](https://tinyverse.netlify.com/badge/LearnPCA)]() [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.0-4baaaa.svg)](CODE_OF_CONDUCT.md)
 
 ## What is LearnPCA?
 
-`LearnPCA` is an `R` package in development by David T. Harvey and Bryan A. Hanson.  For a sense of the project, install the package and do `browseVignettes("LearnPCA")`.
+`LearnPCA` is an `R` package to help people learn about Principal component analysis (PCA), which is one of the most widely used data analysis techniques.  This package provides a series of vignettes explaining PCA starting from basic concepts. The primary purpose is to serve as a self-study resource for anyone wishing to understand PCA better. A few convenience functions are provided as well.
 
 ### Installing LearnPCA from Github:
 
@@ -21,6 +22,14 @@ If you use `@some_other_branch` you can download other branches that might be av
 ````r
 browseVignettes("LearnPCA")
 ````
+
+### Code of Conduct
+
+This project is released with a [Contributor Code of Conduct](https://bryanhanson.github.io/LearndPCA/CODE_OF_CONDUCT.html).  By contributing, you agree to abide by its terms.
+
+### Contributing
+
+If you would like to contribute to the project, please see [Contributing Guide](https://bryanhanson.github.io/LearnPCA/CONTRIBUTING.html).
 
 ### License Information
 
