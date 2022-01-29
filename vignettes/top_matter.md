@@ -4,14 +4,9 @@
 desc <- packageDescription("LearnPCA")
 ```
 
+<div class = "top-matter">
 
 *This vignette is based upon `LearnPCA` version `r desc$Version`.*
-
-**This vignette is available in both pdf and html formats.  However, the pdf versions lack certain interactive diagrams, so the html version is recommended.**
-
-<!-- For pdf output set echo = FALSE to avoid compiling errors -->
-
-```{block, type = "top-matter", echo = FALSE}
 
 `LearnPCA` provides the following vignettes: <a name = "top-matter"></a>
 
@@ -23,5 +18,9 @@ desc <- packageDescription("LearnPCA")
 * [The Math Behind PCA](http://bryanhanson.github.io/LearnPCA/articles/Math_Behind_PCA.html)
 * [PCA Functions](http://bryanhanson.github.io/LearnPCA/articles/Functions_PCA.html)
 * Alternatively, if you are offline or prefer accessing the vignettes with `R`, simply type `browseVignettes("LearnPCA")` to get a clickable list in a browser window.
-```
+
+**Vignettes are available in both pdf and html formats.  However, the pdf versions lack certain interactive diagrams, so the html versions are recommended.**
+
+</div>
+
 <!-- ======================================================================= -->
