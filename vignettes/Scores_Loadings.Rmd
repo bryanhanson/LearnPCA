@@ -101,7 +101,7 @@ variable1 = data_set_1$yrot
 samples = seq(1,8)
 df = data.frame(samples,variable1,variable2)
 colnames(df) = c("sample", "variable 1", "variable 2")
-kable(df, format = "html", caption = "Individual values for the variables and samples.", digits = 2) %>% kable_styling(c("striped", "bordered"), full_width = FALSE)
+kable(df, caption = "Individual values for the variables and samples.", digits = 2) %>% kable_styling(c("striped", "bordered"), full_width = FALSE)
 var2 = var(variable2)
 var1 = var(variable1)
 total_variance = var1 + var2
@@ -125,17 +125,17 @@ Variable 2 accounts for `r round(percent_var2, digits = 1)`% of the total varian
 
 As outlined in the vignette [Visualizing PCA in 3D](#top-matter), a principal component analysis essentially is a process of rotating our original set of $n$ axes, which correspond to the $n$ variables we measured, until we find a new axis that explains as much of the total variance as possible. This becomes the first principal component axis. We then project the data onto the $n - 1$ dimensional surface that is perpendicular to this axis and repeat this process of rotation and projection until the original $n$ axes are replaced with a new set of $n$ principal component axes.
 
-For a system with just two variables, this process amounts to a simple rotation of the two axes. Suppose we arbitrarily rotate the axes in Figure \@ref(fig:fig-origData) clockwise by 20° and project the data points onto the new axes. Figure \@ref(fig:rotate20) shows the result where the dashed lines are the original axes associated with variable 1 and variable 2, and the solid lines are the rotated axes, which we identify for now as axis A and axis B to clarify that they are not specifically associated with one of the two variables, nor with the principal components we eventually hope to find. It is easy to see---both visually and quantitatively---that the total variance is more evenly distributed between the two rotated axes than was the case for the original two axes.  Even more importantly, the variance associated with axis A has increased from 22.8% to 55.4%. One can see this graphically by looking at the span of the pink and blue projection points on each axis.
+For a system with just two variables, this process amounts to a simple rotation of the two axes. Suppose we arbitrarily rotate the axes in Figure \@ref(fig:fig-origData) clockwise by 20$^\circ$ and project the data points onto the new axes. Figure \@ref(fig:rotate20) shows the result where the dashed lines are the original axes associated with variable 1 and variable 2, and the solid lines are the rotated axes, which we identify for now as axis A and axis B to clarify that they are not specifically associated with one of the two variables, nor with the principal components we eventually hope to find. It is easy to see---both visually and quantitatively---that the total variance is more evenly distributed between the two rotated axes than was the case for the original two axes.  Even more importantly, the variance associated with axis A has increased from 22.8% to 55.4%. One can see this graphically by looking at the span of the pink and blue projection points on each axis.
 
-```{r rotate20, fig.align="center", fig.cap="Rotating the original axes by 20° gives the axes shown as solid lines. The small points in pink and in blue are the projections of the original data onto the rotated axes. The gray lines serve as a guide to illustrate the projections for one data point."}
+```{r rotate20, fig.align="center", fig.cap="Rotating the original axes by 20$^\circ$ gives the axes shown as solid lines. The small points in pink and in blue are the projections of the original data onto the rotated axes. The gray lines serve as a guide to illustrate the projections for one data point."}
 plot_rot_axes(rotate20, show_loadings = FALSE, show_simple_legend = FALSE,
               show_full_legend = FALSE, show_full_axes_legend = TRUE,
               show_scores = TRUE, show_projections = TRUE)
 ```
 
-If we continue to rotate the axes, we discover that an angle of rotation of 60° yields an axis (axis A) that explains almost 99% of the total variance in our eight samples. At this point we have maximized the variance for this axis, because further rotation will reduce the variance; we'll call this axis the first principal component axis.  The remaining axis, which is perpendicular to the first principal component axis, is the second principal component axis.[^5]
+If we continue to rotate the axes, we discover that an angle of rotation of 60$^\circ$ yields an axis (axis A) that explains almost 99% of the total variance in our eight samples. At this point we have maximized the variance for this axis, because further rotation will reduce the variance; we'll call this axis the first principal component axis.  The remaining axis, which is perpendicular to the first principal component axis, is the second principal component axis.[^5]
 
-```{r rotate60, fig.align="center", fig.cap="Rotating the original axes by 60° maximizes the variance along one of the two rotated axes; the line in pink is the first principal component axis and the line in blue is the second principal component axis.  The gray lines serve as a guide to illustrate the projections for one data point."}
+```{r rotate60, fig.align="center", fig.cap="Rotating the original axes by 60$^\circ$ maximizes the variance along one of the two rotated axes; the line in pink is the first principal component axis and the line in blue is the second principal component axis.  The gray lines serve as a guide to illustrate the projections for one data point."}
 plot_rot_axes(rotate60, show_loadings = FALSE, show_simple_legend = FALSE,
               show_full_legend = TRUE, show_full_axes_legend = FALSE,
               show_scores = TRUE, show_projections = TRUE)
@@ -164,12 +164,12 @@ pc2<- c(pc2, 100*vpc2/(vpc1 + vpc2))
 # put it all together
 df = data.frame(samples,variable1,variable2,pc1, pc2)
 colnames(df) = c("sample", "variable 1", "variable 2", "PC 1", "PC 2")
-kable(df, format = "html", caption = "Coordinates for each of the eight samples, in the original axis system and in the principal component axis system.", digits = 2) %>% kable_styling(c("striped", "bordered"), full_width = FALSE)
+kable(df, caption = "Coordinates for each of the eight samples, in the original axis system and in the principal component axis system.", digits = 2) %>% kable_styling(c("striped", "bordered"), full_width = FALSE)
 ```
 
 ## Loadings
 
-Although the scores define the location of our samples in the coordinates of the newly discovered principal component axes, they do not tell us where these new axes are located. If we want to reconstruct the original data from the results of a PCA analysis (a process described in more detail in the vignette [Step-by-Step PCA](#top-matter)), we must know both where the samples lie relative to the principal component axes **and** the location of the principal component axes relative to the original axes. As shown in Figure \@ref(fig:rotate60-loadings), each principal component axis is defined by the cosine of its angle of rotation relative to each of the original axes. For example, the angle of rotation of PC 1 to the axis for variable 1, identified here as $\Theta$, is --60°, which gives its loading as $\cos(-60) = 0.500$.[^2] The angle of rotation of PC 1 to the axis for variable 2, or $\Phi$, returns a loading of $\cos(30) = 0.866$.[^4]
+Although the scores define the location of our samples in the coordinates of the newly discovered principal component axes, they do not tell us where these new axes are located. If we want to reconstruct the original data from the results of a PCA analysis (a process described in more detail in the vignette [Step-by-Step PCA](#top-matter)), we must know both where the samples lie relative to the principal component axes **and** the location of the principal component axes relative to the original axes. As shown in Figure \@ref(fig:rotate60-loadings), each principal component axis is defined by the cosine of its angle of rotation relative to each of the original axes. For example, the angle of rotation of PC 1 to the axis for variable 1, identified here as $\Theta$, is --60$^\circ$, which gives its loading as $\cos(-60) = 0.500$.[^2] The angle of rotation of PC 1 to the axis for variable 2, or $\Phi$, returns a loading of $\cos(30) = 0.866$.[^4]
 
 ```{r rotate60-loadings, fig.align="center", fig.cap="Illustration showing the loadings for the first principal component axis."}
 plot_rot_axes(rotate60, show_loadings = TRUE, show_simple_legend = FALSE,
@@ -177,7 +177,7 @@ plot_rot_axes(rotate60, show_loadings = TRUE, show_simple_legend = FALSE,
               show_scores = TRUE, show_projections = TRUE)
 ```
 
-Since individual loadings are defined by a cosine function, they are limited to the range --1 (an angle of rotation of 180°) to +1 (an angle of rotation of 0°).[^3] The sign of the loading indicates how a variable contributes to the principal component.  A positive loading indicates that a variable contributes to some degree to the principal component, and a negative loading indicates that its absence contributes to some degree to the principal component. The larger a loading's relative magnitude, the more important is its presence or absence to the principal component.
+Since individual loadings are defined by a cosine function, they are limited to the range --1 (an angle of rotation of 180$^\circ$) to +1 (an angle of rotation of 0$^\circ$).[^3] The sign of the loading indicates how a variable contributes to the principal component.  A positive loading indicates that a variable contributes to some degree to the principal component, and a negative loading indicates that its absence contributes to some degree to the principal component. The larger a loading's relative magnitude, the more important is its presence or absence to the principal component.
 
 <!-- Insert refer_to_works_consulted document -->
 

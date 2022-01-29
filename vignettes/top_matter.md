@@ -7,7 +7,9 @@ desc <- packageDescription("LearnPCA")
 
 *This vignette is based upon `LearnPCA` version `r desc$Version`.*
 
-```{block, type = "top-matter", echo = TRUE}
+<!-- For pdf output set echo = FALSE to avoid compiling errors -->
+
+```{block, type = "top-matter", echo = FALSE}
 
 `LearnPCA` provides the following vignettes: <a name = "top-matter"></a>
 

@@ -6,7 +6,10 @@
 \alias{LearnPCA}
 \title{Functions, Data Sets and Vignettes to Aid in Learning Principal Components Analysis (PCA)}
 \description{
-PASTE DESCRIPTION HERE
+Principal component analysis (PCA) is one of the most widely used data analysis techniques.
+This package provides a series of vignettes explaining PCA starting from basic concepts.
+The primary purpose is to serve as a self-study resource for anyone wishing to understand PCA better.
+A few convenience functions are provided as well.
 }
 \author{
 Bryan A. Hanson and David T. Harvey.

@@ -28,6 +28,7 @@ pkgdown:
   as_is: true
 ---
 
+
 ```{r SetUp, echo = FALSE, eval = TRUE, results = "hide"}
 # R options & configuration:
 set.seed(123)
@@ -128,7 +129,7 @@ all.equal(abs(prin$scores), abs(pca$x), check.attributes = FALSE)
 
 Another way to compare these results is to overlay a plot of the scores from each method.  Figure \@ref(fig:overlayScores) shows the results.  The pattern of positive and negative scores becomes much clearer in this plot.
 
-```{r overlayScores, fig.asp = 1, fig.cap = "Comparison of scores computed by `prcomp` (black points) and `princomp` (red points). Note that they are related by a 180 degreee rotation about an axis out of paper at the origin (plus a little wiggle due to algorithm differences).", echo = FALSE}
+```{r overlayScores, fig.asp = 1, fig.cap = "Comparison of scores computed by `prcomp` (black points) and `princomp` (pink points). Note that they are related by a 180 degreee rotation about an axis out of paper at the origin (plus a little wiggle due to algorithm differences).", echo = FALSE}
 plot(pca$x[,1], pca$x[,2], type = "p", pch = 20, col = "black",
   xlim = c(-3, 3), ylim = c(-3, 3),
   xlab = "PC1", ylab = "PC2")
@@ -157,7 +158,7 @@ The absolute value of the loadings from each method are identical, while the act
 
 As for the scores, a visual comparison of the results from each method will help us understand the relationship.  In this case, we'll just look at the signs of the loadings, and we'll display the loadings for PC1 followed by the loadings for PC2 etc.  Figure \@ref(fig:compareLoads) makes clear that the two methods return loadings which sometimes have the same sign, and sometimes the opposite sign.
 
-```{r compareLoads, fig.cap = "A comparison of the signs of the first loadings from `prcomp` (black circles) and `princomp` (red circles). Where the circles coincide, the value of the loading from each method is the same. ", echo = FALSE, fig.height = 3, fig.width = 5}
+```{r compareLoads, fig.cap = "A comparison of the signs of the first loadings from `prcomp` (black circles) and `princomp` (pink circles). Where the circles coincide, the value of the loading from each method is the same. ", echo = FALSE, fig.height = 3, fig.width = 5}
 plot(x = 1:25, type = "n", axes = FALSE,
   xlab = "loadings", ylab = "sign", ylim = c(-1.1, 1.1))
 points(sign(c(pca$rotation)))
@@ -271,7 +272,7 @@ colnames(DF) <- c("", "prcomp", "svd", "princomp", "eigen")
 ```
 
 ```{r SumTable, echo = FALSE, results = "asis"}
-kable(DF, format = "html", row.names = FALSE, caption = "A comparison of R functions for PCA.  Input data must be centered in all cases.  Scaling is optional.") %>% kable_styling(c("striped", "bordered"), full_width = FALSE)
+kable(DF, row.names = FALSE, caption = "A comparison of R functions for PCA.  Input data must be centered in all cases.  Scaling is optional.") %>% kable_styling(c("striped", "bordered"), full_width = FALSE)
 ```
 
 <!-- Insert refer_to_works_consulted document -->

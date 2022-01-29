@@ -78,7 +78,7 @@ summary(FeCu)
 ```{r  metals-raw-table, results = "asis"}
 FeCu2 <- FeCu # create a copy to format the column names
 names(FeCu2) <- c("Fe~2~O~3~", "Cu")
-kable(FeCu2, format = "html", row.names = FALSE, caption = "The FeCu data set. Values for Fe~2~O~3~ are percentages, those for Cu are ppm.") %>% kable_styling(c("striped", "bordered"), full_width = FALSE)
+kable(FeCu2, row.names = FALSE, caption = "The FeCu data set. Values for Fe~2~O~3~ are percentages, those for Cu are ppm.") %>% kable_styling(c("striped", "bordered"), full_width = FALSE)
 ```
 
 ```{r plot-raw-dotplot, eval = TRUE, fig.cap = "The range of the raw data values in `FeCu`."}
