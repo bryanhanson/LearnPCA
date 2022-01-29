@@ -7,6 +7,8 @@ desc <- packageDescription("LearnPCA")
 
 *This vignette is based upon `LearnPCA` version `r desc$Version`.*
 
+**This vignette is available in both pdf and html formats.  However, the pdf versions lack certain interactive diagrams, so the html version is recommended**
+
 <!-- For pdf output set echo = FALSE to avoid compiling errors -->
 
 ```{block, type = "top-matter", echo = FALSE}
