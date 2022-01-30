@@ -281,9 +281,11 @@ if (is_latex_output()) {
   tbl <- xtable(DF)
   caption(tbl) <- "A comparison of R functions for PCA.  Input data must be centered in all cases.  Scaling is optional."
   label(tbl) <- "tab:SumTable"
-  print(tbl, include.rownames = FALSE, hline.after = 0:8,
+  print(tbl, include.rownames = FALSE,
+    hline.after = 0:8,
     sanitize.text.function = function(x) {x},
-    sanitize.colnames.function = bold)
+    sanitize.colnames.function = bold,
+    comment = FALSE)
 }
 ```
 
