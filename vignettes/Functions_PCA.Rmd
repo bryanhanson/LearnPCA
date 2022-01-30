@@ -262,7 +262,7 @@ Table \@ref(tab:SumTable) summarizes much of what we covered above.
 ```{r, echo = FALSE}
 # c1 gives the row names
 c1 = c("algorithm", "input dimensions", "user pre-processing", "internal pre-processing", "call", "scores", "loadings", "pct variance explained")
-c2 = c("uses svd", "$n \\times p$", "center; scale", "center; scale[^4]", "$pca \\leftarrow prcomp(X)$", "$pca\\$x$", "$pca\\$rotation$", "$\\cfrac{100*pca\\$sdev^2}{sum(pca\\$sdev^2)}$")
+c2 = c("uses svd", "$n \\times p$", "center; scale", "center; scale", "$pca \\leftarrow prcomp(X)$", "$pca\\$x$", "$pca\\$rotation$", "$\\cfrac{100*pca\\$sdev^2}{sum(pca\\$sdev^2)}$")
 c3 = c("svd", "$n \\times p$", "center; scale", "none", "$sing \\leftarrow svd(X)$", "$X \\times sing\\$v$", "$sing\\$v$", "$\\cfrac{100*sing\\$d^2}{sum(sing\\$d^2)}$")
 c4 <- c("uses eigen", "$n \\times p$", "don't do it!", "center; cov or cor", "$prin \\leftarrow princomp(X)$", "$prin\\$scores$", "$prin\\$loadings$", "$\\cfrac{100*prin\\$sdev^2}{sum(prin\\$sdev^2)}$")
 c5 <- c("eigen", "$n \\times n$", "center; scale; cov or cor", "none", "$eig \\leftarrow eigen(X)$", "$X \\times eig\\$vectors$", "$eig\\$vectors$", "$\\cfrac{100*eig\\$values}{sum(eig\\$values)}$")
@@ -272,7 +272,19 @@ colnames(DF) <- c("", "prcomp", "svd", "princomp", "eigen")
 ```
 
 ```{r SumTable, echo = FALSE, results = "asis"}
-kable(DF, row.names = FALSE, caption = "A comparison of R functions for PCA.  Input data must be centered in all cases.  Scaling is optional.") %>% kable_styling(c("striped", "bordered"), full_width = FALSE)
+if (!is_latex_output()) {
+  kbl(DF, row.names = FALSE, caption = "A comparison of R functions for PCA.  Input data must be centered in all cases.  Scaling is optional.") %>% kable_styling(c("striped", "bordered"), full_width = FALSE)
+}
+
+if (is_latex_output()) {
+  bold <- function(x) {paste('{\\textbf{',x,'}}', sep ='')}
+  tbl <- xtable(DF)
+  caption(tbl) <- "A comparison of R functions for PCA.  Input data must be centered in all cases.  Scaling is optional."
+  label(tbl) <- "tab:SumTable"
+  print(tbl, include.rownames = FALSE, hline.after = 0:8,
+    sanitize.text.function = function(x) {x},
+    sanitize.colnames.function = bold)
+}
 ```
 
 <!-- Insert refer_to_works_consulted document -->
@@ -285,6 +297,5 @@ cat(res, sep = '\n')
 [^1]: And there are numerous functions in user-contributed packages that "wrap" or implement these base functions in particular contexts.
 [^2]: This works because the `scale` function adds attributes to its results, and `prcomp` checks for these attributes and uses them if present.
 [^3]: In `princomp` there is no argument regarding centering. The documentation is silent on this.  However, if you look at the source code (via `stats:::princomp.default`) you discover that it calls `cov.wt` which indeed centers, and gives the covariance matrix unless you set the argument `cor = TRUE` in which case you get the correlation matrix.
-[^4]: Obviously one should either center and scale ahead of time, or allow `prcomp` to do it, not both.
 [^5]: Autoscaling means to divide each column by its standard deviation.
 [^6]: Proof that the covariance matrix gives the same results is left as an exercise!

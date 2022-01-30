@@ -37,6 +37,7 @@ rm(list = ls())
 suppressPackageStartupMessages(library("knitr"))
 suppressPackageStartupMessages(library("plot3D"))
 suppressPackageStartupMessages(library("plotly"))
+suppressPackageStartupMessages(library("webshot"))
 
 # colors and color names
 pcdata_col = "#3db7ed"
