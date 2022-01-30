@@ -219,8 +219,7 @@ plot_rot_axes = function(file, show_rotated = TRUE,
   # add legend with just axis names
   if(show_simple_legend == TRUE & show_full_legend == FALSE){
   legend(x = "topleft", legend = c("axis 1", "axis 2"), 
-         col = c(axis1_col, axis2_col), lwd = 2, lty = 2, bty = "o", 
-         box.col = "white", bg = "white", box.lwd = 0.1) 
+         col = c(axis1_col, axis2_col), lwd = 2, lty = 2, bty = "n") 
   }
   
   # add legend with information on variances for axes
@@ -228,8 +227,7 @@ plot_rot_axes = function(file, show_rotated = TRUE,
     axis1_text = paste0("axis A: ", round(var_axis1,1), " (", percent_axis1,"%)")
     axis2_text = paste0("axis B: ", round(var_axis2,1), " (", percent_axis2,"%)")
     legend(x = "topleft", legend = c("variances",axis1_text,axis2_text), 
-           bty = "o", box.col = "white", bg = "white", box.lwd = 0.1,
-           text.col = c("black",axis1_col, axis2_col))
+           bty = "n", text.col = c("black",axis1_col, axis2_col))
   }
   
   # add legend with information on variances for principal components
@@ -237,8 +235,7 @@ plot_rot_axes = function(file, show_rotated = TRUE,
   axis1_text = paste0("PC 1: ", round(var_axis1,1), " (", percent_axis1,"%)")
   axis2_text = paste0("PC 2: ", round(var_axis2,1), " (", percent_axis2,"%)")
   legend(x = "topleft", legend = c("variances",axis1_text,axis2_text), 
-        bty = "o", box.col = "white", bg = "white", box.lwd = 0.1,
-         text.col = c("black",axis1_col, axis2_col))
+        bty = "n", text.col = c("black",axis1_col, axis2_col))
   }
   
   # add main title with angle
@@ -259,19 +256,28 @@ plot_rot_axes = function(file, show_rotated = TRUE,
 
   # show loadings for first axis
   if(show_loadings == TRUE){
-  library(plotrix)
   draw.arc(x = 0, y = 0, radius = axis_max/1, deg1 = 90, deg2 = 90 - file$angle, 
            lwd = 2, col = axis1_col, lty = 1)
-  points(x = axis_max, y = 0.1, pch = -9660, col = axis1_col)
-  arctext(x = "\U0398", center = c(0,0), cex = 1.25, col = axis1_col,
-          radius=axis_max/0.9, middle = (180 - file$angle)/2 * (pi/180),
-          stretch = 1, clockwise = TRUE)
+  # points(x = axis_max, y = 0.1, pch = -9660, col = axis1_col)
+  text(x = 7.1, y = 8.5, labels = expression(Theta), cex = 1.25, col = axis1_col)
+  # arctext(x = "\U0398", center = c(0,0), cex = 1.25, col = axis1_col,
+          # radius=axis_max/0.9, middle = (180 - file$angle)/2 * (pi/180),
+          # stretch = 1, clockwise = TRUE)
   draw.arc(x = 0, y = 0, radius = axis_max/1, deg1 = 0, deg2 = 90 - file$angle, 
            lwd = 2, col = axis1_col, lty = 1)
-  points(x = 0.1, y = axis_max, pch = -9668, col = axis1_col)
-  arctext(x = "\U03A6", center = c(0,0), cex = 1.25, col = axis1_col,
-          radius=axis_max/0.9, middle = (90 - file$angle)/2 * (pi/180),
-          stretch = 1, clockwise = TRUE)
-  legend(x = "bottomright", legend = c("loadings",paste0("\U0398: cos(",-file$angle,") = ",round(cos(-file$angle * pi/180),digits = 3)), paste0("\U03A6: cos(",90-file$angle,") = ",round(cos((90-file$angle) * pi/180),digits = 3))), bty = "o", box.col = "white", bg = "white", box.lwd = 0.1, text.col = c("black",axis1_col, axis1_col))
+  # points(x = 0.1, y = axis_max, pch = -9668, col = axis1_col)
+  text(x = 10.7, y = 2.5, labels = expression(Phi), cex = 1.25, col = axis1_col)
+  # arctext(x = "\U03A6", center = c(0,0), cex = 1.25, col = axis1_col,
+          # radius=axis_max/0.9, middle = (90 - file$angle)/2 * (pi/180),
+          # stretch = 1, clockwise = TRUE) 
+  theta2 <- round(cos(-file$angle * pi/180),digits = 3)
+  leg.txt <- c("loadings",
+               # paste0(expression(Theta), ": cos(",-file$angle,") = ",
+                 # round(cos(-file$angle * pi/180),digits = 3)),
+               # paste0(expression(Phi), ": cos(",90-file$angle,") = ",
+                 # round(cos((90-file$angle) * pi/180),digits = 3)),
+               TeX("$\\Theta : \\, cos(-60)$ = 0.50"),
+               TeX("$\\Phi : \\, cos(30)$ = 0.866"))
+  legend(x = "bottomright", legend = leg.txt, bty = "n", text.col = c("black",axis1_col, axis1_col))
   }
 }
