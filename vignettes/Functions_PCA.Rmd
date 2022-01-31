@@ -37,6 +37,7 @@ options(width = 80)
 suppressPackageStartupMessages(library("knitr"))
 suppressPackageStartupMessages(library("LearnPCA"))
 suppressPackageStartupMessages(library("kableExtra"))
+suppressPackageStartupMessages(library("xtable"))
 
 
 # Stuff specifically for knitr:
