@@ -29,13 +29,11 @@ pkgdown:
 ```{r SetUp, echo = FALSE, eval = TRUE, results = "hide"}
 # R options & configuration:
 set.seed(9)
-rm(list = ls())
 suppressPackageStartupMessages(library("knitr"))
 suppressPackageStartupMessages(library("chemometrics"))
 
 # Stuff specifically for knitr:
 opts_chunk$set(eval = TRUE, echo = TRUE)
-options(rmarkdown.html_vignette.check_title = FALSE)
 ```
 
 <!-- This chunk inserts common info about all the vignettes -->

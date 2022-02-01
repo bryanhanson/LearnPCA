@@ -30,7 +30,6 @@ pkgdown:
 ```{r SetUp, echo = FALSE, eval = TRUE, results = "hide"}
 # R options & configuration:
 set.seed(13)
-rm(list = ls())
 suppressPackageStartupMessages(library("knitr"))
 suppressPackageStartupMessages(library("kableExtra"))
 suppressPackageStartupMessages(library("plotrix"))
@@ -52,7 +51,6 @@ origdata_colname = "black"
 # Stuff specifically for knitr:
 opts_chunk$set(eval = TRUE, echo = FALSE, results = "hide")
 opts_knit$set(eval.after = "fig.cap")
-options(rmarkdown.html_vignette.check_title = FALSE)
 ```
 
 <!-- This chunk inserts common info about all the vignettes -->

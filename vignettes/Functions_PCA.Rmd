@@ -29,8 +29,6 @@ pkgdown:
 ```{r SetUp, echo = FALSE, eval = TRUE, results = "hide"}
 # R options & configuration:
 set.seed(123)
-rm(list = ls())
-options(width = 80)
 suppressPackageStartupMessages(library("knitr"))
 suppressPackageStartupMessages(library("LearnPCA"))
 suppressPackageStartupMessages(library("kableExtra"))
@@ -39,7 +37,6 @@ suppressPackageStartupMessages(library("xtable"))
 
 # Stuff specifically for knitr:
 opts_chunk$set(eval = TRUE, echo = TRUE, results = "show")
-options(rmarkdown.html_vignette.check_title = FALSE)
 ```
 
 <!-- This chunk inserts common info about all the vignettes -->
