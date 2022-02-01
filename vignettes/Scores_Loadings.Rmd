@@ -7,7 +7,7 @@ date:  "`r Sys.Date()`"
 output:
 #    bookdown::html_document2: # use for pkgdown site
       bookdown::pdf_document2: # use for CRAN to keep size down; breaks GHA
-        latex_engine: xelatex
+#        latex_engine: xelatex
       toc: yes
       toc_depth: 2
       fig_caption: yes
