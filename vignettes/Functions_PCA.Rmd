@@ -297,5 +297,4 @@ cat(res, sep = '\n')
 [^1]: And there are numerous functions in user-contributed packages that "wrap" or implement these base functions in particular contexts.
 [^2]: This works because the `scale` function adds attributes to its results, and `prcomp` checks for these attributes and uses them if present.
 [^3]: In `princomp` there is no argument regarding centering. The documentation is silent on this.  However, if you look at the source code (via `stats:::princomp.default`) you discover that it calls `cov.wt` which indeed centers, and gives the covariance matrix unless you set the argument `cor = TRUE` in which case you get the correlation matrix.
-[^5]: Autoscaling means to divide each column by its standard deviation.
 [^6]: Proof that the covariance matrix gives the same results is left as an exercise!
