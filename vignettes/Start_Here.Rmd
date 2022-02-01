@@ -1,11 +1,8 @@
 ---
 title:  "A Guide to the LearnPCA Package"
 author:
-  - name: David T. Harvey^1^, Bryan A. Hanson^2^
-    email: harvey@depauw.edu, hanson@depauw.edu
-    affiliation: |
-        1. Professor of Chemistry & Biochemistry, DePauw University, Greencastle IN USA.
-        2. Professor Emeritus of Chemistry & Biochemistry, DePauw University, Greencastle IN USA.
+  - David T. Harvey^[Professor of Chemistry & Biochemistry, DePauw University, Greencastle IN USA., harvey@depauw.edu]
+  - Bryan A. Hanson^[Professor Emeritus of Chemistry & Biochemistry, DePauw University, Greencastle IN USA., hanson@depauw.edu]
 date:  "`r Sys.Date()`"
 output:
 #    bookdown::html_document2: # use for pkgdown site

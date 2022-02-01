@@ -1,11 +1,8 @@
 ---
 title:  "Visualizing PCA in 3D"
 author:
-  - name: David T. Harvey^1^, Bryan A. Hanson^2^
-    email: harvey@depauw.edu, hanson@depauw.edu
-    affiliation: |
-        1. Professor of Chemistry & Biochemistry, DePauw University, Greencastle IN USA.
-        2. Professor Emeritus of Chemistry & Biochemistry, DePauw University, Greencastle IN USA.
+  - David T. Harvey^[Professor of Chemistry & Biochemistry, DePauw University, Greencastle IN USA., harvey@depauw.edu]
+  - Bryan A. Hanson^[Professor Emeritus of Chemistry & Biochemistry, DePauw University, Greencastle IN USA., hanson@depauw.edu]
 date:  "`r Sys.Date()`"
 output:
 #    bookdown::html_document2: # use for pkgdown site
@@ -190,7 +187,7 @@ Although the three axes in Figure \@ref(fig:origData) define the location of the
 You might be able to guess where the first principal component axis lies
 if you rotate Figure \@ref(fig:origData) and look at the two-dimensional x,y-plane, the y,z-plane, and the x,z-plane. The three projections are consistent with an ellipsoid whose length is greater than its width (see the x,y-plane), and whose width is greater than its height (see y,z-plane).
 
-> For those viewing the pdf version of this vignette and thus cannot rotate the view of the original data, we offer a bonus view to help you predict where the first principal component axis will lie (if you have the html version you will not see the figure).  Figure \@ref(fig:bonus) shows the same cloud of data as `r pcdata_colname` points in three dimensions, and projections of the data, as `r pcproj_colname` points, onto the two-dimensional x,y-plane, the y,z-plane, and the x,z-plane (in other words, the data is projected onto the "walls" of the figure). The three projections are consistent with an ellipsoid whose length is greater than its width (see the x,y-plane), and whose width is greater than its height (see y,z-plane).
+> For those viewing the pdf version of this vignette and thus cannot rotate the view of the original data, we offer a bonus view to help you predict where the first principal component axis will lie (if you are viewing the html version you will not see the figure, but will see "Figure ??" in the next sentence).  Figure \@ref(fig:bonus) shows the same cloud of data as `r pcdata_colname` points in three dimensions, and projections of the data, as `r pcproj_colname` points, onto the two-dimensional x,y-plane, the y,z-plane, and the x,z-plane (in other words, the data is projected onto the "walls" of the figure). The three projections are consistent with an ellipsoid whose length is greater than its width (see the x,y-plane), and whose width is greater than its height (see y,z-plane).
 
 ```{r bonus, fig.cap=paste("The original data (as", pcdata_colname, "points) and their projection onto the x,y-plane, the y,z-plane, and the x,z-plane (as", pcproj_colname," points).")}
 
