@@ -1,9 +1,13 @@
 pandoc: 2.7.3
-pkgdown: 1.6.1.9001
-pkgdown_sha: 9a5a8f5cd29bb06616c1452d1b9b5cab7cebf7c2
+pkgdown: 2.0.2.9000
+pkgdown_sha: ae7363faac9040a473a54fb3d770decdfb8dfec1
 articles:
   Conceptual_Intro_PCA: Conceptual_Intro_PCA.html
+  Functions_PCA: Functions_PCA.html
+  Math_Behind_PCA: Math_Behind_PCA.html
+  Scores_Loadings: Scores_Loadings.html
   Start_Here: Start_Here.html
   Step_By_Step_PCA: Step_By_Step_PCA.html
-last_built: 2021-03-26T02:46Z
+  Visualizing_PCA_3D: Visualizing_PCA_3D.html
+last_built: 2022-02-03T18:09Z
 
