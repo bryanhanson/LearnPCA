@@ -35,6 +35,11 @@ jobs:
           remotes::install_github("bryanhanson/LearnPCA", dependencies = TRUE)
         shell: Rscript {0}
 
+      - name: Install xquartz # needed for plot3D
+        if: runner.os == 'macOS'
+        run: |
+          brew install --cask xquartz
+
       - name: Roxygenize
         run: |
           roxygen2::roxygenize()
