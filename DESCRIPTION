@@ -1,8 +1,8 @@
 Package: LearnPCA
 Type: Package
 Title: Functions, Data Sets and Vignettes to Aid in Learning Principal Components Analysis (PCA)
-Version: 0.1.69
-Date: 2021-07-08
+Version: 0.1.1
+Date: 2022-02-03
 Authors@R: c(
     person("Bryan A.", "Hanson",
       role = c("aut", "cre"),
@@ -11,7 +11,7 @@ Authors@R: c(
     person("David T.", "Harvey",
       role = c("aut"),
       email = "harvey@depauw.edu"))
-Description: Need to write description.
+Description: Principal component analysis (PCA) is one of the most widely used data analysis techniques.  This package provides a series of vignettes explaining PCA starting from basic concepts. The primary purpose is to serve as a self-study resource for anyone wishing to understand PCA better. A few convenience functions are provided as well.
 License: GPL-3
 URL: https://bryanhanson.github.io/LearnPCA/
 BugReports: https://github.com/bryanhanson/LearnPCA/issues
@@ -27,6 +27,11 @@ Suggests:
     roxut,
     bookdown,
     rmarkdown,
-    plot3D
-Roxygen: list(packages = "roxut", roclets = c("namespace", "rd", "roxut::tests_roclet"))
-RoxygenNote: 7.1.1
+    plot3D,
+    ade4,
+    plotrix,
+    latex2exp,
+    plotly,
+    xtable
+Roxygen: list(packages = "roxut", roclets = c("namespace", "rd", "roxut::tests_roclet"), markdown = TRUE)
+RoxygenNote: 7.1.2

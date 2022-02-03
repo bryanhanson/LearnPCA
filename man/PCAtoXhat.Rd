@@ -7,21 +7,23 @@
 PCAtoXhat(pca, ncomp = NULL)
 }
 \arguments{
-\item{pca}{An object of class \code{prcomp}.  The results of data reduction by PCA.}
+\item{pca}{An object of class \code{prcomp} or \code{princomp} (automatically detected).  #'        The results of data reduction by PCA.}
 
 \item{ncomp}{Integer.  The number of principal components to use in reconstructing
-the data set.  Must be no larger than the number of variables.}
+the data set.  Must be no larger than the number of variables.  If not
+specified, all the components are used and the original data set is
+reconstructed.}
 }
 \value{
 A matrix with the same dimensions as \code{pca$x} (the dimensions of the
-        original data set).
+original data set).
 }
 \description{
 This function allows one to reconstruct an approximation (\code{Xhat}) of the
 original data
 using some or all of the principal components, starting from the results of PCA.
 Inspired by and follows \url{https://stackoverflow.com/a/23603958/633251} very closely.
-We are grateful for this post by StackOverflow contributor Marc in the box.
+We are grateful for this post by StackOverflow contributor "Marc in the box."
 }
 \examples{
 # Example data from ?prcomp (see discussion at Stats.StackExchange.com/q/397793)
@@ -32,26 +34,20 @@ Z <- X \%*\% C
 
 pcaz <- prcomp(Z)
 tst <- PCAtoXhat(pcaz)
-mean(tst - Z)
+all.equal(tst, Z, check.attributes = FALSE)
 
 # Plot to show the effect of increasing ncomp
 
 ntests <- ncol(Z)
-val1 <- rep(NA_real_, ntests)
-val2 <- rep(NA_real_, ntests)
+rmsd <- rep(NA_real_, ntests)
 for (i in 1:ntests) {
-	ans <- PCAtoXhat(pcaz, i)
-	del <- ans - Z
-	val1[i] <- sqrt(sum(del^2)/length(del)) # RMSD
-	val2[i] <- mean(del)
+	ans <- XtoPCAtoXhat(X, i, sd)
+	del<- ans - X
+	rmsd[i] <- sqrt(sum(del^2)/length(del)) # RMSD
 }
-plot(val1, type = "b", ylim = c(0.0, max(val1)),
-  main = "Root Mean Squared Deviation", xlab = "No. of Components Retained", ylab = "RMSD")
+plot(rmsd, type = "b",
+  main = "Root Mean Squared Deviation\nReconstructed - Original Data",
+  xlab = "No. of Components Retained", ylab = "RMSD")
 abline(h = 0.0, col = "pink")
-me <- .Machine$double.eps
-plot(val2, type = "b", ylim = c(-me, me), main = "Residual Error",
-  xlab = "No. of Components Retained", ylab = "Mean Error")
-thres <- c(-me, 0.0, me)
-abline(h = thres, col = "pink") # all values below .Machine$double.eps
 
 }

@@ -5,3 +5,6 @@
 *.tar.gz
 *.Rcheck
 *.html
+*.pdf
+*.tex
+*.log
