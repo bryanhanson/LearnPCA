@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">LearnPCA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.4</span>
       </span>
     </div>
 
@@ -116,7 +116,7 @@
 <!-- This chunk inserts common info about all the vignettes -->
 <!-- ======================================================================= -->
 <div class="top-matter">
-<p><em>This vignette is based upon <code>LearnPCA</code> version 0.1.1.</em></p>
+<p><em>This vignette is based upon <code>LearnPCA</code> version 0.1.4.</em></p>
 <p><code>LearnPCA</code> provides the following vignettes: <a name="top-matter"></a></p>
 <ul>
 <li><a href="http://bryanhanson.github.io/LearnPCA/articles/Start_Here.html" class="external-link">Start Here</a></li>
@@ -139,7 +139,7 @@
 <p>The data for this vignette consists of 205 points drawn at random from within the boundaries of an ellipsoid that has a length of 30, a width of 18, and a height of 4 – think of a flattened football. Figure <a href="#fig:origData">1</a> shows the three-dimensional cloud of data as light blue points and the three axes that define the data as black lines. These axes are not the principal component axes, they are the usual x, y and z axes.</p>
 <div class="figure">
 <span style="display:block;" id="fig:origData"></span>
-<iframe src="graphics/origData.html" width="672" height="400px" data-external="1">
+<iframe src="Graphics/origData.html" width="672" height="400px" data-external="1">
 </iframe>
 <p class="caption">
 Figure 1: Three-dimensional plot of data ( light blue points) showing the x, y, and z-axes ( black lines) that represent the three measured variables.
@@ -159,7 +159,7 @@ if you rotate Figure <a href="#fig:origData">1</a> and look at the two-dimension
 <!-- **There is an interesting philosophical question here. Although I added a prcomp analysis into the prepData code block so that it is available---and used it to report variances explained by the PCs---I do not use it to define the PC axes. I'm "cheating" a bit here. The original data is defined as an ellipsoid with values along the x-axis having a greater range than the values along the y-axis, which have a greater range than the values along the z-axis. The theoretical PC axes are, then, the x-axis, the y-axis, and the z-axis, respectively. Including lots of data points means that the theoretical and calculated PCs should align closely. I then used a rotation function to rotate the data and the theoretical PC axes in space so that there is no obvious alignment of the PCs with the x, y, and z-axes. My goal is visual, so rotating the theoretical PCs seems okay. Doing things this way made it much easier to do the plotting. ** -->
 <div class="figure">
 <span style="display:block;" id="fig:pc1b"></span>
-<iframe src="graphics/pc1b.html" width="672" height="400px" data-external="1">
+<iframe src="Graphics/pc1b.html" width="672" height="400px" data-external="1">
 </iframe>
 <p class="caption">
 Figure 2: The original data (as light blue points) and the first principal component axis (as a brown line).
@@ -172,7 +172,7 @@ Figure 2: The original data (as light blue points) and the first principal compo
 <p>To visualize the second principal component axis, we first project the data From Figure <a href="#fig:origData">1</a> onto a plane perpendicular to the first principal component axis shown in Figure <a href="#fig:pc1b">2</a>. Figure <a href="#fig:pc2a">3</a> shows this where the brown line is the first principal component, the light blue box highlights a portion of the plane perpendicular to the first principal component axis, and the points in light blue are the projections of the original data from Figure <a href="#fig:origData">1</a> onto this plane. With this view we get a solid idea of where the second principal component axis will be.</p>
 <div class="figure">
 <span style="display:block;" id="fig:pc2a"></span>
-<iframe src="graphics/pc2a.html" width="672" height="400px" data-external="1">
+<iframe src="Graphics/pc2a.html" width="672" height="400px" data-external="1">
 </iframe>
 <p class="caption">
 Figure 3: The first principal component ( brown line) and the projection of the original data ( light blue points) onto the plane perpendicular to the first principal component (shown with a light blue boundary).
@@ -181,7 +181,7 @@ Figure 3: The first principal component ( brown line) and the projection of the 
 <p>Of course we don’t need to guess! Figure <a href="#fig:pc2b">4</a>, shows the second principal component axis as a dashed brown line. The second principal component accounts for 30.3% of the variation in the data; together, the first two principal components account for 98.8% of the variation in the data.</p>
 <div class="figure">
 <span style="display:block;" id="fig:pc2b"></span>
-<iframe src="graphics/pc2b.html" width="672" height="400px" data-external="1">
+<iframe src="Graphics/pc2b.html" width="672" height="400px" data-external="1">
 </iframe>
 <p class="caption">
 Figure 4: The result of adding the second principal component axis to the previous figure. The first principal component axis is the solid brown line and the second principal component axis is the dashed brown line.
@@ -194,7 +194,7 @@ Figure 4: The result of adding the second principal component axis to the previo
 <p>With the first two principal components in place, the last principal component is the only axis we can draw that is perpendicular to the two existing principal components. Figure <a href="#fig:pc3">5</a> shows the original cloud of data and all three principal component axes. In this example, the first principal component is aligned with ellipsoid’s length, the second principal component is aligned with its width, and the third principal component is aligned with its height.</p>
 <div class="figure">
 <span style="display:block;" id="fig:pc3"></span>
-<iframe src="graphics/pc3.html" width="672" height="400px" data-external="1">
+<iframe src="Graphics/pc3.html" width="672" height="400px" data-external="1">
 </iframe>
 <p class="caption">
 Figure 5: The original data ( light blue points) and the three three principal component axes ( brown lines). The solid line is the first principal component, the dashed line is the second principal component, and the dotted line is the third principal component.
