@@ -32,6 +32,7 @@ Suggests:
     plotrix,
     latex2exp,
     plotly,
-    xtable
+    xtable,
+    htmlwidgets
 Roxygen: list(packages = "roxut", roclets = c("namespace", "rd", "roxut::tests_roclet"), markdown = TRUE)
 RoxygenNote: 7.1.2
