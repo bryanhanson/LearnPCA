@@ -4,7 +4,6 @@
 .Rproj.user/
 *.tar.gz
 *.Rcheck
-*.html
 *.pdf
 *.tex
 *.log
