@@ -174,7 +174,7 @@ if (!is_latex_output()) {
       yaxis = list(title = "y"),
       zaxis = list(title = "z")
     ))
-  htmlwidgets::saveWidget(as_widget(partial_bundle(fig)), "graphics/origData.html",
+  htmlwidgets::saveWidget(as_widget(fig), "graphics/origData.html",
     knitrOptions = list(fig.cap=paste("Three-dimensional plot of data (", pcdata_colname, "points) showing the x, y, and z-axes (",xyzaxis_colname, "lines) that represent the three measured variables."), results = "show"))
   include_url("graphics/origData.html")
 }
