@@ -50,25 +50,25 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/Conceptual_Intro_PCA.html">A Conceptual Introduction to PCA</a>
+      <a href="../articles/Vig_01_Start_Here.html">A Guide to the LearnPCA Package</a>
     </li>
     <li>
-      <a href="../articles/Functions_PCA.html">A Comparison of Functions for PCA</a>
+      <a href="../articles/Vig_02_Conceptual_Intro_PCA.html">A Conceptual Introduction to PCA</a>
     </li>
     <li>
-      <a href="../articles/Math_Behind_PCA.html">The Math Behind PCA</a>
+      <a href="../articles/Vig_03_Step_By_Step_PCA.html">Step-by-Step PCA</a>
     </li>
     <li>
-      <a href="../articles/Scores_Loadings.html">Understanding Scores and Loadings</a>
+      <a href="../articles/Vig_04_Scores_Loadings.html">Understanding Scores and Loadings</a>
     </li>
     <li>
-      <a href="../articles/Start_Here.html">A Guide to the LearnPCA Package</a>
+      <a href="../articles/Vig_05_Visualizing_PCA_3D.html">Visualizing PCA in 3D</a>
     </li>
     <li>
-      <a href="../articles/Step_By_Step_PCA.html">Step-by-Step PCA</a>
+      <a href="../articles/Vig_06_Math_Behind_PCA.html">The Math Behind PCA</a>
     </li>
     <li>
-      <a href="../articles/Visualizing_PCA_3D.html">Visualizing PCA in 3D</a>
+      <a href="../articles/Vig_07_Functions_PCA.html">A Comparison of Functions for PCA</a>
     </li>
   </ul>
 </li>
@@ -102,10 +102,10 @@
                         <h4 data-toc-skip class="author">Bryan A. Hanson<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>
 </h4>
             
-            <h4 data-toc-skip class="date">2022-02-04</h4>
+            <h4 data-toc-skip class="date">2022-02-27</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/bryanhanson/LearnPCA/blob/HEAD/vignettes/Conceptual_Intro_PCA.Rmd" class="external-link"><code>vignettes/Conceptual_Intro_PCA.Rmd</code></a></small>
-      <div class="hidden name"><code>Conceptual_Intro_PCA.Rmd</code></div>
+      <small class="dont-index">Source: <a href="https://github.com/bryanhanson/LearnPCA/blob/HEAD/vignettes/Vig_02_Conceptual_Intro_PCA.Rmd" class="external-link"><code>vignettes/Vig_02_Conceptual_Intro_PCA.Rmd</code></a></small>
+      <div class="hidden name"><code>Vig_02_Conceptual_Intro_PCA.Rmd</code></div>
 
     </div>
 
@@ -334,14 +334,14 @@ K2O
 <p>We’ll perform PCA on the glass data set, show the three plots and then discuss them in turn. Figure <a href="#fig:glassScree">1</a> shows the scree plot, Figure <a href="#fig:glassScores">2</a> shows the scores plot and Figure <a href="#fig:glassLoadings">3</a> shows the first loadings.</p>
 <div class="figure">
 <span style="display:block;" id="fig:glassScree"></span>
-<img src="Conceptual_Intro_PCA_files/figure-html/glassScree-1.png" alt="Scree plot from PCA on the glass data set." width="672"><p class="caption">
+<img src="Vig_02_Conceptual_Intro_PCA_files/figure-html/glassScree-1.png" alt="Scree plot from PCA on the glass data set." width="672"><p class="caption">
 Figure 1: Scree plot from PCA on the glass data set.
 </p>
 </div>
 <p>Figure <a href="#fig:glassScree">1</a>, the scree plot, shows the amount of variance in the data set explained by, in this case, each of the first 10 principal components (PCs are along the x axis, from 1 to 10).<a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a> Variance is a measure of the spread of points around the origin of whatever coordinate system is in use. Think of it as a measure of the scattering of the samples.<a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a> To interpret this plot, we look for the point at which the height of the bars suddenly levels off. In this case, the first three PCs drop steadily downward, but from PC four and onward there is little additional variance that can be explained. We would say that three PCs are enough to explain this data set. In other words, the original 13 variables have been reduced to three, which is a great simplification.</p>
 <div class="figure">
 <span style="display:block;" id="fig:glassScores"></span>
-<img src="Conceptual_Intro_PCA_files/figure-html/glassScores-1.png" alt="Score plot from PCA on the glass data set." width="672"><p class="caption">
+<img src="Vig_02_Conceptual_Intro_PCA_files/figure-html/glassScores-1.png" alt="Score plot from PCA on the glass data set." width="672"><p class="caption">
 Figure 2: Score plot from PCA on the glass data set.
 </p>
 </div>
@@ -349,7 +349,7 @@ Figure 2: Score plot from PCA on the glass data set.
 <p>We could also plot PC 1 against PC 3, or PC 2 against PC 3. These might show different clustering and separation of samples, but are not shown here. There wouldn’t be much point in plotting PC 4 or higher, as these are mostly noise, as established by the scree plot (Figure <a href="#fig:glassScree">1</a>).</p>
 <div class="figure">
 <span style="display:block;" id="fig:glassLoadings"></span>
-<img src="Conceptual_Intro_PCA_files/figure-html/glassLoadings-1.png" alt="Loadings plot for PC 1 from PCA on the glass data set." width="672"><p class="caption">
+<img src="Vig_02_Conceptual_Intro_PCA_files/figure-html/glassLoadings-1.png" alt="Loadings plot for PC 1 from PCA on the glass data set." width="672"><p class="caption">
 Figure 3: Loadings plot for PC 1 from PCA on the glass data set.
 </p>
 </div>
@@ -589,7 +589,7 @@ PC 13
 <p>The mathematics of PCA do not take into account anything about the samples other than the measured variables. However, the researcher may well know something about the samples, for instance, they may fall into groups based on their origin. If this is the case, the points on the score plot can be colored according to the group. This may aid significantly in the interpretation. Lucky for us, we can do this for the glass data set. The samples are known to come from four separate sites. We’ll re-do the score plot with colors corresponding to the known groups (Figure <a href="#fig:glassScores2">4</a>).</p>
 <div class="figure">
 <span style="display:block;" id="fig:glassScores2"></span>
-<img src="Conceptual_Intro_PCA_files/figure-html/glassScores2-1.png" alt="Score plot from PCA on the glass data set, with groups color-coded." width="672"><p class="caption">
+<img src="Vig_02_Conceptual_Intro_PCA_files/figure-html/glassScores2-1.png" alt="Score plot from PCA on the glass data set, with groups color-coded." width="672"><p class="caption">
 Figure 4: Score plot from PCA on the glass data set, with groups color-coded.
 </p>
 </div>
@@ -688,7 +688,7 @@ Area
 <p>Let’s conduct PCA on this data set (with scaling, because the ranges of the variables differ quite a bit; don’t sweat it right now but see <a href="#top-matter">Step By Step PCA</a> for more details). Figure <a href="#fig:stateScreePlot">5</a> shows the scree plot. Clearly one PC is really important, but perhaps four PCs should be kept. If we look at the actual numbers they suggest five or six PCs would be better, using the 95% rule (Table <a href="#tab:stateScreeTable">5</a>).</p>
 <div class="figure">
 <span style="display:block;" id="fig:stateScreePlot"></span>
-<img src="Conceptual_Intro_PCA_files/figure-html/stateScreePlot-1.png" alt="Scree plot for the `state.x77` data after scaling." width="672"><p class="caption">
+<img src="Vig_02_Conceptual_Intro_PCA_files/figure-html/stateScreePlot-1.png" alt="Scree plot for the `state.x77` data after scaling." width="672"><p class="caption">
 Figure 5: Scree plot for the <code>state.x77</code> data after scaling.
 </p>
 </div>
@@ -802,14 +802,14 @@ PC 8
 <p>We can see a great deal of separation occurs along the PC1 dimension, consistent with this component explaining 45% of the variance. PC2 on the other hand has a similar overall span, but most of the scores are concentrated in the lower part of the plot. We can see there are a couple of states with high scores on PC2. This is an illustration of another use of PCA which we have not discussed yet, namely the identification of potentially anomolous data, or outliers. Such points are worthy of further investigation; they might be interesting clues or they might arise from data entry problems.</p>
 <div class="figure">
 <span style="display:block;" id="fig:stateScores"></span>
-<img src="Conceptual_Intro_PCA_files/figure-html/stateScores-1.png" alt="Score plot from PCA on the `states.x77` data set, colored by political leanings (ligth blue = democrat, pink = republican, purple = mixed)." width="672"><p class="caption">
+<img src="Vig_02_Conceptual_Intro_PCA_files/figure-html/stateScores-1.png" alt="Score plot from PCA on the `states.x77` data set, colored by political leanings (ligth blue = democrat, pink = republican, purple = mixed)." width="672"><p class="caption">
 Figure 6: Score plot from PCA on the <code>states.x77</code> data set, colored by political leanings (ligth blue = democrat, pink = republican, purple = mixed).
 </p>
 </div>
 <p>Finally, the loadings for PC1 are shown in Figure <a href="#fig:stateLoadings">7</a>. The contribution of variables here is complicated, but it looks like area is not very helpful.</p>
 <div class="figure">
 <span style="display:block;" id="fig:stateLoadings"></span>
-<img src="Conceptual_Intro_PCA_files/figure-html/stateLoadings-1.png" alt="Loadings plot for PC 1 from PCA on the `state.x77` data set." width="672"><p class="caption">
+<img src="Vig_02_Conceptual_Intro_PCA_files/figure-html/stateLoadings-1.png" alt="Loadings plot for PC 1 from PCA on the `state.x77` data set." width="672"><p class="caption">
 Figure 7: Loadings plot for PC 1 from PCA on the <code>state.x77</code> data set.
 </p>
 </div>
@@ -822,7 +822,7 @@ Figure 7: Loadings plot for PC 1 from PCA on the <code>state.x77</code> data set
 <p>Let’s illustrate with an IR data set. We’ll use a data set included with the <code>ChemoSpec</code> package. This is a set of IR spectra of plant oils which are mixtures of triglycerides (also called triacylglyerols, which are esters of fatty acids), and free fatty acids. Figure <a href="#fig:IRSpectrum">8</a> shows a typical spectrum from the data set.<a href="#fn9" class="footnote-ref" id="fnref9"><sup>9</sup></a></p>
 <div class="figure">
 <span style="display:block;" id="fig:IRSpectrum"></span>
-<img src="Conceptual_Intro_PCA_files/figure-html/IRSpectrum-1.png" alt="Spectrum 1 from the IR data set." width="672"><p class="caption">
+<img src="Vig_02_Conceptual_Intro_PCA_files/figure-html/IRSpectrum-1.png" alt="Spectrum 1 from the IR data set." width="672"><p class="caption">
 Figure 8: Spectrum 1 from the IR data set.
 </p>
 </div>
@@ -830,19 +830,19 @@ Figure 8: Spectrum 1 from the IR data set.
 <p>However, the loadings plot, Figure <a href="#fig:IRLoadings">11</a>, looks a lot like a spectrum, because it has 1868 data points with a meaningful order—an organized set of wavenumbers—and is plotted as a connected scatter plot and not as a bar chart (which would be very difficult to read).</p>
 <div class="figure">
 <span style="display:block;" id="fig:IRScree"></span>
-<img src="Conceptual_Intro_PCA_files/figure-html/IRScree-1.png" alt="Scree plot from PCA on the IR data set." width="672"><p class="caption">
+<img src="Vig_02_Conceptual_Intro_PCA_files/figure-html/IRScree-1.png" alt="Scree plot from PCA on the IR data set." width="672"><p class="caption">
 Figure 9: Scree plot from PCA on the IR data set.
 </p>
 </div>
 <div class="figure">
 <span style="display:block;" id="fig:IRScores"></span>
-<img src="Conceptual_Intro_PCA_files/figure-html/IRScores-1.png" alt="Score plot from PCA on the IR data set." width="672"><p class="caption">
+<img src="Vig_02_Conceptual_Intro_PCA_files/figure-html/IRScores-1.png" alt="Score plot from PCA on the IR data set." width="672"><p class="caption">
 Figure 10: Score plot from PCA on the IR data set.
 </p>
 </div>
 <div class="figure">
 <span style="display:block;" id="fig:IRLoadings"></span>
-<img src="Conceptual_Intro_PCA_files/figure-html/IRLoadings-1.png" alt="Loadings plot for PC 1 from PCA on the IR data set." width="672"><p class="caption">
+<img src="Vig_02_Conceptual_Intro_PCA_files/figure-html/IRLoadings-1.png" alt="Loadings plot for PC 1 from PCA on the IR data set." width="672"><p class="caption">
 Figure 11: Loadings plot for PC 1 from PCA on the IR data set.
 </p>
 </div>
@@ -850,13 +850,13 @@ Figure 11: Loadings plot for PC 1 from PCA on the IR data set.
 <p>Finally, to make the point that the loading plot for many variables is really the same as the loading plot for just a few variables, Figure <a href="#fig:IRLoadings3">13</a> shows the carbonyl loadings as a bar plot with super narrow bars. If one connects the tips of the bars together, one gets the previous plot.<a href="#fn10" class="footnote-ref" id="fnref10"><sup>10</sup></a></p>
 <div class="figure">
 <span style="display:block;" id="fig:IRLoadings2"></span>
-<img src="Conceptual_Intro_PCA_files/figure-html/IRLoadings2-1.png" alt="Loadings plot for PC 1 from PCA on the IR data set, carbonyl region. Reference spectrum shown in red." width="672"><p class="caption">
+<img src="Vig_02_Conceptual_Intro_PCA_files/figure-html/IRLoadings2-1.png" alt="Loadings plot for PC 1 from PCA on the IR data set, carbonyl region. Reference spectrum shown in red." width="672"><p class="caption">
 Figure 12: Loadings plot for PC 1 from PCA on the IR data set, carbonyl region. Reference spectrum shown in red.
 </p>
 </div>
 <div class="figure">
 <span style="display:block;" id="fig:IRLoadings3"></span>
-<img src="Conceptual_Intro_PCA_files/figure-html/IRLoadings3-1.png" alt="Loadings plot for PC 1 from PCA on the IR data set, carbonyl region, shown as a bar plot." width="672"><p class="caption">
+<img src="Vig_02_Conceptual_Intro_PCA_files/figure-html/IRLoadings3-1.png" alt="Loadings plot for PC 1 from PCA on the IR data set, carbonyl region, shown as a bar plot." width="672"><p class="caption">
 Figure 13: Loadings plot for PC 1 from PCA on the IR data set, carbonyl region, shown as a bar plot.
 </p>
 </div>

@@ -50,25 +50,25 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/Conceptual_Intro_PCA.html">A Conceptual Introduction to PCA</a>
+      <a href="../articles/Vig_01_Start_Here.html">A Guide to the LearnPCA Package</a>
     </li>
     <li>
-      <a href="../articles/Functions_PCA.html">A Comparison of Functions for PCA</a>
+      <a href="../articles/Vig_02_Conceptual_Intro_PCA.html">A Conceptual Introduction to PCA</a>
     </li>
     <li>
-      <a href="../articles/Math_Behind_PCA.html">The Math Behind PCA</a>
+      <a href="../articles/Vig_03_Step_By_Step_PCA.html">Step-by-Step PCA</a>
     </li>
     <li>
-      <a href="../articles/Scores_Loadings.html">Understanding Scores and Loadings</a>
+      <a href="../articles/Vig_04_Scores_Loadings.html">Understanding Scores and Loadings</a>
     </li>
     <li>
-      <a href="../articles/Start_Here.html">A Guide to the LearnPCA Package</a>
+      <a href="../articles/Vig_05_Visualizing_PCA_3D.html">Visualizing PCA in 3D</a>
     </li>
     <li>
-      <a href="../articles/Step_By_Step_PCA.html">Step-by-Step PCA</a>
+      <a href="../articles/Vig_06_Math_Behind_PCA.html">The Math Behind PCA</a>
     </li>
     <li>
-      <a href="../articles/Visualizing_PCA_3D.html">Visualizing PCA in 3D</a>
+      <a href="../articles/Vig_07_Functions_PCA.html">A Comparison of Functions for PCA</a>
     </li>
   </ul>
 </li>
@@ -102,10 +102,10 @@
                         <h4 data-toc-skip class="author">Bryan A. Hanson<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>
 </h4>
             
-            <h4 data-toc-skip class="date">2022-02-04</h4>
+            <h4 data-toc-skip class="date">2022-02-27</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/bryanhanson/LearnPCA/blob/HEAD/vignettes/Scores_Loadings.Rmd" class="external-link"><code>vignettes/Scores_Loadings.Rmd</code></a></small>
-      <div class="hidden name"><code>Scores_Loadings.Rmd</code></div>
+      <small class="dont-index">Source: <a href="https://github.com/bryanhanson/LearnPCA/blob/HEAD/vignettes/Vig_04_Scores_Loadings.Rmd" class="external-link"><code>vignettes/Vig_04_Scores_Loadings.Rmd</code></a></small>
+      <div class="hidden name"><code>Vig_04_Scores_Loadings.Rmd</code></div>
 
     </div>
 
@@ -140,7 +140,7 @@
 <p>For this vignette we will use a small data set that consists of eight samples and two variables. We are limiting ourselves to two variables so that we can plot the data in two dimensions and we are limiting ourselves to eight samples so that our plots are reasonably uncluttered and easy to view. Figure <a href="#fig:fig-origData">1</a> shows a plot of the original data and Table <a href="#tab:table-origData">1</a> shows the individual values for each sample and variable.</p>
 <div class="figure" style="text-align: center">
 <span style="display:block;" id="fig:fig-origData"></span>
-<img src="Scores_Loadings_files/figure-html/fig-origData-1.png" alt="Scatterplot of variable 1 and variable 2 for our eight samples. The dashed lines are the original axes with variable 1 shown in pink and variable 2 shown in blue." width="672"><p class="caption">
+<img src="Vig_04_Scores_Loadings_files/figure-html/fig-origData-1.png" alt="Scatterplot of variable 1 and variable 2 for our eight samples. The dashed lines are the original axes with variable 1 shown in pink and variable 2 shown in blue." width="672"><p class="caption">
 Figure 1: Scatterplot of variable 1 and variable 2 for our eight samples. The dashed lines are the original axes with variable 1 shown in pink and variable 2 shown in blue.
 </p>
 </div>
@@ -266,14 +266,14 @@ variable 2
 <p>For a system with just two variables, this process amounts to a simple rotation of the two axes. Suppose we arbitrarily rotate the axes in Figure <a href="#fig:fig-origData">1</a> clockwise by 20<span class="math inline">\(^\circ\)</span> and project the data points onto the new axes. Figure <a href="#fig:rotate20">2</a> shows the result where the dashed lines are the original axes associated with variable 1 and variable 2, and the solid lines are the rotated axes, which we identify for now as axis A and axis B to clarify that they are not specifically associated with one of the two variables, nor with the principal components we eventually hope to find. It is easy to see—both visually and quantitatively—that the total variance is more evenly distributed between the two rotated axes than was the case for the original two axes. Even more importantly, the variance associated with axis A has increased from 22.8% to 55.4%. One can see this graphically by looking at the span of the pink and blue projection points on each axis.</p>
 <div class="figure" style="text-align: center">
 <span style="display:block;" id="fig:rotate20"></span>
-<img src="Scores_Loadings_files/figure-html/rotate20-1.png" alt="Rotating the original axes by 20$^\circ$ gives the axes shown as solid lines. The small points in pink and in blue are the projections of the original data onto the rotated axes. The gray lines serve as a guide to illustrate the projections for one data point." width="672"><p class="caption">
+<img src="Vig_04_Scores_Loadings_files/figure-html/rotate20-1.png" alt="Rotating the original axes by 20$^\circ$ gives the axes shown as solid lines. The small points in pink and in blue are the projections of the original data onto the rotated axes. The gray lines serve as a guide to illustrate the projections for one data point." width="672"><p class="caption">
 Figure 2: Rotating the original axes by 20<span class="math inline">\(^\circ\)</span> gives the axes shown as solid lines. The small points in pink and in blue are the projections of the original data onto the rotated axes. The gray lines serve as a guide to illustrate the projections for one data point.
 </p>
 </div>
 <p>If we continue to rotate the axes, we discover that an angle of rotation of 60<span class="math inline">\(^\circ\)</span> yields an axis (axis A) that explains almost 99% of the total variance in our eight samples. At this point we have maximized the variance for this axis, because further rotation will reduce the variance; we’ll call this axis the first principal component axis. The remaining axis, which is perpendicular to the first principal component axis, is the second principal component axis.<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a></p>
 <div class="figure" style="text-align: center">
 <span style="display:block;" id="fig:rotate60"></span>
-<img src="Scores_Loadings_files/figure-html/rotate60-1.png" alt="Rotating the original axes by 60$^\circ$ maximizes the variance along one of the two rotated axes; the line in pink is the first principal component axis and the line in blue is the second principal component axis.  The gray lines serve as a guide to illustrate the projections for one data point." width="672"><p class="caption">
+<img src="Vig_04_Scores_Loadings_files/figure-html/rotate60-1.png" alt="Rotating the original axes by 60$^\circ$ maximizes the variance along one of the two rotated axes; the line in pink is the first principal component axis and the line in blue is the second principal component axis.  The gray lines serve as a guide to illustrate the projections for one data point." width="672"><p class="caption">
 Figure 3: Rotating the original axes by 60<span class="math inline">\(^\circ\)</span> maximizes the variance along one of the two rotated axes; the line in pink is the first principal component axis and the line in blue is the second principal component axis. The gray lines serve as a guide to illustrate the projections for one data point.
 </p>
 </div>
@@ -466,7 +466,7 @@ PC 2
 <p>Although the scores define the location of our samples in the coordinates of the newly discovered principal component axes, they do not tell us where these new axes are located. If we want to reconstruct the original data from the results of a PCA analysis (a process described in more detail in the vignette <a href="#top-matter">Step-by-Step PCA</a>), we must know both where the samples lie relative to the principal component axes <strong>and</strong> the location of the principal component axes relative to the original axes. As shown in Figure <a href="#fig:rotate60-loadings">4</a>, each principal component axis is defined by the cosine of its angle of rotation relative to each of the original axes. For example, the angle of rotation of PC 1 to the axis for variable 1, identified here as <span class="math inline">\(\Theta\)</span>, is –60<span class="math inline">\(^\circ\)</span>, which gives its loading as <span class="math inline">\(\cos(-60) = 0.500\)</span>.<a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a> The angle of rotation of PC 1 to the axis for variable 2, or <span class="math inline">\(\Phi\)</span>, returns a loading of <span class="math inline">\(\cos(30) = 0.866\)</span>.<a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a></p>
 <div class="figure" style="text-align: center">
 <span style="display:block;" id="fig:rotate60-loadings"></span>
-<img src="Scores_Loadings_files/figure-html/rotate60-loadings-1.png" alt="Illustration showing the loadings for the first principal component axis." width="672"><p class="caption">
+<img src="Vig_04_Scores_Loadings_files/figure-html/rotate60-loadings-1.png" alt="Illustration showing the loadings for the first principal component axis." width="672"><p class="caption">
 Figure 4: Illustration showing the loadings for the first principal component axis.
 </p>
 </div>

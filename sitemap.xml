@@ -10,12 +10,6 @@
     <loc>/CONTRIBUTING.html</loc>
   </url>
   <url>
-    <loc>/articles/Conceptual_Intro_PCA.html</loc>
-  </url>
-  <url>
-    <loc>/articles/Functions_PCA.html</loc>
-  </url>
-  <url>
     <loc>/articles/Graphics/origData.html</loc>
   </url>
   <url>
@@ -31,19 +25,25 @@
     <loc>/articles/Graphics/pc3.html</loc>
   </url>
   <url>
-    <loc>/articles/Math_Behind_PCA.html</loc>
+    <loc>/articles/Vig_01_Start_Here.html</loc>
   </url>
   <url>
-    <loc>/articles/Scores_Loadings.html</loc>
+    <loc>/articles/Vig_02_Conceptual_Intro_PCA.html</loc>
   </url>
   <url>
-    <loc>/articles/Start_Here.html</loc>
+    <loc>/articles/Vig_03_Step_By_Step_PCA.html</loc>
   </url>
   <url>
-    <loc>/articles/Step_By_Step_PCA.html</loc>
+    <loc>/articles/Vig_04_Scores_Loadings.html</loc>
   </url>
   <url>
-    <loc>/articles/Visualizing_PCA_3D.html</loc>
+    <loc>/articles/Vig_05_Visualizing_PCA_3D.html</loc>
+  </url>
+  <url>
+    <loc>/articles/Vig_06_Math_Behind_PCA.html</loc>
+  </url>
+  <url>
+    <loc>/articles/Vig_07_Functions_PCA.html</loc>
   </url>
   <url>
     <loc>/articles/index.html</loc>

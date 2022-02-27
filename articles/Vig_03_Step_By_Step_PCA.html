@@ -50,25 +50,25 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/Conceptual_Intro_PCA.html">A Conceptual Introduction to PCA</a>
+      <a href="../articles/Vig_01_Start_Here.html">A Guide to the LearnPCA Package</a>
     </li>
     <li>
-      <a href="../articles/Functions_PCA.html">A Comparison of Functions for PCA</a>
+      <a href="../articles/Vig_02_Conceptual_Intro_PCA.html">A Conceptual Introduction to PCA</a>
     </li>
     <li>
-      <a href="../articles/Math_Behind_PCA.html">The Math Behind PCA</a>
+      <a href="../articles/Vig_03_Step_By_Step_PCA.html">Step-by-Step PCA</a>
     </li>
     <li>
-      <a href="../articles/Scores_Loadings.html">Understanding Scores and Loadings</a>
+      <a href="../articles/Vig_04_Scores_Loadings.html">Understanding Scores and Loadings</a>
     </li>
     <li>
-      <a href="../articles/Start_Here.html">A Guide to the LearnPCA Package</a>
+      <a href="../articles/Vig_05_Visualizing_PCA_3D.html">Visualizing PCA in 3D</a>
     </li>
     <li>
-      <a href="../articles/Step_By_Step_PCA.html">Step-by-Step PCA</a>
+      <a href="../articles/Vig_06_Math_Behind_PCA.html">The Math Behind PCA</a>
     </li>
     <li>
-      <a href="../articles/Visualizing_PCA_3D.html">Visualizing PCA in 3D</a>
+      <a href="../articles/Vig_07_Functions_PCA.html">A Comparison of Functions for PCA</a>
     </li>
   </ul>
 </li>
@@ -102,10 +102,10 @@
                         <h4 data-toc-skip class="author">Bryan A. Hanson<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>
 </h4>
             
-            <h4 data-toc-skip class="date">2022-02-04</h4>
+            <h4 data-toc-skip class="date">2022-02-27</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/bryanhanson/LearnPCA/blob/HEAD/vignettes/Step_By_Step_PCA.Rmd" class="external-link"><code>vignettes/Step_By_Step_PCA.Rmd</code></a></small>
-      <div class="hidden name"><code>Step_By_Step_PCA.Rmd</code></div>
+      <small class="dont-index">Source: <a href="https://github.com/bryanhanson/LearnPCA/blob/HEAD/vignettes/Vig_03_Step_By_Step_PCA.Rmd" class="external-link"><code>vignettes/Vig_03_Step_By_Step_PCA.Rmd</code></a></small>
+      <div class="hidden name"><code>Vig_03_Step_By_Step_PCA.Rmd</code></div>
 
     </div>
 
@@ -299,13 +299,13 @@ Cu
 </table>
 <div class="figure">
 <span style="display:block;" id="fig:plot-raw-dotplot"></span>
-<img src="Step_By_Step_PCA_files/figure-html/plot-raw-dotplot-1.png" alt="The range of the raw data values in `FeCu`." width="672"><p class="caption">
+<img src="Vig_03_Step_By_Step_PCA_files/figure-html/plot-raw-dotplot-1.png" alt="The range of the raw data values in `FeCu`." width="672"><p class="caption">
 Figure 1: The range of the raw data values in <code>FeCu</code>.
 </p>
 </div>
 <div class="figure">
 <span style="display:block;" id="fig:plot-raw-data-2D"></span>
-<img src="Step_By_Step_PCA_files/figure-html/plot-raw-data-2D-1.png" alt="The relationship between the raw data values in `FeCu`." width="672"><p class="caption">
+<img src="Vig_03_Step_By_Step_PCA_files/figure-html/plot-raw-data-2D-1.png" alt="The relationship between the raw data values in `FeCu`." width="672"><p class="caption">
 Figure 2: The relationship between the raw data values in <code>FeCu</code>.
 </p>
 </div>
@@ -319,7 +319,7 @@ Figure 2: The relationship between the raw data values in <code>FeCu</code>.
 <p>Figure <a href="#fig:plot-centered-data">3</a> is a plot of the centered values. Note how the values on the y-axis have changed compared to the raw data. It’s apparent that the ranges of the chosen variables are quite different. This is a classic case where scaling is desirable, otherwise the variable with larger values will dominate the PCA results.</p>
 <div class="figure">
 <span style="display:block;" id="fig:plot-centered-data"></span>
-<img src="Step_By_Step_PCA_files/figure-html/plot-centered-data-1.png" alt="Centered data values in `FeCu`." width="672"><p class="caption">
+<img src="Vig_03_Step_By_Step_PCA_files/figure-html/plot-centered-data-1.png" alt="Centered data values in `FeCu`." width="672"><p class="caption">
 Figure 3: Centered data values in <code>FeCu</code>.
 </p>
 </div>
@@ -340,7 +340,7 @@ Figure 3: Centered data values in <code>FeCu</code>.
 <p>Put another way, all variables are now on the same scale, which is really obvious from Figure <a href="#fig:plot-centered-scaled-data">4</a>. One downside of this scaling is that if you have variables that may only be noise, the contribution of these variables is the same as variables representing interesting features.</p>
 <div class="figure">
 <span style="display:block;" id="fig:plot-centered-scaled-data"></span>
-<img src="Step_By_Step_PCA_files/figure-html/plot-centered-scaled-data-1.png" alt="Centered and scaled data." width="672"><p class="caption">
+<img src="Vig_03_Step_By_Step_PCA_files/figure-html/plot-centered-scaled-data-1.png" alt="Centered and scaled data." width="672"><p class="caption">
 Figure 4: Centered and scaled data.
 </p>
 </div>
@@ -374,7 +374,7 @@ Figure 4: Centered and scaled data.
 <p>Scores represent the original data but in a new coordinate system. Figure <a href="#fig:plot-scores">5</a> shows the scores.</p>
 <div class="figure">
 <span style="display:block;" id="fig:plot-scores"></span>
-<img src="Step_By_Step_PCA_files/figure-html/plot-scores-1.png" alt="Scores." width="672"><p class="caption">
+<img src="Vig_03_Step_By_Step_PCA_files/figure-html/plot-scores-1.png" alt="Scores." width="672"><p class="caption">
 Figure 5: Scores.
 </p>
 </div>
@@ -387,7 +387,7 @@ Figure 5: Scores.
 <code class="sourceCode R"><span class="va">pca_TO</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/prcomp.html" class="external-link">prcomp</a></span><span class="op">(</span><span class="va">TO</span>, scale. <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <div class="figure">
 <span style="display:block;" id="fig:plot-all-data"></span>
-<img src="Step_By_Step_PCA_files/figure-html/plot-all-data-1.png" alt="Score plot using all the data." width="672"><p class="caption">
+<img src="Vig_03_Step_By_Step_PCA_files/figure-html/plot-all-data-1.png" alt="Score plot using all the data." width="672"><p class="caption">
 Figure 6: Score plot using all the data.
 </p>
 </div>
@@ -417,7 +417,7 @@ Figure 6: Score plot using all the data.
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">pca_FeCu</span>, main <span class="op">=</span> <span class="st">""</span><span class="op">)</span></code></pre></div>
 <div class="figure">
 <span style="display:block;" id="fig:scree"></span>
-<img src="Step_By_Step_PCA_files/figure-html/scree-1.png" alt="Scree plot." width="672"><p class="caption">
+<img src="Vig_03_Step_By_Step_PCA_files/figure-html/scree-1.png" alt="Scree plot." width="672"><p class="caption">
 Figure 7: Scree plot.
 </p>
 </div>
@@ -430,7 +430,7 @@ Figure 7: Scree plot.
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/barplot.html" class="external-link">barplot</a></span><span class="op">(</span><span class="va">pca_FeCu</span><span class="op">$</span><span class="va">rotation</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span>, main <span class="op">=</span> <span class="st">""</span><span class="op">)</span></code></pre></div>
 <div class="figure">
 <span style="display:block;" id="fig:loading1"></span>
-<img src="Step_By_Step_PCA_files/figure-html/loading1-1.png" alt="Plot of the loadings on PC1." width="672"><p class="caption">
+<img src="Vig_03_Step_By_Step_PCA_files/figure-html/loading1-1.png" alt="Plot of the loadings on PC1." width="672"><p class="caption">
 Figure 8: Plot of the loadings on PC1.
 </p>
 </div>
@@ -482,7 +482,7 @@ Figure 8: Plot of the loadings on PC1.
 <p>Figure <a href="#fig:rmsd">9</a> shows how the approximation of the original data set (<code>tintoodiel</code>) improves as more and more PCs are included in the reconstruction. The y-axis represents the error, as the root mean squared deviation of the original data minus the approximation.</p>
 <div class="figure">
 <span style="display:block;" id="fig:rmsd"></span>
-<img src="Step_By_Step_PCA_files/figure-html/rmsd-1.png" alt="Reduction of error as the number of components included in the reconstruction increases." width="672"><p class="caption">
+<img src="Vig_03_Step_By_Step_PCA_files/figure-html/rmsd-1.png" alt="Reduction of error as the number of components included in the reconstruction increases." width="672"><p class="caption">
 Figure 9: Reduction of error as the number of components included in the reconstruction increases.
 </p>
 </div>

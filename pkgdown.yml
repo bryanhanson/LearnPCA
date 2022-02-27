@@ -2,12 +2,12 @@ pandoc: 2.7.3
 pkgdown: 2.0.2.9000
 pkgdown_sha: ae7363faac9040a473a54fb3d770decdfb8dfec1
 articles:
-  Conceptual_Intro_PCA: Conceptual_Intro_PCA.html
-  Functions_PCA: Functions_PCA.html
-  Math_Behind_PCA: Math_Behind_PCA.html
-  Scores_Loadings: Scores_Loadings.html
-  Start_Here: Start_Here.html
-  Step_By_Step_PCA: Step_By_Step_PCA.html
-  Visualizing_PCA_3D: Visualizing_PCA_3D.html
-last_built: 2022-02-04T04:14Z
+  Vig_01_Start_Here: Vig_01_Start_Here.html
+  Vig_02_Conceptual_Intro_PCA: Vig_02_Conceptual_Intro_PCA.html
+  Vig_03_Step_By_Step_PCA: Vig_03_Step_By_Step_PCA.html
+  Vig_04_Scores_Loadings: Vig_04_Scores_Loadings.html
+  Vig_05_Visualizing_PCA_3D: Vig_05_Visualizing_PCA_3D.html
+  Vig_06_Math_Behind_PCA: Vig_06_Math_Behind_PCA.html
+  Vig_07_Functions_PCA: Vig_07_Functions_PCA.html
+last_built: 2022-02-27T03:50Z
 
