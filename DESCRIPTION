@@ -21,7 +21,6 @@ Encoding: UTF-8
 Suggests:
     ChemoSpec,
     chemometrics,
-    kableExtra,
     knitr,
     tinytest,
     roxut,

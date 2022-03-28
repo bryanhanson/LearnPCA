@@ -29,7 +29,6 @@ pkgdown:
 # R options & configuration:
 set.seed(9)
 suppressPackageStartupMessages(library("knitr"))
-suppressPackageStartupMessages(library("kableExtra"))
 suppressPackageStartupMessages(library("chemometrics"))
 suppressPackageStartupMessages(library("ChemoSpec"))
 
@@ -84,7 +83,7 @@ We'll use a data set which reports chemical analyses for 13 elements on 180 arch
 ```{r dataTaste, results = "asis"}
 data(glass)
 DF <- as.data.frame(glass[1:5, 1:8])
-kable(DF, caption = "A portion of the archaeological glass data set. Values are percentages.") %>% kable_styling(c("striped", "bordered"))
+kable(DF, caption = "A portion of the archaeological glass data set. Values are percentages.")
 ```
 
 We'll perform PCA on the glass data set, show the three plots and then discuss them in turn.  Figure \@ref(fig:glassScree) shows the scree plot, Figure \@ref(fig:glassScores) shows the scores plot and Figure \@ref(fig:glassLoadings) shows the first loadings.
@@ -118,7 +117,7 @@ This ability to collapse correlated variables is a key part of PCA.  Table \@ref
 tab <- cor(glass[,c(1, 4, 9)])
 
 DF <- as.data.frame(tab)
-kable(DF, digits = 2, caption = "Correlations among selected element concentrations in `glass` data set.") %>% kable_styling(c("striped", "bordered"), full_width = FALSE)
+kable(DF, digits = 2, caption = "Correlations among selected element concentrations in `glass` data set.")
 ```
 ## Refinements 1
 
@@ -130,7 +129,7 @@ variance <- 100*(pca$sdev*pca$sdev/eigensum)
 cumvariance <- cumsum(variance)
 labs <- paste("PC", 1:13, sep = " ")
 DF <- data.frame(component = labs, variance = variance, cumulative = cumvariance)
-kable(DF, digits = 0, caption = "Variance (signal) accounted for by PCs. Values in percent.") %>% kable_styling(c("striped", "bordered"), full_width = FALSE)
+kable(DF, digits = 0, caption = "Variance (signal) accounted for by PCs. Values in percent.")
 ```
 
 ## Refinements 2
@@ -157,7 +156,7 @@ Because it is often easiest to learn from examples close to one's field of inter
 
 ```{r sumState, results = "asis"}
 x77 <- as.data.frame(apply(state.x77, 2, range))
-kable(x77, caption = "The ranges of variables in `state.x77`") %>% kable_styling(c("striped", "bordered"))
+kable(x77, caption = "The ranges of variables in `state.x77`")
 ```
 
 Let's conduct PCA on this data set (with scaling, because the ranges of the variables differ quite a bit; don't sweat it right now but see [Step By Step PCA](#top-matter) for more details). Figure \@ref(fig:stateScreePlot) shows the scree plot.  Clearly one PC is really important, but perhaps four PCs should be kept.  If we look at the actual numbers they suggest five or six PCs would be better, using the 95% rule (Table \@ref(tab:stateScreeTable)).
@@ -176,7 +175,7 @@ variance <- 100*(x77$sdev*x77$sdev/eigensum)
 cumvariance <- cumsum(variance)
 labs <- paste("PC", 1:8, sep = " ")
 DF <- data.frame(component = labs, variance = variance, cumulative = cumvariance)
-kable(DF, digits = 0, caption = "Variance accounted for by PCs. Values in percent.") %>% kable_styling(c("striped", "bordered"), full_width = FALSE)
+kable(DF, digits = 0, caption = "Variance accounted for by PCs. Values in percent.")
 ```
 
 The score plot for this data set is shown in Figure \@ref(fig:stateScores). For fun, we have colored the states by their blue (democrat)/red (repubican) classification based on data at [Wikipedia](https://en.wikipedia.org/wiki/Red_states_and_blue_states) (this classification is from presidential elections in 2008-2020 which doesn't match the data from 1977, but we're just having fun here trying to get the basic idea).  There are no obvious clusters in this plot.
