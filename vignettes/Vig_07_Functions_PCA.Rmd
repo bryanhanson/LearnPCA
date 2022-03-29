@@ -267,7 +267,7 @@ colnames(DF) <- c("", "prcomp", "svd", "princomp", "eigen")
 
 ```{r SumTable, echo = FALSE, results = "asis"}
 if (!is_latex_output()) {
-  kbl(DF, row.names = FALSE, caption = "A comparison of R functions for PCA.  Input data must be centered in all cases.  Scaling is optional.")
+  kable(DF, row.names = FALSE, caption = "A comparison of R functions for PCA.  Input data must be centered in all cases.  Scaling is optional.")
 }
 
 if (is_latex_output()) {
