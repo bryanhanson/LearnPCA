@@ -64,7 +64,7 @@ In Figure \@ref(fig:PCA-Matrices) we show one way to represent the relationships
 
 ```{r PCA-Matrices, echo = FALSE, results = "show", fig.cap = "One way to look at the matrix algebra behind PCA. Reconstruction of the data matrix $\\mathbf{X}$ is achieved by multiplying the score matrix ($\\mathbf{S}$) by the transpose of the loadings matrix ($\\mathbf{L}$).  The method of matrix multiplication is symbolized in the red-dotted outlines: Each element of row $i$ of the scores matrix is multiplied by the corresponding element of column $j$ of the transposed loadings.  These results are summed to give a single entry in the original data matrix $\\mathbf{X}_{ij}$.", out.width = "75%", fig.align = "center"}
 
-knitr::include_graphics("Graphics/PCA_Matrices.png")
+knitr::include_graphics("PCA_Matrices.png")
 ```
 
 Figure \@ref(fig:PCA-Matrices) demonstrates that if we multiply the scores matrix ($\mathbf{S}$) by the transpose of the loadings matrix ($\mathbf{L^T}$), we get back the original data matrix ($\mathbf{X}$).  When we start however, all we have is the original data matrix, how do we get the other two matrices?  If we think of this as an algebra problem, we seem to be missing some variables; computing the loadings and scores matrices seems like it would be impossible, as there is not enough information.   However, this is not a algebra problem, it is a *linear* algebra problem (linear algebra being the study of matrices).  It *is* possible to determine the answer, even though we seem to be missing information, as we shall see shortly.  The key is in something called matrix decompositions.[^1]

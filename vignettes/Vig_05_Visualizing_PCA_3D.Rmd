@@ -32,6 +32,11 @@ suppressPackageStartupMessages(library("knitr"))
 suppressPackageStartupMessages(library("plot3D"))
 suppressPackageStartupMessages(library("plotly"))
 
+# Create a directory for the html output
+# 31 March 2022: this was not needed in earlier versions
+# looks like the rmarkdown build environment has changed
+dir.create("Graphics")
+
 # colors and color names
 pcdata_col <- "#3db7ed"
 pcdata_colname <- "light blue"
