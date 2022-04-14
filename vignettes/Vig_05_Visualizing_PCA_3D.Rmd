@@ -5,7 +5,7 @@ author:
   - Bryan A. Hanson^[Professor Emeritus of Chemistry & Biochemistry, DePauw University, Greencastle IN USA., hanson@depauw.edu]
 date:  "`r Sys.Date()`"
 output:
-    bookdown::html_document2: # use for pkgdown site
+    markdown::html_vignette: # use for pkgdown site
 #      bookdown::pdf_document2: # use for CRAN to keep size down; breaks GHA
       toc: yes
       toc_depth: 2
@@ -174,9 +174,10 @@ if (!is_latex_output()) {
       yaxis = list(title = "y"),
       zaxis = list(title = "z")
     ))
-  htmlwidgets::saveWidget(as_widget(partial_bundle(fig)), "origData.html",
-    knitrOptions = list(fig.cap=paste("Three-dimensional plot of data (", pcdata_colname, "points) showing the x, y, and z-axes (",xyzaxis_colname, "lines) that represent the three measured variables."), results = "show"))
-  include_url("origData.html")
+  # htmlwidgets::saveWidget(as_widget(partial_bundle(fig)), "origData.html",
+  #   knitrOptions = list(fig.cap=paste("Three-dimensional plot of data (", pcdata_colname, "points) showing the x, y, and z-axes (",xyzaxis_colname, "lines) that represent the three measured variables."), results = "show"))
+  # include_url("origData.html")
+fig
 }
 ```
 
@@ -244,9 +245,10 @@ if (!is_latex_output()) {
       yaxis = list(title = "y"),
       zaxis = list(title = "z")
     ))
-    htmlwidgets::saveWidget(as_widget(partial_bundle(fig)), "pc1b.html",
-      knitrOptions = list(fig.cap=paste("The original data (as", pcdata_colname, "points) and the first principal component axis (as a", pcaxis_colname, "line)."), results = "show"))
-    include_url("pc1b.html")
+    # htmlwidgets::saveWidget(as_widget(partial_bundle(fig)), "pc1b.html",
+    #   knitrOptions = list(fig.cap=paste("The original data (as", pcdata_colname, "points) and the first principal component axis (as a", pcaxis_colname, "line)."), results = "show"))
+    # include_url("pc1b.html")
+  fig
 }
 ```
 
@@ -321,9 +323,10 @@ if (!is_latex_output()) {
       yaxis = list(title = "y"),
       zaxis = list(title = "z")
     ))
-    htmlwidgets::saveWidget(as_widget(partial_bundle(fig)), "pc2a.html",
-      knitrOptions = list(fig.cap=paste("The first principal component (",pcaxis_colname, "line) and the projection of the original data (",pcdata_colname,"points) onto the plane perpendicular to the first principal component (shown with a", pcdata_colname, "boundary)."), results = "show"))
-    include_url("pc2a.html")
+    # htmlwidgets::saveWidget(as_widget(partial_bundle(fig)), "pc2a.html",
+    #   knitrOptions = list(fig.cap=paste("The first principal component (",pcaxis_colname, "line) and the projection of the original data (",pcdata_colname,"points) onto the plane perpendicular to the first principal component (shown with a", pcdata_colname, "boundary)."), results = "show"))
+    # include_url("pc2a.html")
+  fig
 }
 ```
 
@@ -361,9 +364,10 @@ if (!is_latex_output()) {
       yaxis = list(title = "y"),
       zaxis = list(title = "z")
     ))
-    htmlwidgets::saveWidget(as_widget(partial_bundle(fig)), "pc2b.html",
-      knitrOptions = list(fig.cap=paste("The result of adding the second principal component axis to the previous figure. The first principal component axis is the solid", pcaxis_colname, "line and the second principal component axis is the dashed", pcaxis_colname, "line."), results = "show"))
-    include_url("pc2b.html")
+    # htmlwidgets::saveWidget(as_widget(partial_bundle(fig)), "pc2b.html",
+    #   knitrOptions = list(fig.cap=paste("The result of adding the second principal component axis to the previous figure. The first principal component axis is the solid", pcaxis_colname, "line and the second principal component axis is the dashed", pcaxis_colname, "line."), results = "show"))
+    # include_url("pc2b.html")
+  fig
 }
 ```
 
@@ -408,9 +412,10 @@ if (!is_latex_output()) {
       yaxis = list(title = "y"),
       zaxis = list(title = "z")
     ))
-    htmlwidgets::saveWidget(as_widget(partial_bundle(fig)), "pc3.html",
-      knitrOptions = list(fig.cap=paste("The original data (", pcdata_colname, "points) and the three three principal component axes (", pcaxis_colname, "lines). The solid line is the first principal component, the dashed line is the second principal component, and the dotted line is the third principal component."), results = "show"))
-    include_url("pc3.html")
+    # htmlwidgets::saveWidget(as_widget(partial_bundle(fig)), "pc3.html",
+    #   knitrOptions = list(fig.cap=paste("The original data (", pcdata_colname, "points) and the three three principal component axes (", pcaxis_colname, "lines). The solid line is the first principal component, the dashed line is the second principal component, and the dotted line is the third principal component."), results = "show"))
+    # include_url("pc3.html")
+  fig
 }
 ```
 
