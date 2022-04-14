@@ -23,6 +23,7 @@ vignette: >
 #biblio-style: plain
 pkgdown:
   as_is: true
+always_allow_html: yes
 ---
 
 ```{r SetUp, echo = FALSE, eval = TRUE, results = "hide"}
