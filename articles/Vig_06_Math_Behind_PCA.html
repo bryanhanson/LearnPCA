@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">LearnPCA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.4</span>
       </span>
     </div>
 
@@ -43,7 +43,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -102,7 +102,7 @@
                         <h4 data-toc-skip class="author">Bryan A. Hanson<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>
 </h4>
             
-            <h4 data-toc-skip class="date">2022-02-27</h4>
+            <h4 data-toc-skip class="date">2022-04-14</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/bryanhanson/LearnPCA/blob/HEAD/vignettes/Vig_06_Math_Behind_PCA.Rmd" class="external-link"><code>vignettes/Vig_06_Math_Behind_PCA.Rmd</code></a></small>
       <div class="hidden name"><code>Vig_06_Math_Behind_PCA.Rmd</code></div>
@@ -114,7 +114,7 @@
 <!-- This chunk inserts common info about all the vignettes -->
 <!-- ======================================================================= -->
 <div class="top-matter">
-<p><em>This vignette is based upon <code>LearnPCA</code> version 0.1.6.</em></p>
+<p><em>This vignette is based upon <code>LearnPCA</code> version 0.1.4.</em></p>
 <p><code>LearnPCA</code> provides the following vignettes: <a name="top-matter"></a></p>
 <ul>
 <li><a href="http://bryanhanson.github.io/LearnPCA/articles/Start_Here.html" class="external-link">Start Here</a></li>
@@ -148,7 +148,7 @@
 <p>In Figure <a href="#fig:PCA-Matrices">1</a> we show one way to represent the relationships between the original data matrix (<span class="math inline">\(\mathbf{X}\)</span>), the loadings matrix (<span class="math inline">\(\mathbf{L}\)</span>) and the scores matrix (<span class="math inline">\(\mathbf{S}\)</span>).</p>
 <div class="figure" style="text-align: center">
 <span style="display:block;" id="fig:PCA-Matrices"></span>
-<img src="Graphics/PCA_Matrices.png" alt="One way to look at the matrix algebra behind PCA. Reconstruction of the data matrix $\mathbf{X}$ is achieved by multiplying the score matrix ($\mathbf{S}$) by the transpose of the loadings matrix ($\mathbf{L}$).  The method of matrix multiplication is symbolized in the red-dotted outlines: Each element of row $i$ of the scores matrix is multiplied by the corresponding element of column $j$ of the transposed loadings.  These results are summed to give a single entry in the original data matrix $\mathbf{X}_{ij}$." width="75%"><p class="caption">
+<img src="PCA_Matrices.png" alt="One way to look at the matrix algebra behind PCA. Reconstruction of the data matrix $\mathbf{X}$ is achieved by multiplying the score matrix ($\mathbf{S}$) by the transpose of the loadings matrix ($\mathbf{L}$).  The method of matrix multiplication is symbolized in the red-dotted outlines: Each element of row $i$ of the scores matrix is multiplied by the corresponding element of column $j$ of the transposed loadings.  These results are summed to give a single entry in the original data matrix $\mathbf{X}_{ij}$." width="75%"><p class="caption">
 Figure 1: One way to look at the matrix algebra behind PCA. Reconstruction of the data matrix <span class="math inline">\(\mathbf{X}\)</span> is achieved by multiplying the score matrix (<span class="math inline">\(\mathbf{S}\)</span>) by the transpose of the loadings matrix (<span class="math inline">\(\mathbf{L}\)</span>). The method of matrix multiplication is symbolized in the red-dotted outlines: Each element of row <span class="math inline">\(i\)</span> of the scores matrix is multiplied by the corresponding element of column <span class="math inline">\(j\)</span> of the transposed loadings. These results are summed to give a single entry in the original data matrix <span class="math inline">\(\mathbf{X}_{ij}\)</span>.
 </p>
 </div>

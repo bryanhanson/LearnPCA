@@ -1,6 +1,6 @@
 pandoc: 2.7.3
 pkgdown: 2.0.2.9000
-pkgdown_sha: ae7363faac9040a473a54fb3d770decdfb8dfec1
+pkgdown_sha: 98d5a5c735eb244cb98b2e6bab1d54bb27c0af95
 articles:
   Vig_01_Start_Here: Vig_01_Start_Here.html
   Vig_02_Conceptual_Intro_PCA: Vig_02_Conceptual_Intro_PCA.html
@@ -9,5 +9,5 @@ articles:
   Vig_05_Visualizing_PCA_3D: Vig_05_Visualizing_PCA_3D.html
   Vig_06_Math_Behind_PCA: Vig_06_Math_Behind_PCA.html
   Vig_07_Functions_PCA: Vig_07_Functions_PCA.html
-last_built: 2022-02-27T03:50Z
+last_built: 2022-04-14T04:51Z
 

@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">LearnPCA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.4</span>
       </span>
     </div>
 
@@ -43,7 +43,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -102,7 +102,7 @@
                         <h4 data-toc-skip class="author">Bryan A. Hanson<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>
 </h4>
             
-            <h4 data-toc-skip class="date">2022-02-27</h4>
+            <h4 data-toc-skip class="date">2022-04-14</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/bryanhanson/LearnPCA/blob/HEAD/vignettes/Vig_04_Scores_Loadings.Rmd" class="external-link"><code>vignettes/Vig_04_Scores_Loadings.Rmd</code></a></small>
       <div class="hidden name"><code>Vig_04_Scores_Loadings.Rmd</code></div>
@@ -114,7 +114,7 @@
 <!-- This chunk inserts common info about all the vignettes -->
 <!-- ======================================================================= -->
 <div class="top-matter">
-<p><em>This vignette is based upon <code>LearnPCA</code> version 0.1.6.</em></p>
+<p><em>This vignette is based upon <code>LearnPCA</code> version 0.1.4.</em></p>
 <p><code>LearnPCA</code> provides the following vignettes: <a name="top-matter"></a></p>
 <ul>
 <li><a href="http://bryanhanson.github.io/LearnPCA/articles/Start_Here.html" class="external-link">Start Here</a></li>
@@ -144,109 +144,54 @@
 Figure 1: Scatterplot of variable 1 and variable 2 for our eight samples. The dashed lines are the original axes with variable 1 shown in pink and variable 2 shown in blue.
 </p>
 </div>
-<table class="table table table-striped table-bordered" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table">
 <caption>
-<span id="tab:table-origData">Table 1: </span>Individual values for the variables and samples.
-</caption>
-<thead><tr>
-<th style="text-align:right;">
-sample
-</th>
-<th style="text-align:right;">
-variable 1
-</th>
-<th style="text-align:right;">
-variable 2
-</th>
+<span id="tab:table-origData">Table 1: </span>Individual values for the variables and samples.</caption>
+<thead><tr class="header">
+<th align="right">sample</th>
+<th align="right">variable 1</th>
+<th align="right">variable 2</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-2.66
-</td>
-<td style="text-align:right;">
-3.32
-</td>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">2.66</td>
+<td align="right">3.32</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
--1.23
-</td>
-<td style="text-align:right;">
--5.15
-</td>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">-1.23</td>
+<td align="right">-5.15</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:right;">
-0.25
-</td>
-<td style="text-align:right;">
--2.69
-</td>
+<tr class="odd">
+<td align="right">3</td>
+<td align="right">0.25</td>
+<td align="right">-2.69</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
--3.86
-</td>
-<td style="text-align:right;">
--7.21
-</td>
+<tr class="even">
+<td align="right">4</td>
+<td align="right">-3.86</td>
+<td align="right">-7.21</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-5
-</td>
-<td style="text-align:right;">
-4.94
-</td>
-<td style="text-align:right;">
-7.82
-</td>
+<tr class="odd">
+<td align="right">5</td>
+<td align="right">4.94</td>
+<td align="right">7.82</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-6
-</td>
-<td style="text-align:right;">
-0.25
-</td>
-<td style="text-align:right;">
-1.57
-</td>
+<tr class="even">
+<td align="right">6</td>
+<td align="right">0.25</td>
+<td align="right">1.57</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-7
-</td>
-<td style="text-align:right;">
-2.96
-</td>
-<td style="text-align:right;">
-4.40
-</td>
+<tr class="odd">
+<td align="right">7</td>
+<td align="right">2.96</td>
+<td align="right">4.40</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-8
-</td>
-<td style="text-align:right;">
--3.96
-</td>
-<td style="text-align:right;">
--8.31
-</td>
+<tr class="even">
+<td align="right">8</td>
+<td align="right">-3.96</td>
+<td align="right">-8.31</td>
 </tr>
 </tbody>
 </table>
@@ -282,180 +227,79 @@ Figure 3: Rotating the original axes by 60<span class="math inline">\(^\circ\)</
 <h2 id="scores">Scores<a class="anchor" aria-label="anchor" href="#scores"></a>
 </h2>
 <p>In Figure <a href="#fig:fig-origData">1</a>, each or our eight samples appears as a point in space defined by its position along the original axes for variable 1 and variable 2. After completing the rotation of the axes, each of the eight samples now appears as a point in space defined by its position along the recently discovered two principal component axes. These coordinates are the scores returned by the PCA analysis. Table <a href="#tab:table-scores">2</a> provides the scores for our eight samples in the columns labeled PC 1 and PC 2; also shown are the values for variable 1 and variable 2.</p>
-<table class="table table table-striped table-bordered" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table">
 <caption>
-<span id="tab:table-scores">Table 2: </span>Coordinates for each of the eight samples, in the original axis system and in the principal component axis system.
-</caption>
-<thead><tr>
-<th style="text-align:left;">
-sample
-</th>
-<th style="text-align:right;">
-variable 1
-</th>
-<th style="text-align:right;">
-variable 2
-</th>
-<th style="text-align:right;">
-PC 1
-</th>
-<th style="text-align:right;">
-PC 2
-</th>
+<span id="tab:table-scores">Table 2: </span>Coordinates for each of the eight samples, in the original axis system and in the principal component axis system.</caption>
+<thead><tr class="header">
+<th align="left">sample</th>
+<th align="right">variable 1</th>
+<th align="right">variable 2</th>
+<th align="right">PC 1</th>
+<th align="right">PC 2</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:right;">
-2.66
-</td>
-<td style="text-align:right;">
-3.32
-</td>
-<td style="text-align:right;">
-4.21
-</td>
-<td style="text-align:right;">
--0.64
-</td>
+<tr class="odd">
+<td align="left">1</td>
+<td align="right">2.66</td>
+<td align="right">3.32</td>
+<td align="right">4.21</td>
+<td align="right">-0.64</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-2
-</td>
-<td style="text-align:right;">
--1.23
-</td>
-<td style="text-align:right;">
--5.15
-</td>
-<td style="text-align:right;">
--5.08
-</td>
-<td style="text-align:right;">
--1.51
-</td>
+<tr class="even">
+<td align="left">2</td>
+<td align="right">-1.23</td>
+<td align="right">-5.15</td>
+<td align="right">-5.08</td>
+<td align="right">-1.51</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-3
-</td>
-<td style="text-align:right;">
-0.25
-</td>
-<td style="text-align:right;">
--2.69
-</td>
-<td style="text-align:right;">
--2.21
-</td>
-<td style="text-align:right;">
--1.56
-</td>
+<tr class="odd">
+<td align="left">3</td>
+<td align="right">0.25</td>
+<td align="right">-2.69</td>
+<td align="right">-2.21</td>
+<td align="right">-1.56</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-4
-</td>
-<td style="text-align:right;">
--3.86
-</td>
-<td style="text-align:right;">
--7.21
-</td>
-<td style="text-align:right;">
--8.17
-</td>
-<td style="text-align:right;">
--0.27
-</td>
+<tr class="even">
+<td align="left">4</td>
+<td align="right">-3.86</td>
+<td align="right">-7.21</td>
+<td align="right">-8.17</td>
+<td align="right">-0.27</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-5
-</td>
-<td style="text-align:right;">
-4.94
-</td>
-<td style="text-align:right;">
-7.82
-</td>
-<td style="text-align:right;">
-9.24
-</td>
-<td style="text-align:right;">
--0.37
-</td>
+<tr class="odd">
+<td align="left">5</td>
+<td align="right">4.94</td>
+<td align="right">7.82</td>
+<td align="right">9.24</td>
+<td align="right">-0.37</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-6
-</td>
-<td style="text-align:right;">
-0.25
-</td>
-<td style="text-align:right;">
-1.57
-</td>
-<td style="text-align:right;">
-1.49
-</td>
-<td style="text-align:right;">
-0.57
-</td>
+<tr class="even">
+<td align="left">6</td>
+<td align="right">0.25</td>
+<td align="right">1.57</td>
+<td align="right">1.49</td>
+<td align="right">0.57</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-7
-</td>
-<td style="text-align:right;">
-2.96
-</td>
-<td style="text-align:right;">
-4.40
-</td>
-<td style="text-align:right;">
-5.29
-</td>
-<td style="text-align:right;">
--0.37
-</td>
+<tr class="odd">
+<td align="left">7</td>
+<td align="right">2.96</td>
+<td align="right">4.40</td>
+<td align="right">5.29</td>
+<td align="right">-0.37</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-8
-</td>
-<td style="text-align:right;">
--3.96
-</td>
-<td style="text-align:right;">
--8.31
-</td>
-<td style="text-align:right;">
--9.18
-</td>
-<td style="text-align:right;">
--0.72
-</td>
+<tr class="even">
+<td align="left">8</td>
+<td align="right">-3.96</td>
+<td align="right">-8.31</td>
+<td align="right">-9.18</td>
+<td align="right">-0.72</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-% variance
-</td>
-<td style="text-align:right;">
-22.80
-</td>
-<td style="text-align:right;">
-77.20
-</td>
-<td style="text-align:right;">
-98.93
-</td>
-<td style="text-align:right;">
-1.07
-</td>
+<tr class="odd">
+<td align="left">% variance</td>
+<td align="right">22.80</td>
+<td align="right">77.20</td>
+<td align="right">98.93</td>
+<td align="right">1.07</td>
 </tr>
 </tbody>
 </table>

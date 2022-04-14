@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">LearnPCA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.4</span>
       </span>
     </div>
 
@@ -43,7 +43,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -102,7 +102,7 @@
                         <h4 data-toc-skip class="author">Bryan A. Hanson<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>
 </h4>
             
-            <h4 data-toc-skip class="date">2022-02-27</h4>
+            <h4 data-toc-skip class="date">2022-04-14</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/bryanhanson/LearnPCA/blob/HEAD/vignettes/Vig_07_Functions_PCA.Rmd" class="external-link"><code>vignettes/Vig_07_Functions_PCA.Rmd</code></a></small>
       <div class="hidden name"><code>Vig_07_Functions_PCA.Rmd</code></div>
@@ -114,7 +114,7 @@
 <!-- This chunk inserts common info about all the vignettes -->
 <!-- ======================================================================= -->
 <div class="top-matter">
-<p><em>This vignette is based upon <code>LearnPCA</code> version 0.1.6.</em></p>
+<p><em>This vignette is based upon <code>LearnPCA</code> version 0.1.4.</em></p>
 <p><code>LearnPCA</code> provides the following vignettes: <a name="top-matter"></a></p>
 <ul>
 <li><a href="http://bryanhanson.github.io/LearnPCA/articles/Start_Here.html" class="external-link">Start Here</a></li>
@@ -354,162 +354,79 @@ Figure 2: A comparison of the signs of the first loadings from <code>prcomp</cod
 <h2 id="wrap-up">Wrap Up<a class="anchor" aria-label="anchor" href="#wrap-up"></a>
 </h2>
 <p>Table <a href="#tab:SumTable">1</a> summarizes much of what we covered above.</p>
-<table class="table table table-striped table-bordered" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<table style="width:100%;" class="table">
 <caption>
-<span id="tab:SumTable">Table 1: </span>A comparison of R functions for PCA. Input data must be centered in all cases. Scaling is optional.
-</caption>
-<thead><tr>
-<th style="text-align:left;">
-</th>
-<th style="text-align:left;">
-prcomp
-</th>
-<th style="text-align:left;">
-svd
-</th>
-<th style="text-align:left;">
-princomp
-</th>
-<th style="text-align:left;">
-eigen
-</th>
+<span id="tab:SumTable">Table 1: </span>A comparison of R functions for PCA. Input data must be centered in all cases. Scaling is optional.</caption>
+<colgroup>
+<col width="12%">
+<col width="22%">
+<col width="20%">
+<col width="23%">
+<col width="22%">
+</colgroup>
+<thead><tr class="header">
+<th align="left"></th>
+<th align="left">prcomp</th>
+<th align="left">svd</th>
+<th align="left">princomp</th>
+<th align="left">eigen</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:left;">
-algorithm
-</td>
-<td style="text-align:left;">
-uses svd
-</td>
-<td style="text-align:left;">
-svd
-</td>
-<td style="text-align:left;">
-uses eigen
-</td>
-<td style="text-align:left;">
-eigen
-</td>
+<tr class="odd">
+<td align="left">algorithm</td>
+<td align="left">uses svd</td>
+<td align="left">svd</td>
+<td align="left">uses eigen</td>
+<td align="left">eigen</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-input dimensions
-</td>
-<td style="text-align:left;">
-<span class="math inline">\(n \times p\)</span>
-</td>
-<td style="text-align:left;">
-<span class="math inline">\(n \times p\)</span>
-</td>
-<td style="text-align:left;">
-<span class="math inline">\(n \times p\)</span>
-</td>
-<td style="text-align:left;">
-<span class="math inline">\(n \times n\)</span>
-</td>
+<tr class="even">
+<td align="left">input dimensions</td>
+<td align="left"><span class="math inline">\(n \times p\)</span></td>
+<td align="left"><span class="math inline">\(n \times p\)</span></td>
+<td align="left"><span class="math inline">\(n \times p\)</span></td>
+<td align="left"><span class="math inline">\(n \times n\)</span></td>
 </tr>
-<tr>
-<td style="text-align:left;">
-user pre-processing
-</td>
-<td style="text-align:left;">
-center; scale
-</td>
-<td style="text-align:left;">
-center; scale
-</td>
-<td style="text-align:left;">
-don’t do it!
-</td>
-<td style="text-align:left;">
-center; scale; cov or cor
-</td>
+<tr class="odd">
+<td align="left">user pre-processing</td>
+<td align="left">center; scale</td>
+<td align="left">center; scale</td>
+<td align="left">don’t do it!</td>
+<td align="left">center; scale; cov or cor</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-internal pre-processing
-</td>
-<td style="text-align:left;">
-center; scale
-</td>
-<td style="text-align:left;">
-none
-</td>
-<td style="text-align:left;">
-center; cov or cor
-</td>
-<td style="text-align:left;">
-none
-</td>
+<tr class="even">
+<td align="left">internal pre-processing</td>
+<td align="left">center; scale</td>
+<td align="left">none</td>
+<td align="left">center; cov or cor</td>
+<td align="left">none</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-call
-</td>
-<td style="text-align:left;">
-<span class="math inline">\(pca \leftarrow prcomp(X)\)</span>
-</td>
-<td style="text-align:left;">
-<span class="math inline">\(sing \leftarrow svd(X)\)</span>
-</td>
-<td style="text-align:left;">
-<span class="math inline">\(prin \leftarrow princomp(X)\)</span>
-</td>
-<td style="text-align:left;">
-<span class="math inline">\(eig \leftarrow eigen(X)\)</span>
-</td>
+<tr class="odd">
+<td align="left">call</td>
+<td align="left"><span class="math inline">\(pca \leftarrow prcomp(X)\)</span></td>
+<td align="left"><span class="math inline">\(sing \leftarrow svd(X)\)</span></td>
+<td align="left"><span class="math inline">\(prin \leftarrow princomp(X)\)</span></td>
+<td align="left"><span class="math inline">\(eig \leftarrow eigen(X)\)</span></td>
 </tr>
-<tr>
-<td style="text-align:left;">
-scores
-</td>
-<td style="text-align:left;">
-<span class="math inline">\(pca\$x\)</span>
-</td>
-<td style="text-align:left;">
-<span class="math inline">\(X \times sing\$v\)</span>
-</td>
-<td style="text-align:left;">
-<span class="math inline">\(prin\$scores\)</span>
-</td>
-<td style="text-align:left;">
-<span class="math inline">\(X \times eig\$vectors\)</span>
-</td>
+<tr class="even">
+<td align="left">scores</td>
+<td align="left"><span class="math inline">\(pca\$x\)</span></td>
+<td align="left"><span class="math inline">\(X \times sing\$v\)</span></td>
+<td align="left"><span class="math inline">\(prin\$scores\)</span></td>
+<td align="left"><span class="math inline">\(X \times eig\$vectors\)</span></td>
 </tr>
-<tr>
-<td style="text-align:left;">
-loadings
-</td>
-<td style="text-align:left;">
-<span class="math inline">\(pca\$rotation\)</span>
-</td>
-<td style="text-align:left;">
-<span class="math inline">\(sing\$v\)</span>
-</td>
-<td style="text-align:left;">
-<span class="math inline">\(prin\$loadings\)</span>
-</td>
-<td style="text-align:left;">
-<span class="math inline">\(eig\$vectors\)</span>
-</td>
+<tr class="odd">
+<td align="left">loadings</td>
+<td align="left"><span class="math inline">\(pca\$rotation\)</span></td>
+<td align="left"><span class="math inline">\(sing\$v\)</span></td>
+<td align="left"><span class="math inline">\(prin\$loadings\)</span></td>
+<td align="left"><span class="math inline">\(eig\$vectors\)</span></td>
 </tr>
-<tr>
-<td style="text-align:left;">
-pct variance explained
-</td>
-<td style="text-align:left;">
-<span class="math inline">\(\cfrac{100*pca\$sdev^2}{sum(pca\$sdev^2)}\)</span>
-</td>
-<td style="text-align:left;">
-<span class="math inline">\(\cfrac{100*sing\$d^2}{sum(sing\$d^2)}\)</span>
-</td>
-<td style="text-align:left;">
-<span class="math inline">\(\cfrac{100*prin\$sdev^2}{sum(prin\$sdev^2)}\)</span>
-</td>
-<td style="text-align:left;">
-<span class="math inline">\(\cfrac{100*eig\$values}{sum(eig\$values)}\)</span>
-</td>
+<tr class="even">
+<td align="left">pct variance explained</td>
+<td align="left"><span class="math inline">\(\cfrac{100*pca\$sdev^2}{sum(pca\$sdev^2)}\)</span></td>
+<td align="left"><span class="math inline">\(\cfrac{100*sing\$d^2}{sum(sing\$d^2)}\)</span></td>
+<td align="left"><span class="math inline">\(\cfrac{100*prin\$sdev^2}{sum(prin\$sdev^2)}\)</span></td>
+<td align="left"><span class="math inline">\(\cfrac{100*eig\$values}{sum(eig\$values)}\)</span></td>
 </tr>
 </tbody>
 </table>

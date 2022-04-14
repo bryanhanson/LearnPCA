@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">LearnPCA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.4</span>
       </span>
     </div>
 
@@ -43,7 +43,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -102,7 +102,7 @@
                         <h4 data-toc-skip class="author">Bryan A. Hanson<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>
 </h4>
             
-            <h4 data-toc-skip class="date">2022-02-27</h4>
+            <h4 data-toc-skip class="date">2022-04-14</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/bryanhanson/LearnPCA/blob/HEAD/vignettes/Vig_03_Step_By_Step_PCA.Rmd" class="external-link"><code>vignettes/Vig_03_Step_By_Step_PCA.Rmd</code></a></small>
       <div class="hidden name"><code>Vig_03_Step_By_Step_PCA.Rmd</code></div>
@@ -114,7 +114,7 @@
 <!-- This chunk inserts common info about all the vignettes -->
 <!-- ======================================================================= -->
 <div class="top-matter">
-<p><em>This vignette is based upon <code>LearnPCA</code> version 0.1.6.</em></p>
+<p><em>This vignette is based upon <code>LearnPCA</code> version 0.1.4.</em></p>
 <p><code>LearnPCA</code> provides the following vignettes: <a name="top-matter"></a></p>
 <ul>
 <li><a href="http://bryanhanson.github.io/LearnPCA/articles/Start_Here.html" class="external-link">Start Here</a></li>
@@ -154,146 +154,78 @@
 <span class="co">##  Mean   :15.38   Mean   :224.496  </span>
 <span class="co">##  3rd Qu.:18.73   3rd Qu.:356.250  </span>
 <span class="co">##  Max.   :32.40   Max.   :787.000</span></code></pre>
-<table class="table table table-striped table-bordered" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table">
 <caption>
-<span id="tab:metals-raw-table">Table 1: </span>The FeCu data set. Values for Fe<sub>2</sub>O<sub>3</sub> are percentages, those for Cu are ppm.
-</caption>
-<thead><tr>
-<th style="text-align:right;">
-Fe<sub>2</sub>O<sub>3</sub>
+<span id="tab:metals-raw-table">Table 1: </span>The FeCu data set. Values for Fe<sub>2</sub>O<sub>3</sub> are percentages, those for Cu are ppm.</caption>
+<thead><tr class="header">
+<th align="right">Fe<sub>2</sub>O<sub>3</sub>
 </th>
-<th style="text-align:right;">
-Cu
-</th>
+<th align="right">Cu</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:right;">
-9.50
-</td>
-<td style="text-align:right;">
-594.000
-</td>
+<tr class="odd">
+<td align="right">9.50</td>
+<td align="right">594.000</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-7.35
-</td>
-<td style="text-align:right;">
-328.000
-</td>
+<tr class="even">
+<td align="right">7.35</td>
+<td align="right">328.000</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-14.99
-</td>
-<td style="text-align:right;">
-1.674
-</td>
+<tr class="odd">
+<td align="right">14.99</td>
+<td align="right">1.674</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-18.50
-</td>
-<td style="text-align:right;">
-2.990
-</td>
+<tr class="even">
+<td align="right">18.50</td>
+<td align="right">2.990</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-7.72
-</td>
-<td style="text-align:right;">
-402.000
-</td>
+<tr class="odd">
+<td align="right">7.72</td>
+<td align="right">402.000</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-13.40
-</td>
-<td style="text-align:right;">
-342.000
-</td>
+<tr class="even">
+<td align="right">13.40</td>
+<td align="right">342.000</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-12.40
-</td>
-<td style="text-align:right;">
-1.052
-</td>
+<tr class="odd">
+<td align="right">12.40</td>
+<td align="right">1.052</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-11.80
-</td>
-<td style="text-align:right;">
-399.000
-</td>
+<tr class="even">
+<td align="right">11.80</td>
+<td align="right">399.000</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-20.60
-</td>
-<td style="text-align:right;">
-3.670
-</td>
+<tr class="odd">
+<td align="right">20.60</td>
+<td align="right">3.670</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-19.40
-</td>
-<td style="text-align:right;">
-2.250
-</td>
+<tr class="even">
+<td align="right">19.40</td>
+<td align="right">2.250</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-25.60
-</td>
-<td style="text-align:right;">
-2.020
-</td>
+<tr class="odd">
+<td align="right">25.60</td>
+<td align="right">2.020</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-32.40
-</td>
-<td style="text-align:right;">
-787.000
-</td>
+<tr class="even">
+<td align="right">32.40</td>
+<td align="right">787.000</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-12.00
-</td>
-<td style="text-align:right;">
-238.000
-</td>
+<tr class="odd">
+<td align="right">12.00</td>
+<td align="right">238.000</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-11.05
-</td>
-<td style="text-align:right;">
-249.000
-</td>
+<tr class="even">
+<td align="right">11.05</td>
+<td align="right">249.000</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-16.60
-</td>
-<td style="text-align:right;">
-1.278
-</td>
+<tr class="odd">
+<td align="right">16.60</td>
+<td align="right">1.278</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-12.70
-</td>
-<td style="text-align:right;">
-238.000
-</td>
+<tr class="even">
+<td align="right">12.70</td>
+<td align="right">238.000</td>
 </tr>
 </tbody>
 </table>
