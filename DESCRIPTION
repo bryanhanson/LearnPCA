@@ -24,14 +24,12 @@ Suggests:
     knitr,
     tinytest,
     roxut,
-    bookdown,
     rmarkdown,
     plot3D,
     ade4,
     plotrix,
     latex2exp,
     plotly,
-    xtable,
-    htmlwidgets
+    xtable
 Roxygen: list(packages = "roxut", roclets = c("namespace", "rd", "roxut::tests_roclet"), markdown = TRUE)
 RoxygenNote: 7.1.2
