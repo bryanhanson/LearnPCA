@@ -145,14 +145,13 @@
 <li>loadings matrix with <span class="math inline">\(p\)</span> rows and <span class="math inline">\(p\)</span> columns, which represent the contributions of each variable to each principal component.</li>
 </ul>
 <p>In the <a href="#top-matter">Step By Step PCA</a> vignette we also showed how to reconstruct or approximate the original data set by multiplying the scores by the transpose of the loadings.</p>
-<p>In Figure <a href="#fig:PCA-Matrices">1</a> we show one way to represent the relationships between the original data matrix (<span class="math inline">\(\mathbf{X}\)</span>), the loadings matrix (<span class="math inline">\(\mathbf{L}\)</span>) and the scores matrix (<span class="math inline">\(\mathbf{S}\)</span>).</p>
+<p>In Figure @ref(fig:PCA-Matrices) we show one way to represent the relationships between the original data matrix (<span class="math inline">\(\mathbf{X}\)</span>), the loadings matrix (<span class="math inline">\(\mathbf{L}\)</span>) and the scores matrix (<span class="math inline">\(\mathbf{S}\)</span>).</p>
 <div class="figure" style="text-align: center">
-<span style="display:block;" id="fig:PCA-Matrices"></span>
 <img src="PCA_Matrices.png" alt="One way to look at the matrix algebra behind PCA. Reconstruction of the data matrix $\mathbf{X}$ is achieved by multiplying the score matrix ($\mathbf{S}$) by the transpose of the loadings matrix ($\mathbf{L}$).  The method of matrix multiplication is symbolized in the red-dotted outlines: Each element of row $i$ of the scores matrix is multiplied by the corresponding element of column $j$ of the transposed loadings.  These results are summed to give a single entry in the original data matrix $\mathbf{X}_{ij}$." width="75%"><p class="caption">
-Figure 1: One way to look at the matrix algebra behind PCA. Reconstruction of the data matrix <span class="math inline">\(\mathbf{X}\)</span> is achieved by multiplying the score matrix (<span class="math inline">\(\mathbf{S}\)</span>) by the transpose of the loadings matrix (<span class="math inline">\(\mathbf{L}\)</span>). The method of matrix multiplication is symbolized in the red-dotted outlines: Each element of row <span class="math inline">\(i\)</span> of the scores matrix is multiplied by the corresponding element of column <span class="math inline">\(j\)</span> of the transposed loadings. These results are summed to give a single entry in the original data matrix <span class="math inline">\(\mathbf{X}_{ij}\)</span>.
+One way to look at the matrix algebra behind PCA. Reconstruction of the data matrix <span class="math inline">\(\mathbf{X}\)</span> is achieved by multiplying the score matrix (<span class="math inline">\(\mathbf{S}\)</span>) by the transpose of the loadings matrix (<span class="math inline">\(\mathbf{L}\)</span>). The method of matrix multiplication is symbolized in the red-dotted outlines: Each element of row <span class="math inline">\(i\)</span> of the scores matrix is multiplied by the corresponding element of column <span class="math inline">\(j\)</span> of the transposed loadings. These results are summed to give a single entry in the original data matrix <span class="math inline">\(\mathbf{X}_{ij}\)</span>.
 </p>
 </div>
-<p>Figure <a href="#fig:PCA-Matrices">1</a> demonstrates that if we multiply the scores matrix (<span class="math inline">\(\mathbf{S}\)</span>) by the transpose of the loadings matrix (<span class="math inline">\(\mathbf{L^T}\)</span>), we get back the original data matrix (<span class="math inline">\(\mathbf{X}\)</span>). When we start however, all we have is the original data matrix, how do we get the other two matrices? If we think of this as an algebra problem, we seem to be missing some variables; computing the loadings and scores matrices seems like it would be impossible, as there is not enough information. However, this is not a algebra problem, it is a <em>linear</em> algebra problem (linear algebra being the study of matrices). It <em>is</em> possible to determine the answer, even though we seem to be missing information, as we shall see shortly. The key is in something called matrix decompositions.<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a></p>
+<p>Figure @ref(fig:PCA-Matrices) demonstrates that if we multiply the scores matrix (<span class="math inline">\(\mathbf{S}\)</span>) by the transpose of the loadings matrix (<span class="math inline">\(\mathbf{L^T}\)</span>), we get back the original data matrix (<span class="math inline">\(\mathbf{X}\)</span>). When we start however, all we have is the original data matrix, how do we get the other two matrices? If we think of this as an algebra problem, we seem to be missing some variables; computing the loadings and scores matrices seems like it would be impossible, as there is not enough information. However, this is not a algebra problem, it is a <em>linear</em> algebra problem (linear algebra being the study of matrices). It <em>is</em> possible to determine the answer, even though we seem to be missing information, as we shall see shortly. The key is in something called matrix decompositions.<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a></p>
 </div>
 <div class="section level2">
 <h2 id="matrix-decompositions">Matrix Decompositions<a class="anchor" aria-label="anchor" href="#matrix-decompositions"></a>
@@ -165,13 +164,13 @@ Figure 1: One way to look at the matrix algebra behind PCA. Reconstruction of th
 <h2 id="the-svd-decomposition">The SVD Decomposition<a class="anchor" aria-label="anchor" href="#the-svd-decomposition"></a>
 </h2>
 <p>We’ll start from the original data matrix <span class="math inline">\(\mathbf{X}\)</span> which has samples in rows and measured variables in columns. Let’s assume that we have column-centered the matrix. The SVD decomposition breaks this matrix <span class="math inline">\(\mathbf{X}\)</span> into three matrices (dimensions in parentheses):<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a></p>
-<p><span class="math display" id="eq:svd1">\[\begin{equation}
-\tag{1}
+<p><span class="math display">\[\begin{equation}
+(\#eq:svd1)
 \mathbf{X}_{(n \ \times \ p)} = \mathbf{U}_{(n \ \times \ p)}\mathbf{D}_{(p \ \times \ p)}\mathbf{V}_{(p \ \times \ p)}^T
 \end{equation}\]</span></p>
 <p>And here’s the equation without matrix dimensions. Remember that <span class="math inline">\(\mathbf{V}^T\)</span> means “take the transpose” of <span class="math inline">\(\mathbf{V}\)</span>, interchanging rows and columns.</p>
-<p><span class="math display" id="eq:svd2">\[\begin{equation}
-\tag{2}
+<p><span class="math display">\[\begin{equation}
+(\#eq:svd2)
 \mathbf{X} = \mathbf{U}\mathbf{D}\mathbf{V}^T
 \end{equation}\]</span></p>
 <p>The equation above is where we’d like to end up. How can we get there? Let’s start with <em>What are these matrices</em>?</p>
@@ -186,12 +185,12 @@ Figure 1: One way to look at the matrix algebra behind PCA. Reconstruction of th
 <li>The columns of <span class="math inline">\(\mathbf{V}\)</span> are the PCA loadings</li>
 </ul>
 <p>In addition, <span class="math inline">\(\mathbf{U}\)</span> and <span class="math inline">\(\mathbf{V}\)</span> are semi-orthogonal matrices,<a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a> which means that when pre-multiplied by their transpose one gets the identity matrix:<a href="#fn7" class="footnote-ref" id="fnref7"><sup>7</sup></a></p>
-<p><span class="math display" id="eq:svd3">\[\begin{equation}
-\tag{3}
+<p><span class="math display">\[\begin{equation}
+(\#eq:svd3)
 \mathbf{U}^{T}\mathbf{U} = \mathbf{I}
 \end{equation}\]</span></p>
-<p><span class="math display" id="eq:svd4">\[\begin{equation}
-\tag{4}
+<p><span class="math display">\[\begin{equation}
+(\#eq:svd4)
 \mathbf{V}^{T}\mathbf{V} = \mathbf{I}
 \end{equation}\]</span></p>
 <p>We’ll use this fact to great advantage when we implement a simple version of SVD in a moment.</p>
@@ -244,19 +243,19 @@ Figure 1: One way to look at the matrix algebra behind PCA. Reconstruction of th
 <div class="section level3">
 <h3 id="step-1">Step 1<a class="anchor" aria-label="anchor" href="#step-1"></a>
 </h3>
-<p>The first step is to multiply the data matrix <code>X</code> by the initial estimate for <code>V</code> (remember at each iteration the estimate gets better and better). How does this relate to Equation <a href="#eq:svd2">(2)</a>? If we drop <span class="math inline">\(\mathbf{D}\)</span> from equation <a href="#eq:svd2">(2)</a> we have:</p>
-<p><span class="math display" id="eq:svd5">\[\begin{equation}
-\tag{5}
+<p>The first step is to multiply the data matrix <code>X</code> by the initial estimate for <code>V</code> (remember at each iteration the estimate gets better and better). How does this relate to Equation @ref(eq:svd2)? If we drop <span class="math inline">\(\mathbf{D}\)</span> from equation @ref(eq:svd2) we have:</p>
+<p><span class="math display">\[\begin{equation}
+(\#eq:svd5)
 \mathbf{X} = \mathbf{U}\mathbf{V}^T
 \end{equation}\]</span></p>
 <p>If we right multiply both sides by <span class="math inline">\(\mathbf{V}\)</span> we have:</p>
-<p><span class="math display" id="eq:svd6a">\[\begin{equation}
-\tag{6}
+<p><span class="math display">\[\begin{equation}
+(\#eq:svd6a)
 \mathbf{X}\mathbf{V} = \mathbf{U}\mathbf{V}^T\mathbf{V}
 \end{equation}\]</span></p>
 <p>which evaluates to:</p>
-<p><span class="math display" id="eq:svd6b">\[\begin{equation}
-\tag{7}
+<p><span class="math display">\[\begin{equation}
+(\#eq:svd6b)
 \mathbf{X}\mathbf{V} = \mathbf{U}\mathbf{I} = \mathbf{U}
 \end{equation}\]</span></p>
 <p>because <span class="math inline">\(\mathbf{V}\)</span> is a semi-orthogonal matrix. This is the line in the code.</p>
@@ -269,25 +268,25 @@ Figure 1: One way to look at the matrix algebra behind PCA. Reconstruction of th
 <div class="section level3">
 <h3 id="step-3">Step 3<a class="anchor" aria-label="anchor" href="#step-3"></a>
 </h3>
-<p>Here we update our estimate of <code>V</code>. Similar to Step 1, we can rearrange Equation <a href="#eq:svd2">(2)</a>, this time by dropping <span class="math inline">\(\mathbf{D}\)</span>, pre-multiplying both sides by <span class="math inline">\(\mathbf{U}^T\)</span> to give an identity matrix which drops out, and then transposing both sides:</p>
-<p><span class="math display" id="eq:svd7">\[\begin{equation}
-\tag{8}
+<p>Here we update our estimate of <code>V</code>. Similar to Step 1, we can rearrange Equation @ref(eq:svd2), this time by dropping <span class="math inline">\(\mathbf{D}\)</span>, pre-multiplying both sides by <span class="math inline">\(\mathbf{U}^T\)</span> to give an identity matrix which drops out, and then transposing both sides:</p>
+<p><span class="math display">\[\begin{equation}
+(\#eq:svd7)
 \mathbf{U}^T\mathbf{X} = \mathbf{U}^T\mathbf{U}\mathbf{V}^T
 \end{equation}\]</span></p>
-<p><span class="math display" id="eq:svd8">\[\begin{equation}
-\tag{9}
+<p><span class="math display">\[\begin{equation}
+(\#eq:svd8)
 \mathbf{U}^T\mathbf{X} = \mathbf{I}\mathbf{V}^T
 \end{equation}\]</span></p>
-<p><span class="math display" id="eq:svd9">\[\begin{equation}
-\tag{10}
+<p><span class="math display">\[\begin{equation}
+(\#eq:svd9)
 \mathbf{U}^T\mathbf{X} = \mathbf{V}^T
 \end{equation}\]</span></p>
-<p><span class="math display" id="eq:svd10">\[\begin{equation}
-\tag{11}
+<p><span class="math display">\[\begin{equation}
+(\#eq:svd10)
 (\mathbf{U}^T\mathbf{X})^T = (\mathbf{V}^T)^T
 \end{equation}\]</span></p>
-<p><span class="math display" id="eq:svd11">\[\begin{equation}
-\tag{12}
+<p><span class="math display">\[\begin{equation}
+(\#eq:svd11)
 \mathbf{X}^T\mathbf{U} = \mathbf{V}
 \end{equation}\]</span></p>
 <p>which is the operation we see in the code snippet.<a href="#fn11" class="footnote-ref" id="fnref11"><sup>11</sup></a></p>
@@ -338,13 +337,13 @@ Figure 1: One way to look at the matrix algebra behind PCA. Reconstruction of th
 <h2 id="the-eigen-decomposition">The Eigen Decomposition<a class="anchor" aria-label="anchor" href="#the-eigen-decomposition"></a>
 </h2>
 <p>The eigen decomposition is another way to decompose a data matrix. This decomposition breaks the data matrix <span class="math inline">\(\mathbf{X}\)</span> into two matrices.<a href="#fn13" class="footnote-ref" id="fnref13"><sup>13</sup></a> Again, let’s assume <span class="math inline">\(\mathbf{X}\)</span> has been centered.</p>
-<p><span class="math display" id="eq:ed1">\[\begin{equation}
-\tag{13}
+<p><span class="math display">\[\begin{equation}
+(\#eq:ed1)
 \mathbf{X}_{(n \ \times \ n)} = \mathbf{Q}_{(n \ \times \ n)}\mathbf{\Lambda}_{(n \ \times \ n)}\mathbf{Q}_{(n \ \times \ n)}^{T}
 \end{equation}\]</span></p>
 <p>And here’s the equation without matrix dimensions.<a href="#fn14" class="footnote-ref" id="fnref14"><sup>14</sup></a></p>
-<p><span class="math display" id="eq:ed2">\[\begin{equation}
-\tag{14}
+<p><span class="math display">\[\begin{equation}
+(\#eq:ed2)
 \mathbf{X} = \mathbf{Q}\mathbf{\Lambda}\mathbf{Q}^{T}
 \end{equation}\]</span></p>
 <p>The equation above is where we’d like to end up; it looks like a variation on the equation for SVD. How can we get there? Once again, let’s take inventory of the matrices in the equation.</p>
@@ -353,13 +352,13 @@ Figure 1: One way to look at the matrix algebra behind PCA. Reconstruction of th
 <span class="math inline">\(\mathbf{X}\)</span> is the original data matrix. Notice the dimensions are <span class="math inline">\(n \times n\)</span>, unlike in SVD. In other words, it is a square matrix. Your data is not square you say? Eigen decomposition requires an square matrix. Fortunately, there’s a simple fix for this. We can work instead with the covariance matrix, which is square: <span class="math inline">\(\mathbf{X}^T\mathbf{X}/(n - 1)\)</span>. This retains all the structure of the original data.<a href="#fn15" class="footnote-ref" id="fnref15"><sup>15</sup></a>
 </li>
 <li>
-<span class="math inline">\(\mathbf{Q}\)</span> is square matrix that whose columns will contain the <em>eigenvectors</em>. <span class="math inline">\(\mathbf{Q}\)</span> is also an orthogonal matrix (discussed earlier in the SVD section). Notice that <span class="math inline">\(\mathbf{Q}\)</span> appears twice in <a href="#eq:ed2">(14)</a>, the second time as its transpose.</li>
+<span class="math inline">\(\mathbf{Q}\)</span> is square matrix that whose columns will contain the <em>eigenvectors</em>. <span class="math inline">\(\mathbf{Q}\)</span> is also an orthogonal matrix (discussed earlier in the SVD section). Notice that <span class="math inline">\(\mathbf{Q}\)</span> appears twice in @ref(eq:ed2), the second time as its transpose.</li>
 <li>
 <span class="math inline">\(\mathbf{\Lambda}\)</span> (upper case Greek letter Lambda) is a diagonal matrix, very similar in function to <span class="math inline">\(\mathbf{D}\)</span> in SVD. All non-diagonal elements are zero. The diagonal contains values sorted from largest to smallest. These are called the <em>eigenvalues</em>.</li>
 </ul>
 <p>So what are eigenvectors and eigenvalues? The eigenvalues are related to the amount of variance explained for each principal component. The eigenvectors are the principal axes, which as we have seen constitute a new coordinate system for looking at the data (see the <a href="#top-matter">Visualizing PCA in 3D</a> vignette for details). If we post-multiply the original data by the eigenvectors in <span class="math inline">\(\mathbf{Q}\)</span> we get the scores:</p>
-<p><span class="math display" id="eq:ed4">\[\begin{equation}
-\tag{15}
+<p><span class="math display">\[\begin{equation}
+(\#eq:ed4)
 \mathbf{X}\mathbf{Q} = scores
 \end{equation}\]</span></p>
 <p>And the loadings are simply the eigenvectors in <span class="math inline">\(\mathbf{Q}\)</span>.</p>
@@ -431,8 +430,8 @@ Figure 1: One way to look at the matrix algebra behind PCA. Reconstruction of th
 <h3 id="singular-values-vs-eigenvalues">Singular Values vs Eigenvalues<a class="anchor" aria-label="anchor" href="#singular-values-vs-eigenvalues"></a>
 </h3>
 <p>We’ve talked about “values” in the context of each decomposition. Is this terminology accidental, or is there a relationship? If you square the singular values from SVD and divide by <span class="math inline">\(n -1\)</span>, you get the eigenvalues. Here “diagonal” means take the diagonal elements of the matrix (which would be a vector of values):</p>
-<p><span class="math display" id="eq:r1">\[\begin{equation}
-\tag{16}
+<p><span class="math display">\[\begin{equation}
+(\#eq:r1)
 (diagonal(\mathbf{D}))^2/(n - 1) = diagonal(\mathbf{\Lambda})
 \end{equation}\]</span></p>
 <p>Either of these “values” can be used to compute the amount of variance explained by each principal component. Details are in the <a href="#top-matter">PCA Functions</a> vignette.</p>
@@ -453,7 +452,7 @@ Figure 1: One way to look at the matrix algebra behind PCA. Reconstruction of th
 <p>In addition to references and links in this document, please see the <a href="http://bryanhanson.github.io/LearnPCA/articles/Start_Here.html#works-consulted" class="external-link">Works Consulted</a> section of the <em>Start Here</em> vignette for general background.</p>
 </div>
 <div class="section level2">
-<h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+<h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-Savov2020" class="csl-entry">
@@ -477,7 +476,7 @@ Singh, Kuldeep. 2014. <em>Linear Algebra Step by Step</em>. Oxford University Pr
 <li id="fn8"><p>When refering to the mathematical equations, we’ll use <span class="math inline">\(\mathbf{X}\)</span>, but when referencing the values we compute, we’ll use <code>X</code>.<a href="#fnref8" class="footnote-back">↩︎</a></p></li>
 <li id="fn9"><p>This is the <span class="math inline">\(L^2\)</span> or Euclidean norm, generally interpreted as a length.<a href="#fnref9" class="footnote-back">↩︎</a></p></li>
 <li id="fn10"><p>As the values grow larger and larger, first we lose precision and eventually the numbers become too big to store.<a href="#fnref10" class="footnote-back">↩︎</a></p></li>
-<li id="fn11"><p>The operation from equation <a href="#eq:svd10">(11)</a> to <a href="#eq:svd11">(12)</a> is based upon the following property in linear algebra: <span class="math inline">\((AB)^T\)</span> = <span class="math inline">\(B^TA^T\)</span>.<a href="#fnref11" class="footnote-back">↩︎</a></p></li>
+<li id="fn11"><p>The operation from equation @ref(eq:svd10) to @ref(eq:svd11) is based upon the following property in linear algebra: <span class="math inline">\((AB)^T\)</span> = <span class="math inline">\(B^TA^T\)</span>.<a href="#fnref11" class="footnote-back">↩︎</a></p></li>
 <li id="fn12"><p>From <code><a href="https://rdrr.io/r/stats/prcomp.html" class="external-link">?prcomp</a></code> “The signs of the columns of the rotation matrix are arbitrary, and so may differ between different programs for PCA, and even between different builds of R.” From <code><a href="https://rdrr.io/r/stats/princomp.html" class="external-link">?princomp</a></code> “The signs of the columns of the loadings and scores are arbitrary, and so may differ between different programs for PCA, and even between different builds of R: fix_sign = TRUE alleviates that.” We discuss the origin of the different signs in more detail in <a href="#top-matter">PCA Functions vignette</a>.<a href="#fnref12" class="footnote-back">↩︎</a></p></li>
 <li id="fn13"><p>Eigenvalues and eigenvectors are extremely important in linear algebra. The concept is usually introduced in the simpler form <span class="math inline">\(Au = \lambda u\)</span>.<a href="#fnref13" class="footnote-back">↩︎</a></p></li>
 <li id="fn14"><p>One also sees this written <span class="math inline">\(\mathbf{X} = \mathbf{Q}\mathbf{\Lambda}\mathbf{Q}^{-1}\)</span>. This is equivalent because for orthogonal matrices <span class="math inline">\(\mathbf{A}^T = \mathbf{A}^{-1}\)</span>.<a href="#fnref14" class="footnote-back">↩︎</a></p></li>
