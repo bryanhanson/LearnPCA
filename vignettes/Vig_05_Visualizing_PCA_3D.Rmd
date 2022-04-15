@@ -18,11 +18,6 @@ vignette: >
     %\VignettePackage{LearnPCA}
     %\VignetteEngine{knitr::rmarkdown}
     %\VignetteEncoding{UTF-8}
-#link-citations: yes
-#bibliography: PCA.bib
-#biblio-style: plain
-#pkgdown:
-#  as_is: true
 ---
 
 ```{r SetUp, echo = FALSE, eval = TRUE, results = "hide"}
@@ -128,10 +123,10 @@ pc_results <- prcomp(data.frame(rotdata$xrot, rotdata$yrot, rotdata$zrot))
 
 # Visualizing The Original Data Set
 
-The data for this vignette consists of `r length(id)` points drawn at random from within the boundaries of an ellipsoid that has a length of `r 2*xa`, a width of `r 2*yb`, and a height of `r 2*zc` -- think of a flattened football. Figure \@ref(fig:origData) shows the three-dimensional cloud of data as `r pcdata_colname` points and the three axes that define the data as `r xyzaxis_colname` lines. These axes are not the principal component axes, they are the usual x, y and z axes.
+The data for this vignette consists of `r length(id)` points drawn at random from within the boundaries of an ellipsoid that has a length of `r 2*xa`, a width of `r 2*yb`, and a height of `r 2*zc` -- think of a flattened football. Figure 1 shows the three-dimensional cloud of data as `r pcdata_colname` points and the three axes that define the data as `r xyzaxis_colname` lines. These axes are not the principal component axes, they are the usual x, y and z axes.
 
 
-```{r origData, fig.cap=paste("Three-dimensional plot of data (", pcdata_colname, "points) showing the x, y, and z-axes (",xyzaxis_colname, "lines) that represent the three measured variables."), out.width = "80%", results = "show"}
+```{r origData, fig.cap=paste("Figure 1. Three-dimensional plot of data (", pcdata_colname, "points) showing the x, y, and z-axes (",xyzaxis_colname, "lines) that represent the three measured variables."), out.width = "80%", results = "show"}
 
 if (is_latex_output()) {
   # plot rotated data and original pc axes (original x,y,z)
@@ -180,14 +175,14 @@ fig
 
 # The First Principal Component
 
-Although the three axes in Figure \@ref(fig:origData) define the location of the individual data points in space, *any other set of three mutually perpendicular axes will accomplish the same thing*. Our goal is to find three specific axes such that the first axis conveys the most information about the data and the third, and final axis explains any remaining information about the data.
+Although the three axes in Figure 1 define the location of the individual data points in space, *any other set of three mutually perpendicular axes will accomplish the same thing*. Our goal is to find three specific axes such that the first axis conveys the most information about the data and the third, and final axis explains any remaining information about the data.
 
 You might be able to guess where the first principal component axis lies
-if you rotate Figure \@ref(fig:origData) and look at the two-dimensional x,y-plane, the y,z-plane, and the x,z-plane. The three projections are consistent with an ellipsoid whose length is greater than its width (see the x,y-plane), and whose width is greater than its height (see y,z-plane).
+if you rotate Figure 1 and look at the two-dimensional x,y-plane, the y,z-plane, and the x,z-plane. The three projections are consistent with an ellipsoid whose length is greater than its width (see the x,y-plane), and whose width is greater than its height (see y,z-plane).
 
-> For those viewing the pdf version of this vignette and thus cannot rotate the view of the original data, we offer a bonus view to help you predict where the first principal component axis will lie (if you are viewing the html version you will not see the figure, but will see "Figure ??" in the next sentence).  Figure \@ref(fig:bonus) shows the same cloud of data as `r pcdata_colname` points in three dimensions, and projections of the data, as `r pcproj_colname` points, onto the two-dimensional x,y-plane, the y,z-plane, and the x,z-plane (in other words, the data is projected onto the "walls" of the figure). The three projections are consistent with an ellipsoid whose length is greater than its width (see the x,y-plane), and whose width is greater than its height (see y,z-plane).
+> For those viewing the pdf version of this vignette and thus cannot rotate the view of the original data, we offer a bonus view to help you predict where the first principal component axis will lie (if you are viewing the html version you will not see the figure).  This Bonus Figure shows the same cloud of data as `r pcdata_colname` points in three dimensions, and projections of the data, as `r pcproj_colname` points, onto the two-dimensional x,y-plane, the y,z-plane, and the x,z-plane (in other words, the data is projected onto the "walls" of the figure). The three projections are consistent with an ellipsoid whose length is greater than its width (see the x,y-plane), and whose width is greater than its height (see y,z-plane).
 
-```{r bonus, fig.cap=paste("The original data (as", pcdata_colname, "points) and their projection onto the x,y-plane, the y,z-plane, and the x,z-plane (as", pcproj_colname," points).")}
+```{r bonus, fig.cap=paste("Bonus Figure (pdf version only). The original data (as", pcdata_colname, "points) and their projection onto the x,y-plane, the y,z-plane, and the x,z-plane (as", pcproj_colname," points).")}
 
 if (is_latex_output()) {
   scatter3D(
@@ -211,11 +206,11 @@ if (is_latex_output()) {
 }
 ```
 
-Let's see how your guess about the first principal component worked out.  If we run the PCA and display the first principal component axis, we see that it runs along the long axis of the data cloud. Figure \@ref(fig:pc1b) shows the first principal component axis relative to the three-dimensional cloud of data seen in Figure \@ref(fig:origData). The first principal component accounts for `r round(100 * summary(pc_results)$importance[2,1], digits = 1)`% of the variation in the data.
+Let's see how your guess about the first principal component worked out.  If we run the PCA and display the first principal component axis, we see that it runs along the long axis of the data cloud. Figure 2 shows the first principal component axis relative to the three-dimensional cloud of data seen in Figure 1. The first principal component accounts for `r round(100 * summary(pc_results)$importance[2,1], digits = 1)`% of the variation in the data.
 
 <!-- **There is an interesting philosophical question here. Although I added a prcomp analysis into the prepData code block so that it is available---and used it to report variances explained by the PCs---I do not use it to define the PC axes. I'm "cheating" a bit here. The original data is defined as an ellipsoid with values along the x-axis having a greater range than the values along the y-axis, which have a greater range than the values along the z-axis. The theoretical PC axes are, then, the x-axis, the y-axis, and the z-axis, respectively. Including lots of data points means that the theoretical and calculated PCs should align closely. I then used a rotation function to rotate the data and the theoretical PC axes in space so that there is no obvious alignment of the PCs with the x, y, and z-axes. My goal is visual, so rotating the theoretical PCs seems okay. Doing things this way made it much easier to do the plotting. ** -->
 
-```{r pc1b, fig.cap=paste("The original data (as", pcdata_colname, "points) and the first principal component axis (as a", pcaxis_colname, "line)."), results = "show", out.width = "80%"}
+```{r pc1b, fig.cap=paste("Figure 2. The original data (as", pcdata_colname, "points) and the first principal component axis (as a", pcaxis_colname, "line)."), results = "show", out.width = "80%"}
 
 if (is_latex_output()) {
   scatter3D(
@@ -248,9 +243,9 @@ if (!is_latex_output()) {
 
 # The Second Principal Component
 
-To visualize the second principal component axis, we first project the data From Figure \@ref(fig:origData) onto a plane perpendicular to the first principal component axis shown in Figure \@ref(fig:pc1b). Figure \@ref(fig:pc2a) shows this where the `r pcaxis_colname` line is the first principal component, the `r pcdata_colname` box highlights a portion of the plane perpendicular to the first principal component axis, and the points in `r pcdata_colname` are the projections of the original data from Figure \@ref(fig:origData) onto this plane.  With this view we get a solid idea of where the second principal component axis will be.
+To visualize the second principal component axis, we first project the data From Figure 1 onto a plane perpendicular to the first principal component axis shown in Figure 2. Figure 3 shows this where the `r pcaxis_colname` line is the first principal component, the `r pcdata_colname` box highlights a portion of the plane perpendicular to the first principal component axis, and the points in `r pcdata_colname` are the projections of the original data from Figure 1 onto this plane.  With this view we get a solid idea of where the second principal component axis will be.
 
-```{r pc2a, fig.cap=paste("The first principal component (",pcaxis_colname, "line) and the projection of the original data (",pcdata_colname,"points) onto the plane perpendicular to the first principal component (shown with a", pcdata_colname, "boundary)."), results = "show", out.width = "80%"}
+```{r pc2a, fig.cap=paste("Figure 3. The first principal component (",pcaxis_colname, "line) and the projection of the original data (",pcdata_colname,"points) onto the plane perpendicular to the first principal component (shown with a", pcdata_colname, "boundary)."), results = "show", out.width = "80%"}
 
 if (is_latex_output()) {
   proj <- rot(x = rep(0, length(id)), y = ye, z = ze)
@@ -321,9 +316,9 @@ if (!is_latex_output()) {
 }
 ```
 
-Of course we don't need to guess! Figure \@ref(fig:pc2b), shows the second principal component axis as a  dashed `r pcaxis_colname` line. The second principal component accounts for `r round(100 * summary(pc_results)$importance[2,2], digits = 1)`% of the variation in the data; together, the first two principal components account for `r round(100 * summary(pc_results)$importance[3,2], digits = 1)`% of the variation in the data.
+Of course we don't need to guess! Figure 4, shows the second principal component axis as a  dashed `r pcaxis_colname` line. The second principal component accounts for `r round(100 * summary(pc_results)$importance[2,2], digits = 1)`% of the variation in the data; together, the first two principal components account for `r round(100 * summary(pc_results)$importance[3,2], digits = 1)`% of the variation in the data.
 
-```{r pc2b, fig.cap=paste("The result of adding the second principal component axis to the previous figure. The first principal component axis is the solid", pcaxis_colname, "line and the second principal component axis is the dashed", pcaxis_colname, "line."), results = "show", out.width = "80%"}
+```{r pc2b, fig.cap=paste("Figure 4. The result of adding the second principal component axis to the previous figure. The first principal component axis is the solid", pcaxis_colname, "line and the second principal component axis is the dashed", pcaxis_colname, "line."), results = "show", out.width = "80%"}
 
 if (is_latex_output()) {
   scatter3D(
@@ -361,9 +356,9 @@ if (!is_latex_output()) {
 
 # The Third Principal Component
 
-With the first two principal components in place, the last principal component is the only axis we can draw that is perpendicular to the two existing principal components. Figure \@ref(fig:pc3) shows the original cloud of data and all three principal component axes. In this example, the first principal component is aligned with ellipsoid's length, the second principal component is aligned with its width, and the third principal component is aligned with its height.
+With the first two principal components in place, the last principal component is the only axis we can draw that is perpendicular to the two existing principal components. Figure 5 shows the original cloud of data and all three principal component axes. In this example, the first principal component is aligned with ellipsoid's length, the second principal component is aligned with its width, and the third principal component is aligned with its height.
 
-```{r pc3, fig.cap=paste("The original data (", pcdata_colname, "points) and the three three principal component axes (", pcaxis_colname, "lines). The solid line is the first principal component, the dashed line is the second principal component, and the dotted line is the third principal component."), results = "show", out.width = "80%"}
+```{r pc3, fig.cap=paste("Figure 5. The original data (", pcdata_colname, "points) and the three three principal component axes (", pcaxis_colname, "lines). The solid line is the first principal component, the dashed line is the second principal component, and the dotted line is the third principal component."), results = "show", out.width = "80%"}
 
 if (is_latex_output()) {
   scatter3D(
@@ -406,9 +401,9 @@ if (!is_latex_output()) {
 
 # How PCA Changes the Data Cloud
 
-Although you can see this in the figures above, it merits additional emphasis here: the process of reducing the data to a lower dimension after we identify a principal component axis results in the data becoming more compact with less variation in the range of individual values. This is what we mean when we say that each principal component axis explains the greatest variability in the data in its current form. Figure \@ref(fig:dataClouds) shows how the data cloud becomes smaller in size as we decrease the dimensions of the data from (a) three, to (b) two, and to (c) one dimension; panel (d) provides a closer view of panel (c), making the individual points visible. The `r pcaxis_colname` lines in (a), (b), and (c) show the principal component axes at each step in the analysis.
+Although you can see this in the figures above, it merits additional emphasis here: the process of reducing the data to a lower dimension after we identify a principal component axis results in the data becoming more compact with less variation in the range of individual values. This is what we mean when we say that each principal component axis explains the greatest variability in the data in its current form. Figure 6 shows how the data cloud becomes smaller in size as we decrease the dimensions of the data from (a) three, to (b) two, and to (c) one dimension; panel (d) provides a closer view of panel (c), making the individual points visible. The `r pcaxis_colname` lines in (a), (b), and (c) show the principal component axes at each step in the analysis.
 
-```{r dataClouds, fig.width = 8, fig.asp = 1.0, fig.cap=paste("How the data (in", pcdata_colname, ") changes during PCA: (a) the original data in three dimensions; (b) the data after reducing to two dimensions; (c) the data after reducing to one dimension; (d) close up of (c) making it easier to see the individual data points. The", pcaxis_colname, "lines are the principal component axes at each step in the PCA analysis.")}
+```{r dataClouds, fig.width = 8, fig.asp = 1.0, fig.cap=paste("Figure 6. How the data (in", pcdata_colname, ") changes during PCA: (a) the original data in three dimensions; (b) the data after reducing to two dimensions; (c) the data after reducing to one dimension; (d) close up of (c) making it easier to see the individual data points. The", pcaxis_colname, "lines are the principal component axes at each step in the PCA analysis.")}
 old.par <- par(mfrow = c(2, 2))
 scatter3D(
   x = rotdata$xrot, y = rotdata$yrot, z = rotdata$zrot,
