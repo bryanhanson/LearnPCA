@@ -24,12 +24,6 @@ vignette: >
 #biblio-style: plain
 pkgdown:
   as_is: true
-resource_files:
-  - origData.html
-  - pc1b.html
-  - pc2a.html
-  - pc2b.html
-  - pc3.html
 ---
 
 ```{r SetUp, echo = FALSE, eval = TRUE, results = "hide"}
