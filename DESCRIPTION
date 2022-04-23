@@ -18,6 +18,11 @@ BugReports: https://github.com/bryanhanson/LearnPCA/issues
 ByteCompile: TRUE
 VignetteBuilder: knitr
 Encoding: UTF-8
+Imports:
+    markdown,
+    shiny,
+    stats,
+    graphics
 Suggests:
     ChemoSpec,
     chemometrics,
@@ -31,6 +36,6 @@ Suggests:
     latex2exp,
     plotly,
     xtable,
-    bookdown
+    bookdown,
 Roxygen: list(packages = "roxut", roclets = c("namespace", "rd", "roxut::tests_roclet"), markdown = TRUE)
 RoxygenNote: 7.1.2
