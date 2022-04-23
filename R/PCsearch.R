@@ -107,9 +107,11 @@ PCsearch <- function() {
   # server.R ----
   server <- function(input, output, session) {
 
-    find_shiny_files()
-    output$parameters <- renderUI({HTML(markdown::markdownToHTML("www/parameters.md"))})
-    output$user_guide <- renderUI({HTML(markdown::markdownToHTML("www/user_guide.md"))})
+    www <- system.file('www', package = 'LearnPCA')
+    p_file <- paste(www, "parameters.md", sep = "/")
+    output$parameters <- renderUI({HTML(markdown::markdownToHTML(p_file))})
+    ug_file <- paste(www, "user_guide.md", sep = "/")
+    output$user_guide <- renderUI({HTML(markdown::markdownToHTML(ug_file))})
     output$PCPlot <- renderPlot({
       .demo_PC_search(
         rot_ellipse = input$rot_ellipse,
@@ -124,8 +126,8 @@ PCsearch <- function() {
         shiny = TRUE
       )
       # note the plot calls for asp = 1 which really controls the appearance
-      width <- 800
-      height <- 800
+      width <- 1000
+      height <- 1000
     })
   }
 
