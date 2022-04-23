@@ -97,10 +97,6 @@ PCsearch <- function() {
         tabsetPanel(
           type = "tabs",
           tabPanel("Plot", plotOutput(outputId = "PCPlot", width = "100%")),
-          # tabPanel("Parameters"),
-          # tabPanel("User Guide")
-          # tabPanel("Parameters", includeMarkdown("parameters.md")),
-          # tabPanel("User Guide", includeMarkdown("user_guide.md"))
           tabPanel("Parameters", uiOutput("parameters")),
           tabPanel("User Guide", uiOutput("user_guide"))
         )
