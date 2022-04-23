@@ -19,7 +19,7 @@ PCsearch <- function() {
 
     # App title ----
     titlePanel("Searching for the Principal Component"),
-
+ 
     # Sidebar layout with input and output definitions ----
     sidebarLayout(
 
@@ -91,27 +91,36 @@ PCsearch <- function() {
       ),
 
       # Main panel for displaying outputs ----
+
       mainPanel(
 
         # Output: Tabset
+
         tabsetPanel(
           type = "tabs",
-          tabPanel("Plot", plotOutput(outputId = "PCPlot", width = "100%")),
+          # tabPanel("Plot", plotOutput(outputId = "PCPlot", width = "100%")),
+          tabPanel("Plot", plotOutput(outputId = "PCPlot")),
           tabPanel("Parameters", uiOutput("parameters")),
           tabPanel("User Guide", uiOutput("user_guide"))
-        )
+        ),
       )
     )
   )
-
   # server.R ----
   server <- function(input, output, session) {
 
     www <- system.file('www', package = 'LearnPCA')
     p_file <- paste(www, "parameters.md", sep = "/")
-    output$parameters <- renderUI({HTML(markdown::markdownToHTML(p_file))})
     ug_file <- paste(www, "user_guide.md", sep = "/")
-    output$user_guide <- renderUI({HTML(markdown::markdownToHTML(ug_file))})
+
+    output$parameters <- renderUI({
+      HTML(markdown::markdownToHTML(p_file))
+    })
+
+    output$user_guide <- renderUI({
+      HTML(markdown::markdownToHTML(ug_file))
+    })
+
     output$PCPlot <- renderPlot({
       .demo_PC_search(
         rot_ellipse = input$rot_ellipse,
@@ -125,9 +134,6 @@ PCsearch <- function() {
         show_all_PC1 = input$show_all_PC1,
         shiny = TRUE
       )
-      # note the plot calls for asp = 1 which really controls the appearance
-      width <- 1000
-      height <- 1000
     })
   }
 
