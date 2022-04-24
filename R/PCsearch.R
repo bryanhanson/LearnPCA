@@ -91,11 +91,9 @@ PCsearch <- function() {
       ),
 
       # Main panel for displaying outputs ----
-
       mainPanel(
 
-        # Output: Tabset
-
+        # Output: Tabset ----
         tabsetPanel(
           type = "tabs",
           tabPanel("Plot", plotOutput(outputId = "PCPlot", width = "700px", height = "700px")),
@@ -106,6 +104,7 @@ PCsearch <- function() {
       )
     )
   )
+
   # server.R ----
   server <- function(input, output, session) {
 
