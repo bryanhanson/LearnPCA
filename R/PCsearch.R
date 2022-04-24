@@ -98,8 +98,8 @@ PCsearch <- function() {
 
         tabsetPanel(
           type = "tabs",
-          # tabPanel("Plot", plotOutput(outputId = "PCPlot", width = "100%")),
-          tabPanel("Plot", plotOutput(outputId = "PCPlot")),
+          tabPanel("Plot", plotOutput(outputId = "PCPlot", width = "700px", height = "700px")),
+          # tabPanel("Plot", plotOutput(outputId = "PCPlot")),
           tabPanel("Parameters", uiOutput("parameters")),
           tabPanel("User Guide", uiOutput("user_guide"))
         ),
@@ -109,16 +109,20 @@ PCsearch <- function() {
   # server.R ----
   server <- function(input, output, session) {
 
-    www <- system.file('www', package = 'LearnPCA')
+    # get local files (addResourcePath did not work here)
+    # app.css is identical to markdown.css but 'body' is commented out as it
+    # was overriding the main container
+    www <- system.file("www", package = "LearnPCA")
     p_file <- paste(www, "parameters.md", sep = "/")
     ug_file <- paste(www, "user_guide.md", sep = "/")
+    css_file <- paste(www, "app.css", sep = "/")
 
     output$parameters <- renderUI({
-      HTML(markdown::markdownToHTML(p_file))
+      HTML(markdown::markdownToHTML(p_file, stylesheet = css_file))
     })
 
     output$user_guide <- renderUI({
-      HTML(markdown::markdownToHTML(ug_file))
+      HTML(markdown::markdownToHTML(ug_file, stylesheet = css_file))
     })
 
     output$PCPlot <- renderPlot({
