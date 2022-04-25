@@ -12,8 +12,8 @@
 #' @param seed Integer.  The seed to use for random number generation.
 #' @param rot_axes Numeric.  The angle to rotate the test axes.
 #' @param show_all_PC1 Logical.  If `TRUE` all the projections from the data onto the
-#'        first test/proposed principal axis are shown.  If `FALSE`, projections are shown
-#'        from one selected data point onto each test/proposed axis.
+#'        first proposed principal axis are shown.  If `FALSE`, projections are shown
+#'        from one selected data point onto each proposed axis.
 #' @param shiny Logical.  If `TRUE` certain plot annotations are supressed for use in Shiny.
 #'
 #' @return None. Side effect is a plot.
@@ -29,7 +29,13 @@
 
   set.seed(seed) # set inside here so same data set is used in each plot
 
-  # all troubleshooting plot options turned off in these next functions
+  # define colors
+  pPC1_col <- "#3db7ed"
+  pPC1_colname <- "light blue"
+  pPC2_col <- "#f748a5"
+  pPC2_colname <- "pink"
+  proj_col <- "#d55e00"
+
   # as the data will be plotted later
 
   res <- .generate_2D_ellipse(
@@ -61,23 +67,24 @@
   points(res$x, res$y)
 
   # draw reference lines
-  abline(v = 0.0, h = 0.0, col = "gray90", lty = "dotted")
-  abline(v = res$xc, h = res$yc, col = "gray90")
+  abline(v = 0.0, h = 0.0, col = "gray90", lty = 2)
+  abline(h = res$yc, col = pPC1_col, lty = 2)
+  abline(v = res$xc, col = pPC2_col, lty = 2)
 
   # draw axes of ellipse
   npnp <- .check_npnp(res2)
   if (npnp["npnp"]) {
-    abline(coef = c(res2[2], res2[1]))
-    abline(coef = c(res2[4], res2[3]), col = "red")
+    abline(coef = c(res2[2], res2[1]), col = pPC1_col)
+    abline(coef = c(res2[4], res2[3]), col = pPC2_col)
   }
   if (!npnp["npnp"]) {
    if (rot_axes == 0.0 | rot_axes == -0.0 | rot_axes == 180.0 | rot_axes == -180.0) {
-     abline(v = 0.0, col = "red")
-     abline(h = 0.0)
+     abline(v = 0.0, col = pPC2_col)
+     abline(h = 0.0, col = pPC1_col)
    }
    if (rot_axes == 90.0 | rot_axes == -90.0) {
-     abline(v = 0.0)
-     abline(h = 0.0, col = "red")
+     abline(v = 0.0, col = pPC1_col)
+     abline(h = 0.0, col = pPC2_col)
    }
   }
   # add projected points
@@ -94,11 +101,11 @@
     spc <- res$sp
     segments(res$x[spc], res$y[spc],
       res3$axis_1_projection[1, spc], res3$axis_1_projection[2, spc],
-      col = "orange"
+      col = proj_col
     )
     segments(res$x[spc], res$y[spc],
       res3$axis_2_projection[1, spc], res3$axis_2_projection[2, spc],
-      col = "orange"
+      col = proj_col
     )
   }
 
@@ -110,5 +117,5 @@
   percent_axis2 <- round(100 * var_axis2 / var_total, 1)
   leg1 <- paste("var PC1:", as.character(percent_axis1), sep = " ")
   leg2 <- paste("var PC2:", as.character(percent_axis2), sep = " ")
-  legend("topleft", legend = c(leg1, leg2), bty = "n")
+  legend("topleft", legend = c(leg1, leg2), bty = "n", text.col = c(pPC1_col, pPC2_col))
 }

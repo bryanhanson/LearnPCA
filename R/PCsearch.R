@@ -14,6 +14,13 @@
 
 PCsearch <- function() {
 
+  # define colors
+  pPC1_col <- "#f748a5"
+  pPC1_colname <- "pink"
+  pPC2_col <- "#3db7ed"
+  pPC2_colname <- "light blue"
+  proj_col <- 
+
   # ui.R ----
   ui <- fluidPage(
 
