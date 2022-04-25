@@ -4,7 +4,7 @@
 
 The test axes are a proposed new axis system (basis) for the first and second principal components.  As you change this value the test axes rotate and the corresponding variance is updated.
 
-The proposed first axis is in black, and the proposed second axis is red. Positive values are degrees CCW relative to the positive x-axis.  When the variance for test axis one is maximized, that axis is now principal component axi one, and the other axis is principal component axis two.
+The proposed first axis is in light blue, and the proposed second axis is pink. Positive rotations are degrees CCW relative to the positive x-axis.  When the variance for test axis one is maximized, that axis is now principal component axis one, and the other axis is principal component axis two.
 
 ### Show all projections on PC1
 
