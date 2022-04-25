@@ -248,10 +248,10 @@ plot_rot_axes = function(file, show_rotated = TRUE,
   min_id = which.min(file$y_original)
   lines(x = c(file$x_original[min_id], file$axis1_x[min_id]),
         y = c(file$y_original[min_id], file$axis1_y[min_id]),
-        lty = 1, lwd = 2, col = "gray80")
+        lty = 1, lwd = 2, col = "#d55e00")
   lines(x = c(file$x_original[min_id], file$axis2_x[min_id]),
         y = c(file$y_original[min_id], file$axis2_y[min_id]),
-        lty = 1,lwd = 2, col = "gray80")
+        lty = 1,lwd = 2, col = "#d55e00")
   }
 
   # show loadings for first axis

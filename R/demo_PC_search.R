@@ -29,14 +29,10 @@
 
   set.seed(seed) # set inside here so same data set is used in each plot
 
-  # define colors
-  pPC1_col <- "#3db7ed"
-  pPC1_colname <- "light blue"
-  pPC2_col <- "#f748a5"
-  pPC2_colname <- "pink"
-  proj_col <- "#d55e00"
-
-  # as the data will be plotted later
+  # define colors (pPC1 = proposed PC1)
+  pPC1_col <- "#3db7ed" # light blue
+  pPC2_col <- "#f748a5" # pink
+  proj_col <- "#d55e00" # dark orange
 
   res <- .generate_2D_ellipse(
     x_center = x_center, y_center = y_center,
@@ -48,11 +44,11 @@
   res3 <- .project_data_onto_axes(res, res2, plot = FALSE)
 
   # Construct the base plot manually.
-  # Stretch limits by 30% to accommodate the projections when the test axes are rotated.
+  # Stretch limits by 50% to accommodate the projections when the test axes are rotated.
   # The interactions between parameters may lead to the points being predominately
   #   spread along either axis, and then when rot_ellipse is changed they may suddenly
   #   be spread along the other axis.  Depending upon the value of rot_axes the
-  #   projections may be off the screen, so 30% is a compromise.
+  #   projections may be off the screen, so 50% is a compromise.
   # However, the appearance of the plot is dominated by asp = 1 so that the physical
   #   distance for a 1 unit change is the same on each axis.
   xl <- range(res$x) + diff(range(res$x)) * c(-1, 1) * 0.5
