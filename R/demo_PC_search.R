@@ -75,12 +75,12 @@
   }
   if (!npnp["npnp"]) {
    if (rot_axes == 0.0 | rot_axes == -0.0 | rot_axes == 180.0 | rot_axes == -180.0) {
-     abline(v = 0.0, col = pPC2_col)
-     abline(h = 0.0, col = pPC1_col)
+     abline(v = res$xc, col = pPC2_col)
+     abline(h = res$yc, col = pPC1_col)
    }
    if (rot_axes == 90.0 | rot_axes == -90.0) {
-     abline(v = 0.0, col = pPC1_col)
-     abline(h = 0.0, col = pPC2_col)
+     abline(v = res$xc, col = pPC1_col)
+     abline(h = res$yc, col = pPC2_col)
    }
   }
   # add projected points

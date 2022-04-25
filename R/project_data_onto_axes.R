@@ -73,15 +73,16 @@
   } # end of npnp (not perpendicular nor parallel)
 
   if (!npnp["npnp"]) { # special cases; construct projection manually
-    zeros <- rep(0.0, length(x))
+    x_fixed <- rep(xc, length(x))
+    y_fixed <- rep(yc, length(y))
     if (npnp["perp"]) {
-      proj_1c <- matrix(c(zeros, raw[2, ]), nrow = 2, byrow = TRUE)
-      proj_2c <- matrix(c(raw[1, ], zeros), nrow = 2, byrow = TRUE)
+      proj_1c <- matrix(c(x_fixed, raw[2, ]), nrow = 2, byrow = TRUE)
+      proj_2c <- matrix(c(raw[1, ], y_fixed), nrow = 2, byrow = TRUE)
       if (plot) points(proj_1c[1, ], proj_1c[2, ], col = "orange")
     }
     if (npnp["para"]) {
-      proj_1c <- matrix(c(raw[1, ], zeros), nrow = 2, byrow = TRUE)
-      proj_2c <- matrix(c(zeros, raw[2, ]), nrow = 2, byrow = TRUE)
+      proj_1c <- matrix(c(raw[1, ], y_fixed), nrow = 2, byrow = TRUE)
+      proj_2c <- matrix(c(x_fixed, raw[2, ]), nrow = 2, byrow = TRUE)
       if (plot) points(proj_1c[1, ], proj_1c[2, ], col = "orange")
     }
   }
