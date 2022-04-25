@@ -106,7 +106,7 @@ percent_var1 = 100*var1/total_variance
 
 A cursory examination of Figure \@ref(fig:fig-origData) shows us that there is a positive correlation between the two variables; that is, a general increase in the value for one variable results in a general increase in the value for the other variable. As you might expect from other vignettes, this correlation between the two variables suggests that a single principal component is likely sufficient to explain the data.
 
-Another way to examine our data is to consider the relative dispersion in the values for each variable. A cursory examination of the data in Table \@ref(tab:table-origData) shows that variable 2 spans a greater range of values (from `r round(min(variable2), digits = 2)` to `r round(max(variable2), digits = 2)`) than do the values for variable 1 (from `r round(min(variable1), digits = 2)` to `r round(max(variable1), digits = 2)`). We can treat this quantitatively by reporting the variance[^1] for each variable and the total variance, which is the sum of the variances for the two variables:
+Another way to examine our data is to consider the relative dispersion in the values for each variable. An examination of the data in Table \@ref(tab:table-origData) shows that variable 2 spans a greater range of values (from `r round(min(variable2), digits = 2)` to `r round(max(variable2), digits = 2)`) than do the values for variable 1 (from `r round(min(variable1), digits = 2)` to `r round(max(variable1), digits = 2)`). We can treat this quantitatively by reporting the variance[^1] for each variable and the total variance, which is the sum of the variances for the two variables:
 
 - variable 1's variance: `r round(var1, digits = 2)`
 
@@ -120,7 +120,7 @@ Variable 2 accounts for `r round(percent_var2, digits = 1)`% of the total varian
 
 As outlined in the vignette [Visualizing PCA in 3D](#top-matter), a principal component analysis essentially is a process of rotating our original set of $n$ axes, which correspond to the $n$ variables we measured, until we find a new axis that explains as much of the total variance as possible. This becomes the first principal component axis. We then project the data onto the $n - 1$ dimensional surface that is perpendicular to this axis and repeat this process of rotation and projection until the original $n$ axes are replaced with a new set of $n$ principal component axes.
 
-For a system with just two variables, this process amounts to a simple rotation of the two axes. Suppose we arbitrarily rotate the axes in Figure \@ref(fig:fig-origData) clockwise by 20$^\circ$ and project the data points onto the new axes. Figure \@ref(fig:rotate20) shows the result where the dashed lines are the original axes associated with variable 1 and variable 2, and the solid lines are the rotated axes, which we identify for now as axis A and axis B to clarify that they are not specifically associated with one of the two variables, nor with the principal components we eventually hope to find. It is easy to see---both visually and quantitatively---that the total variance is more evenly distributed between the two rotated axes than was the case for the original two axes.  Even more importantly, the variance associated with axis A has increased from 22.8% to 55.4%. One can see this graphically by looking at the span of the pink and blue projection points on each axis.
+For a system with just two variables, this process amounts to a simple rotation of the two axes. Suppose we arbitrarily rotate the axes in Figure \@ref(fig:fig-origData) clockwise by 20$^\circ$ and project the data points onto the new axes. Figure \@ref(fig:rotate20) shows the result where the dashed lines are the original axes associated with variable 1 and variable 2, and the solid lines are the rotated axes, which we identify for now as axis A and axis B to clarify that they are not specifically associated with one of the two variables, nor with the principal components we eventually hope to find (think of axes A and B as "proposed principal components"). It is easy to see---both visually and quantitatively---that the total variance is more evenly distributed between the two rotated axes than was the case for the original two axes.  Even more importantly, the variance associated with axis A has increased from 22.8% to 55.4%. One can see this graphically by looking at the span of the pink and blue projection points on each axis.
 
 ```{r rotate20, fig.align="center", fig.cap="Rotating the original axes by 20$^\\circ$ gives the axes shown as solid lines. The small points in pink and in blue are the projections of the original data onto the rotated axes. The gray lines serve as a guide to illustrate the projections for one data point."}
 plot_rot_axes(rotate20, show_loadings = FALSE, show_simple_legend = FALSE,
@@ -128,13 +128,15 @@ plot_rot_axes(rotate20, show_loadings = FALSE, show_simple_legend = FALSE,
               show_scores = TRUE, show_projections = TRUE)
 ```
 
-If we continue to rotate the axes, we discover that an angle of rotation of 60$^\circ$ yields an axis (axis A) that explains almost 99% of the total variance in our eight samples. At this point we have maximized the variance for this axis, because further rotation will reduce the variance; we'll call this axis the first principal component axis.  The remaining axis, which is perpendicular to the first principal component axis, is the second principal component axis.[^5]
+If we continue to rotate the axes, we discover that an angle of rotation of 60$^\circ$ yields an axis (axis A) that explains almost 99% of the total variance in our eight samples. At this point we have maximized the variance for this axis, because further rotation will reduce the variance. As a result, we can now call this axis the first principal component axis.  The remaining axis, which is perpendicular to the first principal component axis, is the second principal component axis.[^5]
 
 ```{r rotate60, fig.align="center", fig.cap="Rotating the original axes by 60$^\\circ$ maximizes the variance along one of the two rotated axes; the line in pink is the first principal component axis and the line in blue is the second principal component axis.  The gray lines serve as a guide to illustrate the projections for one data point."}
 plot_rot_axes(rotate60, show_loadings = FALSE, show_simple_legend = FALSE,
               show_full_legend = TRUE, show_full_axes_legend = FALSE,
               show_scores = TRUE, show_projections = TRUE)
 ```
+
+If you would like to further explore the interplay of the data, the rotation of the proposed axes and the variance, please try the shiny app by running `PCsearch()`.
 
 # Scores
 
