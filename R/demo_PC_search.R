@@ -60,7 +60,7 @@
   if (!shiny) title(main = paste("Axes Angle =", rot_axes, sep = " "))
 
   # draw rotated ellipse
-  points(res$x, res$y)
+  points(res$x, res$y, pch = 19)
 
   # draw reference lines
   abline(v = 0.0, h = 0.0, col = "gray90", lty = 2)
@@ -84,8 +84,8 @@
    }
   }
   # add projected points
-    points(res3$axis_1_projection[1, ], res3$axis_1_projection[2, ], pch = 19)
-    points(res3$axis_2_projection[1, ], res3$axis_2_projection[2, ], pch = 19)
+    points(res3$axis_1_projection[1, ], res3$axis_1_projection[2, ], pch = 20, col = pPC1_col)
+    points(res3$axis_2_projection[1, ], res3$axis_2_projection[2, ], pch = 20, col = pPC2_col)
  
   # either show all projections onto PC1 or just show the one
   if (show_all_PC1) {
