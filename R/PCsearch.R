@@ -42,7 +42,7 @@ PCsearch <- function() {
         ),
         checkboxInput(
           inputId = "show_all_PC1",
-          label = "Show all projections on PC1",
+          label = "Show all projections on proposed PC1",
           value = FALSE
         ),
         sliderInput(
