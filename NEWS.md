@@ -1,3 +1,6 @@
+# LearnPCA 0.2.0 2022-05-01
+* Added shiny app in function `PCsearch`.
+
 # LearnPCA 0.1.4 2022-03-31
 * Removed use of `kableExtra` as CRAN had detected problems there, and no fix is imminent.
 
