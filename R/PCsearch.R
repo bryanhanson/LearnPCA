@@ -3,6 +3,7 @@
 #'  for a randomly generated set of data.
 #'
 #'  @return  None.  A web page opens with the application running.
+#'
 #'  @author Bryan A. Hanson, David T. Harvey
 #'
 #' @import shiny
@@ -13,13 +14,6 @@
 #'
 
 PCsearch <- function() {
-
-  # define colors
-  pPC1_col <- "#f748a5"
-  pPC1_colname <- "pink"
-  pPC2_col <- "#3db7ed"
-  pPC2_colname <- "light blue"
-  proj_col <- 
 
   # ui.R ----
   ui <- fluidPage(
