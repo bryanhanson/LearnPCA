@@ -1,4 +1,6 @@
 #'
+#'  Demonstrate the Search for New Principal Component Axes
+#'
 #'  Shiny application to demonstrate the search for the 1st two principal components
 #'  for a randomly generated set of data.
 #'

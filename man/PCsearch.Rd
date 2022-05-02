@@ -2,12 +2,16 @@
 % Please edit documentation in R/PCsearch.R
 \name{PCsearch}
 \alias{PCsearch}
-\title{Shiny application to demonstrate the search for the 1st two principal components
-for a randomly generated set of data.}
+\title{Demonstrate the Search for New Principal Component Axes}
 \usage{
 PCsearch()
 }
 \description{
+Shiny application to demonstrate the search for the 1st two principal components
+for a randomly generated set of data.
+}
+\details{
 @return  None.  A web page opens with the application running.
+
 @author Bryan A. Hanson, David T. Harvey
 }
