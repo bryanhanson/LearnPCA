@@ -6,6 +6,12 @@
 
 `LearnPCA` is an `R` package to help people learn about Principal component analysis (PCA), which is one of the most widely used data analysis techniques.  This package provides a series of vignettes explaining PCA starting from basic concepts. The primary purpose is to serve as a self-study resource for anyone wishing to understand PCA better. A few convenience functions are provided as well.
 
+### Installing LearnPCA from CRAN:
+
+````r
+install.packages("LearnPCA")
+````
+
 ### Installing LearnPCA from Github:
 
 ````r
