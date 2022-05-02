@@ -19,3 +19,4 @@ Finally, as you study, remember that a lot of the confusion comes from jargon th
 * *A Tutorial on Principal Components Analysis" Jonathan Shlens.  7 April 2014. [access](https://arxiv.org/abs/1404.1100).
 * [Dimensionality Reduction For Dummies — Part 1: Intuition](https://towardsdatascience.com/https-medium-com-abdullatif-h-dimensionality-reduction-for-dummies-part-1-a8c9ec7b7e79) Note: behind paywall.
 * [You Don’t Know SVD: Truly Understanding SVD — The Intuitive Core Idea](https://towardsdatascience.com/svd-8c2f72e264f) Note: behind paywall.
+* [The Math of Principal Components Analysis](https://medium.com/analytics-vidhya/the-math-of-principal-component-analysis-pca-bf7da48247fc)
