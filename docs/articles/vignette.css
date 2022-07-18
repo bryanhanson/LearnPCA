@@ -1,0 +1,12 @@
+div.top-matter {
+  color:            #000000;
+  border: 5px solid #FF4500;
+  background-color: #FAFAFA;
+  width:       100%;
+  max-width:   650px;
+  padding:     10px;
+  margin:      auto;
+  margin-top:    5em;
+  margin-bottom: 5em;
+  border-radius: 10px;
+}
