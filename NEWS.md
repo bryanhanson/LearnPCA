@@ -1,3 +1,6 @@
+# LearnPCA 0.2.1 2022-07-18
+* Fixed a problem with cross-references to figures and tables in Vig_06.
+
 # LearnPCA 0.2.0 2022-05-01
 * Added shiny app in function `PCsearch`.
 
