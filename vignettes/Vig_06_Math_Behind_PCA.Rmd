@@ -5,7 +5,7 @@ author:
   - Bryan A. Hanson^[Professor Emeritus of Chemistry & Biochemistry, DePauw University, Greencastle IN USA., hanson@depauw.edu]
 date:  "`r Sys.Date()`"
 output:
-    rmarkdown::html_document: # use for pkgdown site
+    bookdown::html_document2: # use for pkgdown site
 #      bookdown::pdf_document2: # use for CRAN to keep size down; breaks GHA
       toc: yes
       toc_depth: 2
