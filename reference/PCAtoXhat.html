@@ -21,7 +21,7 @@ We are grateful for this post by StackOverflow contributor "Marc in the box."'><
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">LearnPCA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.1</span>
       </span>
     </div>
 
@@ -89,53 +89,58 @@ We are grateful for this post by StackOverflow contributor "Marc in the box."</p
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">PCAtoXhat</span><span class="op">(</span><span class="va">pca</span>, ncomp <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">PCAtoXhat</span><span class="op">(</span><span class="va">pca</span>, ncomp <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>pca</dt>
 <dd><p>An object of class <code>prcomp</code> or <code>princomp</code> (automatically detected).  #'        The results of data reduction by PCA.</p></dd>
+
+
 <dt>ncomp</dt>
 <dd><p>Integer.  The number of principal components to use in reconstructing
 the data set.  Must be no larger than the number of variables.  If not
 specified, all the components are used and the original data set is
 reconstructed.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A matrix with the same dimensions as <code>pca$x</code> (the dimensions of the
+    
+
+<p>A matrix with the same dimensions as <code>pca$x</code> (the dimensions of the
 original data set).</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># Example data from ?prcomp (see discussion at Stats.StackExchange.com/q/397793)</span></span>
-<span class="r-in"><span class="va">C</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/chol.html" class="external-link">chol</a></span><span class="op">(</span><span class="va">S</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/toeplitz.html" class="external-link">toeplitz</a></span><span class="op">(</span><span class="fl">.9</span> <span class="op">^</span> <span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">31</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">17</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">X</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">32000</span><span class="op">)</span>, <span class="fl">1000</span>, <span class="fl">32</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">Z</span> <span class="op">&lt;-</span> <span class="va">X</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="va">C</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">pcaz</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/prcomp.html" class="external-link">prcomp</a></span><span class="op">(</span><span class="va">Z</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">tst</span> <span class="op">&lt;-</span> <span class="fu">PCAtoXhat</span><span class="op">(</span><span class="va">pcaz</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="va">tst</span>, <span class="va">Z</span>, check.attributes <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Example data from ?prcomp (see discussion at Stats.StackExchange.com/q/397793)</span></span></span>
+<span class="r-in"><span><span class="va">C</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/chol.html" class="external-link">chol</a></span><span class="op">(</span><span class="va">S</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/toeplitz.html" class="external-link">toeplitz</a></span><span class="op">(</span><span class="fl">.9</span> <span class="op">^</span> <span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">31</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">17</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">X</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">32000</span><span class="op">)</span>, <span class="fl">1000</span>, <span class="fl">32</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">Z</span> <span class="op">&lt;-</span> <span class="va">X</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="va">C</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">pcaz</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/prcomp.html" class="external-link">prcomp</a></span><span class="op">(</span><span class="va">Z</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">tst</span> <span class="op">&lt;-</span> <span class="fu">PCAtoXhat</span><span class="op">(</span><span class="va">pcaz</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="va">tst</span>, <span class="va">Z</span>, check.attributes <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Plot to show the effect of increasing ncomp</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">ntests</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">Z</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">rmsd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="cn">NA_real_</span>, <span class="va">ntests</span><span class="op">)</span></span>
-<span class="r-in"><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">ntests</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in">  <span class="va">ans</span> <span class="op">&lt;-</span> <span class="fu"><a href="XtoPCAtoXhat.html">XtoPCAtoXhat</a></span><span class="op">(</span><span class="va">X</span>, <span class="va">i</span>, <span class="va">sd</span><span class="op">)</span></span>
-<span class="r-in">  <span class="va">del</span><span class="op">&lt;-</span> <span class="va">ans</span> <span class="op">-</span> <span class="va">X</span></span>
-<span class="r-in">  <span class="va">rmsd</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">del</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">del</span><span class="op">)</span><span class="op">)</span> <span class="co"># RMSD</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">rmsd</span>, type <span class="op">=</span> <span class="st">"b"</span>,</span>
-<span class="r-in">  main <span class="op">=</span> <span class="st">"Root Mean Squared Deviation\nReconstructed - Original Data"</span>,</span>
-<span class="r-in">  xlab <span class="op">=</span> <span class="st">"No. of Components Retained"</span>, ylab <span class="op">=</span> <span class="st">"RMSD"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>h <span class="op">=</span> <span class="fl">0.0</span>, col <span class="op">=</span> <span class="st">"pink"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Plot to show the effect of increasing ncomp</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">ntests</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">Z</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">rmsd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="cn">NA_real_</span>, <span class="va">ntests</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">ntests</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="va">ans</span> <span class="op">&lt;-</span> <span class="fu"><a href="XtoPCAtoXhat.html">XtoPCAtoXhat</a></span><span class="op">(</span><span class="va">X</span>, <span class="va">i</span>, <span class="va">sd</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">del</span><span class="op">&lt;-</span> <span class="va">ans</span> <span class="op">-</span> <span class="va">X</span></span></span>
+<span class="r-in"><span>  <span class="va">rmsd</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">del</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">del</span><span class="op">)</span><span class="op">)</span> <span class="co"># RMSD</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">rmsd</span>, type <span class="op">=</span> <span class="st">"b"</span>,</span></span>
+<span class="r-in"><span>  main <span class="op">=</span> <span class="st">"Root Mean Squared Deviation\nReconstructed - Original Data"</span>,</span></span>
+<span class="r-in"><span>  xlab <span class="op">=</span> <span class="st">"No. of Components Retained"</span>, ylab <span class="op">=</span> <span class="st">"RMSD"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>h <span class="op">=</span> <span class="fl">0.0</span>, col <span class="op">=</span> <span class="st">"pink"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="PCAtoXhat-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -150,7 +155,7 @@ original data set).</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

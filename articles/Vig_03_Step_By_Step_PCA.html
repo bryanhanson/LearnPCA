@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">LearnPCA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.1</span>
       </span>
     </div>
 
@@ -102,7 +102,7 @@
                         <h4 data-toc-skip class="author">Bryan A. Hanson<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>
 </h4>
             
-            <h4 data-toc-skip class="date">2022-05-02</h4>
+            <h4 data-toc-skip class="date">2022-07-18</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/bryanhanson/LearnPCA/blob/HEAD/vignettes/Vig_03_Step_By_Step_PCA.Rmd" class="external-link"><code>vignettes/Vig_03_Step_By_Step_PCA.Rmd</code></a></small>
       <div class="hidden name"><code>Vig_03_Step_By_Step_PCA.Rmd</code></div>
@@ -114,7 +114,7 @@
 <!-- This chunk inserts common info about all the vignettes -->
 <!-- ======================================================================= -->
 <div class="top-matter">
-<p><em>This vignette is based upon <code>LearnPCA</code> version 0.2.0.</em></p>
+<p><em>This vignette is based upon <code>LearnPCA</code> version 0.2.1.</em></p>
 <p><code>LearnPCA</code> provides the following vignettes: <a name="top-matter"></a></p>
 <ul>
 <li><a href="http://bryanhanson.github.io/LearnPCA/articles/Start_Here.html" class="external-link">Start Here</a></li>
@@ -142,18 +142,18 @@
 <p>To illustrate the process, we’ll use a portion of a data set containing measurements of metal pollutants in the estuary shared by the Tinto and Odiel rivers in southwest Spain. The full data set is found in the package <code>ade4</code>; we’ll use data for just a couple of elements and a few samples. This 16 sample, two variable data set will make it easier to visualize the steps as we go. Table <a href="#tab:metals-raw-table">1</a> shows the values, and we’ll refer to this as the <code>FeCu</code> data set (since we are using the data for iron and copper). It’s important at this point to remember that the samples are in rows, and the variables are in columns. Also, notice that the values for Fe<sub>2</sub>O<sub>3</sub> are in percentages, but the values for Cu are in ppm (parts per million).</p>
 <p>Figure <a href="#fig:plot-raw-dotplot">1</a> is a plot showing the range of the values; Figure <a href="#fig:plot-raw-data-2D">2</a> gives another view of the same data, plotting the concentrations of copper against iron.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">tintoodiel</span><span class="op">)</span> <span class="co"># activate the data set from package ade4</span>
-<span class="va">TO</span> <span class="op">&lt;-</span> <span class="va">tintoodiel</span><span class="op">$</span><span class="va">tab</span> <span class="co"># to save typing, rename the element with the data</span>
-<span class="co"># select just a few samples (in rows) &amp; variables (in columns)</span>
-<span class="va">FeCu</span> <span class="op">&lt;-</span> <span class="va">TO</span><span class="op">[</span><span class="fl">28</span><span class="op">:</span><span class="fl">43</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Fe2O3"</span>, <span class="st">"Cu"</span><span class="op">)</span><span class="op">]</span>
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">FeCu</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">##      Fe2O3             Cu         </span>
-<span class="co">##  Min.   : 7.35   Min.   :  1.052  </span>
-<span class="co">##  1st Qu.:11.61   1st Qu.:  2.192  </span>
-<span class="co">##  Median :13.05   Median :238.000  </span>
-<span class="co">##  Mean   :15.38   Mean   :224.496  </span>
-<span class="co">##  3rd Qu.:18.73   3rd Qu.:356.250  </span>
-<span class="co">##  Max.   :32.40   Max.   :787.000</span></code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">tintoodiel</span><span class="op">)</span> <span class="co"># activate the data set from package ade4</span></span>
+<span><span class="va">TO</span> <span class="op">&lt;-</span> <span class="va">tintoodiel</span><span class="op">$</span><span class="va">tab</span> <span class="co"># to save typing, rename the element with the data</span></span>
+<span><span class="co"># select just a few samples (in rows) &amp; variables (in columns)</span></span>
+<span><span class="va">FeCu</span> <span class="op">&lt;-</span> <span class="va">TO</span><span class="op">[</span><span class="fl">28</span><span class="op">:</span><span class="fl">43</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Fe2O3"</span>, <span class="st">"Cu"</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">FeCu</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##      Fe2O3             Cu         </span></span>
+<span><span class="co">##  Min.   : 7.35   Min.   :  1.052  </span></span>
+<span><span class="co">##  1st Qu.:11.61   1st Qu.:  2.192  </span></span>
+<span><span class="co">##  Median :13.05   Median :238.000  </span></span>
+<span><span class="co">##  Mean   :15.38   Mean   :224.496  </span></span>
+<span><span class="co">##  3rd Qu.:18.73   3rd Qu.:356.250  </span></span>
+<span><span class="co">##  Max.   :32.40   Max.   :787.000</span></span></code></pre>
 <table class="table">
 <caption>
 <span id="tab:metals-raw-table">Table 1: </span>The FeCu data set. Values for Fe<sub>2</sub>O<sub>3</sub> are percentages, those for Cu are ppm.</caption>
@@ -247,7 +247,7 @@ Figure 2: The relationship between the raw data values in <code>FeCu</code>.
 <p>The first step is to center the data.</p>
 <p>When we center the data, we take each column, corresponding to a particular variable, and subtract the mean of that column from each value in the column. Thus, regardless of the original values in the column, the centered values are now expressed relative to the mean value for that column. The function <code>scale</code> can do this for us (in spite of its name, <code>scale</code> can both center and scale):</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">FeCu_centered</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/scale.html" class="external-link">scale</a></span><span class="op">(</span><span class="va">FeCu</span>, scale <span class="op">=</span> <span class="cn">FALSE</span>, center <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># see ?scale for defaults</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">FeCu_centered</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/scale.html" class="external-link">scale</a></span><span class="op">(</span><span class="va">FeCu</span>, scale <span class="op">=</span> <span class="cn">FALSE</span>, center <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># see ?scale for defaults</span></span></code></pre></div>
 <p>Figure <a href="#fig:plot-centered-data">3</a> is a plot of the centered values. Note how the values on the y-axis have changed compared to the raw data. It’s apparent that the ranges of the chosen variables are quite different. This is a classic case where scaling is desirable, otherwise the variable with larger values will dominate the PCA results.</p>
 <div class="figure">
 <span style="display:block;" id="fig:plot-centered-data"></span>
@@ -263,12 +263,12 @@ Figure 3: Centered data values in <code>FeCu</code>.
 <p>Scaling the data is optional. If the range of the variables (which, recall, are in the columns) are approximately the same, one generally does not scale the data. However, if some variables have much larger ranges, they will dominate the PCA results. You may want this to happen, or you may not, and in many cases it is wise to try different scaling options. As mentioned above, the <code>FeCu</code> data set should be scaled to avoid the Cu values dominating the analysis, since these values are larger.<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a></p>
 <p>To scale the data, we can use <code>scale</code> again:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">FeCu_centered_scaled</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/scale.html" class="external-link">scale</a></span><span class="op">(</span><span class="va">FeCu_centered</span>, center <span class="op">=</span> <span class="cn">FALSE</span>, scale <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># see ?scale for defaults</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">FeCu_centered_scaled</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/scale.html" class="external-link">scale</a></span><span class="op">(</span><span class="va">FeCu_centered</span>, center <span class="op">=</span> <span class="cn">FALSE</span>, scale <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># see ?scale for defaults</span></span></code></pre></div>
 <p>The default <code>scale = TRUE</code> scales the (already centered) columns by dividing them by their standard deviation. Figure <a href="#fig:plot-centered-scaled-data">4</a> shows the result. This scaling has the effect of making the column standard deviations equal to one:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">FeCu_centered_scaled</span>, <span class="fl">2</span>, <span class="va">sd</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## Fe2O3    Cu </span>
-<span class="co">##     1     1</span></code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">FeCu_centered_scaled</span>, <span class="fl">2</span>, <span class="va">sd</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Fe2O3    Cu </span></span>
+<span><span class="co">##     1     1</span></span></code></pre>
 <p>Put another way, all variables are now on the same scale, which is really obvious from Figure <a href="#fig:plot-centered-scaled-data">4</a>. One downside of this scaling is that if you have variables that may only be noise, the contribution of these variables is the same as variables representing interesting features.</p>
 <div class="figure">
 <span style="display:block;" id="fig:plot-centered-scaled-data"></span>
@@ -285,23 +285,23 @@ Figure 4: Centered and scaled data.
 <h3 id="using-prcomp">Using <code>prcomp</code><a class="anchor" aria-label="anchor" href="#using-prcomp"></a>
 </h3>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">pca_FeCu</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/prcomp.html" class="external-link">prcomp</a></span><span class="op">(</span><span class="va">FeCu_centered_scaled</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">pca_FeCu</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## List of 5</span>
-<span class="co">##  $ sdev    : num [1:2] 1.007 0.992</span>
-<span class="co">##  $ rotation: num [1:2, 1:2] 0.707 -0.707 -0.707 -0.707</span>
-<span class="co">##   ..- attr(*, "dimnames")=List of 2</span>
-<span class="co">##   .. ..$ : chr [1:2] "Fe2O3" "Cu"</span>
-<span class="co">##   .. ..$ : chr [1:2] "PC1" "PC2"</span>
-<span class="co">##  $ center  : Named num [1:2] 1.15e-16 -6.85e-17</span>
-<span class="co">##   ..- attr(*, "names")= chr [1:2] "Fe2O3" "Cu"</span>
-<span class="co">##  $ scale   : Named num [1:2] 6.68 243.11</span>
-<span class="co">##   ..- attr(*, "names")= chr [1:2] "Fe2O3" "Cu"</span>
-<span class="co">##  $ x       : num [1:16, 1:2] -1.697 -1.15 0.607 0.975 -1.327 ...</span>
-<span class="co">##   ..- attr(*, "dimnames")=List of 2</span>
-<span class="co">##   .. ..$ : chr [1:16] "O-1" "O-2" "O-3" "O-4" ...</span>
-<span class="co">##   .. ..$ : chr [1:2] "PC1" "PC2"</span>
-<span class="co">##  - attr(*, "class")= chr "prcomp"</span></code></pre>
+<code class="sourceCode R"><span><span class="va">pca_FeCu</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/prcomp.html" class="external-link">prcomp</a></span><span class="op">(</span><span class="va">FeCu_centered_scaled</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">pca_FeCu</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## List of 5</span></span>
+<span><span class="co">##  $ sdev    : num [1:2] 1.007 0.992</span></span>
+<span><span class="co">##  $ rotation: num [1:2, 1:2] 0.707 -0.707 -0.707 -0.707</span></span>
+<span><span class="co">##   ..- attr(*, "dimnames")=List of 2</span></span>
+<span><span class="co">##   .. ..$ : chr [1:2] "Fe2O3" "Cu"</span></span>
+<span><span class="co">##   .. ..$ : chr [1:2] "PC1" "PC2"</span></span>
+<span><span class="co">##  $ center  : Named num [1:2] 1.15e-16 -6.85e-17</span></span>
+<span><span class="co">##   ..- attr(*, "names")= chr [1:2] "Fe2O3" "Cu"</span></span>
+<span><span class="co">##  $ scale   : Named num [1:2] 6.68 243.11</span></span>
+<span><span class="co">##   ..- attr(*, "names")= chr [1:2] "Fe2O3" "Cu"</span></span>
+<span><span class="co">##  $ x       : num [1:16, 1:2] -1.697 -1.15 0.607 0.975 -1.327 ...</span></span>
+<span><span class="co">##   ..- attr(*, "dimnames")=List of 2</span></span>
+<span><span class="co">##   .. ..$ : chr [1:16] "O-1" "O-2" "O-3" "O-4" ...</span></span>
+<span><span class="co">##   .. ..$ : chr [1:2] "PC1" "PC2"</span></span>
+<span><span class="co">##  - attr(*, "class")= chr "prcomp"</span></span></code></pre>
 <p><code>str(pca_FeCu)</code> shows the structure of <code>pca_FeCu</code>, the object that holds the PCA results. A key part is <code>pca_FeCu$x</code>, which holds the scores. Notice that it has 16 rows and two columns, exactly like our original set of data. In general, <code>pca$x</code> will be a matrix with dimensions <code>n</code> <span class="math inline">\(\times\)</span> <code>p</code> where <code>n</code> is the number of samples, and <code>p</code> is the number of variables.</p>
 <p>Scores represent the original data but in a new coordinate system. Figure <a href="#fig:plot-scores">5</a> shows the scores.</p>
 <div class="figure">
@@ -316,7 +316,7 @@ Figure 5: Scores.
 </h3>
 <p>If you compare Figure <a href="#fig:plot-scores">5</a> to Figure <a href="#fig:plot-raw-data-2D">2</a>, it looks broadly similar, but the points are rotated and the scales are different.<a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a> You might ask, what did we really accomplish here? Well, because we are using just a tiny portion of the original data, the multi-dimensional nature of the whole set is obscured. So, just to make the point, let’s repeat everything we’ve done so far, except use all the data (52 samples and 16 variables). Figure <a href="#fig:plot-all-data">6</a> shows the first two principal component scores. A similar plot of the raw data is not possible, because it is not two-dimensional: there are 16 dimensions corresponding to the 16 variables.<a href="#fn7" class="footnote-ref" id="fnref7"><sup>7</sup></a></p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">pca_TO</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/prcomp.html" class="external-link">prcomp</a></span><span class="op">(</span><span class="va">TO</span>, scale. <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">pca_TO</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/prcomp.html" class="external-link">prcomp</a></span><span class="op">(</span><span class="va">TO</span>, scale. <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
 <span style="display:block;" id="fig:plot-all-data"></span>
 <img src="Vig_03_Step_By_Step_PCA_files/figure-html/plot-all-data-1.png" alt="Score plot using all the data." width="672"><p class="caption">
@@ -346,7 +346,7 @@ Figure 6: Score plot using all the data.
 </h3>
 <p>As mentioned in the <a href="#top-matter">A Conceptual Introduction to PCA</a> vignette, a scree plot shows the amount of variance explained for each PC. These values are simply the square of <code>pca$sdev</code> and can be plotted by calling <code>plot</code> on an object of class <code>prcomp</code>. See Figure <a href="#fig:scree">7</a>. Remember, the more variance explained, the more information a PC carries. From the plot, we can see that both variables contribute about equally to separation in the score plot.<a href="#fn8" class="footnote-ref" id="fnref8"><sup>8</sup></a></p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">pca_FeCu</span>, main <span class="op">=</span> <span class="st">""</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">pca_FeCu</span>, main <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
 <span style="display:block;" id="fig:scree"></span>
 <img src="Vig_03_Step_By_Step_PCA_files/figure-html/scree-1.png" alt="Scree plot." width="672"><p class="caption">
@@ -359,7 +359,7 @@ Figure 7: Scree plot.
 </h3>
 <p>To show the loadings, one can use the following code, which gives Figure <a href="#fig:loading1">8</a>. We can see that the Fe<sub>2</sub>O<sub>3</sub> and Cu contribute in opposite directions.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/barplot.html" class="external-link">barplot</a></span><span class="op">(</span><span class="va">pca_FeCu</span><span class="op">$</span><span class="va">rotation</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span>, main <span class="op">=</span> <span class="st">""</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/barplot.html" class="external-link">barplot</a></span><span class="op">(</span><span class="va">pca_FeCu</span><span class="op">$</span><span class="va">rotation</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span>, main <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
 <span style="display:block;" id="fig:loading1"></span>
 <img src="Vig_03_Step_By_Step_PCA_files/figure-html/loading1-1.png" alt="Plot of the loadings on PC1." width="672"><p class="caption">
@@ -380,18 +380,18 @@ Figure 8: Plot of the loadings on PC1.
 <p>Sometimes it is desirable to reconstruct the original data using a limited number of PCs. If one reconstructs the original data using all the PCs, one gets the original data back. However, for many data sets, the higher PCs don’t represent useful information; effectively they are noise. So using a limited number of PCs one can get back a reasonably faithful representation of the original data.</p>
 <p>To reconstruct all or part of the original data, one starts from the object returned by <code>prcomp</code>. If one wants to use the first <code>z</code> PCs to reconstruct the data, one takes the first <code>z</code> scores (in <code>pca$x</code>) and multiplies them by the tranpose of the first <code>z</code> columns of the rotation matrix (in <code>pca$rotation</code>). In <code>R</code> this would be expressed for the <code>pca_FeCu</code> data set as:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">Xhat</span> <span class="op">&lt;-</span> <span class="va">pca_FeCu</span><span class="op">$</span><span class="va">x</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="va">z</span><span class="op">]</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="va">pca_FeCu</span><span class="op">$</span><span class="va">rotation</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="va">z</span><span class="op">]</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">Xhat</span> <span class="op">&lt;-</span> <span class="va">pca_FeCu</span><span class="op">$</span><span class="va">x</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="va">z</span><span class="op">]</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="va">pca_FeCu</span><span class="op">$</span><span class="va">rotation</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="va">z</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <p>where <code>Xhat</code> is the reconstructed<a href="#fn9" class="footnote-ref" id="fnref9"><sup>9</sup></a> original matrix.<a href="#fn10" class="footnote-ref" id="fnref10"><sup>10</sup></a></p>
 <p>We are now ready to undo the scaling, which is accomplished by dividing the columns of <code>Xhat</code> by the scale factors previously employed. Once again the <code>scale</code> function makes it easy to operate on the columns of the matrix.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">Xhat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/scale.html" class="external-link">scale</a></span><span class="op">(</span><span class="va">Xhat</span>, center <span class="op">=</span> <span class="cn">FALSE</span>, scale <span class="op">=</span> <span class="fl">1</span><span class="op">/</span><span class="va">pca_FeCu</span><span class="op">$</span><span class="va">scale</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">Xhat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/scale.html" class="external-link">scale</a></span><span class="op">(</span><span class="va">Xhat</span>, center <span class="op">=</span> <span class="cn">FALSE</span>, scale <span class="op">=</span> <span class="fl">1</span><span class="op">/</span><span class="va">pca_FeCu</span><span class="op">$</span><span class="va">scale</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="step-5--undoing-the-centering">Step 5. Undoing the Centering<a class="anchor" aria-label="anchor" href="#step-5--undoing-the-centering"></a>
 </h2>
 <p>Finally, we take the unscaled <code>Xhat</code> and add back the values that we subtracted when centering, again using <code>scale</code>.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">Xhat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/scale.html" class="external-link">scale</a></span><span class="op">(</span><span class="va">Xhat</span>, center <span class="op">=</span>  <span class="op">-</span><span class="va">pca_FeCu</span><span class="op">$</span><span class="va">center</span>, scale <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">Xhat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/scale.html" class="external-link">scale</a></span><span class="op">(</span><span class="va">Xhat</span>, center <span class="op">=</span>  <span class="op">-</span><span class="va">pca_FeCu</span><span class="op">$</span><span class="va">center</span>, scale <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p>One might think that <code>scale</code> can handle both the unscaling and re-centering processes at the same time. This is not the case, as <code>scale</code> does any (un)centering first, then scales the data. We need to take care of scaling first, and then the centering second. Thus in the forward direction, <code>scale</code> can handle both tasks simultaneously, but in the reconstruction direction, we need to take it step-wise.</p>
 </div>
 <div class="section level2">
@@ -399,13 +399,13 @@ Figure 8: Plot of the loadings on PC1.
 </h2>
 <p>If we use only a portion of the PCs, an approximation of the original data is returned. If we use all the PCs, then the original data is reconstructed. Let’s make sure this is true for the full <code>tintoodiel</code> data set.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">TOhat</span> <span class="op">&lt;-</span> <span class="va">pca_TO</span><span class="op">$</span><span class="va">x</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="va">pca_TO</span><span class="op">$</span><span class="va">rotation</span><span class="op">)</span>
-<span class="va">TOhat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/scale.html" class="external-link">scale</a></span><span class="op">(</span><span class="va">TOhat</span>, center <span class="op">=</span> <span class="cn">FALSE</span>, scale <span class="op">=</span> <span class="fl">1</span><span class="op">/</span><span class="va">pca_TO</span><span class="op">$</span><span class="va">scale</span><span class="op">)</span>
-<span class="va">TOhat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/scale.html" class="external-link">scale</a></span><span class="op">(</span><span class="va">TOhat</span>, center <span class="op">=</span> <span class="op">-</span><span class="va">pca_TO</span><span class="op">$</span><span class="va">center</span>, scale <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">TOhat</span> <span class="op">&lt;-</span> <span class="va">pca_TO</span><span class="op">$</span><span class="va">x</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="va">pca_TO</span><span class="op">$</span><span class="va">rotation</span><span class="op">)</span></span>
+<span><span class="va">TOhat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/scale.html" class="external-link">scale</a></span><span class="op">(</span><span class="va">TOhat</span>, center <span class="op">=</span> <span class="cn">FALSE</span>, scale <span class="op">=</span> <span class="fl">1</span><span class="op">/</span><span class="va">pca_TO</span><span class="op">$</span><span class="va">scale</span><span class="op">)</span></span>
+<span><span class="va">TOhat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/scale.html" class="external-link">scale</a></span><span class="op">(</span><span class="va">TOhat</span>, center <span class="op">=</span> <span class="op">-</span><span class="va">pca_TO</span><span class="op">$</span><span class="va">center</span>, scale <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p>If this process worked correctly, there should be no difference between the reconstructed data and the original data.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">TOhat</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="va">TO</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## [1] 4.122971e-16</span></code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">TOhat</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="va">TO</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] 4.122971e-16</span></span></code></pre>
 <p>The result is a vanishingly small number, so we’ll call it a <em>Success!</em></p>
 </div>
 <div class="section level2">
@@ -459,7 +459,7 @@ Figure 9: Reduction of error as the number of components included in the reconst
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>
