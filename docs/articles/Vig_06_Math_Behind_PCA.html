@@ -201,10 +201,9 @@ Figure 1: One way to look at the matrix algebra behind PCA. Reconstruction of th
 <span><span class="va">X</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">100</span><span class="op">*</span><span class="fl">50</span><span class="op">)</span>, ncol <span class="op">=</span> <span class="fl">50</span><span class="op">)</span> <span class="co"># generate random data</span></span>
 <span><span class="va">X_svd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/svd.html" class="external-link">svd</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span></span>
 <span><span class="va">X_pca</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/prcomp.html" class="external-link">prcomp</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level2">
-<h2 id="a-simple-implementation-of-svd">A Simple Implementation of SVD<a class="anchor" aria-label="anchor" href="#a-simple-implementation-of-svd"></a>
-</h2>
+<div class="section level3">
+<h3 id="a-simple-implementation-of-svd">A Simple Implementation of SVD<a class="anchor" aria-label="anchor" href="#a-simple-implementation-of-svd"></a>
+</h3>
 <p>Now that we know what these matrices are, we can look into how to compute them. As mentioned earlier, the algorithm is everything here. As a simple example, we’ll look at an approach called “power iteration.” This is by no means the best approach, but it is simple enough that we can understand the idea. First, let’s generate some random data. In this simple example we are only going to compute the first principal component, so <code>V</code> is a vector, not a matrix (one can still do matrix multiplication with a vector, we just treat it as a “row vector” or a “column vector”).<a href="#fn8" class="footnote-ref" id="fnref8"><sup>8</sup></a> Note that the dimensions of the variables are chosen so that we can matrix multiply them (they are <em>conformable</em> matrices).</p>
 <p>We’ll do a simple iterative calculation that computes the values of <code>U</code> and <code>V</code>. The loop runs for 50 iterations, and as it does the values of <code>U</code> and <code>V</code> are continuously updated and get closer to the actual answer.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
@@ -241,6 +240,7 @@ Figure 1: One way to look at the matrix algebra behind PCA. Reconstruction of th
 <span><span class="co">##  cor with V: -1.000000 </span></span>
 <span><span class="co">##  cor with U: -1.000000</span></span></code></pre>
 <p>Notice that there is no <span class="math inline">\(\mathbf{D}\)</span> matrix in this calculation. This is because we are only calculating a single principal component, and therefore in this case <span class="math inline">\(\mathbf{D}\)</span> is a scalar constant. We can drop it from the calculation. With that simplification, we can look at each step.</p>
+</div>
 <div class="section level3">
 <h3 id="step-1">Step 1<a class="anchor" aria-label="anchor" href="#step-1"></a>
 </h3>

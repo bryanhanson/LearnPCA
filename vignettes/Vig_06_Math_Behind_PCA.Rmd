@@ -125,7 +125,7 @@ X_svd <- svd(X)
 X_pca <- prcomp(X)
 ```
 
-# A Simple Implementation of SVD
+## A Simple Implementation of SVD
 
 Now that we know what these matrices are, we can look into how to compute them.  As mentioned earlier, the algorithm is everything here.  As a simple example, we'll look at an approach called "power iteration." This is by no means the best approach, but it is simple enough that we can understand the idea.  First, let's generate some random data. In this simple example we are only going to compute the first principal component, so `V` is a vector, not a matrix (one can still do matrix multiplication with a vector, we just treat it as a "row vector" or a "column vector").[^2]  Note that the dimensions of the variables are chosen so that we can matrix multiply them (they are *conformable* matrices).
 
@@ -148,7 +148,7 @@ for (iter in 1:50) {
 
 Notice that there is no $\mathbf{D}$ matrix in this calculation.  This is because we are only calculating a single principal component, and therefore in this case $\mathbf{D}$ is a scalar constant.  We can drop it from the calculation.  With that simplification, we can look at each step.
 
-## Step 1
+### Step 1
 
 The first step is to multiply the data matrix `X` by the initial estimate for `V` (remember at each iteration the estimate gets better and better).  How does this relate to Equation \@ref(eq:svd2)? If we drop $\mathbf{D}$ from equation \@ref(eq:svd2) we have:
 
@@ -173,11 +173,11 @@ which evaluates to:
 
 because $\mathbf{V}$ is a semi-orthogonal matrix. This is the line in the code.
 
-## Step 2
+### Step 2
 
 In this step we normalize (regularize, or scale) the estimate of `U`, by dividing by the square root of the sum of the squared values in `U`.[^6] This has the practical effect of keeping the values in `U` from becoming incredibly large and possibly overflowing memory.[^7]
 
-## Step 3
+### Step 3
 
 Here we update our estimate of `V`.  Similar to Step 1, we can rearrange Equation \@ref(eq:svd2), this time by dropping $\mathbf{D}$, pre-multiplying both sides by $\mathbf{U}^T$ to give an identity matrix which drops out, and then transposing both sides:
 
@@ -208,19 +208,19 @@ Here we update our estimate of `V`.  Similar to Step 1, we can rearrange Equatio
 
 which is the operation we see in the code snippet.[^3]
 
-## Step 4
+### Step 4
 
 Step 4 is the same operation as in Step 2, but on `V`.
 
-## Overall
+### Overall
 
 Essentially what this algorithm is doing is alterating between the two calculations (for `U`, steps 1 & 2, then for `V` steps 3 & 4), with `X` constant.  At each iteration these estimates improve, moving from the initial random value of `V` towards the best answer for both `V`and `U`.
 
-## Reporting
+### Reporting
 
 You'll notice that the code snippet above has a few lines to report the progress of the calculation.  Every 10 steps the correlation between the current value of `V` with the official answer contained in `X_svd$v` is displayed (and the same for `U`).  As you can see from the output the correlation is not bad after 10 iterations and only improves with more iterations. We report the correlation because the signs of the power iteration answers may vary from those computed by `svd`.[^14]
 
-## Comparison to the Answer from `svd`
+### Comparison to the Answer from `svd`
 
 Let's compare the absolute values of the two different answers:
 
@@ -231,7 +231,7 @@ mean(abs(U) - abs(X_svd$u[,1]))
 
 As you can see, the values are essentially the same.
 
-## Comparison to the Answer from `prcomp`
+### Comparison to the Answer from `prcomp`
 
 We have seen that our estimate of `U` and `V` compared well to the results from the function `svd`.  In practice users would probably use `prcomp` for PCA.  So let's compare to the results from `prcomp`.
 
