@@ -62,7 +62,7 @@ In the [Step By Step PCA](#top-matter) vignette we also showed how to reconstruc
 
 In Figure \@ref(fig:PCA-Matrices) we show one way to represent the relationships between the original data matrix ($\mathbf{X}$), the loadings matrix ($\mathbf{L}$) and the scores matrix ($\mathbf{S}$).
 
-```{r PCA-Matrices, echo = FALSE, results = "show", fig.cap = "One way to look at the matrix algebra behind PCA. Reconstruction of the data matrix $\\mathbf{X}$ is achieved by multiplying the score matrix ($\\mathbf{S}$) by the transpose of the loadings matrix ($\\mathbf{L}$).  The method of matrix multiplication is symbolized in the red-dotted outlines: Each element of row $i$ of the scores matrix is multiplied by the corresponding element of column $j$ of the transposed loadings.  These results are summed to give a single entry in the original data matrix $\\mathbf{X}_{ij}$.", out.width = "75%", fig.align = "center"}
+```{r PCA-Matrices, echo = FALSE, results = "show", fig.cap = "One way to look at the matrix algebra behind PCA. Reconstruction of the data matrix $\\mathbf{X}$ is achieved by multiplying the score matrix ($\\mathbf{S}$) by the transpose of the loadings matrix ($\\mathbf{L^T}$).  The method of matrix multiplication is symbolized in the red-dotted outlines: Each element of row $i$ of the scores matrix is multiplied by the corresponding element of column $j$ of the transposed loadings.  These results are summed to give a single entry in the original data matrix $\\mathbf{X}_{ij}$.", out.width = "75%", fig.align = "center"}
 
 knitr::include_graphics("PCA_Matrices.png")
 ```
@@ -73,7 +73,7 @@ Figure \@ref(fig:PCA-Matrices) demonstrates that if we multiply the scores matri
 
 In a moment we are going to look at two matrix decompositions in detail, the singular value decomposition (SVD) and the eigenvalue decomposition. These decompositions are representative of roughly a dozen [matrix decompositions](https://en.wikipedia.org/wiki/Matrix_decomposition).  A matrix decomposition or factorization breaks a matrix into pieces in such a way as to extract information and solve problems.  The SVD is probably the most powerful decomposition there is -- we will make extensive use of  this insightful [Twitter thread](https://twitter.com/WomenInStat/status/1285610321747611653) by Dr. Daniela Witten of the University of Washington. We also use this excellent [Cross Validated answer by amoeba](https://stats.stackexchange.com/a/134283/26909).
 
-A short note however, before we dig deeper.  Since we are using a computer to solve this problem, we need to keep in mind that using a computer is not quite the same as solving a problem using pencil and paper. On the computer, we usually have choices of algorithms to solve problems.  Some algorithms are more robust than others.  Algorithms need to take into account edge cases where the computation can become unstable.  For instance, computers can only store numbers to a certain level of accuracy: when is "very small" actually zero in practice?  We need to know this so we don't try to divide by zero.  This is only one example of problems that can arise when using a computer to calculate values.
+A short note however, before we dig deeper.  Since we are using a computer to solve this problem, we need to keep in mind that using a computer is not quite the same as solving a problem using pencil and paper. On the computer, we usually have choices of algorithms to solve problems.  Some algorithms are more robust than others.  Algorithms need to take into account edge cases where the computation can become unstable.  For instance, computers can only store numbers to a certain level of accuracy: when is "very small" actually zero in practice?  We need to know this so we don't try to divide by zero.  This is only one example of problems that can arise when using a computer to calculate *anything*.
 
 Finally, the two decompositions we are going to look at have something in common.  Our approach will be to explain each without reference to the other, as this facilitates digestion and understanding of each (it doesn't seem fair to require you to understand the 2nd one that you haven't read while trying to understand the first one).  Then, if you are still with us, we'll look at what they have in common.
 
@@ -95,11 +95,11 @@ And here's the equation without matrix dimensions. Remember that $\mathbf{V}^T$ 
 
 The equation above is where we'd like to end up.  How can we get there?  Let's start with *What are these matrices*?
 
-* $\mathbf{X}$ contains the original data
+* $\mathbf{X}$ contains the original data.
 * The columns of $\mathbf{U}$ are vectors giving the principal axes. These define the new coordinate system.
 * The scores can be obtained by $\mathbf{X}\mathbf{V}$; scores are the projections of the data on the principal axes.
 * $\mathbf{D}$ is a diagonal matrix, which means all non-diagonal elements are zero.  The diagonal contains positive values sorted from largest to smallest.  These are called the singular values.[^9]
-* The columns of $\mathbf{V}$ are the PCA loadings
+* The columns of $\mathbf{V}$ are the PCA loadings.
 
 In addition, $\mathbf{U}$ and $\mathbf{V}$ are semi-orthogonal matrices,[^4] which means that when pre-multiplied by their transpose one gets the identity matrix:[^12]
 
@@ -125,7 +125,7 @@ X <- matrix(rnorm(100*50), ncol = 50)
 V <- rnorm(50)
 ```
 
-Next, we'll use the built-in function `svd` to compute the "official" answer for comparison to our results.
+We'll also use the built-in functions `svd` and `prcomp` to compute the "official" answer for comparison to our results.
 
 ```{r power2}
 X_svd <- svd(X)
