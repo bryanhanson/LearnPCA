@@ -324,9 +324,6 @@ We've talked about "values" in the context of each decomposition.  Is this termi
 
 Either of these "values" can be used to compute the amount of variance explained by each principal component.  Details are in the [PCA Functions](#top-matter) vignette.
 
-## Pros and Cons
-
-* `svd` can handle rectangular matrices $n \times p$ where $n \ne p$.  Either $n > p$ or $n < p$ is acceptable.  On the other hand, `eigen` must have $n = p$. `prcomp` wraps `eigen` and helps the user convert their raw data matrix into a square matrix.
 
 <!-- Insert refer_to_works_consulted document -->
 
