@@ -28,7 +28,6 @@ pkgdown:
 
 ```{r SetUp, echo = FALSE, eval = TRUE, results = "hide"}
 # R options & configuration:
-set.seed(9)
 suppressPackageStartupMessages(library("knitr"))
 suppressPackageStartupMessages(library("chemometrics"))
 
@@ -77,6 +76,8 @@ A short note however, before we dig deeper.  Since we are using a computer to so
 
 Finally, the two decompositions we are going to look at have something in common.  Our approach will be to explain each without reference to the other, as this facilitates digestion and understanding of each (it doesn't seem fair to require you to understand the 2nd one that you haven't read while trying to understand the first one).  Then, if you are still with us, we'll look at what they have in common.
 
+
+
 # The SVD Decomposition
 
 We'll start from the original data matrix $\mathbf{X}$ which has samples in rows and measured variables in columns.  Let's assume that we have column-centered the matrix.  The SVD decomposition breaks this matrix $\mathbf{X}$ into three matrices (dimensions in parentheses):[^5]
@@ -115,25 +116,23 @@ In addition, $\mathbf{U}$ and $\mathbf{V}$ are semi-orthogonal matrices,[^4] whi
 
 We'll use this fact to great advantage when we implement a simple version of SVD in a moment.
 
+First however, let's use the two built-in functions `svd` and `prcomp` to compute the "accepted" answer for comparison to our simple implementation.
+
+```{r accepted}
+set.seed(30)
+X <- matrix(rnorm(100*50), ncol = 50) # generate random data
+X_svd <- svd(X)
+X_pca <- prcomp(X)
+```
+
 # A Simple Implementation of SVD
 
 Now that we know what these matrices are, we can look into how to compute them.  As mentioned earlier, the algorithm is everything here.  As a simple example, we'll look at an approach called "power iteration." This is by no means the best approach, but it is simple enough that we can understand the idea.  First, let's generate some random data. In this simple example we are only going to compute the first principal component, so `V` is a vector, not a matrix (one can still do matrix multiplication with a vector, we just treat it as a "row vector" or a "column vector").[^2]  Note that the dimensions of the variables are chosen so that we can matrix multiply them (they are *conformable* matrices).
 
-```{r power1}
-set.seed(30)
-X <- matrix(rnorm(100*50), ncol = 50)
-V <- rnorm(50)
-```
-
-We'll also use the built-in functions `svd` and `prcomp` to compute the "official" answer for comparison to our results.
-
-```{r power2}
-X_svd <- svd(X)
-```
-
 We'll do a simple iterative calculation that computes the values of `U` and `V`.  The loop runs for 50 iterations, and as it does the values of `U` and `V` are continuously updated and get closer to the actual answer.
 
 ```{r power3}
+V <- rnorm(50)
 for (iter in 1:50) {
   U <- X %*% V # Step 1
   U <- U/sqrt(sum(U^2)) # Step 2
@@ -207,7 +206,6 @@ Here we update our estimate of `V`.  Similar to Step 1, we can rearrange Equatio
 \mathbf{X}^T\mathbf{U} = \mathbf{V}
 \end{equation}
 
-
 which is the operation we see in the code snippet.[^3]
 
 ## Step 4
@@ -231,16 +229,15 @@ mean(abs(V) - abs(X_svd$v[,1]))
 mean(abs(U) - abs(X_svd$u[,1]))
 ```
 
-As you can see, the values are essentially the same except for sign.
+As you can see, the values are essentially the same.
 
 ## Comparison to the Answer from `prcomp`
 
 We have seen that our estimate of `U` and `V` compared well to the results from the function `svd`.  In practice users would probably use `prcomp` for PCA.  So let's compare to the results from `prcomp`.
 
 ```{r}
-PCA <- prcomp(X)
-mean(abs(X %*% V) - abs(PCA$x[,1])) # compare the scores
-mean(abs(V)- abs(PCA$rotation[,1])) # compare the loadings
+mean(abs(X %*% V) - abs(X_pca$x[,1])) # compare the scores
+mean(abs(V)- abs(X_pca$rotation[,1])) # compare the loadings
 ```
 
 These mean differences are very small but not quite as good as using `svd` directly.
@@ -283,7 +280,6 @@ And the loadings are simply the eigenvectors in $\mathbf{Q}$.
 As we did for `SVD`, we can use a power iteration to compute estimates for the first eigenvector.
 
 ```{r eigen1}
-set.seed(30)
 X <- matrix(rnorm(100*50), ncol = 50)
 X <- cor(X)
 Q <- rnorm(50)
