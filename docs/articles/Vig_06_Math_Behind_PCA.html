@@ -240,10 +240,9 @@ Figure 1: One way to look at the matrix algebra behind PCA. Reconstruction of th
 <span><span class="co">##  cor with V: -1.000000 </span></span>
 <span><span class="co">##  cor with U: -1.000000</span></span></code></pre>
 <p>Notice that there is no <span class="math inline">\(\mathbf{D}\)</span> matrix in this calculation. This is because we are only calculating a single principal component, and therefore in this case <span class="math inline">\(\mathbf{D}\)</span> is a scalar constant. We can drop it from the calculation. With that simplification, we can look at each step.</p>
-</div>
-<div class="section level3">
-<h3 id="step-1">Step 1<a class="anchor" aria-label="anchor" href="#step-1"></a>
-</h3>
+<div class="section level4">
+<h4 id="step-1">Step 1<a class="anchor" aria-label="anchor" href="#step-1"></a>
+</h4>
 <p>The first step is to multiply the data matrix <code>X</code> by the initial estimate for <code>V</code> (remember at each iteration the estimate gets better and better). How does this relate to Equation <a href="#eq:svd2">(2)</a>? If we drop <span class="math inline">\(\mathbf{D}\)</span> from equation <a href="#eq:svd2">(2)</a> we have:</p>
 <p><span class="math display" id="eq:svd5">\[\begin{equation}
 \tag{5}
@@ -261,14 +260,14 @@ Figure 1: One way to look at the matrix algebra behind PCA. Reconstruction of th
 \end{equation}\]</span></p>
 <p>because <span class="math inline">\(\mathbf{V}\)</span> is a semi-orthogonal matrix. This is the line in the code.</p>
 </div>
-<div class="section level3">
-<h3 id="step-2">Step 2<a class="anchor" aria-label="anchor" href="#step-2"></a>
-</h3>
+<div class="section level4">
+<h4 id="step-2">Step 2<a class="anchor" aria-label="anchor" href="#step-2"></a>
+</h4>
 <p>In this step we normalize (regularize, or scale) the estimate of <code>U</code>, by dividing by the square root of the sum of the squared values in <code>U</code>.<a href="#fn9" class="footnote-ref" id="fnref9"><sup>9</sup></a> This has the practical effect of keeping the values in <code>U</code> from becoming incredibly large and possibly overflowing memory.<a href="#fn10" class="footnote-ref" id="fnref10"><sup>10</sup></a></p>
 </div>
-<div class="section level3">
-<h3 id="step-3">Step 3<a class="anchor" aria-label="anchor" href="#step-3"></a>
-</h3>
+<div class="section level4">
+<h4 id="step-3">Step 3<a class="anchor" aria-label="anchor" href="#step-3"></a>
+</h4>
 <p>Here we update our estimate of <code>V</code>. Similar to Step 1, we can rearrange Equation <a href="#eq:svd2">(2)</a>, this time by dropping <span class="math inline">\(\mathbf{D}\)</span>, pre-multiplying both sides by <span class="math inline">\(\mathbf{U}^T\)</span> to give an identity matrix which drops out, and then transposing both sides:</p>
 <p><span class="math display" id="eq:svd7">\[\begin{equation}
 \tag{8}
@@ -292,24 +291,24 @@ Figure 1: One way to look at the matrix algebra behind PCA. Reconstruction of th
 \end{equation}\]</span></p>
 <p>which is the operation we see in the code snippet.<a href="#fn11" class="footnote-ref" id="fnref11"><sup>11</sup></a></p>
 </div>
-<div class="section level3">
-<h3 id="step-4">Step 4<a class="anchor" aria-label="anchor" href="#step-4"></a>
-</h3>
+<div class="section level4">
+<h4 id="step-4">Step 4<a class="anchor" aria-label="anchor" href="#step-4"></a>
+</h4>
 <p>Step 4 is the same operation as in Step 2, but on <code>V</code>.</p>
 </div>
-<div class="section level3">
-<h3 id="overall">Overall<a class="anchor" aria-label="anchor" href="#overall"></a>
-</h3>
+<div class="section level4">
+<h4 id="overall">Overall<a class="anchor" aria-label="anchor" href="#overall"></a>
+</h4>
 <p>Essentially what this algorithm is doing is alterating between the two calculations (for <code>U</code>, steps 1 &amp; 2, then for <code>V</code> steps 3 &amp; 4), with <code>X</code> constant. At each iteration these estimates improve, moving from the initial random value of <code>V</code> towards the best answer for both <code>V</code>and <code>U</code>.</p>
 </div>
-<div class="section level3">
-<h3 id="reporting">Reporting<a class="anchor" aria-label="anchor" href="#reporting"></a>
-</h3>
+<div class="section level4">
+<h4 id="reporting">Reporting<a class="anchor" aria-label="anchor" href="#reporting"></a>
+</h4>
 <p>You’ll notice that the code snippet above has a few lines to report the progress of the calculation. Every 10 steps the correlation between the current value of <code>V</code> with the official answer contained in <code>X_svd$v</code> is displayed (and the same for <code>U</code>). As you can see from the output the correlation is not bad after 10 iterations and only improves with more iterations. We report the correlation because the signs of the power iteration answers may vary from those computed by <code>svd</code>.<a href="#fn12" class="footnote-ref" id="fnref12"><sup>12</sup></a></p>
 </div>
-<div class="section level3">
-<h3 id="comparison-to-the-answer-from-svd">Comparison to the Answer from <code>svd</code><a class="anchor" aria-label="anchor" href="#comparison-to-the-answer-from-svd"></a>
-</h3>
+<div class="section level4">
+<h4 id="comparison-to-the-answer-from-svd">Comparison to the Answer from <code>svd</code><a class="anchor" aria-label="anchor" href="#comparison-to-the-answer-from-svd"></a>
+</h4>
 <p>Let’s compare the absolute values of the two different answers:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">V</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">X_svd</span><span class="op">$</span><span class="va">v</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -319,9 +318,9 @@ Figure 1: One way to look at the matrix algebra behind PCA. Reconstruction of th
 <pre><code><span><span class="co">## [1] 2.752052e-06</span></span></code></pre>
 <p>As you can see, the values are essentially the same.</p>
 </div>
-<div class="section level3">
-<h3 id="comparison-to-the-answer-from-prcomp">Comparison to the Answer from <code>prcomp</code><a class="anchor" aria-label="anchor" href="#comparison-to-the-answer-from-prcomp"></a>
-</h3>
+<div class="section level4">
+<h4 id="comparison-to-the-answer-from-prcomp">Comparison to the Answer from <code>prcomp</code><a class="anchor" aria-label="anchor" href="#comparison-to-the-answer-from-prcomp"></a>
+</h4>
 <p>We have seen that our estimate of <code>U</code> and <code>V</code> compared well to the results from the function <code>svd</code>. In practice users would probably use <code>prcomp</code> for PCA. So let’s compare to the results from <code>prcomp</code>.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">X</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="va">V</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">X_pca</span><span class="op">$</span><span class="va">x</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span> <span class="co"># compare the scores</span></span></code></pre></div>
@@ -331,6 +330,7 @@ Figure 1: One way to look at the matrix algebra behind PCA. Reconstruction of th
 <pre><code><span><span class="co">## [1] 0.0001339306</span></span></code></pre>
 <p>These mean differences are very small but not quite as good as using <code>svd</code> directly.</p>
 <p>Notice that we have worked through the SVD without mentioning eigen-anything. That was one of our goals. Now let’s take a different point of view.</p>
+</div>
 </div>
 </div>
 <div class="section level2">
