@@ -324,6 +324,9 @@ We've talked about "values" in the context of each decomposition.  Is this termi
 
 Either of these "values" can be used to compute the amount of variance explained by each principal component.  Details are in the [PCA Functions](#top-matter) vignette.
 
+# Algorithmic Reality
+
+The two simple implementations described above are very limited.  They are in no way suitable for use with real data, but they do serve as a conceptual introduction.  In reality, carrying out PCA on real data sets in a robust manner requires rather complex algorithms, well beyond the scope of these documents.  If you want a brief taste, the [Wikipedia](https://en.wikipedia.org/wiki/Singular_value_decomposition#Calculating_the_SVD) article and this [StackOverflow](https://stats.stackexchange.com/a/114606/26909) question may satisfy your needs.
 
 <!-- Insert refer_to_works_consulted document -->
 

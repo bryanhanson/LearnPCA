@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">LearnPCA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.0</span>
       </span>
     </div>
 
@@ -114,7 +114,7 @@
 <!-- This chunk inserts common info about all the vignettes -->
 <!-- ======================================================================= -->
 <div class="top-matter">
-<p><em>This vignette is based upon <code>LearnPCA</code> version 0.2.1.</em></p>
+<p><em>This vignette is based upon <code>LearnPCA</code> version 0.3.0.</em></p>
 <p><code>LearnPCA</code> provides the following vignettes: <a name="top-matter"></a></p>
 <ul>
 <li><a href="http://bryanhanson.github.io/LearnPCA/articles/Start_Here.html" class="external-link">Start Here</a></li>
@@ -432,14 +432,6 @@ Figure 1: One way to look at the matrix algebra behind PCA. Reconstruction of th
 (diagonal(\mathbf{D}))^2/(n - 1) = diagonal(\mathbf{\Lambda})
 \end{equation}\]</span></p>
 <p>Either of these “values” can be used to compute the amount of variance explained by each principal component. Details are in the <a href="#top-matter">PCA Functions</a> vignette.</p>
-</div>
-<div class="section level3">
-<h3 id="pros-and-cons">Pros and Cons<a class="anchor" aria-label="anchor" href="#pros-and-cons"></a>
-</h3>
-<ul>
-<li>
-<code>svd</code> can handle rectangular matrices <span class="math inline">\(n \times p\)</span> where <span class="math inline">\(n \ne p\)</span>. Either <span class="math inline">\(n &gt; p\)</span> or <span class="math inline">\(n &lt; p\)</span> is acceptable. On the other hand, <code>eigen</code> must have <span class="math inline">\(n = p\)</span>. <code>prcomp</code> wraps <code>eigen</code> and helps the user convert their raw data matrix into a square matrix.</li>
-</ul>
 <!-- Insert refer_to_works_consulted document -->
 </div>
 </div>
