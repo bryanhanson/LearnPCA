@@ -264,7 +264,7 @@ The equation above is where we'd like to end up; it looks like a variation on th
 
 * $\mathbf{X}$ is the original data matrix.  Notice the dimensions are $n \times n$, unlike in SVD.  In other words, it is a square matrix.  Your data is not square you say?  Eigen decomposition requires an square matrix.  Fortunately, there's a simple fix for this.  We can work instead with the covariance matrix, which is square: $\mathbf{X}^T\mathbf{X}/(n - 1)$. This retains all the structure of the original data.[^13]
 * $\mathbf{Q}$ is square matrix that whose columns will contain the *eigenvectors*.  $\mathbf{Q}$ is also an orthogonal matrix (discussed earlier in the SVD section).  Notice that $\mathbf{Q}$ appears twice in \@ref(eq:ed2), the second time as its transpose.
-* $\mathbf{\Lambda}$ (upper case Greek letter Lambda) is a diagonal matrix, very similar in function to $\mathbf{D}$ in SVD. All non-diagonal elements are zero.  The diagonal contains values sorted from largest to smallest.  These are called the *eigenvalues*.
+* $\mathbf{\Lambda}$ (upper case Greek letter Lambda) is a diagonal matrix, very similar in purpose to $\mathbf{D}$ in SVD. All non-diagonal elements are zero.  The diagonal contains values sorted from largest to smallest.  These are called the *eigenvalues*.
 
 So what are eigenvectors and eigenvalues?  The eigenvalues are related to the amount of variance explained for each principal component. The eigenvectors are the principal axes, which as we have seen constitute a new coordinate system for looking at the data (see the [Visualizing PCA in 3D](#top-matter) vignette for details). If we post-multiply the original data by the eigenvectors in $\mathbf{Q}$ we get the scores:
 
@@ -279,21 +279,17 @@ And the loadings are simply the eigenvectors in $\mathbf{Q}$.
 
 As we did for `SVD`, we can use a power iteration to compute estimates for the first eigenvector.
 
-```{r eigen1}
-X <- matrix(rnorm(100*50), ncol = 50)
-X <- cor(X)
-Q <- rnorm(50)
-```
-
 Next, we'll use the built-in function `eigen` to compute the "official" answer for comparison to our results.
 
 ```{r eigen2}
-X_eig <- eigen(X)
+Xc <- cor(X)
+X_eig <- eigen(Xc)
 ```
 
 A simple iterative process as we did for SVD will continuously update the value of `Q`.
 
 ```{r eigen3}
+Q <- rnorm(50)
 for (iter in 1:50) {
   Q <- X %*% Q # Step 1
   Q <- Q/sqrt(sum(Q^2)) # Step 2
