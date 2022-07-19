@@ -326,7 +326,7 @@ Either of these "values" can be used to compute the amount of variance explained
 
 # Algorithmic Reality
 
-The two simple implementations described above are very limited.  They are in no way suitable for use with real data, but they do serve as a conceptual introduction.  In reality, carrying out PCA on real data sets in a robust manner requires rather complex algorithms, well beyond the scope of these documents.  If you want a brief taste, the [Wikipedia](https://en.wikipedia.org/wiki/Singular_value_decomposition#Calculating_the_SVD) article and this [StackOverflow](https://stats.stackexchange.com/a/114606/26909) question may satisfy your needs.
+The two simple implementations described above are very limited.  They are in no way suitable for use with real data, but they do serve as a conceptual introduction.  In reality, carrying out PCA on real data sets in a robust manner requires rather complex algorithms, well beyond the scope of these documents.  If you want a brief taste, the [Wikipedia](https://en.wikipedia.org/wiki/Singular_value_decomposition#Calculating_the_SVD) article and this [StackOverflow](https://stats.stackexchange.com/a/114606/26909) answer may satisfy your needs.  A more intermediate discussion can be found in Chapter 3 "Principal Components Analysis" in @Filzmoser2009.
 
 <!-- Insert refer_to_works_consulted document -->
 

@@ -432,8 +432,13 @@ Figure 1: One way to look at the matrix algebra behind PCA. Reconstruction of th
 (diagonal(\mathbf{D}))^2/(n - 1) = diagonal(\mathbf{\Lambda})
 \end{equation}\]</span></p>
 <p>Either of these “values” can be used to compute the amount of variance explained by each principal component. Details are in the <a href="#top-matter">PCA Functions</a> vignette.</p>
-<!-- Insert refer_to_works_consulted document -->
 </div>
+</div>
+<div class="section level2">
+<h2 id="algorithmic-reality">Algorithmic Reality<a class="anchor" aria-label="anchor" href="#algorithmic-reality"></a>
+</h2>
+<p>The two simple implementations described above are very limited. They are in no way suitable for use with real data, but they do serve as a conceptual introduction. In reality, carrying out PCA on real data sets in a robust manner requires rather complex algorithms, well beyond the scope of these documents. If you want a brief taste, the <a href="https://en.wikipedia.org/wiki/Singular_value_decomposition#Calculating_the_SVD" class="external-link">Wikipedia</a> article and this <a href="https://stats.stackexchange.com/a/114606/26909" class="external-link">StackOverflow</a> answer may satisfy your needs. A more intermediate discussion can be found in Chapter 3 “Principal Components Analysis” in <span class="citation">Varmuza and Filzmoser (<a href="#ref-Filzmoser2009" role="doc-biblioref">2009</a>)</span>.</p>
+<!-- Insert refer_to_works_consulted document -->
 </div>
 <div class="section level2">
 <h2 id="works-consulted">Works Consulted<a class="anchor" aria-label="anchor" href="#works-consulted"></a>
@@ -449,6 +454,9 @@ Savov, Ivan. 2020. <em>No Bullshit Guide to Linear Algebra</em>. 2nd ed. miniref
 </div>
 <div id="ref-Singh2014" class="csl-entry">
 Singh, Kuldeep. 2014. <em>Linear Algebra Step by Step</em>. Oxford University Press.
+</div>
+<div id="ref-Filzmoser2009" class="csl-entry">
+Varmuza, K., and P. Filzmoser. 2009. <em>Introduction to Multivariate Statistical Analysis in Chemometrics</em>. CRC Press.
 </div>
 </div>
 </div>
