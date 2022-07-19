@@ -282,8 +282,8 @@ As we did for `SVD`, we can use a power iteration to compute estimates for the f
 Next, we'll use the built-in function `eigen` to compute the "official" answer for comparison to our results.
 
 ```{r eigen2}
-Xc <- cor(X)
-X_eig <- eigen(Xc)
+X_cor <- cor(X)
+X_eig <- eigen(X_cor)
 ```
 
 A simple iterative process as we did for SVD will continuously update the value of `Q`.
@@ -291,7 +291,7 @@ A simple iterative process as we did for SVD will continuously update the value 
 ```{r eigen3}
 Q <- rnorm(50)
 for (iter in 1:50) {
-  Q <- X %*% Q # Step 1
+  Q <- X_cor %*% Q # Step 1
   Q <- Q/sqrt(sum(Q^2)) # Step 2
 
  if ((iter %% 5) == 0L) { # report every 5 steps; print the correlation between

@@ -102,7 +102,7 @@
                         <h4 data-toc-skip class="author">Bryan A. Hanson<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>
 </h4>
             
-            <h4 data-toc-skip class="date">2022-07-18</h4>
+            <h4 data-toc-skip class="date">2022-07-19</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/bryanhanson/LearnPCA/blob/HEAD/vignettes/Vig_06_Math_Behind_PCA.Rmd" class="external-link"><code>vignettes/Vig_06_Math_Behind_PCA.Rmd</code></a></small>
       <div class="hidden name"><code>Vig_06_Math_Behind_PCA.Rmd</code></div>
@@ -148,8 +148,8 @@
 <p>In Figure <a href="#fig:PCA-Matrices">1</a> we show one way to represent the relationships between the original data matrix (<span class="math inline">\(\mathbf{X}\)</span>), the loadings matrix (<span class="math inline">\(\mathbf{L}\)</span>) and the scores matrix (<span class="math inline">\(\mathbf{S}\)</span>).</p>
 <div class="figure" style="text-align: center">
 <span style="display:block;" id="fig:PCA-Matrices"></span>
-<img src="PCA_Matrices.png" alt="One way to look at the matrix algebra behind PCA. Reconstruction of the data matrix $\mathbf{X}$ is achieved by multiplying the score matrix ($\mathbf{S}$) by the transpose of the loadings matrix ($\mathbf{L}$).  The method of matrix multiplication is symbolized in the red-dotted outlines: Each element of row $i$ of the scores matrix is multiplied by the corresponding element of column $j$ of the transposed loadings.  These results are summed to give a single entry in the original data matrix $\mathbf{X}_{ij}$." width="75%"><p class="caption">
-Figure 1: One way to look at the matrix algebra behind PCA. Reconstruction of the data matrix <span class="math inline">\(\mathbf{X}\)</span> is achieved by multiplying the score matrix (<span class="math inline">\(\mathbf{S}\)</span>) by the transpose of the loadings matrix (<span class="math inline">\(\mathbf{L}\)</span>). The method of matrix multiplication is symbolized in the red-dotted outlines: Each element of row <span class="math inline">\(i\)</span> of the scores matrix is multiplied by the corresponding element of column <span class="math inline">\(j\)</span> of the transposed loadings. These results are summed to give a single entry in the original data matrix <span class="math inline">\(\mathbf{X}_{ij}\)</span>.
+<img src="PCA_Matrices.png" alt="One way to look at the matrix algebra behind PCA. Reconstruction of the data matrix $\mathbf{X}$ is achieved by multiplying the score matrix ($\mathbf{S}$) by the transpose of the loadings matrix ($\mathbf{L^T}$).  The method of matrix multiplication is symbolized in the red-dotted outlines: Each element of row $i$ of the scores matrix is multiplied by the corresponding element of column $j$ of the transposed loadings.  These results are summed to give a single entry in the original data matrix $\mathbf{X}_{ij}$." width="75%"><p class="caption">
+Figure 1: One way to look at the matrix algebra behind PCA. Reconstruction of the data matrix <span class="math inline">\(\mathbf{X}\)</span> is achieved by multiplying the score matrix (<span class="math inline">\(\mathbf{S}\)</span>) by the transpose of the loadings matrix (<span class="math inline">\(\mathbf{L^T}\)</span>). The method of matrix multiplication is symbolized in the red-dotted outlines: Each element of row <span class="math inline">\(i\)</span> of the scores matrix is multiplied by the corresponding element of column <span class="math inline">\(j\)</span> of the transposed loadings. These results are summed to give a single entry in the original data matrix <span class="math inline">\(\mathbf{X}_{ij}\)</span>.
 </p>
 </div>
 <p>Figure <a href="#fig:PCA-Matrices">1</a> demonstrates that if we multiply the scores matrix (<span class="math inline">\(\mathbf{S}\)</span>) by the transpose of the loadings matrix (<span class="math inline">\(\mathbf{L^T}\)</span>), we get back the original data matrix (<span class="math inline">\(\mathbf{X}\)</span>). When we start however, all we have is the original data matrix, how do we get the other two matrices? If we think of this as an algebra problem, we seem to be missing some variables; computing the loadings and scores matrices seems like it would be impossible, as there is not enough information. However, this is not a algebra problem, it is a <em>linear</em> algebra problem (linear algebra being the study of matrices). It <em>is</em> possible to determine the answer, even though we seem to be missing information, as we shall see shortly. The key is in something called matrix decompositions.<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a></p>
@@ -158,7 +158,7 @@ Figure 1: One way to look at the matrix algebra behind PCA. Reconstruction of th
 <h2 id="matrix-decompositions">Matrix Decompositions<a class="anchor" aria-label="anchor" href="#matrix-decompositions"></a>
 </h2>
 <p>In a moment we are going to look at two matrix decompositions in detail, the singular value decomposition (SVD) and the eigenvalue decomposition. These decompositions are representative of roughly a dozen <a href="https://en.wikipedia.org/wiki/Matrix_decomposition" class="external-link">matrix decompositions</a>. A matrix decomposition or factorization breaks a matrix into pieces in such a way as to extract information and solve problems. The SVD is probably the most powerful decomposition there is – we will make extensive use of this insightful <a href="https://twitter.com/WomenInStat/status/1285610321747611653" class="external-link">Twitter thread</a> by Dr. Daniela Witten of the University of Washington. We also use this excellent <a href="https://stats.stackexchange.com/a/134283/26909" class="external-link">Cross Validated answer by amoeba</a>.</p>
-<p>A short note however, before we dig deeper. Since we are using a computer to solve this problem, we need to keep in mind that using a computer is not quite the same as solving a problem using pencil and paper. On the computer, we usually have choices of algorithms to solve problems. Some algorithms are more robust than others. Algorithms need to take into account edge cases where the computation can become unstable. For instance, computers can only store numbers to a certain level of accuracy: when is “very small” actually zero in practice? We need to know this so we don’t try to divide by zero. This is only one example of problems that can arise when using a computer to calculate values.</p>
+<p>A short note however, before we dig deeper. Since we are using a computer to solve this problem, we need to keep in mind that using a computer is not quite the same as solving a problem using pencil and paper. On the computer, we usually have choices of algorithms to solve problems. Some algorithms are more robust than others. Algorithms need to take into account edge cases where the computation can become unstable. For instance, computers can only store numbers to a certain level of accuracy: when is “very small” actually zero in practice? We need to know this so we don’t try to divide by zero. This is only one example of problems that can arise when using a computer to calculate <em>anything</em>.</p>
 <p>Finally, the two decompositions we are going to look at have something in common. Our approach will be to explain each without reference to the other, as this facilitates digestion and understanding of each (it doesn’t seem fair to require you to understand the 2nd one that you haven’t read while trying to understand the first one). Then, if you are still with us, we’ll look at what they have in common.</p>
 </div>
 <div class="section level2">
@@ -177,13 +177,13 @@ Figure 1: One way to look at the matrix algebra behind PCA. Reconstruction of th
 <p>The equation above is where we’d like to end up. How can we get there? Let’s start with <em>What are these matrices</em>?</p>
 <ul>
 <li>
-<span class="math inline">\(\mathbf{X}\)</span> contains the original data</li>
+<span class="math inline">\(\mathbf{X}\)</span> contains the original data.</li>
 <li>The columns of <span class="math inline">\(\mathbf{U}\)</span> are vectors giving the principal axes. These define the new coordinate system.</li>
 <li>The scores can be obtained by <span class="math inline">\(\mathbf{X}\mathbf{V}\)</span>; scores are the projections of the data on the principal axes.</li>
 <li>
 <span class="math inline">\(\mathbf{D}\)</span> is a diagonal matrix, which means all non-diagonal elements are zero. The diagonal contains positive values sorted from largest to smallest. These are called the singular values.<a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a>
 </li>
-<li>The columns of <span class="math inline">\(\mathbf{V}\)</span> are the PCA loadings</li>
+<li>The columns of <span class="math inline">\(\mathbf{V}\)</span> are the PCA loadings.</li>
 </ul>
 <p>In addition, <span class="math inline">\(\mathbf{U}\)</span> and <span class="math inline">\(\mathbf{V}\)</span> are semi-orthogonal matrices,<a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a> which means that when pre-multiplied by their transpose one gets the identity matrix:<a href="#fn7" class="footnote-ref" id="fnref7"><sup>7</sup></a></p>
 <p><span class="math display" id="eq:svd3">\[\begin{equation}
@@ -195,21 +195,21 @@ Figure 1: One way to look at the matrix algebra behind PCA. Reconstruction of th
 \mathbf{V}^{T}\mathbf{V} = \mathbf{I}
 \end{equation}\]</span></p>
 <p>We’ll use this fact to great advantage when we implement a simple version of SVD in a moment.</p>
+<p>First however, let’s use the two built-in functions <code>svd</code> and <code>prcomp</code> to compute the “accepted” answer for comparison to our simple implementation.</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">30</span><span class="op">)</span></span>
+<span><span class="va">X</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">100</span><span class="op">*</span><span class="fl">50</span><span class="op">)</span>, ncol <span class="op">=</span> <span class="fl">50</span><span class="op">)</span> <span class="co"># generate random data</span></span>
+<span><span class="va">X_svd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/svd.html" class="external-link">svd</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span></span>
+<span><span class="va">X_pca</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/prcomp.html" class="external-link">prcomp</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="a-simple-implementation-of-svd">A Simple Implementation of SVD<a class="anchor" aria-label="anchor" href="#a-simple-implementation-of-svd"></a>
 </h2>
 <p>Now that we know what these matrices are, we can look into how to compute them. As mentioned earlier, the algorithm is everything here. As a simple example, we’ll look at an approach called “power iteration.” This is by no means the best approach, but it is simple enough that we can understand the idea. First, let’s generate some random data. In this simple example we are only going to compute the first principal component, so <code>V</code> is a vector, not a matrix (one can still do matrix multiplication with a vector, we just treat it as a “row vector” or a “column vector”).<a href="#fn8" class="footnote-ref" id="fnref8"><sup>8</sup></a> Note that the dimensions of the variables are chosen so that we can matrix multiply them (they are <em>conformable</em> matrices).</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">30</span><span class="op">)</span></span>
-<span><span class="va">X</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">100</span><span class="op">*</span><span class="fl">50</span><span class="op">)</span>, ncol <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span>
-<span><span class="va">V</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span></span></code></pre></div>
-<p>Next, we’ll use the built-in function <code>svd</code> to compute the “official” answer for comparison to our results.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">X_svd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/svd.html" class="external-link">svd</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span></span></code></pre></div>
 <p>We’ll do a simple iterative calculation that computes the values of <code>U</code> and <code>V</code>. The loop runs for 50 iterations, and as it does the values of <code>U</code> and <code>V</code> are continuously updated and get closer to the actual answer.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw">for</span> <span class="op">(</span><span class="va">iter</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">50</span><span class="op">)</span> <span class="op">{</span></span>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">V</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span></span>
+<span><span class="kw">for</span> <span class="op">(</span><span class="va">iter</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">50</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">U</span> <span class="op">&lt;-</span> <span class="va">X</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="va">V</span> <span class="co"># Step 1</span></span>
 <span>  <span class="va">U</span> <span class="op">&lt;-</span> <span class="va">U</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">U</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="co"># Step 2</span></span>
 <span>  <span class="va">V</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="va">U</span> <span class="co"># Step 3</span></span>
@@ -311,24 +311,23 @@ Figure 1: One way to look at the matrix algebra behind PCA. Reconstruction of th
 <h3 id="comparison-to-the-answer-from-svd">Comparison to the Answer from <code>svd</code><a class="anchor" aria-label="anchor" href="#comparison-to-the-answer-from-svd"></a>
 </h3>
 <p>Let’s compare the absolute values of the two different answers:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">V</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">X_svd</span><span class="op">$</span><span class="va">v</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 4.735975e-06</span></span></code></pre>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">U</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">X_svd</span><span class="op">$</span><span class="va">u</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 2.752052e-06</span></span></code></pre>
-<p>As you can see, the values are essentially the same except for sign.</p>
+<p>As you can see, the values are essentially the same.</p>
 </div>
 <div class="section level3">
 <h3 id="comparison-to-the-answer-from-prcomp">Comparison to the Answer from <code>prcomp</code><a class="anchor" aria-label="anchor" href="#comparison-to-the-answer-from-prcomp"></a>
 </h3>
 <p>We have seen that our estimate of <code>U</code> and <code>V</code> compared well to the results from the function <code>svd</code>. In practice users would probably use <code>prcomp</code> for PCA. So let’s compare to the results from <code>prcomp</code>.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">PCA</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/prcomp.html" class="external-link">prcomp</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">X</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="va">V</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">PCA</span><span class="op">$</span><span class="va">x</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span> <span class="co"># compare the scores</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">X</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="va">V</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">X_pca</span><span class="op">$</span><span class="va">x</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span> <span class="co"># compare the scores</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 0.004591257</span></span></code></pre>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">V</span><span class="op">)</span><span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">PCA</span><span class="op">$</span><span class="va">rotation</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span> <span class="co"># compare the loadings</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">V</span><span class="op">)</span><span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">X_pca</span><span class="op">$</span><span class="va">rotation</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span> <span class="co"># compare the loadings</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 0.0001339306</span></span></code></pre>
 <p>These mean differences are very small but not quite as good as using <code>svd</code> directly.</p>
 <p>Notice that we have worked through the SVD without mentioning eigen-anything. That was one of our goals. Now let’s take a different point of view.</p>
@@ -355,7 +354,7 @@ Figure 1: One way to look at the matrix algebra behind PCA. Reconstruction of th
 <li>
 <span class="math inline">\(\mathbf{Q}\)</span> is square matrix that whose columns will contain the <em>eigenvectors</em>. <span class="math inline">\(\mathbf{Q}\)</span> is also an orthogonal matrix (discussed earlier in the SVD section). Notice that <span class="math inline">\(\mathbf{Q}\)</span> appears twice in <a href="#eq:ed2">(14)</a>, the second time as its transpose.</li>
 <li>
-<span class="math inline">\(\mathbf{\Lambda}\)</span> (upper case Greek letter Lambda) is a diagonal matrix, very similar in function to <span class="math inline">\(\mathbf{D}\)</span> in SVD. All non-diagonal elements are zero. The diagonal contains values sorted from largest to smallest. These are called the <em>eigenvalues</em>.</li>
+<span class="math inline">\(\mathbf{\Lambda}\)</span> (upper case Greek letter Lambda) is a diagonal matrix, very similar in purpose to <span class="math inline">\(\mathbf{D}\)</span> in SVD. All non-diagonal elements are zero. The diagonal contains values sorted from largest to smallest. These are called the <em>eigenvalues</em>.</li>
 </ul>
 <p>So what are eigenvectors and eigenvalues? The eigenvalues are related to the amount of variance explained for each principal component. The eigenvectors are the principal axes, which as we have seen constitute a new coordinate system for looking at the data (see the <a href="#top-matter">Visualizing PCA in 3D</a> vignette for details). If we post-multiply the original data by the eigenvectors in <span class="math inline">\(\mathbf{Q}\)</span> we get the scores:</p>
 <p><span class="math display" id="eq:ed4">\[\begin{equation}
@@ -367,18 +366,15 @@ Figure 1: One way to look at the matrix algebra behind PCA. Reconstruction of th
 <h3 id="a-simple-implementation-of-the-eigen-decomposition">A Simple Implementation of the Eigen Decomposition<a class="anchor" aria-label="anchor" href="#a-simple-implementation-of-the-eigen-decomposition"></a>
 </h3>
 <p>As we did for <code>SVD</code>, we can use a power iteration to compute estimates for the first eigenvector.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">30</span><span class="op">)</span></span>
-<span><span class="va">X</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">100</span><span class="op">*</span><span class="fl">50</span><span class="op">)</span>, ncol <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span>
-<span><span class="va">X</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">cor</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span></span>
-<span><span class="va">Q</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span></span></code></pre></div>
 <p>Next, we’ll use the built-in function <code>eigen</code> to compute the “official” answer for comparison to our results.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">X_eig</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/eigen.html" class="external-link">eigen</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">X_cor</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">cor</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span></span>
+<span><span class="va">X_eig</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/eigen.html" class="external-link">eigen</a></span><span class="op">(</span><span class="va">X_cor</span><span class="op">)</span></span></code></pre></div>
 <p>A simple iterative process as we did for SVD will continuously update the value of <code>Q</code>.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw">for</span> <span class="op">(</span><span class="va">iter</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">50</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">Q</span> <span class="op">&lt;-</span> <span class="va">X</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="va">Q</span> <span class="co"># Step 1</span></span>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">Q</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span></span>
+<span><span class="kw">for</span> <span class="op">(</span><span class="va">iter</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">50</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">Q</span> <span class="op">&lt;-</span> <span class="va">X_cor</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="va">Q</span> <span class="co"># Step 1</span></span>
 <span>  <span class="va">Q</span> <span class="op">&lt;-</span> <span class="va">Q</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">Q</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="co"># Step 2</span></span>
 <span></span>
 <span> <span class="kw">if</span> <span class="op">(</span><span class="op">(</span><span class="va">iter</span> <span class="op"><a href="https://rdrr.io/r/base/Arithmetic.html" class="external-link">%%</a></span> <span class="fl">5</span><span class="op">)</span> <span class="op">==</span> <span class="fl">0L</span><span class="op">)</span> <span class="op">{</span> <span class="co"># report every 5 steps; print the correlation between</span></span>
@@ -388,38 +384,38 @@ Figure 1: One way to look at the matrix algebra behind PCA. Reconstruction of th
 <span><span class="op">}</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## Iteration 5 </span></span>
-<span><span class="co">##  cor with Q: 0.669676 </span></span>
+<span><span class="co">##  cor with Q: -0.551169 </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Iteration 10 </span></span>
-<span><span class="co">##  cor with Q: 0.933282 </span></span>
+<span><span class="co">##  cor with Q: -0.848349 </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Iteration 15 </span></span>
-<span><span class="co">##  cor with Q: 0.989643 </span></span>
+<span><span class="co">##  cor with Q: -0.963039 </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Iteration 20 </span></span>
-<span><span class="co">##  cor with Q: 0.998310 </span></span>
+<span><span class="co">##  cor with Q: -0.991606 </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Iteration 25 </span></span>
-<span><span class="co">##  cor with Q: 0.999698 </span></span>
+<span><span class="co">##  cor with Q: -0.998081 </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Iteration 30 </span></span>
-<span><span class="co">##  cor with Q: 0.999942 </span></span>
+<span><span class="co">##  cor with Q: -0.999555 </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Iteration 35 </span></span>
-<span><span class="co">##  cor with Q: 0.999988 </span></span>
+<span><span class="co">##  cor with Q: -0.999896 </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Iteration 40 </span></span>
-<span><span class="co">##  cor with Q: 0.999997 </span></span>
+<span><span class="co">##  cor with Q: -0.999975 </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Iteration 45 </span></span>
-<span><span class="co">##  cor with Q: 0.999999 </span></span>
+<span><span class="co">##  cor with Q: -0.999994 </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Iteration 50 </span></span>
-<span><span class="co">##  cor with Q: 1.000000</span></span></code></pre>
+<span><span class="co">##  cor with Q: -0.999999</span></span></code></pre>
 <p>How does the final estimate for <code>Q</code> compare to the official answer? We can check our result as before:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">Q</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">X_eig</span><span class="op">$</span><span class="va">vectors</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span> <span class="co"># check the loadings</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] -8.0837e-06</span></span></code></pre>
+<pre><code><span><span class="co">## [1] -3.010147e-05</span></span></code></pre>
 <p>Good work by the power iteration!</p>
 </div>
 </div>
