@@ -328,6 +328,25 @@ Either of these "values" can be used to compute the amount of variance explained
 
 The two simple implementations described above are very limited.  They are in no way suitable for use with real data, but they do serve as a conceptual introduction.  In reality, carrying out PCA on real data sets in a robust manner requires rather complex algorithms, well beyond the scope of these documents.  If you want a brief taste, the [Wikipedia](https://en.wikipedia.org/wiki/Singular_value_decomposition#Calculating_the_SVD) article and this [StackOverflow](https://stats.stackexchange.com/a/114606/26909) answer may satisfy your needs.  A more intermediate discussion can be found in Chapter 3 "Principal Components Analysis" in @Filzmoser2009.
 
+# The NIPALS Algorithm
+
+In addition to SVD and Eigen decomposition, there is another algorithm we should discuss.  NIPALS stands for Non-linear Iterative PArtial Least Squares.  NIPALS is a very important algorithm because:
+
+* One can limit the number of principal components one calculates, you don't have to calculate all of them as you do with SVD and the Eigen decomposition.  If you have a very large data set, calculating a limited number of principal components and save time and reduce memory use.
+* Missing values are acceptable, unlike the two decompositions discussed earlier.
+
+NIPALS is not so much another decomposition but rather more a direct attack on the equation featured in Figure \@ref(fig:PCA-Matrices):
+
+\begin{equation}
+(\#eq:nipals1)
+\mathbf{X} = \mathbf{S} \mathbf{L^T}
+\end{equation}
+
+## A Simple Implementation of NIPALS
+
+
+```
+
 <!-- Insert refer_to_works_consulted document -->
 
 ```{r, echo = FALSE, results = "asis"}
@@ -342,7 +361,7 @@ cat(res, sep = '\n')
 [^3]: The operation from equation \@ref(eq:svd10) to \@ref(eq:svd11) is based upon the following property in linear algebra: $(AB)^T$ = $B^TA^T$.
 [^4]: For semi-orthogonal matrices (or orthogonal matrices for that matter), $A^TA = AA^T = I$.  Semi-orthogonal matrices are rectangular.  For non-rectangular orthogonal matrices, if $n > p$, the dot product of any column with itself is 1, and the dot product of any column with a different column is zero.  If $n < p$, then it is the rows rather than the columns that are relevant.  See the [Wikipedia article](https://en.wikipedia.org/wiki/Semi-orthogonal_matrix).
 [^5]: This treatment is the "compact SVD" [case](https://en.wikipedia.org/wiki/Singular_value_decomposition).
-[^6]: This is the $L^2$ or Euclidean norm, generally interpreted as a length.
+[^6]: This is the $L^2$ or Euclidean norm, generally interpreted as a length.  It can also be computed as $U^TU$.
 [^7]: As the values grow larger and larger, first we lose precision and eventually the numbers become too big to store.
 [^8]: Eigenvalues and eigenvectors are extremely important in linear algebra.  The concept is usually introduced in the simpler form $Au = \lambda u$.
 [^9]: The singular values are used to calculate the variance explained by each principal component. We'll have more to say about that later.
