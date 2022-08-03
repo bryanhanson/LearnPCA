@@ -359,10 +359,13 @@ simpleNIPALS <- function(X, pcs = 3, tol = 1e-6) {
       l <- l/sqrt(sum(l^2)) # scale by l2 norm
       s_new <-X %*% l # compute/improve/update scores estimate
       err <- sqrt(sum((s_new - s_old)^2)) # compute the error of the score estimate
-      if (err < tol) {done <- TRUE; next} # check error against tolerance, exit if good
-      s_old <- s_new # if continuing, use the improved score estimate next time through while loop
+      if (err < tol) {done <- TRUE; next} # check error against tolerance,
+                                          # exit if good
+      s_old <- s_new # if continuing, use the improved score estimate
+                     # next time through while loop
     }
-    X <- X - s_new %*% t(l) # "deflate" the data by removing the contribution of the results so far Note 3
+    X <- X - s_new %*% t(l) # "deflate" the data by removing the 
+                            # contribution of the results so far Note 3
     S <- cbind(S, s_new) # add the most recent scores to the growing results
     L <- cbind(L, l) # add the most recent loadings to the growing results
   }
