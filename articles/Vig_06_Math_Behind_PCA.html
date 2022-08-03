@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">LearnPCA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.3</span>
       </span>
     </div>
 
@@ -102,7 +102,7 @@
                         <h4 data-toc-skip class="author">Bryan A. Hanson<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>
 </h4>
             
-            <h4 data-toc-skip class="date">2022-07-20</h4>
+            <h4 data-toc-skip class="date">2022-08-03</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/bryanhanson/LearnPCA/blob/HEAD/vignettes/Vig_06_Math_Behind_PCA.Rmd" class="external-link"><code>vignettes/Vig_06_Math_Behind_PCA.Rmd</code></a></small>
       <div class="hidden name"><code>Vig_06_Math_Behind_PCA.Rmd</code></div>
@@ -114,7 +114,7 @@
 <!-- This chunk inserts common info about all the vignettes -->
 <!-- ======================================================================= -->
 <div class="top-matter">
-<p><em>This vignette is based upon <code>LearnPCA</code> version 0.2.2.</em></p>
+<p><em>This vignette is based upon <code>LearnPCA</code> version 0.2.3.</em></p>
 <p><code>LearnPCA</code> provides the following vignettes: <a name="top-matter"></a></p>
 <ul>
 <li><a href="http://bryanhanson.github.io/LearnPCA/articles/Start_Here.html" class="external-link">Start Here</a></li>
@@ -199,8 +199,9 @@ Figure 1: One way to look at the matrix algebra behind PCA. Reconstruction of th
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">30</span><span class="op">)</span></span>
 <span><span class="va">X</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">100</span><span class="op">*</span><span class="fl">50</span><span class="op">)</span>, ncol <span class="op">=</span> <span class="fl">50</span><span class="op">)</span> <span class="co"># generate random data</span></span>
+<span><span class="va">X</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/scale.html" class="external-link">scale</a></span><span class="op">(</span><span class="va">X</span>, center <span class="op">=</span> <span class="cn">TRUE</span>, scale <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="co"># always work with centered data</span></span>
 <span><span class="va">X_svd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/svd.html" class="external-link">svd</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span></span>
-<span><span class="va">X_pca</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/prcomp.html" class="external-link">prcomp</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">X_pca</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/prcomp.html" class="external-link">prcomp</a></span><span class="op">(</span><span class="va">X</span>, center <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="co"># already centered</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="a-simple-implementation-of-svd">A Simple Implementation of SVD<a class="anchor" aria-label="anchor" href="#a-simple-implementation-of-svd"></a>
 </h3>
@@ -221,19 +222,19 @@ Figure 1: One way to look at the matrix algebra behind PCA. Reconstruction of th
 <span><span class="op">}</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## Iteration 10 </span></span>
-<span><span class="co">##  cor with V: -0.931153 </span></span>
-<span><span class="co">##  cor with U: -0.917383 </span></span>
+<span><span class="co">##  cor with V: -0.931423 </span></span>
+<span><span class="co">##  cor with U: -0.917212 </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Iteration 20 </span></span>
-<span><span class="co">##  cor with V: -0.998758 </span></span>
-<span><span class="co">##  cor with U: -0.998542 </span></span>
+<span><span class="co">##  cor with V: -0.998964 </span></span>
+<span><span class="co">##  cor with U: -0.998752 </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Iteration 30 </span></span>
-<span><span class="co">##  cor with V: -0.999969 </span></span>
-<span><span class="co">##  cor with U: -0.999965 </span></span>
+<span><span class="co">##  cor with V: -0.999981 </span></span>
+<span><span class="co">##  cor with U: -0.999978 </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Iteration 40 </span></span>
-<span><span class="co">##  cor with V: -0.999999 </span></span>
+<span><span class="co">##  cor with V: -1.000000 </span></span>
 <span><span class="co">##  cor with U: -0.999999 </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Iteration 50 </span></span>
@@ -312,10 +313,10 @@ Figure 1: One way to look at the matrix algebra behind PCA. Reconstruction of th
 <p>Let’s compare the absolute values of the two different answers:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">V</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">X_svd</span><span class="op">$</span><span class="va">v</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] 4.735975e-06</span></span></code></pre>
+<pre><code><span><span class="co">## [1] 2.679147e-06</span></span></code></pre>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">U</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">X_svd</span><span class="op">$</span><span class="va">u</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] 2.752052e-06</span></span></code></pre>
+<pre><code><span><span class="co">## [1] 1.793972e-06</span></span></code></pre>
 <p>As you can see, the values are essentially the same.</p>
 </div>
 <div class="section level4">
@@ -324,11 +325,11 @@ Figure 1: One way to look at the matrix algebra behind PCA. Reconstruction of th
 <p>We have seen that our estimate of <code>U</code> and <code>V</code> compared well to the results from the function <code>svd</code>. In practice users would probably use <code>prcomp</code> for PCA. So let’s compare to the results from <code>prcomp</code>.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">X</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="va">V</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">X_pca</span><span class="op">$</span><span class="va">x</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span> <span class="co"># compare the scores</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] 0.004591257</span></span></code></pre>
+<pre><code><span><span class="co">## [1] 2.559261e-05</span></span></code></pre>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">V</span><span class="op">)</span><span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">X_pca</span><span class="op">$</span><span class="va">rotation</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span> <span class="co"># compare the loadings</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] 0.0001339306</span></span></code></pre>
-<p>These mean differences are very small but not quite as good as using <code>svd</code> directly.</p>
+<pre><code><span><span class="co">## [1] 2.679147e-06</span></span></code></pre>
+<p>In this case as well, the values compare favorably.</p>
 <p>Notice that we have worked through the SVD without mentioning eigen-anything. That was one of our goals. Now let’s take a different point of view.</p>
 </div>
 </div>
@@ -438,7 +439,83 @@ Figure 1: One way to look at the matrix algebra behind PCA. Reconstruction of th
 <h2 id="algorithmic-reality">Algorithmic Reality<a class="anchor" aria-label="anchor" href="#algorithmic-reality"></a>
 </h2>
 <p>The two simple implementations described above are very limited. They are in no way suitable for use with real data, but they do serve as a conceptual introduction. In reality, carrying out PCA on real data sets in a robust manner requires rather complex algorithms, well beyond the scope of these documents. If you want a brief taste, the <a href="https://en.wikipedia.org/wiki/Singular_value_decomposition#Calculating_the_SVD" class="external-link">Wikipedia</a> article and this <a href="https://stats.stackexchange.com/a/114606/26909" class="external-link">StackOverflow</a> answer may satisfy your needs. A more intermediate discussion can be found in Chapter 3 “Principal Components Analysis” in <span class="citation">Varmuza and Filzmoser (<a href="#ref-Filzmoser2009" role="doc-biblioref">2009</a>)</span>.</p>
+</div>
+<div class="section level2">
+<h2 id="the-nipals-algorithm">The NIPALS Algorithm<a class="anchor" aria-label="anchor" href="#the-nipals-algorithm"></a>
+</h2>
+<p>In addition to SVD and Eigen decomposition, there is another algorithm we should discuss. NIPALS stands for Non-linear Iterative PArtial Least Squares. NIPALS is a very important algorithm because:</p>
+<ul>
+<li>One can limit the number of principal components one calculates, you don’t have to calculate all of them as you do with SVD and the Eigen decomposition. If you have a very large data set, calculating a limited number of principal components and save time and reduce memory use.</li>
+<li>Missing values are acceptable, unlike the two decompositions discussed earlier.</li>
+</ul>
+<p>NIPALS is not so much another decomposition but rather more a direct attack on the equation featured in Figure <a href="#fig:PCA-Matrices">1</a>:</p>
+<p><span class="math display" id="eq:nipals1">\[\begin{equation}
+\tag{17}
+\mathbf{X} = \mathbf{S} \mathbf{L^T}
+\end{equation}\]</span></p>
+<div class="section level3">
+<h3 id="a-simple-implementation-of-nipals">A Simple Implementation of NIPALS<a class="anchor" aria-label="anchor" href="#a-simple-implementation-of-nipals"></a>
+</h3>
+<p>Here is a function that will compute PCA using the NIPALS algorithm. The key math steps here are just rearrangements of <a href="#eq:nipals1">(17)</a>.</p>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">simpleNIPALS</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">X</span>, <span class="va">pcs</span> <span class="op">=</span> <span class="fl">3</span>, <span class="va">tol</span> <span class="op">=</span> <span class="fl">1e-6</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">S</span> <span class="op">&lt;-</span> <span class="cn">NULL</span> <span class="co"># a place to store the scores</span></span>
+<span>  <span class="va">L</span> <span class="op">&lt;-</span> <span class="cn">NULL</span> <span class="co"># a place to store the loadings</span></span>
+<span>  <span class="kw">for</span> <span class="op">(</span><span class="va">pc</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">pcs</span><span class="op">)</span> <span class="op">{</span> <span class="co"># compute one PC at a time</span></span>
+<span>    <span class="va">s_old</span> <span class="op">&lt;-</span> <span class="va">X</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span> <span class="co"># initial estimate of the score Note 1</span></span>
+<span>    <span class="va">done</span> <span class="op">&lt;-</span> <span class="cn">FALSE</span> <span class="co"># flag to track progress</span></span>
+<span>    <span class="kw">while</span> <span class="op">(</span><span class="op">!</span><span class="va">done</span><span class="op">)</span> <span class="op">{</span> <span class="co"># Note 2</span></span>
+<span>      <span class="va">l</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="va">s_old</span> <span class="co"># compute/improve/update loadings estimate</span></span>
+<span>      <span class="va">l</span> <span class="op">&lt;-</span> <span class="va">l</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">l</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="co"># scale by l2 norm</span></span>
+<span>      <span class="va">s_new</span> <span class="op">&lt;-</span><span class="va">X</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="va">l</span> <span class="co"># compute/improve/update scores estimate</span></span>
+<span>      <span class="va">err</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="op">(</span><span class="va">s_new</span> <span class="op">-</span> <span class="va">s_old</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="co"># compute the error of the score estimate</span></span>
+<span>      <span class="kw">if</span> <span class="op">(</span><span class="va">err</span> <span class="op">&lt;</span> <span class="va">tol</span><span class="op">)</span> <span class="op">{</span><span class="va">done</span> <span class="op">&lt;-</span> <span class="cn">TRUE</span>; <span class="kw">next</span><span class="op">}</span> <span class="co"># check error against tolerance,</span></span>
+<span>                                          <span class="co"># exit if good</span></span>
+<span>      <span class="va">s_old</span> <span class="op">&lt;-</span> <span class="va">s_new</span> <span class="co"># if continuing, use the improved score estimate</span></span>
+<span>                     <span class="co"># next time through while loop</span></span>
+<span>    <span class="op">}</span></span>
+<span>    <span class="va">X</span> <span class="op">&lt;-</span> <span class="va">X</span> <span class="op">-</span> <span class="va">s_new</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="va">l</span><span class="op">)</span> <span class="co"># "deflate" the data by removing the </span></span>
+<span>                            <span class="co"># contribution of the results so far Note 3</span></span>
+<span>    <span class="va">S</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">S</span>, <span class="va">s_new</span><span class="op">)</span> <span class="co"># add the most recent scores to the growing results</span></span>
+<span>    <span class="va">L</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">L</span>, <span class="va">l</span><span class="op">)</span> <span class="co"># add the most recent loadings to the growing results</span></span>
+<span>  <span class="op">}</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Scores <span class="op">=</span> <span class="va">S</span>, Loadings <span class="op">=</span> <span class="va">L</span><span class="op">)</span> <span class="co"># return the answers</span></span>
+<span><span class="op">}</span></span></code></pre></div>
+<p>If you looked carefully at our earlier simple implementations of SVD and eigen decomposition, you probably noticed that this simple NIPALS function is also using power iteration and is very similar. Let’s draw attention to a few things:</p>
+<ul>
+<li>
+<em>Note 1:</em> Here we select the first column of <span class="math inline">\(\mathbf{X}\)</span> as our initial estimate of the scores. In our simple implementations of SVD and eigen decomposition we used a random draw to determine the initial estimate.</li>
+<li>
+<em>Note 2:</em> All the work is done inside this <code>while</code> loop, which runs until the error is below the tolerance. The basic flow is to start with the initial estimate, update scores and loadings, then then feed these back in as better estimates. This is exactly the concept used in the other implementation, we are just doing it until the tolerance is reached, rather than running it a fixed number of iterations.</li>
+<li>
+<em>Note 3:</em> This “deflation” step is unique to NIPALS. Once we have estimates for the scores with minimal error, we reconstruct the original data following equation <a href="#eq:nipals1">(17)</a>, and subtract this from the original <span class="math inline">\(\mathbf{X}\)</span> to give a “deflated” <span class="math inline">\(\mathbf{X}\)</span> which is then processed as before if we have more PCs to compute.</li>
+</ul>
+<div class="section level4">
+<h4 id="checking-our-work">Checking Our work<a class="anchor" aria-label="anchor" href="#checking-our-work"></a>
+</h4>
+<p>Let’s run this function and compare to the previous accepted answers.</p>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">N</span> <span class="op">&lt;-</span> <span class="fu">simpleNIPALS</span><span class="op">(</span><span class="va">X</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">N</span><span class="op">$</span><span class="va">Scores</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">X_pca</span><span class="op">$</span><span class="va">x</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span> <span class="co"># compare the scores from prcomp</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] 4.482769e-08</span></span></code></pre>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">N</span><span class="op">$</span><span class="va">Loadings</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">X_pca</span><span class="op">$</span><span class="va">rotation</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span> <span class="co"># compare the loadings from prcomp</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] 5.605989e-09</span></span></code></pre>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">N</span><span class="op">$</span><span class="va">Scores</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">X</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="va">X_svd</span><span class="op">$</span><span class="va">v</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span> <span class="co"># compare the scores from svd</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] 4.482769e-08</span></span></code></pre>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">N</span><span class="op">$</span><span class="va">Loadings</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">X_svd</span><span class="op">$</span><span class="va">v</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span> <span class="co"># compare the loadings from svd</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] 5.605989e-09</span></span></code></pre>
+<p>These are satisfying results that show our simple NIPALS function gives good results.</p>
+</div>
+<div class="section level4">
+<h4 id="tying-things-together">Tying Things Together<a class="anchor" aria-label="anchor" href="#tying-things-together"></a>
+</h4>
+<p>In our simple implementation of SVD and eigen decomposition, we used power iteration because it was fairly easy to relate to the fundamental equations (<a href="#eq:svd1">(1)</a> and <a href="#eq:ed2">(14)</a>). As we mentioned above however, power iteration is not the best way to actually do either SVD or eigen decomposition. However, power iteration <em>is</em> the method used in NIPALS, so our time was well spent to understand the principle.</p>
 <!-- Insert refer_to_works_consulted document -->
+</div>
+</div>
 </div>
 <div class="section level2">
 <h2 id="works-consulted">Works Consulted<a class="anchor" aria-label="anchor" href="#works-consulted"></a>
@@ -471,7 +548,7 @@ Varmuza, K., and P. Filzmoser. 2009. <em>Introduction to Multivariate Statistica
 <li id="fn6"><p>For semi-orthogonal matrices (or orthogonal matrices for that matter), <span class="math inline">\(A^TA = AA^T = I\)</span>. Semi-orthogonal matrices are rectangular. For non-rectangular orthogonal matrices, if <span class="math inline">\(n &gt; p\)</span>, the dot product of any column with itself is 1, and the dot product of any column with a different column is zero. If <span class="math inline">\(n &lt; p\)</span>, then it is the rows rather than the columns that are relevant. See the <a href="https://en.wikipedia.org/wiki/Semi-orthogonal_matrix" class="external-link">Wikipedia article</a>.<a href="#fnref6" class="footnote-back">↩︎</a></p></li>
 <li id="fn7"><p>The identity matrix <span class="math inline">\(\mathbf{I}\)</span> is a square matrix with ones on the diagonal and zeros everywhere else. The identity matrix can pre- or post-multiply any other matrix and not affect that matrix.<a href="#fnref7" class="footnote-back">↩︎</a></p></li>
 <li id="fn8"><p>When refering to the mathematical equations, we’ll use <span class="math inline">\(\mathbf{X}\)</span>, but when referencing the values we compute, we’ll use <code>X</code>.<a href="#fnref8" class="footnote-back">↩︎</a></p></li>
-<li id="fn9"><p>This is the <span class="math inline">\(L^2\)</span> or Euclidean norm, generally interpreted as a length.<a href="#fnref9" class="footnote-back">↩︎</a></p></li>
+<li id="fn9"><p>This is the <span class="math inline">\(L^2\)</span> or Euclidean norm, generally interpreted as a length. It can also be computed as <span class="math inline">\(U^TU\)</span>.<a href="#fnref9" class="footnote-back">↩︎</a></p></li>
 <li id="fn10"><p>As the values grow larger and larger, first we lose precision and eventually the numbers become too big to store.<a href="#fnref10" class="footnote-back">↩︎</a></p></li>
 <li id="fn11"><p>The operation from equation <a href="#eq:svd10">(11)</a> to <a href="#eq:svd11">(12)</a> is based upon the following property in linear algebra: <span class="math inline">\((AB)^T\)</span> = <span class="math inline">\(B^TA^T\)</span>.<a href="#fnref11" class="footnote-back">↩︎</a></p></li>
 <li id="fn12"><p>From <code><a href="https://rdrr.io/r/stats/prcomp.html" class="external-link">?prcomp</a></code> “The signs of the columns of the rotation matrix are arbitrary, and so may differ between different programs for PCA, and even between different builds of R.” From <code><a href="https://rdrr.io/r/stats/princomp.html" class="external-link">?princomp</a></code> “The signs of the columns of the loadings and scores are arbitrary, and so may differ between different programs for PCA, and even between different builds of R: fix_sign = TRUE alleviates that.” We discuss the origin of the different signs in more detail in <a href="#top-matter">PCA Functions vignette</a>.<a href="#fnref12" class="footnote-back">↩︎</a></p></li>
