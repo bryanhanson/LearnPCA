@@ -121,8 +121,9 @@ First however, let's use the two built-in functions `svd` and `prcomp` to comput
 ```{r accepted}
 set.seed(30)
 X <- matrix(rnorm(100*50), ncol = 50) # generate random data
+X <- scale(X, center = TRUE, scale = FALSE) # always work with centered data
 X_svd <- svd(X)
-X_pca <- prcomp(X)
+X_pca <- prcomp(X, center = FALSE) # already centered
 ```
 
 ## A Simple Implementation of SVD
@@ -240,7 +241,7 @@ mean(abs(X %*% V) - abs(X_pca$x[,1])) # compare the scores
 mean(abs(V)- abs(X_pca$rotation[,1])) # compare the loadings
 ```
 
-These mean differences are very small but not quite as good as using `svd` directly.
+In this case as well, the values compare favorably.
 
 Notice that we have worked through the SVD without mentioning eigen-anything.  That was one of our goals.  Now let's take a different point of view.
 
@@ -344,7 +345,7 @@ NIPALS is not so much another decomposition but rather more a direct attack on t
 
 ## A Simple Implementation of NIPALS
 
-Here is a function that will compute PCA using the NIPALS algorithm:
+Here is a function that will compute PCA using the NIPALS algorithm.  The key math steps here are just rearrangements of \@ref(eq:nipals1).
 
 ```{r}
 simpleNIPALS <- function(X, pcs = 3, tol = 1e-6) {
@@ -354,12 +355,12 @@ simpleNIPALS <- function(X, pcs = 3, tol = 1e-6) {
     s_old <- X[,1] # initial estimate of the score Note 1
     done <- FALSE # flag to track progress
     while (!done) { # Note 2
-      l <- t(X) %*% s_old # compute/improve loading estimate by projecting scores onto raw data
+      l <- t(X) %*% s_old # compute/improve/update loadings estimate
       l <- l/sqrt(sum(l^2)) # scale by l2 norm
-      s_new <-X %*% l # update estimate of scores
+      s_new <-X %*% l # compute/improve/update scores estimate
       err <- sqrt(sum((s_new - s_old)^2)) # compute the error of the score estimate
       if (err < tol) {done <- TRUE; next} # check error against tolerance, exit if good
-      s_old <- s_new # if continuing, use the best score estimate
+      s_old <- s_new # if continuing, use the improved score estimate next time through while loop
     }
     X <- X - s_new %*% t(l) # "deflate" the data by removing the contribution of the results so far Note 3
     S <- cbind(S, s_new) # add the most recent scores to the growing results
@@ -391,7 +392,7 @@ These are satisfying results that show our simple NIPALS function gives good res
 
 ### Tying Things Together
 
-In our simple implementation of SVD and eigen decomposition, we used power iteration because it was fairly easy to relate to the fundamental equations (\@ref(eq:svd1) and \@ref(eq:ed2)).  As we mentioned above however, power iteration is not the best way to actually do either SVD or eigen decomposition.  However, power iteration is the method used in NIPALS, so our time was well spent to understand the principle.
+In our simple implementation of SVD and eigen decomposition, we used power iteration because it was fairly easy to relate to the fundamental equations (\@ref(eq:svd1) and \@ref(eq:ed2)).  As we mentioned above however, power iteration is not the best way to actually do either SVD or eigen decomposition.  However, power iteration *is* the method used in NIPALS, so our time was well spent to understand the principle.
 
 <!-- Insert refer_to_works_consulted document -->
 
