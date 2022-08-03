@@ -1,3 +1,6 @@
+# LearnPCA 02.3 2022-08-03
+* New material on NIPALS in Vig_06.  Not on CRAN.
+
 # LearnPCA 0.2.1 2022-07-18
 * Fixed a problem with cross-references to figures and tables in Vig_06. Affects documentation only, not CRAN version.
 
