@@ -344,8 +344,54 @@ NIPALS is not so much another decomposition but rather more a direct attack on t
 
 ## A Simple Implementation of NIPALS
 
+Here is a function that will compute PCA using the NIPALS algorithm:
 
+```{r}
+simpleNIPALS <- function(X, pcs = 3, tol = 1e-6) {
+  S <- NULL # a place to store the scores
+  L <- NULL # a place to store the loadings
+  for (pc in 1:pcs) { # compute one PC at a time
+    s_old <- X[,1] # initial estimate of the score Note 1
+    done <- FALSE # flag to track progress
+    while (!done) { # Note 2
+      l <- t(X) %*% s_old # compute/improve loading estimate by projecting scores onto raw data
+      l <- l/sqrt(sum(l^2)) # scale by l2 norm
+      s_new <-X %*% l # update estimate of scores
+      err <- sqrt(sum((s_new - s_old)^2)) # compute the error of the score estimate
+      if (err < tol) {done <- TRUE; next} # check error against tolerance, exit if good
+      s_old <- s_new # if continuing, use the best score estimate
+    }
+    X <- X - s_new %*% t(l) # "deflate" the data by removing the contribution of the results so far Note 3
+    S <- cbind(S, s_new) # add the most recent scores to the growing results
+    L <- cbind(L, l) # add the most recent loadings to the growing results
+  }
+  list(Scores = S, Loadings = L) # return the answers
+}
 ```
+
+If you looked carefully at our earlier simple implementations of SVD and eigen decomposition, you probably noticed that this simple NIPALS function is also using power iteration and is very similar. Let's draw attention to a few things:
+
+* *Note 1:*  Here we select the first column of $\mathbf{X}$ as our initial estimate of the scores.  In our simple implementations of SVD and eigen decomposition we used a random draw to determine the initial estimate.
+* *Note 2:* All the work is done inside this `while` loop, which runs until the error is below the tolerance.  The basic flow is to start with the initial estimate, update scores and loadings, then then feed these back in as better estimates.  This is exactly the concept used in the other implementation, we are just doing it until the tolerance is reached, rather than running it a fixed number of iterations.
+* *Note 3:* This "deflation" step is unique to NIPALS.  Once we have estimates for the scores with minimal error, we reconstruct the original data following equation \@ref(eq:nipals1), and subtract this from the original $\mathbf{X}$ to give a "deflated" $\mathbf{X}$ which is then processed as before if we have more PCs to compute.
+
+### Checking Our work
+
+Let's run this function and compare to the previous accepted answers.
+
+```{r}
+N <- simpleNIPALS(X)
+mean(abs(N$Scores[,1]) - abs(X_pca$x[,1])) # compare the scores from prcomp
+mean(abs(N$Loadings[,1]) - abs(X_pca$rotation[,1])) # compare the loadings from prcomp
+mean(abs(N$Scores[,1]) - abs(X %*% X_svd$v[,1])) # compare the scores from svd
+mean(abs(N$Loadings[,1]) - abs(X_svd$v[,1])) # compare the loadings from svd
+```
+
+These are satisfying results that show our simple NIPALS function gives good results.
+
+### Tying Things Together
+
+In our simple implementation of SVD and eigen decomposition, we used power iteration because it was fairly easy to relate to the fundamental equations (\@ref(eq:svd1) and \@ref(eq:ed2)).  As we mentioned above however, power iteration is not the best way to actually do either SVD or eigen decomposition.  However, power iteration is the method used in NIPALS, so our time was well spent to understand the principle.
 
 <!-- Insert refer_to_works_consulted document -->
 
