@@ -17,6 +17,7 @@ desc <- packageDescription("LearnPCA")
 * [Visualizing PCA in 3D](http://bryanhanson.github.io/LearnPCA/articles/Vig_05_Visualizing_PCA_3D.html)
 * [The Math Behind PCA](http://bryanhanson.github.io/LearnPCA/articles/Vig_06_Math_Behind_PCA.html)
 * [PCA Functions](http://bryanhanson.github.io/LearnPCA/articles/Vig_07_Functions_PCA.html)
+* [Notes](http://bryanhanson.github.io/LearnPCA/articles/Vig_08_Notes.html)
 * To access the vignettes with `R`, simply type `browseVignettes("LearnPCA")` to get a clickable list in a browser window.
 
 **Vignettes are available in both pdf (on CRAN) and html formats (at Github). **

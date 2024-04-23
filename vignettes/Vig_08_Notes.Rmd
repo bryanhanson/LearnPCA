@@ -1,0 +1,296 @@
+---
+title:  "Notes/FAQ/Special Cases"
+author:
+  - David T. Harvey^[Professor of Chemistry & Biochemistry, DePauw University, Greencastle IN USA., harvey@depauw.edu]
+  - Bryan A. Hanson^[Professor Emeritus of Chemistry & Biochemistry, DePauw University, Greencastle IN USA., hanson@depauw.edu]
+date:  "`r Sys.Date()`"
+output:
+    bookdown::html_document2: # use for pkgdown site
+#      bookdown::pdf_document2: # use for CRAN to keep size down; breaks GHA
+      toc: yes
+      toc_depth: 2
+      fig_caption: yes
+      number_sections: false
+      css: vignette.css
+vignette: >
+    %\VignetteIndexEntry{Vignette 08: Notes}
+    %\VignetteKeywords{PCA}
+    %\VignettePackage{LearnPCA}
+    %\VignetteEngine{knitr::rmarkdown}
+    %\VignetteEncoding{UTF-8}
+#link-citations: yes
+#bibliography: PCA.bib
+#biblio-style: plain
+pkgdown:
+  as_is: true
+---
+
+
+```{r SetUp, echo = FALSE, eval = TRUE, results = "hide"}
+# R options & configuration:
+set.seed(123)
+suppressPackageStartupMessages(library("knitr"))
+suppressPackageStartupMessages(library("LearnPCA"))
+suppressPackageStartupMessages(library("xtable"))
+
+
+# Stuff specifically for knitr:
+opts_chunk$set(eval = TRUE, echo = TRUE, results = "show")
+```
+
+<!-- This chunk inserts common info about all the vignettes -->
+
+```{r, echo = FALSE, results = "asis"}
+res <- knitr::knit_child("top_matter.md", quiet = TRUE)
+cat(res, sep = '\n')
+```
+
+There are four base functions in `R` that can carry out PCA analysis.[^1]  In this vignette we will look at each of these functions and how they differ.
+
+# `prcomp`
+
+`prcomp` is probably the function most people will use for PCA, as it will handle input data sets of arbitrary dimensions (meaning, the number of observations $n$ may be greater or less than the number of measured variables, $p$). `prcomp` can do centering or scaling for you, but it also recognizes when the data passed to it has been previously centered or scaled via the `scale` function.[^2] Internally, `prcomp` is a wrapper for the `svd` function (which we'll discuss below).  This means that `prcomp` uses `svd` "under the hood" and repackages the results from `svd` in a more useful form.
+
+# `princomp`
+
+In contrast to `prcomp`, `princomp` cannot directly handle the situation where $p > n$, so it is not as flexible. In addition, `princomp` uses function `eigen` under the hood, and `eigen` only accepts square matrices as input (where $n = p$).  However, `princomp` will accept a rectangular matrix with $n > p$ because internally `princomp` will convert the input matrix to either the covariance or correlation matrix before passing the new matrix to `eigen` (the choice depends upon the arguments).  Both the covariance and correlation matrices are square matrices that `eigen` can process.  As we shall see below, they give the same scores as the raw data (as long as the scaling is consistent).
+
+# Covariance
+
+Let's take quick look at covariance and correlation.  First, we'll create some data to play with:
+
+```{r}
+A <- matrix(1:20, nrow = 4)
+dim(A)
+```
+
+If you center the columns of $A$, take $A^TA$ and then divide by $n -1$ you get the **covariance** matrix. We can verify this via the built-in function `cov`. Covariance describes how the variables track each other. Covariance is unbounded, which means its values can range over $\pm \infty$.
+
+```{r}
+Ac <- scale(A, center = TRUE, scale = FALSE)
+covA <- (t(Ac) %*% Ac)/(nrow(Ac) -1)
+dim(covA) # it's square
+identical(covA, cov(A))
+```
+
+# Correlation
+
+
+If instead you center the columns of $A$, i.e. scale the columns by dividing by their standard deviations, take $A^TA$ and then divide by $n -1$ you get the **correlation** matrix. Like covariance, correlation describes how the variables track each other.  However, correlation is bounded on $[-1, 1]$.  In effect, correlation is covariance normalized to a constant scale.  Again we can verify this with the built-in function `cor`:
+
+```{r}
+Acs <- scale(A, center = TRUE, scale = TRUE)
+corA <- (t(Acs) %*% Acs)/(nrow(Acs) -1)
+dim(corA) # square like covA
+identical(corA, cor(A))
+```
+
+Importantly, the covariance and correlation matrices contain the same information about the relationship of the original variables, so that PCA of either of these matrices or the original data matrix will give the same results.  This will be demonstrated in the next section.
+
+# `prcomp` vs `princomp`
+
+Let's compare the results from each function.  Let's use a portion of the `mtcars` data set that is small enough that we can directly print and inspect the results.  Converting to a matrix is not necessary but saves some typing later.
+
+```{r}
+data(mtcars)
+mt <- as.matrix(mtcars[seq(1, 20, 2), 1:5]) # select every other row to get 10 samples
+```
+
+Next we'll calculate PCA using both functions.  Note that the arguments for `prcomp` will center and autoscale the data before doing the key computation.  For `princomp`, the data will be centered and the correlation matrix computed and analyzed.[^3]
+
+```{r}
+pca <- prcomp(mt, center = TRUE, scale. = TRUE)
+prin <- princomp(mt, cor = TRUE)
+```
+
+## Compare the Scores
+
+We can directly examine the results for the scores:
+
+```{r}
+pca$x
+```
+
+```{r}
+prin$scores
+```
+
+Notice that the absolute values of the scores are similar, but not identical.  This is because different algorithms were used in each case.  Notice too that the pattern of positive and negative values is complex, it's not as if one is simply the negative of the other.  We'll have more to say about this momentarily.
+
+```{r}
+all.equal(abs(prin$scores), abs(pca$x), check.attributes = FALSE)
+```
+
+Another way to compare these results is to overlay a plot of the scores from each method.  Figure \@ref(fig:overlayScores) shows the results.  The pattern of positive and negative scores becomes much clearer in this plot.
+
+```{r overlayScores, fig.asp = 1, fig.cap = "Comparison of scores computed by `prcomp` (black points) and `princomp` (pink points). Note that they are related by a 180 degreee rotation about an axis out of paper at the origin (plus a little wiggle due to algorithm differences).", echo = FALSE}
+plot(pca$x[,1], pca$x[,2], type = "p", pch = 20, col = "black",
+  xlim = c(-3, 3), ylim = c(-3, 3),
+  xlab = "PC1", ylab = "PC2")
+points(prin$scores[,1], prin$scores[,2], pch = 20, col = "pink")
+abline(v = 0, h = 0, lty = 2)
+```
+
+## Compare The Loadings
+
+Let's do the same for the loadings.  For the `princomp` results we have to extract the loadings because they are stored in an usual form by today's practices.
+
+```{r}
+pca$rotation
+```
+
+```{r}
+prin_loads <- matrix(prin$loadings, ncol = 5, byrow = FALSE)
+prin_loads
+```
+
+```{r}
+all.equal(abs(pca$rotation), abs(prin_loads), check.attributes = FALSE)
+```
+
+The absolute value of the loadings from each method are identical, while the actual pattern of positive and negative values is complex as we saw for the scores. Why is this?  Recall from the [Understanding Scores and Loadings](#top-matter) vignette that the loadings are the cosines of the angles through which the original axes are rotated to get to the new coordinate system.  As cosine is a periodic function, if one rotates the reference frame 30 degrees to line up with the data better, the same alignment can also be achieved by rotating 30 + 180 degrees or 30 - 180 degrees.  However, the latter two operations will give the opposite sign for the cosine value.  This is the origin of the pattern of signs in the  loadings; essentially there are positive and negative cosine values that both describe the needed reorientation equally well.  Once the sign of the first value is chosen, the signs of the other values are meaningful only in that context.
+
+As for the scores, a visual comparison of the results from each method will help us understand the relationship.  In this case, we'll just look at the signs of the loadings, and we'll display the loadings for PC1 followed by the loadings for PC2 etc.  Figure \@ref(fig:compareLoads) makes clear that the two methods return loadings which sometimes have the same sign, and sometimes the opposite sign.
+
+```{r compareLoads, fig.cap = "A comparison of the signs of the first loadings from `prcomp` (black circles) and `princomp` (pink circles). Where the circles coincide, the value of the loading from each method is the same. ", echo = FALSE, fig.height = 3, fig.width = 5}
+plot(x = 1:25, type = "n", axes = FALSE,
+  xlab = "loadings", ylab = "sign", ylim = c(-1.1, 1.1))
+points(sign(c(pca$rotation)))
+points(sign(c(prin_loads)), col = "pink", cex = 1.5)
+line.pos <- c(5.5, 10.5, 15.5, 20.5)
+abline(v = line.pos, col = "gray")
+axis(side = 2, labels = c("-1", "1"), at = c(-1, 1), lwd = 0, lwd.ticks = 0)
+lab.pos <- c(line.pos, 25.5)
+axis(side = 1, labels = c("PC1", "PC2", "PC3", "PC4", "PC5"), at = lab.pos - 2.5, lwd = 0, lwd.ticks = 0)
+```
+
+The key takeaway here is that regardless of the signs of the scores and the loadings, the results from a particular function are internally consistent.
+
+## Compare the Variance Explained
+
+For completeness, let's make sure that each method returns the same variance explained values.
+
+```{r varExp}
+summary(pca)
+summary(prin)
+```
+
+Clearly the numerical results are the same.  You can see that the labeling of the results is different between the two functions. These labels are internally stored attributes.  In the several places below we'll ignore those labels and just check that the numerical output is the same.
+
+## Reconstruct the Original Data
+
+While the pattern of positive and negative scores and loadings differs between algorithms, in any particular case the signs of the loadings and scores work together properly. We can use the function `PCAtoXhat` from this package to reconstruct the original data, and compare it to the known original data.  This function recognizes the results from either `prcomp` or `princomp` and reconstructs the original data, accounting for any scaling and centering.
+
+```{r}
+MTpca <- PCAtoXhat(pca) # not checking attributes as the internal labeling varies between functions
+all.equal(MTpca, mt, check.attributes = FALSE)
+```
+
+```{r}
+MTprin <- PCAtoXhat(prin)
+all.equal(MTprin, mt, check.attributes = FALSE)
+```
+
+As you can see each function is reconstructing the data faithfully.  And in the process we have shown that one gets the same results starting from either the centered and scaled original matrix, or the matrix which has been centered, scaled and then converted to its correlation matrix.  Hence either approach extracts the same information, proving that the correlation matrix contains the same relationships that are present in the raw data.[^6]
+
+
+# `svd`
+
+As stated earlier, `prcomp` uses `svd` under the hood.  Therefore we should be able to show that either function gives the same results.  The key difference is that `svd` is "bare bones" and we have to prepare the data ourselves, and reconstruct the data ourselves.  Let's go.
+
+First, we'll center and scale the data, because `svd` doesn't provide such conveniences.
+
+```{r}
+mt_cen_scl <- scale(mt, center = TRUE, scale = TRUE)
+```
+
+Then conduct `svd`:
+
+```{r}
+sing <- svd(mt_cen_scl)
+```
+
+## Compare to the Scores from `prcomp`
+
+The math behind extracting the scores and loadings is discussed more fully in the [Math Behind PCA](#top-matter) vignette.  Here we use the results shown there to compare scores and loadings.
+
+```{r}
+svd_scores <- mt_cen_scl %*% sing$v
+all.equal(svd_scores, pca$x, check.attributes = FALSE)
+```
+
+## Compare to the Loadings from `prcomp`
+
+```{r}
+all.equal(sing$v, pca$rotation, check.attributes = FALSE)
+```
+
+# `eigen`
+
+`princomp` uses `eigen` under the hood, and so we should be able to show that these functions give the same results. Like `svd`, `eigen` is "bare bones" so we'll start from the centered and scaled data set.  In this case however, we also need to compute the correlation matrix, something that `princomp` did for us, but `eigen` expects you to provide a square matrix (either raw data that happens to be square, but more likely the covariance or correlation matrix).
+
+```{r}
+mt_cen_scl_cor <- cor(mt_cen_scl)
+eig <- eigen(mt_cen_scl_cor)
+```
+
+## Compare to the Scores from `princomp`
+
+As we discovered earlier, we need to take the absolute value prior to comparison.
+
+```{r}
+eig_scores <- mt_cen_scl %*% eig$vectors
+all.equal(abs(eig_scores), abs(prin$scores), check.attributes = FALSE)
+```
+
+## Compare to the Loadings from `princomp`
+
+```{r}
+all.equal(abs(eig$vectors), abs(prin_loads), check.attributes = FALSE)
+```
+
+# Wrap Up
+
+Table \@ref(tab:SumTable) summarizes much of what we covered above.
+
+```{r, echo = FALSE}
+# c1 gives the row names
+c1 = c("algorithm", "input dimensions", "user pre-processing", "internal pre-processing", "call", "scores", "loadings", "pct variance explained")
+c2 = c("uses svd", "$n \\times p$", "center; scale", "center; scale", "$pca \\leftarrow prcomp(X)$", "$pca\\$x$", "$pca\\$rotation$", "$\\cfrac{100*pca\\$sdev^2}{sum(pca\\$sdev^2)}$")
+c3 = c("svd", "$n \\times p$", "center; scale", "none", "$sing \\leftarrow svd(X)$", "$X \\times sing\\$v$", "$sing\\$v$", "$\\cfrac{100*sing\\$d^2}{sum(sing\\$d^2)}$")
+c4 <- c("uses eigen", "$n \\times p$", "don't do it!", "center; cov or cor", "$prin \\leftarrow princomp(X)$", "$prin\\$scores$", "$prin\\$loadings$", "$\\cfrac{100*prin\\$sdev^2}{sum(prin\\$sdev^2)}$")
+c5 <- c("eigen", "$n \\times n$", "center; scale; cov or cor", "none", "$eig \\leftarrow eigen(X)$", "$X \\times eig\\$vectors$", "$eig\\$vectors$", "$\\cfrac{100*eig\\$values}{sum(eig\\$values)}$")
+
+DF <- data.frame(c1, c2, c3, c4, c5)
+colnames(DF) <- c("", "prcomp", "svd", "princomp", "eigen")
+```
+
+```{r SumTable, echo = FALSE, results = "asis"}
+if (!is_latex_output()) {
+  kable(DF, row.names = FALSE, caption = "A comparison of R functions for PCA.  Input data must be centered in all cases.  Scaling is optional.")
+}
+
+if (is_latex_output()) {
+  bold <- function(x) {paste('{\\textbf{',x,'}}', sep ='')}
+  tbl <- xtable(DF)
+  caption(tbl) <- "A comparison of R functions for PCA.  Input data must be centered in all cases.  Scaling is optional."
+  label(tbl) <- "tab:SumTable"
+  print(tbl, include.rownames = FALSE,
+    hline.after = 0:8,
+    sanitize.text.function = function(x) {x},
+    sanitize.colnames.function = bold,
+    comment = FALSE)
+}
+```
+
+<!-- Insert refer_to_works_consulted document -->
+
+```{r, echo = FALSE, results = "asis"}
+res <- knitr::knit_child("refer_to_works_consulted.md", quiet = TRUE)
+cat(res, sep = '\n')
+```
+
+[^1]: And there are numerous functions in user-contributed packages that "wrap" or implement these base functions in particular contexts.
+[^2]: This works because the `scale` function adds attributes to its results, and `prcomp` checks for these attributes and uses them if present.
+[^3]: In `princomp` there is no argument regarding centering. The documentation is silent on this.  However, if you look at the source code (via `stats:::princomp.default`) you discover that it calls `cov.wt` which indeed centers, and gives the covariance matrix unless you set the argument `cor = TRUE` in which case you get the correlation matrix.
+[^6]: Proof that the covariance matrix gives the same results is left as an exercise!
