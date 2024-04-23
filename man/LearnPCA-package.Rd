@@ -21,7 +21,6 @@ Useful links:
 }
 \author{
 Bryan A. Hanson and David T. Harvey.
-
 Maintainer: Bryan A. Hanson \email{hanson@depauw.edu}
 }
 \keyword{multivariate}

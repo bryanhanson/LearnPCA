@@ -7,14 +7,10 @@
 #' A few convenience functions are provided as well.
 #'
 #' @name LearnPCA-package
-#'
 #' @aliases LearnPCA-package LearnPCA
-#'
 #' @author Bryan A. Hanson and David T. Harvey.
-#'
 #' Maintainer: Bryan A. Hanson \email{hanson@@depauw.edu}
-#'
 #' @keywords package multivariate
-#'
+#' @import nnet rpart class
 #'
 "_PACKAGE"
