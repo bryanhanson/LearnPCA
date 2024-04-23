@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>A Comparison of Functions for PCA • LearnPCA</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/united/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/united/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
@@ -102,7 +102,7 @@
                         <h4 data-toc-skip class="author">Bryan A. Hanson<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>
 </h4>
             
-            <h4 data-toc-skip class="date">2022-08-03</h4>
+            <h4 data-toc-skip class="date">2024-04-23</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/bryanhanson/LearnPCA/blob/HEAD/vignettes/Vig_07_Functions_PCA.Rmd" class="external-link"><code>vignettes/Vig_07_Functions_PCA.Rmd</code></a></small>
       <div class="hidden name"><code>Vig_07_Functions_PCA.Rmd</code></div>
@@ -193,16 +193,16 @@
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pca</span><span class="op">$</span><span class="va">x</span></span></code></pre></div>
 <pre><code><span><span class="co">##                           PC1         PC2         PC3         PC4         PC5</span></span>
-<span><span class="co">## Mazda RX4          -1.0479560  0.02812191  0.20417776  0.23574115 -0.19041257</span></span>
-<span><span class="co">## Datsun 710         -1.9187384  0.62012252  0.03701878 -0.18764497  0.22980986</span></span>
-<span><span class="co">## Hornet Sportabout   1.2408888 -0.34050957  0.42754323 -0.36253075 -0.14423806</span></span>
-<span><span class="co">## Duster 360          2.0345815 -0.21095796 -0.13943434  0.29895647  0.47011484</span></span>
-<span><span class="co">## Merc 230           -1.8534734  0.48404256 -0.14340048 -0.26855557  0.16691142</span></span>
-<span><span class="co">## Merc 280C          -0.6943891  0.26998531 -0.09844637  0.54336861 -0.22228448</span></span>
-<span><span class="co">## Merc 450SL          1.1825263  0.02862923  0.67289539  0.07586040  0.04125809</span></span>
-<span><span class="co">## Cadillac Fleetwood  2.6175010  0.33221478 -0.40782360 -0.17057754 -0.39558239</span></span>
-<span><span class="co">## Chrysler Imperial   2.1330076 -0.38158713 -0.35443033 -0.11037449  0.13208565</span></span>
-<span><span class="co">## Honda Civic        -3.6939483 -0.83006166 -0.19810003 -0.05424331 -0.08766235</span></span></code></pre>
+<span><span class="co">## Mazda RX4          -1.0479560  0.02812191  0.20417776 -0.23574115  0.19041257</span></span>
+<span><span class="co">## Datsun 710         -1.9187384  0.62012252  0.03701878  0.18764497 -0.22980986</span></span>
+<span><span class="co">## Hornet Sportabout   1.2408888 -0.34050957  0.42754323  0.36253075  0.14423806</span></span>
+<span><span class="co">## Duster 360          2.0345815 -0.21095796 -0.13943434 -0.29895647 -0.47011484</span></span>
+<span><span class="co">## Merc 230           -1.8534734  0.48404256 -0.14340048  0.26855557 -0.16691142</span></span>
+<span><span class="co">## Merc 280C          -0.6943891  0.26998531 -0.09844637 -0.54336861  0.22228448</span></span>
+<span><span class="co">## Merc 450SL          1.1825263  0.02862923  0.67289539 -0.07586040 -0.04125809</span></span>
+<span><span class="co">## Cadillac Fleetwood  2.6175010  0.33221478 -0.40782360  0.17057754  0.39558239</span></span>
+<span><span class="co">## Chrysler Imperial   2.1330076 -0.38158713 -0.35443033  0.11037449 -0.13208565</span></span>
+<span><span class="co">## Honda Civic        -3.6939483 -0.83006166 -0.19810003  0.05424331  0.08766235</span></span></code></pre>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">prin</span><span class="op">$</span><span class="va">scores</span></span></code></pre></div>
 <pre><code><span><span class="co">##                        Comp.1      Comp.2      Comp.3      Comp.4      Comp.5</span></span>
@@ -235,11 +235,11 @@ Figure 1: Comparison of scores computed by <code>prcomp</code> (black points) an
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pca</span><span class="op">$</span><span class="va">rotation</span></span></code></pre></div>
 <pre><code><span><span class="co">##             PC1        PC2        PC3        PC4        PC5</span></span>
-<span><span class="co">## mpg  -0.4436384 -0.5668868  0.3843013 -0.4943128  0.2996526</span></span>
-<span><span class="co">## cyl   0.4445134 -0.5119978  0.5168597  0.3609456 -0.3779423</span></span>
-<span><span class="co">## disp  0.4496206 -0.3071229 -0.4852451 -0.6128739 -0.3040389</span></span>
-<span><span class="co">## hp    0.4545077 -0.2474375 -0.1952584  0.2123927  0.8055811</span></span>
-<span><span class="co">## drat -0.4436856 -0.5108305 -0.5581934  0.4523805 -0.1611437</span></span></code></pre>
+<span><span class="co">## mpg  -0.4436384 -0.5668868  0.3843013  0.4943128 -0.2996526</span></span>
+<span><span class="co">## cyl   0.4445134 -0.5119978  0.5168597 -0.3609456  0.3779423</span></span>
+<span><span class="co">## disp  0.4496206 -0.3071229 -0.4852451  0.6128739  0.3040389</span></span>
+<span><span class="co">## hp    0.4545077 -0.2474375 -0.1952584 -0.2123927 -0.8055811</span></span>
+<span><span class="co">## drat -0.4436856 -0.5108305 -0.5581934 -0.4523805  0.1611437</span></span></code></pre>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">prin_loads</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="va">prin</span><span class="op">$</span><span class="va">loadings</span>, ncol <span class="op">=</span> <span class="fl">5</span>, byrow <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="va">prin_loads</span></span></code></pre></div>
@@ -437,7 +437,7 @@ Figure 2: A comparison of the signs of the first loadings from <code>prcomp</cod
 </h2>
 <p>In addition to references and links in this document, please see the <a href="http://bryanhanson.github.io/LearnPCA/articles/Start_Here.html#works-consulted" class="external-link">Works Consulted</a> section of the <em>Start Here</em> vignette for general background.</p>
 </div>
-<div class="footnotes">
+<div class="footnotes footnotes-end-of-document">
 <hr>
 <ol>
 <li id="fn1"><p>Professor of Chemistry &amp; Biochemistry, DePauw University, Greencastle IN USA., <a href="mailto:harvey@depauw.edu" class="email">harvey@depauw.edu</a><a href="#fnref1" class="footnote-back">↩︎</a></p></li>
@@ -467,7 +467,7 @@ Figure 2: A comparison of the signs of the first loadings from <code>prcomp</cod
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
 </div>
 
       </footer>

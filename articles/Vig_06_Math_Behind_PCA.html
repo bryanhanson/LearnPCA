@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Math Behind PCA • LearnPCA</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/united/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/united/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
@@ -102,7 +102,7 @@
                         <h4 data-toc-skip class="author">Bryan A. Hanson<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>
 </h4>
             
-            <h4 data-toc-skip class="date">2022-08-03</h4>
+            <h4 data-toc-skip class="date">2024-04-23</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/bryanhanson/LearnPCA/blob/HEAD/vignettes/Vig_06_Math_Behind_PCA.Rmd" class="external-link"><code>vignettes/Vig_06_Math_Behind_PCA.Rmd</code></a></small>
       <div class="hidden name"><code>Vig_06_Math_Behind_PCA.Rmd</code></div>
@@ -438,7 +438,7 @@ Figure 1: One way to look at the matrix algebra behind PCA. Reconstruction of th
 <div class="section level2">
 <h2 id="algorithmic-reality">Algorithmic Reality<a class="anchor" aria-label="anchor" href="#algorithmic-reality"></a>
 </h2>
-<p>The two simple implementations described above are very limited. They are in no way suitable for use with real data, but they do serve as a conceptual introduction. In reality, carrying out PCA on real data sets in a robust manner requires rather complex algorithms, well beyond the scope of these documents. If you want a brief taste, the <a href="https://en.wikipedia.org/wiki/Singular_value_decomposition#Calculating_the_SVD" class="external-link">Wikipedia</a> article and this <a href="https://stats.stackexchange.com/a/114606/26909" class="external-link">StackOverflow</a> answer may satisfy your needs. A more intermediate discussion can be found in Chapter 3 “Principal Components Analysis” in <span class="citation">Varmuza and Filzmoser (<a href="#ref-Filzmoser2009" role="doc-biblioref">2009</a>)</span>.</p>
+<p>The two simple implementations described above are very limited. They are in no way suitable for use with real data, but they do serve as a conceptual introduction. In reality, carrying out PCA on real data sets in a robust manner requires rather complex algorithms, well beyond the scope of these documents. If you want a brief taste, the <a href="https://en.wikipedia.org/wiki/Singular_value_decomposition#Calculating_the_SVD" class="external-link">Wikipedia</a> article and this <a href="https://stats.stackexchange.com/a/114606/26909" class="external-link">StackOverflow</a> answer may satisfy your needs. A more intermediate discussion can be found in Chapter 3 “Principal Components Analysis” in <span class="citation">Varmuza and Filzmoser (<a href="#ref-Filzmoser2009">2009</a>)</span>.</p>
 </div>
 <div class="section level2">
 <h2 id="the-nipals-algorithm">The NIPALS Algorithm<a class="anchor" aria-label="anchor" href="#the-nipals-algorithm"></a>
@@ -525,7 +525,7 @@ Figure 1: One way to look at the matrix algebra behind PCA. Reconstruction of th
 <div class="section level2">
 <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
-<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
 <div id="ref-Savov2020" class="csl-entry">
 Savov, Ivan. 2020. <em>No Bullshit Guide to Linear Algebra</em>. 2nd ed. minireference.com.
 </div>
@@ -537,12 +537,12 @@ Varmuza, K., and P. Filzmoser. 2009. <em>Introduction to Multivariate Statistica
 </div>
 </div>
 </div>
-<div class="footnotes">
+<div class="footnotes footnotes-end-of-document">
 <hr>
 <ol>
 <li id="fn1"><p>Professor of Chemistry &amp; Biochemistry, DePauw University, Greencastle IN USA., <a href="mailto:harvey@depauw.edu" class="email">harvey@depauw.edu</a><a href="#fnref1" class="footnote-back">↩︎</a></p></li>
 <li id="fn2"><p>Professor Emeritus of Chemistry &amp; Biochemistry, DePauw University, Greencastle IN USA., <a href="mailto:hanson@depauw.edu" class="email">hanson@depauw.edu</a><a href="#fnref2" class="footnote-back">↩︎</a></p></li>
-<li id="fn3"><p>If you need an introduction to linear algebra, there are many good books, but we particularly recommend <span class="citation">Singh (<a href="#ref-Singh2014" role="doc-biblioref">2014</a>)</span> or <span class="citation">Savov (<a href="#ref-Savov2020" role="doc-biblioref">2020</a>)</span>.<a href="#fnref3" class="footnote-back">↩︎</a></p></li>
+<li id="fn3"><p>If you need an introduction to linear algebra, there are many good books, but we particularly recommend <span class="citation">Singh (<a href="#ref-Singh2014">2014</a>)</span> or <span class="citation">Savov (<a href="#ref-Savov2020">2020</a>)</span>.<a href="#fnref3" class="footnote-back">↩︎</a></p></li>
 <li id="fn4"><p>This treatment is the “compact SVD” <a href="https://en.wikipedia.org/wiki/Singular_value_decomposition" class="external-link">case</a>.<a href="#fnref4" class="footnote-back">↩︎</a></p></li>
 <li id="fn5"><p>The singular values are used to calculate the variance explained by each principal component. We’ll have more to say about that later.<a href="#fnref5" class="footnote-back">↩︎</a></p></li>
 <li id="fn6"><p>For semi-orthogonal matrices (or orthogonal matrices for that matter), <span class="math inline">\(A^TA = AA^T = I\)</span>. Semi-orthogonal matrices are rectangular. For non-rectangular orthogonal matrices, if <span class="math inline">\(n &gt; p\)</span>, the dot product of any column with itself is 1, and the dot product of any column with a different column is zero. If <span class="math inline">\(n &lt; p\)</span>, then it is the rows rather than the columns that are relevant. See the <a href="https://en.wikipedia.org/wiki/Semi-orthogonal_matrix" class="external-link">Wikipedia article</a>.<a href="#fnref6" class="footnote-back">↩︎</a></p></li>
@@ -576,7 +576,7 @@ Varmuza, K., and P. Filzmoser. 2009. <em>Introduction to Multivariate Statistica
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
 </div>
 
       </footer>
