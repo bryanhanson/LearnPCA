@@ -17,7 +17,7 @@ install.packages("LearnPCA")
 ````r
 install.packages("remotes")
 library("remotes")
-install_github(repo = "bryanhanson/LearnPCA@master")
+install_github(repo = "bryanhanson/LearnPCA@main")
 library("LearnPCA")
 ````
 

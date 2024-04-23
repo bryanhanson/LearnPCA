@@ -1,3 +1,6 @@
+# LearnPCA 0.3.0 2024-04-23
+* Branch master renamed to main.
+
 # LearnPCA 02.3 2022-08-03
 * New material on NIPALS in Vig_06.  Not on CRAN.
 
