@@ -10,8 +10,6 @@
 #'
 #' @aliases LearnPCA-package LearnPCA
 #'
-#' @docType package
-#'
 #' @author Bryan A. Hanson and David T. Harvey.
 #'
 #' Maintainer: Bryan A. Hanson \email{hanson@@depauw.edu}
@@ -19,4 +17,4 @@
 #' @keywords package multivariate
 #'
 #'
-NULL
+"_PACKAGE"

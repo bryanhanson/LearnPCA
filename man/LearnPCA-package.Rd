@@ -11,6 +11,14 @@ This package provides a series of vignettes explaining PCA starting from basic c
 The primary purpose is to serve as a self-study resource for anyone wishing to understand PCA better.
 A few convenience functions are provided as well.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://bryanhanson.github.io/LearnPCA/}
+  \item Report bugs at \url{https://github.com/bryanhanson/LearnPCA/issues}
+}
+
+}
 \author{
 Bryan A. Hanson and David T. Harvey.
 
