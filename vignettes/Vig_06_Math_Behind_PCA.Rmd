@@ -97,10 +97,9 @@ And here's the equation without matrix dimensions. Remember that $\mathbf{V}^T$ 
 The equation above is where we'd like to end up.  How can we get there?  Let's start with *What are these matrices*?
 
 * $\mathbf{X}$ contains the original data.
-* The columns of $\mathbf{U}$ are vectors giving the principal axes. These define the new coordinate system.
-* The scores can be obtained by $\mathbf{X}\mathbf{V}$; scores are the projections of the data on the principal axes.
 * $\mathbf{D}$ is a diagonal matrix, which means all non-diagonal elements are zero.  The diagonal contains positive values sorted from largest to smallest.  These are called the singular values.[^9]
-* The columns of $\mathbf{V}$ are the PCA loadings.
+* The columns of $\mathbf{V}$ are vectors giving the principal axes. These define the new coordinate system.
+* The scores can be obtained by $\mathbf{X}\mathbf{V}$ or $\mathbf{U}\mathbf{D}$; scores are the projections of the data on the principal axes.
 
 In addition, $\mathbf{U}$ and $\mathbf{V}$ are semi-orthogonal matrices,[^4] which means that when pre-multiplied by their transpose one gets the identity matrix:[^12]
 
@@ -247,7 +246,7 @@ Notice that we have worked through the SVD without mentioning eigen-anything.  T
 
 # The Eigen Decomposition
 
-The eigen decomposition is another way to decompose a data matrix. This decomposition breaks the data matrix $\mathbf{X}$ into two matrices.[^8] Again, let's assume $\mathbf{X}$ has been centered.
+The eigen decomposition is another way to decompose a data matrix. This decomposition breaks the data matrix $\mathbf{X}$ into two matrices.[^8] Again, let's assume $\mathbf{X}$ has samples in rows, variables in columns, and has been centered.
 
 \begin{equation}
 (\#eq:ed1)
@@ -324,6 +323,27 @@ We've talked about "values" in the context of each decomposition.  Is this termi
 \end{equation}
 
 Either of these "values" can be used to compute the amount of variance explained by each principal component.  Details are in the [PCA Functions](#top-matter) vignette.
+
+# A Note About the Meaning of "loadings"
+
+Before going further, we need to make something clear.  In `R`, the loadings reported by `prcomp` are actually the eigenvectors of the covariance matrix of the original data matrix (discussed [here](https://stats.stackexchange.com/a/104640/26909) and [here](https://stats.stackexchange.com/a/143949/26909)).  This is very clear in the help file for `prcomp`, and from the code checking the results above.  However, this is not a universally accepted definition; `R` is actually a bit of an outlier.  A more generally accepted definition for loadings is given below, where `N` is the number of samples.  This use of the term loadings is sometimes referred to as ["standardized loadings"](https://stats.stackexchange.com/a/291517/26909).
+
+\begin{equation}
+(\#eq:load1)
+\mathbf{L} = \mathbf{V}\frac{\mathbf{D}}{\sqrt{N-1}}
+\end{equation}
+
+The important thing here is that the definition above is just a scaled version of the value that `R` returns.  Figure \@ref(fig:load) is a comparison of the first column of each use of the term "loadings".
+
+```{r}
+#| label: load
+#| fig-cap: "A comparison of the notion of loadings as delivered by R and a more standard definition."
+R_loadings <- X_pca$rotation[,1] 
+std_loadings <- (X_svd$v %*% diag(X_svd$d)/(nrow(X - 1)))[,1]
+plot(R_loadings, std_loadings, xlab = "R's notion of loadings", ylab = "Standard notion of loadings")
+```
+
+This means that the usual verbal interpretation of loadings, namely that they express the *relative* contribution of each variable to the scores, is valid using either notion.
 
 # Algorithmic Reality
 
