@@ -1,8 +1,9 @@
-# LearnPCA 0.3.0 2024-04-23
+# LearnPCA 0.3.0 2024-04-24
 * Branch master renamed to main, with corresponding changes to documentation and GHA scripts.
 * Added pkgs `rpart`, `class`, `nnet` to Depends: (found during stress testing, needed by `chemometrics` and somehow not automatically present).
 * Fix navigation error in top_matter.md, found by DTH, and a similar one in refer_to_works_consulted.md identified with further testing.
 * New vignette: Vig_08_Notes.
+* New language in Vig_06 about the meaning of the term "loadings", along with a correction.  Motivated by SantiDu in Issue #14 -- thanks! 
 
 # LearnPCA 02.3 2022-08-03
 * New material on NIPALS in Vig_06.  Not on CRAN.
