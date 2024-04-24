@@ -1,4 +1,4 @@
-# LearnPCA 0.3.0 2024-04-24
+# LearnPCA 0.3.1 2024-04-24
 * Branch master renamed to main, with corresponding changes to documentation and GHA scripts.
 * Added pkgs `rpart`, `class`, `nnet` to Depends: (found during stress testing, needed by `chemometrics` and somehow not automatically present).
 * Fix navigation error in top_matter.md, found by DTH, and a similar one in refer_to_works_consulted.md identified with further testing.

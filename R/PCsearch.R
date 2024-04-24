@@ -12,7 +12,7 @@
 #' @import markdown
 #' @importFrom graphics abline legend points segments text title
 #' @importFrom stats runif var
-#' @export
+#' @export PCsearch
 #'
 
 PCsearch <- function() {
