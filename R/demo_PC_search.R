@@ -19,7 +19,6 @@
 #' @return None. Side effect is a plot.
 #'
 #' @author David T. Harvey, Bryan A. Hanson
-#' @export
 #' @noRd
 #'
 
