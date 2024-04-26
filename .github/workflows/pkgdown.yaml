@@ -7,9 +7,11 @@ on:
     types: [published]
   workflow_dispatch:
 
-name: pkgdown
-  - if: runner.os == 'macOS'
-    run: brew install --cask xquartz
+- name: Install XQuartz on macOS
+  if: runner.os == 'macOS'
+  run: brew cask install xquartz
+
+- name: pkgdown
 
 jobs:
   pkgdown:
