@@ -6,7 +6,7 @@ on:
 
 - name: Install XQuartz on macOS
   if: runner.os == 'macOS'
-  run: brew cask install xquartz
+  run: brew install xquartz --cask
 
 - name: R-CMD-check
 
