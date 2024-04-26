@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">LearnPCA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.4</span>
       </span>
     </div>
 
@@ -52,6 +52,9 @@
     <li>
       <a href="../articles/Vig_07_Functions_PCA.html">A Comparison of Functions for PCA</a>
     </li>
+    <li>
+      <a href="../articles/Vig_08_Notes.html">Notes/FAQ/Special Cases</a>
+    </li>
   </ul></li>
 <li>
   <a href="../news/index.html">Changelog</a>
@@ -75,6 +78,15 @@
       <small>Source: <a href="https://github.com/bryanhanson/LearnPCA/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.3.4" id="learnpca-034-2024-04-25">LearnPCA 0.3.4 2024-04-25<small>2024-04-26</small><a class="anchor" aria-label="anchor" href="#learnpca-034-2024-04-25"></a></h2>
+<ul><li>Branch master renamed to main, with corresponding changes to documentation and GHA scripts.</li>
+<li>Added pkgs <code>rpart</code>, <code>class</code>, <code>nnet</code> to Depends: (found during stress testing, needed by <code>chemometrics</code> and somehow not automatically present).</li>
+<li>Fix navigation error in top_matter.md, found by DTH, and a similar one in refer_to_works_consulted.md identified with further testing.</li>
+<li>New vignette: Vig_08_Notes.</li>
+<li>New language in Vig_06 about the meaning of the term “loadings”, along with a correction. Motivated by SantiDu in Issue <a href="https://github.com/bryanhanson/LearnPCA/issues/14" class="external-link">#14</a> – thanks!</li>
+<li>Misc changes to satisfy CRAN, most notably no longer exporting <code>.demo_PCsearch()</code>.</li>
+</ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="02.3" id="learnpca-023-2022-08-03">LearnPCA 02.3 2022-08-03<a class="anchor" aria-label="anchor" href="#learnpca-023-2022-08-03"></a></h2>
 <ul><li>New material on NIPALS in Vig_06. Not on CRAN.</li>

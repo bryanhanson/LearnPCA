@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">LearnPCA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.4</span>
       </span>
     </div>
 
@@ -70,6 +70,9 @@
     <li>
       <a href="../articles/Vig_07_Functions_PCA.html">A Comparison of Functions for PCA</a>
     </li>
+    <li>
+      <a href="../articles/Vig_08_Notes.html">Notes/FAQ/Special Cases</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -102,7 +105,7 @@
                         <h4 data-toc-skip class="author">Bryan A. Hanson<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>
 </h4>
             
-            <h4 data-toc-skip class="date">2024-04-23</h4>
+            <h4 data-toc-skip class="date">2024-04-26</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/bryanhanson/LearnPCA/blob/HEAD/vignettes/Vig_06_Math_Behind_PCA.Rmd" class="external-link"><code>vignettes/Vig_06_Math_Behind_PCA.Rmd</code></a></small>
       <div class="hidden name"><code>Vig_06_Math_Behind_PCA.Rmd</code></div>
@@ -114,16 +117,17 @@
 <!-- This chunk inserts common info about all the vignettes -->
 <!-- ======================================================================= -->
 <div class="top-matter">
-<p><em>This vignette is based upon <code>LearnPCA</code> version 0.2.3.</em></p>
+<p><em>This vignette is based upon <code>LearnPCA</code> version 0.3.4.</em></p>
 <p><code>LearnPCA</code> provides the following vignettes: <a name="top-matter"></a></p>
 <ul>
-<li><a href="http://bryanhanson.github.io/LearnPCA/articles/Start_Here.html" class="external-link">Start Here</a></li>
-<li><a href="http://bryanhanson.github.io/LearnPCA/articles/Conceptual_Intro_PCA.html" class="external-link">A Conceptual Introduction to PCA</a></li>
-<li><a href="http://bryanhanson.github.io/LearnPCA/articles/Step_By_Step_PCA.html" class="external-link">Step By Step PCA</a></li>
-<li><a href="http://bryanhanson.github.io/LearnPCA/articles//Scores_Loadings.html" class="external-link">Understanding Scores &amp; Loadings</a></li>
-<li><a href="http://bryanhanson.github.io/LearnPCA/articles/Visualizing_PCA_3D.html" class="external-link">Visualizing PCA in 3D</a></li>
-<li><a href="http://bryanhanson.github.io/LearnPCA/articles/Math_Behind_PCA.html" class="external-link">The Math Behind PCA</a></li>
-<li><a href="http://bryanhanson.github.io/LearnPCA/articles/Functions_PCA.html" class="external-link">PCA Functions</a></li>
+<li><a href="http://bryanhanson.github.io/LearnPCA/articles/Vig_01_Start_Here.html" class="external-link">Start Here</a></li>
+<li><a href="http://bryanhanson.github.io/LearnPCA/articles/Vig_02_Conceptual_Intro_PCA.html" class="external-link">A Conceptual Introduction to PCA</a></li>
+<li><a href="http://bryanhanson.github.io/LearnPCA/articles/Vig_03_Step_By_Step_PCA.html" class="external-link">Step By Step PCA</a></li>
+<li><a href="http://bryanhanson.github.io/LearnPCA/articles//Vig_04_Scores_Loadings.html" class="external-link">Understanding Scores &amp; Loadings</a></li>
+<li><a href="http://bryanhanson.github.io/LearnPCA/articles/Vig_05_Visualizing_PCA_3D.html" class="external-link">Visualizing PCA in 3D</a></li>
+<li><a href="http://bryanhanson.github.io/LearnPCA/articles/Vig_06_Math_Behind_PCA.html" class="external-link">The Math Behind PCA</a></li>
+<li><a href="http://bryanhanson.github.io/LearnPCA/articles/Vig_07_Functions_PCA.html" class="external-link">PCA Functions</a></li>
+<li><a href="http://bryanhanson.github.io/LearnPCA/articles/Vig_08_Notes.html" class="external-link">Notes</a></li>
 <li>To access the vignettes with <code>R</code>, simply type <code>browseVignettes("LearnPCA")</code> to get a clickable list in a browser window.</li>
 </ul>
 <p><strong>Vignettes are available in both pdf (on CRAN) and html formats (at Github). </strong></p>
@@ -178,12 +182,11 @@ Figure 1: One way to look at the matrix algebra behind PCA. Reconstruction of th
 <ul>
 <li>
 <span class="math inline">\(\mathbf{X}\)</span> contains the original data.</li>
-<li>The columns of <span class="math inline">\(\mathbf{U}\)</span> are vectors giving the principal axes. These define the new coordinate system.</li>
-<li>The scores can be obtained by <span class="math inline">\(\mathbf{X}\mathbf{V}\)</span>; scores are the projections of the data on the principal axes.</li>
 <li>
 <span class="math inline">\(\mathbf{D}\)</span> is a diagonal matrix, which means all non-diagonal elements are zero. The diagonal contains positive values sorted from largest to smallest. These are called the singular values.<a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a>
 </li>
-<li>The columns of <span class="math inline">\(\mathbf{V}\)</span> are the PCA loadings.</li>
+<li>The columns of <span class="math inline">\(\mathbf{V}\)</span> are vectors giving the principal axes. These define the new coordinate system.</li>
+<li>The scores can be obtained by <span class="math inline">\(\mathbf{X}\mathbf{V}\)</span> or <span class="math inline">\(\mathbf{U}\mathbf{D}\)</span>; scores are the projections of the data on the principal axes.</li>
 </ul>
 <p>In addition, <span class="math inline">\(\mathbf{U}\)</span> and <span class="math inline">\(\mathbf{V}\)</span> are semi-orthogonal matrices,<a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a> which means that when pre-multiplied by their transpose one gets the identity matrix:<a href="#fn7" class="footnote-ref" id="fnref7"><sup>7</sup></a></p>
 <p><span class="math display" id="eq:svd3">\[\begin{equation}
@@ -337,7 +340,7 @@ Figure 1: One way to look at the matrix algebra behind PCA. Reconstruction of th
 <div class="section level2">
 <h2 id="the-eigen-decomposition">The Eigen Decomposition<a class="anchor" aria-label="anchor" href="#the-eigen-decomposition"></a>
 </h2>
-<p>The eigen decomposition is another way to decompose a data matrix. This decomposition breaks the data matrix <span class="math inline">\(\mathbf{X}\)</span> into two matrices.<a href="#fn13" class="footnote-ref" id="fnref13"><sup>13</sup></a> Again, let’s assume <span class="math inline">\(\mathbf{X}\)</span> has been centered.</p>
+<p>The eigen decomposition is another way to decompose a data matrix. This decomposition breaks the data matrix <span class="math inline">\(\mathbf{X}\)</span> into two matrices.<a href="#fn13" class="footnote-ref" id="fnref13"><sup>13</sup></a> Again, let’s assume <span class="math inline">\(\mathbf{X}\)</span> has samples in rows, variables in columns, and has been centered.</p>
 <p><span class="math display" id="eq:ed1">\[\begin{equation}
 \tag{13}
 \mathbf{X}_{(n \ \times \ n)} = \mathbf{Q}_{(n \ \times \ n)}\mathbf{\Lambda}_{(n \ \times \ n)}\mathbf{Q}_{(n \ \times \ n)}^{T}
@@ -436,6 +439,27 @@ Figure 1: One way to look at the matrix algebra behind PCA. Reconstruction of th
 </div>
 </div>
 <div class="section level2">
+<h2 id="a-note-about-the-meaning-of-loadings">A Note About the Meaning of “loadings”<a class="anchor" aria-label="anchor" href="#a-note-about-the-meaning-of-loadings"></a>
+</h2>
+<p>Before going further, we need to make something clear. In <code>R</code>, the loadings reported by <code>prcomp</code> are actually the eigenvectors of the covariance matrix of the original data matrix (discussed <a href="https://stats.stackexchange.com/a/104640/26909" class="external-link">here</a> and <a href="https://stats.stackexchange.com/a/143949/26909" class="external-link">here</a>). This is very clear in the help file for <code>prcomp</code>, and from the code checking the results above. However, this is not a universally accepted definition; <code>R</code> is actually a bit of an outlier. A more generally accepted definition for loadings is given below, where <code>N</code> is the number of samples. This use of the term loadings is sometimes referred to as <a href="https://stats.stackexchange.com/a/291517/26909" class="external-link">“standardized loadings”</a>.</p>
+<p><span class="math display" id="eq:load1">\[\begin{equation}
+\tag{17}
+\mathbf{L} = \mathbf{V}\frac{\mathbf{D}}{\sqrt{N-1}}
+\end{equation}\]</span></p>
+<p>The important thing here is that the definition above is just a scaled version of the value that <code>R</code> returns. Figure <a href="#fig:load">2</a> is a comparison of the first column of each use of the term “loadings”.</p>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">R_loadings</span> <span class="op">&lt;-</span> <span class="va">X_pca</span><span class="op">$</span><span class="va">rotation</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span> </span>
+<span><span class="va">std_loadings</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">X_svd</span><span class="op">$</span><span class="va">v</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/diag.html" class="external-link">diag</a></span><span class="op">(</span><span class="va">X_svd</span><span class="op">$</span><span class="va">d</span><span class="op">)</span><span class="op">/</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">X</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">R_loadings</span>, <span class="va">std_loadings</span>, xlab <span class="op">=</span> <span class="st">"R's notion of loadings"</span>, ylab <span class="op">=</span> <span class="st">"Standard notion of loadings"</span><span class="op">)</span></span></code></pre></div>
+<div class="figure">
+<span style="display:block;" id="fig:load"></span>
+<img src="Vig_06_Math_Behind_PCA_files/figure-html/load-1.png" alt="A comparison of the notion of loadings as delivered by R and a more standard definition." width="672"><p class="caption">
+Figure 2: A comparison of the notion of loadings as delivered by R and a more standard definition.
+</p>
+</div>
+<p>This means that the usual verbal interpretation of loadings, namely that they express the <em>relative</em> contribution of each variable to the scores, is valid using either notion.</p>
+</div>
+<div class="section level2">
 <h2 id="algorithmic-reality">Algorithmic Reality<a class="anchor" aria-label="anchor" href="#algorithmic-reality"></a>
 </h2>
 <p>The two simple implementations described above are very limited. They are in no way suitable for use with real data, but they do serve as a conceptual introduction. In reality, carrying out PCA on real data sets in a robust manner requires rather complex algorithms, well beyond the scope of these documents. If you want a brief taste, the <a href="https://en.wikipedia.org/wiki/Singular_value_decomposition#Calculating_the_SVD" class="external-link">Wikipedia</a> article and this <a href="https://stats.stackexchange.com/a/114606/26909" class="external-link">StackOverflow</a> answer may satisfy your needs. A more intermediate discussion can be found in Chapter 3 “Principal Components Analysis” in <span class="citation">Varmuza and Filzmoser (<a href="#ref-Filzmoser2009">2009</a>)</span>.</p>
@@ -450,14 +474,14 @@ Figure 1: One way to look at the matrix algebra behind PCA. Reconstruction of th
 </ul>
 <p>NIPALS is not so much another decomposition but rather more a direct attack on the equation featured in Figure <a href="#fig:PCA-Matrices">1</a>:</p>
 <p><span class="math display" id="eq:nipals1">\[\begin{equation}
-\tag{17}
+\tag{18}
 \mathbf{X} = \mathbf{S} \mathbf{L^T}
 \end{equation}\]</span></p>
 <div class="section level3">
 <h3 id="a-simple-implementation-of-nipals">A Simple Implementation of NIPALS<a class="anchor" aria-label="anchor" href="#a-simple-implementation-of-nipals"></a>
 </h3>
-<p>Here is a function that will compute PCA using the NIPALS algorithm. The key math steps here are just rearrangements of <a href="#eq:nipals1">(17)</a>.</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<p>Here is a function that will compute PCA using the NIPALS algorithm. The key math steps here are just rearrangements of <a href="#eq:nipals1">(18)</a>.</p>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">simpleNIPALS</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">X</span>, <span class="va">pcs</span> <span class="op">=</span> <span class="fl">3</span>, <span class="va">tol</span> <span class="op">=</span> <span class="fl">1e-6</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">S</span> <span class="op">&lt;-</span> <span class="cn">NULL</span> <span class="co"># a place to store the scores</span></span>
 <span>  <span class="va">L</span> <span class="op">&lt;-</span> <span class="cn">NULL</span> <span class="co"># a place to store the loadings</span></span>
@@ -488,23 +512,23 @@ Figure 1: One way to look at the matrix algebra behind PCA. Reconstruction of th
 <li>
 <em>Note 2:</em> All the work is done inside this <code>while</code> loop, which runs until the error is below the tolerance. The basic flow is to start with the initial estimate, update scores and loadings, then then feed these back in as better estimates. This is exactly the concept used in the other implementation, we are just doing it until the tolerance is reached, rather than running it a fixed number of iterations.</li>
 <li>
-<em>Note 3:</em> This “deflation” step is unique to NIPALS. Once we have estimates for the scores with minimal error, we reconstruct the original data following equation <a href="#eq:nipals1">(17)</a>, and subtract this from the original <span class="math inline">\(\mathbf{X}\)</span> to give a “deflated” <span class="math inline">\(\mathbf{X}\)</span> which is then processed as before if we have more PCs to compute.</li>
+<em>Note 3:</em> This “deflation” step is unique to NIPALS. Once we have estimates for the scores with minimal error, we reconstruct the original data following equation <a href="#eq:nipals1">(18)</a>, and subtract this from the original <span class="math inline">\(\mathbf{X}\)</span> to give a “deflated” <span class="math inline">\(\mathbf{X}\)</span> which is then processed as before if we have more PCs to compute.</li>
 </ul>
 <div class="section level4">
 <h4 id="checking-our-work">Checking Our work<a class="anchor" aria-label="anchor" href="#checking-our-work"></a>
 </h4>
 <p>Let’s run this function and compare to the previous accepted answers.</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">N</span> <span class="op">&lt;-</span> <span class="fu">simpleNIPALS</span><span class="op">(</span><span class="va">X</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">N</span><span class="op">$</span><span class="va">Scores</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">X_pca</span><span class="op">$</span><span class="va">x</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span> <span class="co"># compare the scores from prcomp</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 4.482769e-08</span></span></code></pre>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">N</span><span class="op">$</span><span class="va">Loadings</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">X_pca</span><span class="op">$</span><span class="va">rotation</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span> <span class="co"># compare the loadings from prcomp</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 5.605989e-09</span></span></code></pre>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">N</span><span class="op">$</span><span class="va">Scores</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">X</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="va">X_svd</span><span class="op">$</span><span class="va">v</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span> <span class="co"># compare the scores from svd</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 4.482769e-08</span></span></code></pre>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">N</span><span class="op">$</span><span class="va">Loadings</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">X_svd</span><span class="op">$</span><span class="va">v</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span> <span class="co"># compare the loadings from svd</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 5.605989e-09</span></span></code></pre>
 <p>These are satisfying results that show our simple NIPALS function gives good results.</p>
@@ -520,7 +544,7 @@ Figure 1: One way to look at the matrix algebra behind PCA. Reconstruction of th
 <div class="section level2">
 <h2 id="works-consulted">Works Consulted<a class="anchor" aria-label="anchor" href="#works-consulted"></a>
 </h2>
-<p>In addition to references and links in this document, please see the <a href="http://bryanhanson.github.io/LearnPCA/articles/Start_Here.html#works-consulted" class="external-link">Works Consulted</a> section of the <em>Start Here</em> vignette for general background.</p>
+<p>In addition to references and links in this document, please see the <a href="http://bryanhanson.github.io/LearnPCA/articles/Vig_01_Start_Here.html#works-consulted" class="external-link">Works Consulted</a> section of the <em>Start Here</em> vignette for general background.</p>
 </div>
 <div class="section level2">
 <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>

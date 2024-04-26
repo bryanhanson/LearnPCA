@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">LearnPCA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.4</span>
       </span>
     </div>
 
@@ -51,6 +51,9 @@
     </li>
     <li>
       <a href="articles/Vig_07_Functions_PCA.html">A Comparison of Functions for PCA</a>
+    </li>
+    <li>
+      <a href="articles/Vig_08_Notes.html">Notes/FAQ/Special Cases</a>
     </li>
   </ul></li>
 <li>
@@ -99,11 +102,11 @@
 <h2 id="infrastructure">Infrastructure<a class="anchor" aria-label="anchor" href="#infrastructure"></a></h2>
 <div class="section level3">
 <h3 id="branches">Branches<a class="anchor" aria-label="anchor" href="#branches"></a></h3>
-<p>The <code>master</code> branch is basically a release branch and the code is always updated and tagged for a CRAN release. Documentation is based on the <code>master</code> branch. Between CRAN releases, the version on the <code>master</code> branch may advance in small ways (and hence the documented version may be ahead of the CRAN version). The <code>devel</code> branch is used as a pre-release branch and ideally always works, and will be the basis for the next CRAN release. Additional branches will be created as needed; see below.</p>
+<p>The <code>main</code> branch is basically a release branch and the code is always updated and tagged for a CRAN release. Documentation is based on the <code>main</code> branch. Between CRAN releases, the version on the <code>main</code> branch may advance in small ways (and hence the documented version may be ahead of the CRAN version). The <code>devel</code> branch is used as a pre-release branch and ideally always works, and will be the basis for the next CRAN release. Additional branches will be created as needed; see below.</p>
 </div>
 <div class="section level3">
 <h3 id="continuous-integration">Continuous Integration<a class="anchor" aria-label="anchor" href="#continuous-integration"></a></h3>
-<p>Github Actions are used to automate certain tasks. Pushing the <code>master</code> or <code>devel</code> branches will cause a build and check to occur. Pushing the <code>master</code> branch will cause the documentation to be updated. The scripts controlling these actions are in <code>.github/workflows</code>.</p>
+<p>Github Actions are used to automate certain tasks. Pushing the <code>main</code> or <code>devel</code> branches will cause a build and check to occur. Pushing the <code>main</code> branch will cause the documentation to be updated. The scripts controlling these actions are in <code>.github/workflows</code>.</p>
 </div>
 <div class="section level3">
 <h3 id="versioning">Versioning<a class="anchor" aria-label="anchor" href="#versioning"></a></h3>
