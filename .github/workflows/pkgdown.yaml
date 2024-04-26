@@ -6,10 +6,6 @@ on:
   release:
     types: [published]
 
-name: Install XQuartz on macOS
-  if: runner.os == 'macOS'
-  run: brew install xquartz
-
 name: pkgdown
 
 jobs:
@@ -24,6 +20,10 @@ jobs:
       contents: write
     steps:
          
+      - name: Install XQuartz on macOS
+        if: runner.os == 'macOS'
+        run: brew install xquartz
+
       - uses: actions/checkout@v4
 
       - uses: r-lib/actions/setup-pandoc@v2
