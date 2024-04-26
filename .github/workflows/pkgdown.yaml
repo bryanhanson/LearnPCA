@@ -20,6 +20,9 @@ jobs:
     permissions:
       contents: write
     steps:
+       - if: runner.os == 'macOS'
+         run: brew install --cask xquartz
+         
       - uses: actions/checkout@v4
 
       - uses: r-lib/actions/setup-pandoc@v2
@@ -43,4 +46,4 @@ jobs:
         with:
           clean: false
           branch: gh-pages
-          folder: docs
+          folder: root
