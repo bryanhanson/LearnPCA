@@ -8,6 +8,8 @@ on:
   workflow_dispatch:
 
 name: pkgdown
+  - if: runner.os == 'macOS'
+    run: brew install --cask xquartz
 
 jobs:
   pkgdown:
@@ -20,8 +22,6 @@ jobs:
     permissions:
       contents: write
     steps:
-       - if: runner.os == 'macOS'
-         run: brew install --cask xquartz
          
       - uses: actions/checkout@v4
 

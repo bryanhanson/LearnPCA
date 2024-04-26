@@ -5,6 +5,8 @@ on:
     branches: [main, devel]
 
 name: R-CMD-check
+  - if: runner.os == 'macOS'
+    run: brew install --cask xquartz
 
 jobs:
   R-CMD-check:
@@ -27,9 +29,7 @@ jobs:
       R_KEEP_PKG_SOURCE: yes
 
     steps:
-       - if: runner.os == 'macOS'
-         run: brew install --cask xquartz
-         
+
       - uses: actions/checkout@v4
 
       - uses: r-lib/actions/setup-pandoc@v2
