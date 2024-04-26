@@ -5,13 +5,12 @@ on:
     branches: [main]
   release:
     types: [published]
-  workflow_dispatch:
 
-- name: Install XQuartz on macOS
+name: Install XQuartz on macOS
   if: runner.os == 'macOS'
   run: brew install xquartz
 
-- name: pkgdown
+name: pkgdown
 
 jobs:
   pkgdown:

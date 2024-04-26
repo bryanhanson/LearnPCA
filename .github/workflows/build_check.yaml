@@ -4,11 +4,11 @@ on:
   pull_request:
     branches: [main, devel]
 
-- name: Install XQuartz on macOS
+name: Install XQuartz on macOS
   if: runner.os == 'macOS'
   run: brew install xquartz
 
-- name: R-CMD-check
+name: R-CMD-check
 
 jobs:
   R-CMD-check:
