@@ -10,3 +10,5 @@ gitignore.txt
 ^\.Rproj\.user$
 CODE_OF_CONDUCT.md
 CONTRIBUTING.md
+^altdoc$
+^_quarto$

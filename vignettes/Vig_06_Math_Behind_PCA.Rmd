@@ -7,9 +7,9 @@ date:  "`r Sys.Date()`"
 output:
     bookdown::html_document2: # use for pkgdown site
 #      bookdown::pdf_document2: # use for CRAN to keep size down; breaks GHA
-      toc: yes
+      toc: true
       toc_depth: 2
-      fig_caption: yes
+      fig_caption: true
       number_sections: false
       mathjax: default
       css: vignette.css
@@ -19,7 +19,7 @@ vignette: >
     %\VignettePackage{LearnPCA}
     %\VignetteEngine{knitr::rmarkdown}
     %\VignetteEncoding{UTF-8}
-link-citations: yes
+link-citations: true
 bibliography: PCA.bib
 biblio-style: plain
 pkgdown:
@@ -38,7 +38,7 @@ opts_chunk$set(eval = TRUE, echo = TRUE)
 <!-- This chunk inserts common info about all the vignettes -->
 
 ```{r, echo = FALSE, results = "asis"}
-res <- knitr::knit_child("top_matter.md", quiet = TRUE)
+res <- knitr::knit_child("top_matter.qmd", quiet = TRUE)
 cat(res, sep = '\n')
 ```
 
