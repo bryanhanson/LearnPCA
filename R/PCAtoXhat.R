@@ -7,7 +7,8 @@
 #' Inspired by and follows \url{https://stackoverflow.com/a/23603958/633251} very closely.
 #' We are grateful for this post by StackOverflow contributor "Marc in the box."
 #' 
-#' @param pca An object of class \code{prcomp} or \code{princomp} (automatically detected).  #'        The results of data reduction by PCA.  
+#' @param pca An object of class \code{prcomp} or \code{princomp} (automatically detected).
+#'        The results of data reduction by PCA.  
 #'
 #' @param ncomp Integer.  The number of principal components to use in reconstructing
 #'        the data set.  Must be no larger than the number of variables.  If not

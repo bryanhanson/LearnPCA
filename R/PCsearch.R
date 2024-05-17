@@ -4,9 +4,9 @@
 #'  Shiny application to demonstrate the search for the 1st two principal components
 #'  for a randomly generated set of data.
 #'
-#'  @return  None.  A web page opens with the application running.
+#' @return  None.  A web page opens with the application running.
 #'
-#'  @author Bryan A. Hanson, David T. Harvey
+#' @author Bryan A. Hanson, David T. Harvey
 #'
 #' @import shiny
 #' @import markdown
